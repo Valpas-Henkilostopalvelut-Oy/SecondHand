@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Grid,
@@ -11,58 +11,27 @@ import {
 import { Search } from "../../components/Search";
 import { storelist } from "./stores";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-/**
- * 
- * 
-    id: 1,
-    name: "N3xt Level Second Hand Shop",
-    description: "“Moderni ja siisti kirppis.”",
-    categories: [1, 2],
-    services: [1, 2, 3],
-    sellplaces: {
-      all: 50,
-      free: 10,
-    },
-    pricelist: {
-      price: "0,50€ / kpl",
-    },
-    opentimes: "Ma-Pe 10-18, La 10-16",
-    contact: {
-      phone: "+358 50 432 3800",
-      email: "hello@n3xtlevel.fi",
-      website: "https://n3xtlevel.fi/",
-    },
-    location: {
-      address: "Tähtelänkatu 4",
-      city: "Salo",
-      zip: "24100",
-      area: "Varsinais-Suomi",
-      driveto: "https://goo.gl/maps/dxXKT5HasxEHEWxz7",
-    },
-    imgs: [
-      {
-        key: "img1.jpg",
-        src: "https://www.n3xtlevel.fi/wp-content/uploads/2020/09/IMG_20200918_114000.jpg",
-      },
-      {
-        key: "img2.jpg",
-        src: "https://www.n3xtlevel.fi/wp-content/uploads/2020/09/IMG_20200918_114000.jpg",
-      },
-      {
-        key: "img3.jpg",
-        src: "https://www.n3xtlevel.fi/wp-content/uploads/2020/09/IMG_20200918_114000.jpg",
-      },
-    ],
-  },
- */
+import { categories } from "../../components/Search/categories";
+import { services } from "../../components/Search/services";
 
 export const Storelist = () => {
+  const [search, setSearch] = useState({
+    search: "",
+    area: "",
+    city: "",
+  });
   const list = storelist();
+  const [category, setCategory] = useState<string[]>([]);
 
   return (
     <Box>
       <Typography variant="h4">Kaikki kirpputorit</Typography>
-      <Search />
+      <Search
+        search={search}
+        setSearch={setSearch}
+        category={category}
+        setCategory={setCategory}
+      />
 
       {list.map((item) => (
         <Box key={item.id}>
@@ -101,7 +70,11 @@ const Storeitem = (props: any) => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6">Kategoriat</Typography>
-            <Typography>{categories.join(", ")}</Typography>
+            <Typography>
+              {categories.map((item: any) => (
+                <Box key={item.id}>{item.name}</Box>
+              ))}
+            </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="h6">Aukiaika</Typography>
@@ -157,7 +130,13 @@ const Itemimgs = (props: any) => {
     <Grid container spacing={2}>
       {imgs.map((img: any) => (
         <Grid item xs={4} key={img.key}>
-          <img src={img.src} alt={img.key} style={{ width: "100%" }} />
+          <img
+            src={img.src}
+            alt={img.key}
+            style={{ width: "100%", objectFit: "cover" }}
+            height="350"
+            loading="lazy"
+          />
         </Grid>
       ))}
       <Grid item xs={4}>

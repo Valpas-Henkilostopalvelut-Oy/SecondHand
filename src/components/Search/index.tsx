@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Box,
   TextField,
@@ -12,15 +12,11 @@ import {
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import Select from "@mui/material/Select";
-import { categories } from "../Cardlist/list";
+import { categories } from "./categories";
+import type { SearchProps } from "./types";
 
-export const Search = () => {
-  const [search, setSearch] = useState({
-    search: "",
-    area: "Valitse alue",
-    city: "Valitse kaupunki",
-  });
-  const [category, setCategory] = useState<string[]>([]);
+export const Search = (props: SearchProps) => {
+  const { search, setSearch, category, setCategory } = props;
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) =>
     setSearch({ ...search, search: event.target.value });
