@@ -9,10 +9,12 @@ export const storelist = () => [
     description: "“Moderni ja siisti kirppis.”",
     categories: [1, 2],
     services: [1, 2, 3],
+    clicked: 1,
     sellplaces: {
       all: 50,
       free: 10,
     },
+    proposition: [{}],
     pricelist: {
       price: "0,50€ / kpl",
     },

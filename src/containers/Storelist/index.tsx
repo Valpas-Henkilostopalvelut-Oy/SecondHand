@@ -54,6 +54,7 @@ const Storeitem = (props: any) => {
     contact,
     location,
   } = props;
+
   return (
     <Accordion>
       <AccordionSummary
