@@ -1,0 +1,76 @@
+type Category {
+  id: String
+  name: String
+}
+
+type City {
+  id: String
+  name: String
+  area: String
+}
+
+type Areas @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private, operations: [read, update]}]) {
+  id: ID!
+  name: String
+  cities: [City]
+}
+
+type Categories @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private, operations: [read, update]}]) {
+  id: ID!
+  createdBy: String
+  categories: Category
+}
+
+type Image {
+  key: String
+  id: String
+}
+
+type Location {
+  address: String
+  city: String
+  zip: String
+  area: String
+  driveto: AWSURL
+}
+
+type Contact {
+  phone: String
+  email: AWSEmail
+  website: AWSURL
+}
+
+type Opentime {
+  day: String
+  start: AWSDateTime
+  end: AWSDateTime
+  id: String
+}
+
+type Priceitem {
+  name: String
+  price: Float
+  id: Int
+}
+
+type Sellplaces {
+  all: Int
+  free: Int
+}
+
+type Store @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private, operations: [read, update]}]) {
+  id: ID!
+  name: String
+  description: String
+  categories: [Category]
+  services: [Int]
+  clicked: String
+  sellplaces: Sellplaces
+  pricelist: [Priceitem]
+  embedmap: AWSURL
+  opentimes: [Opentime]
+  contact: Contact
+  location: Location
+  imgs: [Image]
+}
+ 

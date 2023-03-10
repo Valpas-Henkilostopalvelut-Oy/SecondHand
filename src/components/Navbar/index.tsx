@@ -7,42 +7,62 @@ import {
   Container,
   Button,
   styled,
-  Grid,
 } from "@mui/material";
+import { Auth } from "aws-amplify";
 
-const NavbarButton = styled(Button)({
-  color: "black",
+const handleLogout = async () => {
+  try {
+    await Auth.signOut();
+    window.location.reload();
+  } catch (error: any) {
+    // eslint-disable-next-line autofix/no-console
+    console.warn("error signing out: ", error);
+  }
+};
+
+const NavbarButton = styled(Button)(({ theme }) => ({
+  color: "#000000",
   fontSize: 18,
-  fontWeight: 400,
+  fontWeight: 600,
   textTransform: "none",
   "&:hover": {
-    color: "black",
+    color: "#000000",
   },
-});
+}));
 
-export const Navbar = () => (
-  <AppBar position="static" color="transparent">
-    <Container>
-      <Toolbar>
-        <Typography variant="h6" sx={{ p: "8px 6px", fontSize: 36 }}>
-          Secondhand Suomi
-        </Typography>
-      </Toolbar>
+export const Navbar = (props: any) => {
+  const { auth, isAdmin } = props;
 
-      <Toolbar
-        sx={{ justifyContent: "space-between", backgroundColor: "#FBFBFB" }}
-      >
-        <Box>
-          <NavbarButton>Kirpputorit</NavbarButton>
-          <NavbarButton>Liikkeet</NavbarButton>
-          <NavbarButton>Huutokaupat</NavbarButton>
-        </Box>
+  return (
+    <AppBar position="static" color="transparent">
+      <Container>
+        <Toolbar>
+          <Typography variant="h6" sx={{ p: "8px 6px", fontSize: 36 }}>
+            Secondhand Suomi
+          </Typography>
+        </Toolbar>
 
-        <Box>
-          <NavbarButton>Kirjaudu</NavbarButton>
-          <NavbarButton>Rekisteröidy</NavbarButton>
-        </Box>
-      </Toolbar>
-    </Container>
-  </AppBar>
-);
+        <Toolbar
+          sx={{ justifyContent: "space-between", backgroundColor: "#FBFBFB" }}
+        >
+          <Box>
+            <NavbarButton href="/">Etusivu</NavbarButton>
+            <NavbarButton>Kirpputorit</NavbarButton>
+            <NavbarButton>Liikkeet</NavbarButton>
+            <NavbarButton>Huutokaupat</NavbarButton>
+          </Box>
+
+          <Box hidden={auth}>
+            <NavbarButton href="/signin">Kirjaudu</NavbarButton>
+            <NavbarButton href="/signup">Rekisteröidy</NavbarButton>
+          </Box>
+
+          <Box hidden={!auth}>
+            <NavbarButton href="/admin">Hallinta</NavbarButton>
+            <NavbarButton onClick={handleLogout}>Kirjaudu ulos</NavbarButton>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+};

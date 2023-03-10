@@ -8,12 +8,16 @@ import "@fontsource/source-sans-pro";
 import { BrowserRouter } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
+import { Amplify } from "aws-amplify";
+import awsmobile from "./aws-exports";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new BrowserTracing()],
   tracesSampleRate: 1.0,
 });
+
+Amplify.configure(awsmobile);
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
