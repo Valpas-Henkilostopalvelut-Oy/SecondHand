@@ -169,7 +169,7 @@ type EagerCategories = {
   };
   readonly id: string;
   readonly createdBy?: string | null;
-  readonly categories?: Category | null;
+  readonly categories?: (Category | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -181,7 +181,7 @@ type LazyCategories = {
   };
   readonly id: string;
   readonly createdBy?: string | null;
-  readonly categories?: Category | null;
+  readonly categories?: (Category | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

@@ -78,8 +78,10 @@ export const schema = {
                             {
                                 "allow": "private",
                                 "operations": [
-                                    "read",
-                                    "update"
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -106,12 +108,13 @@ export const schema = {
                 },
                 "categories": {
                     "name": "categories",
-                    "isArray": false,
+                    "isArray": true,
                     "type": {
                         "nonModel": "Category"
                     },
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -164,8 +167,10 @@ export const schema = {
                             {
                                 "allow": "private",
                                 "operations": [
-                                    "read",
-                                    "update"
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -335,10 +340,15 @@ export const schema = {
                                 ]
                             },
                             {
-                                "allow": "private",
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
-                                    "read",
-                                    "update"
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -558,6 +568,6 @@ export const schema = {
             }
         }
     },
-    "codegenVersion": "3.3.5",
-    "version": "54d2b08078268cd0586f9b2c34c2eb8a"
+    "codegenVersion": "3.3.6",
+    "version": "d40ab713b8f26d9d65a14924aecf8a56"
 };

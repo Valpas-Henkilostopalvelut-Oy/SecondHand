@@ -2,33 +2,31 @@ import React, { useState, useEffect } from "react";
 import { Box, Container, CssBaseline } from "@mui/material";
 import { Navigation } from "./services/navigation";
 import { Navbar } from "./components/Navbar";
-import { AppContext } from "./services/customhooks";
-import { Auth } from "aws-amplify";
+import { Auth, DataStore } from "aws-amplify";
 
 const App = () => {
   const [auth, setAuth] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const onLoad = async () => {
+    const checkAuth = async () => {
       try {
-        await Auth.currentSession();
+        await Auth.currentAuthenticatedUser();
         setAuth(true);
         const user = await Auth.currentAuthenticatedUser();
         const groups =
           user.signInUserSession.accessToken.payload["cognito:groups"];
-        if (groups && groups.includes("admin")) {
+        if (groups && groups.includes("Admin")) {
           setIsAdmin(true);
         }
-      } catch (error) {
-        if (error !== "No current user") {
-          // eslint-disable-next-line autofix/no-console
-          console.warn("error loading App: ", error);
-        }
+
+        await DataStore.start();
+      } catch (err) {
+        setAuth(false);
       }
     };
 
-    onLoad();
+    checkAuth();
   }, []);
 
   return (

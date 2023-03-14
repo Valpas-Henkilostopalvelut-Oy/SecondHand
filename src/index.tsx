@@ -8,8 +8,8 @@ import "@fontsource/source-sans-pro";
 import { BrowserRouter } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
-import { Amplify } from "aws-amplify";
-import awsmobile from "./aws-exports";
+import { Amplify, Hub, DataStore } from "aws-amplify";
+import awsmobile from "./aws-exports.js";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
@@ -18,6 +18,34 @@ Sentry.init({
 });
 
 Amplify.configure(awsmobile);
+
+Hub.listen("auth", async (hubData: any) => {
+  const { payload: event } = hubData;
+  switch (event.event) {
+    case "signIn":
+      console.log("signed in");
+      await DataStore.start();
+      break;
+    case "signOut":
+      console.log("signed out");
+      await DataStore.clear();
+      await DataStore.stop();
+      break;
+    default:
+      break;
+  }
+});
+
+Hub.listen("datastore", async (data) => {
+  const { payload: event } = data;
+  switch (event.event) {
+    case "ready":
+      console.log(event.event);
+      break;
+    default:
+      break;
+  }
+});
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

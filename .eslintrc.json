@@ -27,6 +27,7 @@
     "no-restricted-imports": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "import/order": "off"
+    "import/order": "off",
+    "autofix/no-console": "off"
   }
 }

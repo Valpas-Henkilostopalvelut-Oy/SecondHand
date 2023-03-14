@@ -8,12 +8,15 @@ import {
   Button,
   styled,
 } from "@mui/material";
-import { Auth } from "aws-amplify";
+import { Auth, DataStore } from "aws-amplify";
+import { useNavigate } from "react-router-dom";
 
-const handleLogout = async () => {
+const onLogout = async (navigate: any) => {
   try {
+    await DataStore.stop();
     await Auth.signOut();
-    window.location.reload();
+    navigate("/", { replace: true });
+    await DataStore.clear();
   } catch (error: any) {
     // eslint-disable-next-line autofix/no-console
     console.warn("error signing out: ", error);
@@ -32,6 +35,8 @@ const NavbarButton = styled(Button)(({ theme }) => ({
 
 export const Navbar = (props: any) => {
   const { auth, isAdmin } = props;
+  const navigate = useNavigate();
+  const handleLogout = () => onLogout(navigate);
 
   return (
     <AppBar position="static" color="transparent">
@@ -47,7 +52,7 @@ export const Navbar = (props: any) => {
         >
           <Box>
             <NavbarButton href="/">Etusivu</NavbarButton>
-            <NavbarButton>Kirpputorit</NavbarButton>
+            <NavbarButton href="/storelist">Kirpputorit</NavbarButton>
             <NavbarButton>Liikkeet</NavbarButton>
             <NavbarButton>Huutokaupat</NavbarButton>
           </Box>

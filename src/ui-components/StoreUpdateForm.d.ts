@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { Store } from "../models";
 export declare type ValidationResponse = {
@@ -14,6 +14,7 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type StoreUpdateFormInputValues = {
+    isConfirmed?: boolean;
     name?: string;
     description?: string;
     services?: number[];
@@ -21,6 +22,7 @@ export declare type StoreUpdateFormInputValues = {
     embedmap?: string;
 };
 export declare type StoreUpdateFormValidationValues = {
+    isConfirmed?: ValidationFunction<boolean>;
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     services?: ValidationFunction<number>;
@@ -30,6 +32,7 @@ export declare type StoreUpdateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type StoreUpdateFormOverridesProps = {
     StoreUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    isConfirmed?: PrimitiveOverrideProps<SwitchFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     services?: PrimitiveOverrideProps<TextFieldProps>;

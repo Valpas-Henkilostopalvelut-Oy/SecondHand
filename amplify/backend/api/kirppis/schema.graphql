@@ -9,16 +9,16 @@ type City {
   area: String
 }
 
-type Areas @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private, operations: [read, update]}]) {
+type Areas @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private}]) {
   id: ID!
   name: String
   cities: [City]
 }
 
-type Categories @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private, operations: [read, update]}]) {
+type Categories @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private}]) {
   id: ID!
   createdBy: String
-  categories: Category
+  categories: [Category]
 }
 
 type Image {
@@ -31,6 +31,7 @@ type Location {
   city: String
   zip: String
   area: String
+  country: String
   driveto: AWSURL
 }
 
@@ -58,8 +59,9 @@ type Sellplaces {
   free: Int
 }
 
-type Store @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private, operations: [read, update]}]) {
+type Store @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: owner}]) {
   id: ID!
+  isConfirmed: Boolean
   name: String
   description: String
   categories: [Category]

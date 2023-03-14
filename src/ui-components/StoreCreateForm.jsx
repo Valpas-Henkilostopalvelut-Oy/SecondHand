@@ -14,6 +14,7 @@ import {
   Grid,
   Icon,
   ScrollView,
+  SwitchField,
   Text,
   TextField,
   useTheme,
@@ -34,9 +35,16 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
+  errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
-  const { tokens } = useTheme();
+  const {
+    tokens: {
+      components: {
+        fieldmessages: { error: errorStyles },
+      },
+    },
+  } = useTheme();
   const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
   const [isEditing, setIsEditing] = React.useState();
   React.useEffect(() => {
@@ -139,6 +147,11 @@ function ArrayField({
           >
             Add item
           </Button>
+          {errorMessage && hasError && (
+            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+              {errorMessage}
+            </Text>
+          )}
         </>
       ) : (
         <Flex justifyContent="flex-end">
@@ -157,7 +170,6 @@ function ArrayField({
           <Button
             size="small"
             variation="link"
-            color={tokens.colors.brand.primary[80]}
             isDisabled={hasError}
             onClick={addItem}
           >
@@ -181,12 +193,16 @@ export default function StoreCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    isConfirmed: false,
     name: "",
     description: "",
     services: [],
     clicked: "",
     embedmap: "",
   };
+  const [isConfirmed, setIsConfirmed] = React.useState(
+    initialValues.isConfirmed
+  );
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
     initialValues.description
@@ -196,6 +212,7 @@ export default function StoreCreateForm(props) {
   const [embedmap, setEmbedmap] = React.useState(initialValues.embedmap);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setIsConfirmed(initialValues.isConfirmed);
     setName(initialValues.name);
     setDescription(initialValues.description);
     setServices(initialValues.services);
@@ -207,6 +224,7 @@ export default function StoreCreateForm(props) {
   const [currentServicesValue, setCurrentServicesValue] = React.useState("");
   const servicesRef = React.createRef();
   const validations = {
+    isConfirmed: [],
     name: [],
     description: [],
     services: [],
@@ -218,9 +236,10 @@ export default function StoreCreateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -238,6 +257,7 @@ export default function StoreCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          isConfirmed,
           name,
           description,
           services,
@@ -288,6 +308,35 @@ export default function StoreCreateForm(props) {
       {...getOverrideProps(overrides, "StoreCreateForm")}
       {...rest}
     >
+      <SwitchField
+        label="Is confirmed"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isConfirmed}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              isConfirmed: value,
+              name,
+              description,
+              services,
+              clicked,
+              embedmap,
+            };
+            const result = onChange(modelFields);
+            value = result?.isConfirmed ?? value;
+          }
+          if (errors.isConfirmed?.hasError) {
+            runValidationTasks("isConfirmed", value);
+          }
+          setIsConfirmed(value);
+        }}
+        onBlur={() => runValidationTasks("isConfirmed", isConfirmed)}
+        errorMessage={errors.isConfirmed?.errorMessage}
+        hasError={errors.isConfirmed?.hasError}
+        {...getOverrideProps(overrides, "isConfirmed")}
+      ></SwitchField>
       <TextField
         label="Name"
         isRequired={false}
@@ -297,6 +346,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name: value,
               description,
               services,
@@ -325,6 +375,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name,
               description: value,
               services,
@@ -349,6 +400,7 @@ export default function StoreCreateForm(props) {
           let values = items;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name,
               description,
               services: values,
@@ -364,7 +416,8 @@ export default function StoreCreateForm(props) {
         currentFieldValue={currentServicesValue}
         label={"Services"}
         items={services}
-        hasError={errors.services?.hasError}
+        hasError={errors?.services?.hasError}
+        errorMessage={errors?.services?.errorMessage}
         setFieldValue={setCurrentServicesValue}
         inputFieldRef={servicesRef}
         defaultFieldValue={""}
@@ -402,6 +455,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name,
               description,
               services,
@@ -430,6 +484,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name,
               description,
               services,

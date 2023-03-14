@@ -14,6 +14,7 @@ import {
   Grid,
   Icon,
   ScrollView,
+  SwitchField,
   Text,
   TextField,
   useTheme,
@@ -34,9 +35,16 @@ function ArrayField({
   defaultFieldValue,
   lengthLimit,
   getBadgeText,
+  errorMessage,
 }) {
   const labelElement = <Text>{label}</Text>;
-  const { tokens } = useTheme();
+  const {
+    tokens: {
+      components: {
+        fieldmessages: { error: errorStyles },
+      },
+    },
+  } = useTheme();
   const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
   const [isEditing, setIsEditing] = React.useState();
   React.useEffect(() => {
@@ -139,6 +147,11 @@ function ArrayField({
           >
             Add item
           </Button>
+          {errorMessage && hasError && (
+            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+              {errorMessage}
+            </Text>
+          )}
         </>
       ) : (
         <Flex justifyContent="flex-end">
@@ -157,7 +170,6 @@ function ArrayField({
           <Button
             size="small"
             variation="link"
-            color={tokens.colors.brand.primary[80]}
             isDisabled={hasError}
             onClick={addItem}
           >
@@ -182,12 +194,16 @@ export default function StoreUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    isConfirmed: false,
     name: "",
     description: "",
     services: [],
     clicked: "",
     embedmap: "",
   };
+  const [isConfirmed, setIsConfirmed] = React.useState(
+    initialValues.isConfirmed
+  );
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
     initialValues.description
@@ -200,6 +216,7 @@ export default function StoreUpdateForm(props) {
     const cleanValues = storeRecord
       ? { ...initialValues, ...storeRecord }
       : initialValues;
+    setIsConfirmed(cleanValues.isConfirmed);
     setName(cleanValues.name);
     setDescription(cleanValues.description);
     setServices(cleanValues.services ?? []);
@@ -220,6 +237,7 @@ export default function StoreUpdateForm(props) {
   const [currentServicesValue, setCurrentServicesValue] = React.useState("");
   const servicesRef = React.createRef();
   const validations = {
+    isConfirmed: [],
     name: [],
     description: [],
     services: [],
@@ -231,9 +249,10 @@ export default function StoreUpdateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -251,6 +270,7 @@ export default function StoreUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          isConfirmed,
           name,
           description,
           services,
@@ -302,6 +322,35 @@ export default function StoreUpdateForm(props) {
       {...getOverrideProps(overrides, "StoreUpdateForm")}
       {...rest}
     >
+      <SwitchField
+        label="Is confirmed"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isConfirmed}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              isConfirmed: value,
+              name,
+              description,
+              services,
+              clicked,
+              embedmap,
+            };
+            const result = onChange(modelFields);
+            value = result?.isConfirmed ?? value;
+          }
+          if (errors.isConfirmed?.hasError) {
+            runValidationTasks("isConfirmed", value);
+          }
+          setIsConfirmed(value);
+        }}
+        onBlur={() => runValidationTasks("isConfirmed", isConfirmed)}
+        errorMessage={errors.isConfirmed?.errorMessage}
+        hasError={errors.isConfirmed?.hasError}
+        {...getOverrideProps(overrides, "isConfirmed")}
+      ></SwitchField>
       <TextField
         label="Name"
         isRequired={false}
@@ -311,6 +360,7 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name: value,
               description,
               services,
@@ -339,6 +389,7 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name,
               description: value,
               services,
@@ -363,6 +414,7 @@ export default function StoreUpdateForm(props) {
           let values = items;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name,
               description,
               services: values,
@@ -378,7 +430,8 @@ export default function StoreUpdateForm(props) {
         currentFieldValue={currentServicesValue}
         label={"Services"}
         items={services}
-        hasError={errors.services?.hasError}
+        hasError={errors?.services?.hasError}
+        errorMessage={errors?.services?.errorMessage}
         setFieldValue={setCurrentServicesValue}
         inputFieldRef={servicesRef}
         defaultFieldValue={""}
@@ -416,6 +469,7 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name,
               description,
               services,
@@ -444,6 +498,7 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              isConfirmed,
               name,
               description,
               services,

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 import Category from "./Tabs/Categories";
+import Kirppukset from "./Tabs/Stores";
+import { Hub } from "aws-amplify";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,6 +34,17 @@ const a11yProps = (index: any) => ({
 const Adminpanel = (props: any) => {
   const { auth, isAdmin } = props;
   const [value, setValue] = React.useState(0);
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  useEffect(() => {
+    Hub.listen("datastore", async (hubData) => {
+      const { event, data } = hubData.payload;
+      if (event === "outboxStatus") {
+        console.log(data);
+        setIsEmpty(data.isEmpty);
+      }
+    });
+  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) =>
     setValue(newValue);
@@ -48,10 +61,10 @@ const Adminpanel = (props: any) => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Kirppukset
+        <Kirppukset {...props} isEmpty={isEmpty} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Category auth={auth} isAdmin={isAdmin} />
+        <Category {...props} isEmpty={isEmpty} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Tuotteet
