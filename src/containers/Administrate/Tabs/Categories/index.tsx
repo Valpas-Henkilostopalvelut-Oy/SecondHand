@@ -14,21 +14,6 @@ import { Categories } from "../../../../models";
     "updatedAt": null
 }'*/
 
-const deleteItem = async (
-  category: { name: string; id: string },
-  mainCategoryId: string
-) => {
-  await DataStore.query(Categories, mainCategoryId).then(async (data: any) => {
-    await DataStore.save(
-      Categories.copyOf(data, (updated: any) => {
-        updated.categories = updated.categories.filter(
-          (item: { name: string; id: string }) => item.id !== category.id
-        );
-      })
-    );
-  });
-};
-
 interface Category {
   name: string;
   id: string;
@@ -36,27 +21,21 @@ interface Category {
 
 const handleAddCategory = async (categoryName: string) => {
   const user = await Auth.currentAuthenticatedUser();
-  const id = Date.now().toString();
+
   const newCategory = new Categories({
     createdBy: user.username,
-    categories: [{ name: categoryName, id }],
+    name: categoryName,
   });
 
-  await DataStore.query(Categories).then(async (data: any) => {
-    if (data.length > 0) {
-      const main = data[0];
-      const newCat = { name: categoryName, id };
-      await DataStore.save(
-        Categories.copyOf(main, (updated: any) => {
-          updated.categories.push(newCat);
-        })
-      );
-    } else await DataStore.save(newCategory);
-  });
+  await DataStore.save(newCategory);
+};
+
+const handleDeleteCategory = async (id: string) => {
+  await DataStore.delete(Categories, id);
 };
 
 const Categoryitem = (props: any) => {
-  const { category, mainCategoryId } = props;
+  const { category } = props;
   return (
     <Grid item container spacing={2} xs={12}>
       <Grid item xs={10}>
@@ -66,8 +45,8 @@ const Categoryitem = (props: any) => {
       <Grid item xs={2}>
         <Button
           variant="contained"
-          onClick={() => deleteItem(category, mainCategoryId)}
           fullWidth
+          onClick={() => handleDeleteCategory(category.id)}
         >
           Poista
         </Button>
@@ -79,22 +58,21 @@ const Categoryitem = (props: any) => {
 const Category = (props: any) => {
   const { auth, isAdmin, isEmpty } = props;
   const [categories, setCategories] = useState<Category[]>([]);
-  const [mainCategoryId, setMainCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
-      await DataStore.query(Categories).then((data: any) => {
-        if (data.length > 0) {
-          const main = data[0];
-          setCategories(main.categories);
-          setMainCategoryId(main.id);
-        }
-      });
+      const data = await DataStore.query(Categories);
+      const categories = data.map((category) => ({
+        ...category,
+        name: category.name || "",
+      }));
+
+      setCategories(categories);
     };
 
     fetchCategories();
-  }, []);
+  }, [isEmpty]);
 
   return (
     <Box>
@@ -118,6 +96,8 @@ const Category = (props: any) => {
               variant="contained"
               onClick={() => handleAddCategory(categoryName)}
               fullWidth
+              disabled={!(categoryName.length > 3)}
+              sx={{ height: "100%" }}
             >
               Lisää kategoria
             </Button>
@@ -125,11 +105,7 @@ const Category = (props: any) => {
         </Grid>
 
         {categories.map((category) => (
-          <Categoryitem
-            key={category.id}
-            category={category}
-            mainCategoryId={mainCategoryId}
-          />
+          <Categoryitem key={category.id} category={category} />
         ))}
       </Grid>
     </Box>

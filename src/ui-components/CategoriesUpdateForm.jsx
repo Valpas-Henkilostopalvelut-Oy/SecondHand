@@ -25,14 +25,17 @@ export default function CategoriesUpdateForm(props) {
   } = props;
   const initialValues = {
     createdBy: "",
+    name: "",
   };
   const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
+  const [name, setName] = React.useState(initialValues.name);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = categoriesRecord
       ? { ...initialValues, ...categoriesRecord }
       : initialValues;
     setCreatedBy(cleanValues.createdBy);
+    setName(cleanValues.name);
     setErrors({});
   };
   const [categoriesRecord, setCategoriesRecord] = React.useState(categories);
@@ -48,6 +51,7 @@ export default function CategoriesUpdateForm(props) {
   React.useEffect(resetStateValues, [categoriesRecord]);
   const validations = {
     createdBy: [],
+    name: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -76,6 +80,7 @@ export default function CategoriesUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           createdBy,
+          name,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -132,6 +137,7 @@ export default function CategoriesUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               createdBy: value,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.createdBy ?? value;
@@ -145,6 +151,31 @@ export default function CategoriesUpdateForm(props) {
         errorMessage={errors.createdBy?.errorMessage}
         hasError={errors.createdBy?.hasError}
         {...getOverrideProps(overrides, "createdBy")}
+      ></TextField>
+      <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              createdBy,
+              name: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <Flex
         justifyContent="space-between"

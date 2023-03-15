@@ -15,10 +15,10 @@ type Areas @model @auth(rules: [{allow: public, operations: [read]}, {allow: gro
   cities: [City]
 }
 
-type Categories @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private}]) {
+type Categories @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}]) {
   id: ID!
   createdBy: String
-  categories: [Category]
+  name: String
 }
 
 type Image {

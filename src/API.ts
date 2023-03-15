@@ -2,16 +2,24 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateBlogInput = {
+export type CreateAreasInput = {
   id?: string | null,
-  name: string,
+  name?: string | null,
+  cities?: Array< CityInput | null > | null,
+  _version?: number | null,
 };
 
-export type ModelBlogConditionInput = {
+export type CityInput = {
+  id?: string | null,
+  name?: string | null,
+  area?: string | null,
+};
+
+export type ModelAreasConditionInput = {
   name?: ModelStringInput | null,
-  and?: Array< ModelBlogConditionInput | null > | null,
-  or?: Array< ModelBlogConditionInput | null > | null,
-  not?: ModelBlogConditionInput | null,
+  and?: Array< ModelAreasConditionInput | null > | null,
+  or?: Array< ModelAreasConditionInput | null > | null,
+  not?: ModelAreasConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -54,69 +62,271 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Blog = {
-  __typename: "Blog",
+export type Areas = {
+  __typename: "Areas",
   id: string,
-  name: string,
-  posts?: ModelPostConnection | null,
+  name?: string | null,
+  cities?:  Array<City | null > | null,
   createdAt: string,
   updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
 };
 
-export type ModelPostConnection = {
-  __typename: "ModelPostConnection",
-  items:  Array<Post | null >,
-  nextToken?: string | null,
+export type City = {
+  __typename: "City",
+  id?: string | null,
+  name?: string | null,
+  area?: string | null,
 };
 
-export type Post = {
-  __typename: "Post",
+export type UpdateAreasInput = {
   id: string,
-  title: string,
-  blog?: Blog | null,
-  comments?: ModelCommentConnection | null,
+  name?: string | null,
+  cities?: Array< CityInput | null > | null,
+  _version?: number | null,
+};
+
+export type DeleteAreasInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateCategoriesInput = {
+  id?: string | null,
+  createdBy?: string | null,
+  name?: string | null,
+  _version?: number | null,
+};
+
+export type ModelCategoriesConditionInput = {
+  createdBy?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelCategoriesConditionInput | null > | null,
+  or?: Array< ModelCategoriesConditionInput | null > | null,
+  not?: ModelCategoriesConditionInput | null,
+};
+
+export type Categories = {
+  __typename: "Categories",
+  id: string,
+  createdBy?: string | null,
+  name?: string | null,
   createdAt: string,
   updatedAt: string,
-  blogPostsId?: string | null,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
 };
 
-export type ModelCommentConnection = {
-  __typename: "ModelCommentConnection",
-  items:  Array<Comment | null >,
-  nextToken?: string | null,
-};
-
-export type Comment = {
-  __typename: "Comment",
+export type UpdateCategoriesInput = {
   id: string,
-  post?: Post | null,
-  content: string,
-  createdAt: string,
-  updatedAt: string,
-  postCommentsId?: string | null,
+  createdBy?: string | null,
+  name?: string | null,
+  _version?: number | null,
 };
 
-export type UpdateBlogInput = {
+export type DeleteCategoriesInput = {
   id: string,
+  _version?: number | null,
+};
+
+export type CreateStoreInput = {
+  id?: string | null,
+  isConfirmed?: boolean | null,
+  name?: string | null,
+  description?: string | null,
+  categories?: Array< CategoryInput | null > | null,
+  services?: Array< number | null > | null,
+  clicked?: string | null,
+  sellplaces?: SellplacesInput | null,
+  pricelist?: Array< PriceitemInput | null > | null,
+  embedmap?: string | null,
+  opentimes?: Array< OpentimeInput | null > | null,
+  contact?: ContactInput | null,
+  location?: LocationInput | null,
+  imgs?: Array< ImageInput | null > | null,
+  _version?: number | null,
+};
+
+export type CategoryInput = {
+  id?: string | null,
   name?: string | null,
 };
 
-export type DeleteBlogInput = {
-  id: string,
+export type SellplacesInput = {
+  all?: number | null,
+  free?: number | null,
 };
 
-export type CreatePostInput = {
+export type PriceitemInput = {
+  name?: string | null,
+  price?: number | null,
+  id?: number | null,
+};
+
+export type OpentimeInput = {
+  day?: string | null,
+  start?: string | null,
+  end?: string | null,
   id?: string | null,
-  title: string,
-  blogPostsId?: string | null,
 };
 
-export type ModelPostConditionInput = {
-  title?: ModelStringInput | null,
-  and?: Array< ModelPostConditionInput | null > | null,
-  or?: Array< ModelPostConditionInput | null > | null,
-  not?: ModelPostConditionInput | null,
-  blogPostsId?: ModelIDInput | null,
+export type ContactInput = {
+  phone?: string | null,
+  email?: string | null,
+  website?: string | null,
+};
+
+export type LocationInput = {
+  address?: string | null,
+  city?: string | null,
+  zip?: string | null,
+  area?: string | null,
+  country?: string | null,
+  driveto?: string | null,
+};
+
+export type ImageInput = {
+  key?: string | null,
+  id?: string | null,
+};
+
+export type ModelStoreConditionInput = {
+  isConfirmed?: ModelBooleanInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  services?: ModelIntInput | null,
+  clicked?: ModelStringInput | null,
+  embedmap?: ModelStringInput | null,
+  and?: Array< ModelStoreConditionInput | null > | null,
+  or?: Array< ModelStoreConditionInput | null > | null,
+  not?: ModelStoreConditionInput | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type Store = {
+  __typename: "Store",
+  id: string,
+  isConfirmed?: boolean | null,
+  name?: string | null,
+  description?: string | null,
+  categories?:  Array<Category | null > | null,
+  services?: Array< number | null > | null,
+  clicked?: string | null,
+  sellplaces?: Sellplaces | null,
+  pricelist?:  Array<Priceitem | null > | null,
+  embedmap?: string | null,
+  opentimes?:  Array<Opentime | null > | null,
+  contact?: Contact | null,
+  location?: Location | null,
+  imgs?:  Array<Image | null > | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+  owner?: string | null,
+};
+
+export type Category = {
+  __typename: "Category",
+  id?: string | null,
+  name?: string | null,
+};
+
+export type Sellplaces = {
+  __typename: "Sellplaces",
+  all?: number | null,
+  free?: number | null,
+};
+
+export type Priceitem = {
+  __typename: "Priceitem",
+  name?: string | null,
+  price?: number | null,
+  id?: number | null,
+};
+
+export type Opentime = {
+  __typename: "Opentime",
+  day?: string | null,
+  start?: string | null,
+  end?: string | null,
+  id?: string | null,
+};
+
+export type Contact = {
+  __typename: "Contact",
+  phone?: string | null,
+  email?: string | null,
+  website?: string | null,
+};
+
+export type Location = {
+  __typename: "Location",
+  address?: string | null,
+  city?: string | null,
+  zip?: string | null,
+  area?: string | null,
+  country?: string | null,
+  driveto?: string | null,
+};
+
+export type Image = {
+  __typename: "Image",
+  key?: string | null,
+  id?: string | null,
+};
+
+export type UpdateStoreInput = {
+  id: string,
+  isConfirmed?: boolean | null,
+  name?: string | null,
+  description?: string | null,
+  categories?: Array< CategoryInput | null > | null,
+  services?: Array< number | null > | null,
+  clicked?: string | null,
+  sellplaces?: SellplacesInput | null,
+  pricelist?: Array< PriceitemInput | null > | null,
+  embedmap?: string | null,
+  opentimes?: Array< OpentimeInput | null > | null,
+  contact?: ContactInput | null,
+  location?: LocationInput | null,
+  imgs?: Array< ImageInput | null > | null,
+  _version?: number | null,
+};
+
+export type DeleteStoreInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type ModelAreasFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelAreasFilterInput | null > | null,
+  or?: Array< ModelAreasFilterInput | null > | null,
+  not?: ModelAreasFilterInput | null,
 };
 
 export type ModelIDInput = {
@@ -135,77 +345,54 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type UpdatePostInput = {
-  id: string,
-  title?: string | null,
-  blogPostsId?: string | null,
-};
-
-export type DeletePostInput = {
-  id: string,
-};
-
-export type CreateCommentInput = {
-  id?: string | null,
-  content: string,
-  postCommentsId?: string | null,
-};
-
-export type ModelCommentConditionInput = {
-  content?: ModelStringInput | null,
-  and?: Array< ModelCommentConditionInput | null > | null,
-  or?: Array< ModelCommentConditionInput | null > | null,
-  not?: ModelCommentConditionInput | null,
-  postCommentsId?: ModelIDInput | null,
-};
-
-export type UpdateCommentInput = {
-  id: string,
-  content?: string | null,
-  postCommentsId?: string | null,
-};
-
-export type DeleteCommentInput = {
-  id: string,
-};
-
-export type ModelBlogFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelBlogFilterInput | null > | null,
-  or?: Array< ModelBlogFilterInput | null > | null,
-  not?: ModelBlogFilterInput | null,
-};
-
-export type ModelBlogConnection = {
-  __typename: "ModelBlogConnection",
-  items:  Array<Blog | null >,
+export type ModelAreasConnection = {
+  __typename: "ModelAreasConnection",
+  items:  Array<Areas | null >,
   nextToken?: string | null,
+  startedAt?: number | null,
 };
 
-export type ModelPostFilterInput = {
+export type ModelCategoriesFilterInput = {
   id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  and?: Array< ModelPostFilterInput | null > | null,
-  or?: Array< ModelPostFilterInput | null > | null,
-  not?: ModelPostFilterInput | null,
-  blogPostsId?: ModelIDInput | null,
+  createdBy?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelCategoriesFilterInput | null > | null,
+  or?: Array< ModelCategoriesFilterInput | null > | null,
+  not?: ModelCategoriesFilterInput | null,
 };
 
-export type ModelCommentFilterInput = {
+export type ModelCategoriesConnection = {
+  __typename: "ModelCategoriesConnection",
+  items:  Array<Categories | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelStoreFilterInput = {
   id?: ModelIDInput | null,
-  content?: ModelStringInput | null,
-  and?: Array< ModelCommentFilterInput | null > | null,
-  or?: Array< ModelCommentFilterInput | null > | null,
-  not?: ModelCommentFilterInput | null,
-  postCommentsId?: ModelIDInput | null,
+  isConfirmed?: ModelBooleanInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  services?: ModelIntInput | null,
+  clicked?: ModelStringInput | null,
+  embedmap?: ModelStringInput | null,
+  and?: Array< ModelStoreFilterInput | null > | null,
+  or?: Array< ModelStoreFilterInput | null > | null,
+  not?: ModelStoreFilterInput | null,
 };
 
-export type ModelSubscriptionBlogFilterInput = {
+export type ModelStoreConnection = {
+  __typename: "ModelStoreConnection",
+  items:  Array<Store | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelSubscriptionAreasFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionBlogFilterInput | null > | null,
-  or?: Array< ModelSubscriptionBlogFilterInput | null > | null,
+  and?: Array< ModelSubscriptionAreasFilterInput | null > | null,
+  or?: Array< ModelSubscriptionAreasFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -238,796 +425,1059 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionPostFilterInput = {
+export type ModelSubscriptionCategoriesFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  title?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionPostFilterInput | null > | null,
-  or?: Array< ModelSubscriptionPostFilterInput | null > | null,
+  createdBy?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionCategoriesFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCategoriesFilterInput | null > | null,
 };
 
-export type ModelSubscriptionCommentFilterInput = {
+export type ModelSubscriptionStoreFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  content?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionCommentFilterInput | null > | null,
-  or?: Array< ModelSubscriptionCommentFilterInput | null > | null,
+  isConfirmed?: ModelSubscriptionBooleanInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  services?: ModelSubscriptionIntInput | null,
+  clicked?: ModelSubscriptionStringInput | null,
+  embedmap?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionStoreFilterInput | null > | null,
+  or?: Array< ModelSubscriptionStoreFilterInput | null > | null,
 };
 
-export type CreateBlogMutationVariables = {
-  input: CreateBlogInput,
-  condition?: ModelBlogConditionInput | null,
+export type ModelSubscriptionBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
 };
 
-export type CreateBlogMutation = {
-  createBlog?:  {
-    __typename: "Blog",
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type CreateAreasMutationVariables = {
+  input: CreateAreasInput,
+  condition?: ModelAreasConditionInput | null,
+};
+
+export type CreateAreasMutation = {
+  createAreas?:  {
+    __typename: "Areas",
     id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    name?: string | null,
+    cities?:  Array< {
+      __typename: "City",
+      id?: string | null,
+      name?: string | null,
+      area?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type UpdateBlogMutationVariables = {
-  input: UpdateBlogInput,
-  condition?: ModelBlogConditionInput | null,
+export type UpdateAreasMutationVariables = {
+  input: UpdateAreasInput,
+  condition?: ModelAreasConditionInput | null,
 };
 
-export type UpdateBlogMutation = {
-  updateBlog?:  {
-    __typename: "Blog",
+export type UpdateAreasMutation = {
+  updateAreas?:  {
+    __typename: "Areas",
     id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    name?: string | null,
+    cities?:  Array< {
+      __typename: "City",
+      id?: string | null,
+      name?: string | null,
+      area?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type DeleteBlogMutationVariables = {
-  input: DeleteBlogInput,
-  condition?: ModelBlogConditionInput | null,
+export type DeleteAreasMutationVariables = {
+  input: DeleteAreasInput,
+  condition?: ModelAreasConditionInput | null,
 };
 
-export type DeleteBlogMutation = {
-  deleteBlog?:  {
-    __typename: "Blog",
+export type DeleteAreasMutation = {
+  deleteAreas?:  {
+    __typename: "Areas",
     id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    name?: string | null,
+    cities?:  Array< {
+      __typename: "City",
+      id?: string | null,
+      name?: string | null,
+      area?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type CreatePostMutationVariables = {
-  input: CreatePostInput,
-  condition?: ModelPostConditionInput | null,
+export type CreateCategoriesMutationVariables = {
+  input: CreateCategoriesInput,
+  condition?: ModelCategoriesConditionInput | null,
 };
 
-export type CreatePostMutation = {
-  createPost?:  {
-    __typename: "Post",
+export type CreateCategoriesMutation = {
+  createCategories?:  {
+    __typename: "Categories",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
-        createdAt: string,
-        updatedAt: string,
-        postCommentsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    createdBy?: string | null,
+    name?: string | null,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type UpdatePostMutationVariables = {
-  input: UpdatePostInput,
-  condition?: ModelPostConditionInput | null,
+export type UpdateCategoriesMutationVariables = {
+  input: UpdateCategoriesInput,
+  condition?: ModelCategoriesConditionInput | null,
 };
 
-export type UpdatePostMutation = {
-  updatePost?:  {
-    __typename: "Post",
+export type UpdateCategoriesMutation = {
+  updateCategories?:  {
+    __typename: "Categories",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
-        createdAt: string,
-        updatedAt: string,
-        postCommentsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    createdBy?: string | null,
+    name?: string | null,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type DeletePostMutationVariables = {
-  input: DeletePostInput,
-  condition?: ModelPostConditionInput | null,
+export type DeleteCategoriesMutationVariables = {
+  input: DeleteCategoriesInput,
+  condition?: ModelCategoriesConditionInput | null,
 };
 
-export type DeletePostMutation = {
-  deletePost?:  {
-    __typename: "Post",
+export type DeleteCategoriesMutation = {
+  deleteCategories?:  {
+    __typename: "Categories",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
-        createdAt: string,
-        updatedAt: string,
-        postCommentsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    createdBy?: string | null,
+    name?: string | null,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type CreateCommentMutationVariables = {
-  input: CreateCommentInput,
-  condition?: ModelCommentConditionInput | null,
+export type CreateStoreMutationVariables = {
+  input: CreateStoreInput,
+  condition?: ModelStoreConditionInput | null,
 };
 
-export type CreateCommentMutation = {
-  createComment?:  {
-    __typename: "Comment",
+export type CreateStoreMutation = {
+  createStore?:  {
+    __typename: "Store",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
+    isConfirmed?: boolean | null,
+    name?: string | null,
+    description?: string | null,
+    categories?:  Array< {
+      __typename: "Category",
+      id?: string | null,
+      name?: string | null,
+    } | null > | null,
+    services?: Array< number | null > | null,
+    clicked?: string | null,
+    sellplaces?:  {
+      __typename: "Sellplaces",
+      all?: number | null,
+      free?: number | null,
     } | null,
-    content: string,
+    pricelist?:  Array< {
+      __typename: "Priceitem",
+      name?: string | null,
+      price?: number | null,
+      id?: number | null,
+    } | null > | null,
+    embedmap?: string | null,
+    opentimes?:  Array< {
+      __typename: "Opentime",
+      day?: string | null,
+      start?: string | null,
+      end?: string | null,
+      id?: string | null,
+    } | null > | null,
+    contact?:  {
+      __typename: "Contact",
+      phone?: string | null,
+      email?: string | null,
+      website?: string | null,
+    } | null,
+    location?:  {
+      __typename: "Location",
+      address?: string | null,
+      city?: string | null,
+      zip?: string | null,
+      area?: string | null,
+      country?: string | null,
+      driveto?: string | null,
+    } | null,
+    imgs?:  Array< {
+      __typename: "Image",
+      key?: string | null,
+      id?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
-export type UpdateCommentMutationVariables = {
-  input: UpdateCommentInput,
-  condition?: ModelCommentConditionInput | null,
+export type UpdateStoreMutationVariables = {
+  input: UpdateStoreInput,
+  condition?: ModelStoreConditionInput | null,
 };
 
-export type UpdateCommentMutation = {
-  updateComment?:  {
-    __typename: "Comment",
+export type UpdateStoreMutation = {
+  updateStore?:  {
+    __typename: "Store",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
+    isConfirmed?: boolean | null,
+    name?: string | null,
+    description?: string | null,
+    categories?:  Array< {
+      __typename: "Category",
+      id?: string | null,
+      name?: string | null,
+    } | null > | null,
+    services?: Array< number | null > | null,
+    clicked?: string | null,
+    sellplaces?:  {
+      __typename: "Sellplaces",
+      all?: number | null,
+      free?: number | null,
     } | null,
-    content: string,
+    pricelist?:  Array< {
+      __typename: "Priceitem",
+      name?: string | null,
+      price?: number | null,
+      id?: number | null,
+    } | null > | null,
+    embedmap?: string | null,
+    opentimes?:  Array< {
+      __typename: "Opentime",
+      day?: string | null,
+      start?: string | null,
+      end?: string | null,
+      id?: string | null,
+    } | null > | null,
+    contact?:  {
+      __typename: "Contact",
+      phone?: string | null,
+      email?: string | null,
+      website?: string | null,
+    } | null,
+    location?:  {
+      __typename: "Location",
+      address?: string | null,
+      city?: string | null,
+      zip?: string | null,
+      area?: string | null,
+      country?: string | null,
+      driveto?: string | null,
+    } | null,
+    imgs?:  Array< {
+      __typename: "Image",
+      key?: string | null,
+      id?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
-export type DeleteCommentMutationVariables = {
-  input: DeleteCommentInput,
-  condition?: ModelCommentConditionInput | null,
+export type DeleteStoreMutationVariables = {
+  input: DeleteStoreInput,
+  condition?: ModelStoreConditionInput | null,
 };
 
-export type DeleteCommentMutation = {
-  deleteComment?:  {
-    __typename: "Comment",
+export type DeleteStoreMutation = {
+  deleteStore?:  {
+    __typename: "Store",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
+    isConfirmed?: boolean | null,
+    name?: string | null,
+    description?: string | null,
+    categories?:  Array< {
+      __typename: "Category",
+      id?: string | null,
+      name?: string | null,
+    } | null > | null,
+    services?: Array< number | null > | null,
+    clicked?: string | null,
+    sellplaces?:  {
+      __typename: "Sellplaces",
+      all?: number | null,
+      free?: number | null,
     } | null,
-    content: string,
+    pricelist?:  Array< {
+      __typename: "Priceitem",
+      name?: string | null,
+      price?: number | null,
+      id?: number | null,
+    } | null > | null,
+    embedmap?: string | null,
+    opentimes?:  Array< {
+      __typename: "Opentime",
+      day?: string | null,
+      start?: string | null,
+      end?: string | null,
+      id?: string | null,
+    } | null > | null,
+    contact?:  {
+      __typename: "Contact",
+      phone?: string | null,
+      email?: string | null,
+      website?: string | null,
+    } | null,
+    location?:  {
+      __typename: "Location",
+      address?: string | null,
+      city?: string | null,
+      zip?: string | null,
+      area?: string | null,
+      country?: string | null,
+      driveto?: string | null,
+    } | null,
+    imgs?:  Array< {
+      __typename: "Image",
+      key?: string | null,
+      id?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
-export type GetBlogQueryVariables = {
+export type GetAreasQueryVariables = {
   id: string,
 };
 
-export type GetBlogQuery = {
-  getBlog?:  {
-    __typename: "Blog",
+export type GetAreasQuery = {
+  getAreas?:  {
+    __typename: "Areas",
     id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    name?: string | null,
+    cities?:  Array< {
+      __typename: "City",
+      id?: string | null,
+      name?: string | null,
+      area?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type ListBlogsQueryVariables = {
-  filter?: ModelBlogFilterInput | null,
+export type ListAreasQueryVariables = {
+  filter?: ModelAreasFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListBlogsQuery = {
-  listBlogs?:  {
-    __typename: "ModelBlogConnection",
+export type ListAreasQuery = {
+  listAreas?:  {
+    __typename: "ModelAreasConnection",
     items:  Array< {
-      __typename: "Blog",
+      __typename: "Areas",
       id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
+      name?: string | null,
+      cities?:  Array< {
+        __typename: "City",
+        id?: string | null,
+        name?: string | null,
+        area?: string | null,
+      } | null > | null,
       createdAt: string,
       updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
-export type GetPostQueryVariables = {
+export type SyncAreasQueryVariables = {
+  filter?: ModelAreasFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncAreasQuery = {
+  syncAreas?:  {
+    __typename: "ModelAreasConnection",
+    items:  Array< {
+      __typename: "Areas",
+      id: string,
+      name?: string | null,
+      cities?:  Array< {
+        __typename: "City",
+        id?: string | null,
+        name?: string | null,
+        area?: string | null,
+      } | null > | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetCategoriesQueryVariables = {
   id: string,
 };
 
-export type GetPostQuery = {
-  getPost?:  {
-    __typename: "Post",
+export type GetCategoriesQuery = {
+  getCategories?:  {
+    __typename: "Categories",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
-        createdAt: string,
-        updatedAt: string,
-        postCommentsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    createdBy?: string | null,
+    name?: string | null,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type ListPostsQueryVariables = {
-  filter?: ModelPostFilterInput | null,
+export type ListCategoriesQueryVariables = {
+  filter?: ModelCategoriesFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListPostsQuery = {
-  listPosts?:  {
-    __typename: "ModelPostConnection",
+export type ListCategoriesQuery = {
+  listCategories?:  {
+    __typename: "ModelCategoriesConnection",
     items:  Array< {
-      __typename: "Post",
+      __typename: "Categories",
       id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
+      createdBy?: string | null,
+      name?: string | null,
       createdAt: string,
       updatedAt: string,
-      blogPostsId?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
-export type GetCommentQueryVariables = {
+export type SyncCategoriesQueryVariables = {
+  filter?: ModelCategoriesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncCategoriesQuery = {
+  syncCategories?:  {
+    __typename: "ModelCategoriesConnection",
+    items:  Array< {
+      __typename: "Categories",
+      id: string,
+      createdBy?: string | null,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetStoreQueryVariables = {
   id: string,
 };
 
-export type GetCommentQuery = {
-  getComment?:  {
-    __typename: "Comment",
+export type GetStoreQuery = {
+  getStore?:  {
+    __typename: "Store",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
+    isConfirmed?: boolean | null,
+    name?: string | null,
+    description?: string | null,
+    categories?:  Array< {
+      __typename: "Category",
+      id?: string | null,
+      name?: string | null,
+    } | null > | null,
+    services?: Array< number | null > | null,
+    clicked?: string | null,
+    sellplaces?:  {
+      __typename: "Sellplaces",
+      all?: number | null,
+      free?: number | null,
     } | null,
-    content: string,
+    pricelist?:  Array< {
+      __typename: "Priceitem",
+      name?: string | null,
+      price?: number | null,
+      id?: number | null,
+    } | null > | null,
+    embedmap?: string | null,
+    opentimes?:  Array< {
+      __typename: "Opentime",
+      day?: string | null,
+      start?: string | null,
+      end?: string | null,
+      id?: string | null,
+    } | null > | null,
+    contact?:  {
+      __typename: "Contact",
+      phone?: string | null,
+      email?: string | null,
+      website?: string | null,
+    } | null,
+    location?:  {
+      __typename: "Location",
+      address?: string | null,
+      city?: string | null,
+      zip?: string | null,
+      area?: string | null,
+      country?: string | null,
+      driveto?: string | null,
+    } | null,
+    imgs?:  Array< {
+      __typename: "Image",
+      key?: string | null,
+      id?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };
 
-export type ListCommentsQueryVariables = {
-  filter?: ModelCommentFilterInput | null,
+export type ListStoresQueryVariables = {
+  filter?: ModelStoreFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListCommentsQuery = {
-  listComments?:  {
-    __typename: "ModelCommentConnection",
+export type ListStoresQuery = {
+  listStores?:  {
+    __typename: "ModelStoreConnection",
     items:  Array< {
-      __typename: "Comment",
+      __typename: "Store",
       id: string,
-      post?:  {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
       } | null,
-      content: string,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        address?: string | null,
+        city?: string | null,
+        zip?: string | null,
+        area?: string | null,
+        country?: string | null,
+        driveto?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
       createdAt: string,
       updatedAt: string,
-      postCommentsId?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
-export type OnCreateBlogSubscriptionVariables = {
-  filter?: ModelSubscriptionBlogFilterInput | null,
+export type SyncStoresQueryVariables = {
+  filter?: ModelStoreFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
 };
 
-export type OnCreateBlogSubscription = {
-  onCreateBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateBlogSubscriptionVariables = {
-  filter?: ModelSubscriptionBlogFilterInput | null,
-};
-
-export type OnUpdateBlogSubscription = {
-  onUpdateBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteBlogSubscriptionVariables = {
-  filter?: ModelSubscriptionBlogFilterInput | null,
-};
-
-export type OnDeleteBlogSubscription = {
-  onDeleteBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnCreatePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
-};
-
-export type OnCreatePostSubscription = {
-  onCreatePost?:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
+export type SyncStoresQuery = {
+  syncStores?:  {
+    __typename: "ModelStoreConnection",
+    items:  Array< {
+      __typename: "Store",
       id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
       } | null,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        address?: string | null,
+        city?: string | null,
+        zip?: string | null,
+        area?: string | null,
+        country?: string | null,
+        driveto?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
       createdAt: string,
       updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
-        createdAt: string,
-        updatedAt: string,
-        postCommentsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    blogPostsId?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
-export type OnUpdatePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
+export type OnCreateAreasSubscriptionVariables = {
+  filter?: ModelSubscriptionAreasFilterInput | null,
 };
 
-export type OnUpdatePostSubscription = {
-  onUpdatePost?:  {
-    __typename: "Post",
+export type OnCreateAreasSubscription = {
+  onCreateAreas?:  {
+    __typename: "Areas",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
-        createdAt: string,
-        updatedAt: string,
-        postCommentsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    name?: string | null,
+    cities?:  Array< {
+      __typename: "City",
+      id?: string | null,
+      name?: string | null,
+      area?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type OnDeletePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
+export type OnUpdateAreasSubscriptionVariables = {
+  filter?: ModelSubscriptionAreasFilterInput | null,
 };
 
-export type OnDeletePostSubscription = {
-  onDeletePost?:  {
-    __typename: "Post",
+export type OnUpdateAreasSubscription = {
+  onUpdateAreas?:  {
+    __typename: "Areas",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
-        createdAt: string,
-        updatedAt: string,
-        postCommentsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
+    name?: string | null,
+    cities?:  Array< {
+      __typename: "City",
+      id?: string | null,
+      name?: string | null,
+      area?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type OnCreateCommentSubscriptionVariables = {
-  filter?: ModelSubscriptionCommentFilterInput | null,
+export type OnDeleteAreasSubscriptionVariables = {
+  filter?: ModelSubscriptionAreasFilterInput | null,
 };
 
-export type OnCreateCommentSubscription = {
-  onCreateComment?:  {
-    __typename: "Comment",
+export type OnDeleteAreasSubscription = {
+  onDeleteAreas?:  {
+    __typename: "Areas",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
-    } | null,
-    content: string,
+    name?: string | null,
+    cities?:  Array< {
+      __typename: "City",
+      id?: string | null,
+      name?: string | null,
+      area?: string | null,
+    } | null > | null,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type OnUpdateCommentSubscriptionVariables = {
-  filter?: ModelSubscriptionCommentFilterInput | null,
+export type OnCreateCategoriesSubscriptionVariables = {
+  filter?: ModelSubscriptionCategoriesFilterInput | null,
 };
 
-export type OnUpdateCommentSubscription = {
-  onUpdateComment?:  {
-    __typename: "Comment",
+export type OnCreateCategoriesSubscription = {
+  onCreateCategories?:  {
+    __typename: "Categories",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
-    } | null,
-    content: string,
+    createdBy?: string | null,
+    name?: string | null,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type OnDeleteCommentSubscriptionVariables = {
-  filter?: ModelSubscriptionCommentFilterInput | null,
+export type OnUpdateCategoriesSubscriptionVariables = {
+  filter?: ModelSubscriptionCategoriesFilterInput | null,
 };
 
-export type OnDeleteCommentSubscription = {
-  onDeleteComment?:  {
-    __typename: "Comment",
+export type OnUpdateCategoriesSubscription = {
+  onUpdateCategories?:  {
+    __typename: "Categories",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
-    } | null,
-    content: string,
+    createdBy?: string | null,
+    name?: string | null,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteCategoriesSubscriptionVariables = {
+  filter?: ModelSubscriptionCategoriesFilterInput | null,
+};
+
+export type OnDeleteCategoriesSubscription = {
+  onDeleteCategories?:  {
+    __typename: "Categories",
+    id: string,
+    createdBy?: string | null,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateStoreSubscriptionVariables = {
+  filter?: ModelSubscriptionStoreFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateStoreSubscription = {
+  onCreateStore?:  {
+    __typename: "Store",
+    id: string,
+    isConfirmed?: boolean | null,
+    name?: string | null,
+    description?: string | null,
+    categories?:  Array< {
+      __typename: "Category",
+      id?: string | null,
+      name?: string | null,
+    } | null > | null,
+    services?: Array< number | null > | null,
+    clicked?: string | null,
+    sellplaces?:  {
+      __typename: "Sellplaces",
+      all?: number | null,
+      free?: number | null,
+    } | null,
+    pricelist?:  Array< {
+      __typename: "Priceitem",
+      name?: string | null,
+      price?: number | null,
+      id?: number | null,
+    } | null > | null,
+    embedmap?: string | null,
+    opentimes?:  Array< {
+      __typename: "Opentime",
+      day?: string | null,
+      start?: string | null,
+      end?: string | null,
+      id?: string | null,
+    } | null > | null,
+    contact?:  {
+      __typename: "Contact",
+      phone?: string | null,
+      email?: string | null,
+      website?: string | null,
+    } | null,
+    location?:  {
+      __typename: "Location",
+      address?: string | null,
+      city?: string | null,
+      zip?: string | null,
+      area?: string | null,
+      country?: string | null,
+      driveto?: string | null,
+    } | null,
+    imgs?:  Array< {
+      __typename: "Image",
+      key?: string | null,
+      id?: string | null,
+    } | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnUpdateStoreSubscriptionVariables = {
+  filter?: ModelSubscriptionStoreFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateStoreSubscription = {
+  onUpdateStore?:  {
+    __typename: "Store",
+    id: string,
+    isConfirmed?: boolean | null,
+    name?: string | null,
+    description?: string | null,
+    categories?:  Array< {
+      __typename: "Category",
+      id?: string | null,
+      name?: string | null,
+    } | null > | null,
+    services?: Array< number | null > | null,
+    clicked?: string | null,
+    sellplaces?:  {
+      __typename: "Sellplaces",
+      all?: number | null,
+      free?: number | null,
+    } | null,
+    pricelist?:  Array< {
+      __typename: "Priceitem",
+      name?: string | null,
+      price?: number | null,
+      id?: number | null,
+    } | null > | null,
+    embedmap?: string | null,
+    opentimes?:  Array< {
+      __typename: "Opentime",
+      day?: string | null,
+      start?: string | null,
+      end?: string | null,
+      id?: string | null,
+    } | null > | null,
+    contact?:  {
+      __typename: "Contact",
+      phone?: string | null,
+      email?: string | null,
+      website?: string | null,
+    } | null,
+    location?:  {
+      __typename: "Location",
+      address?: string | null,
+      city?: string | null,
+      zip?: string | null,
+      area?: string | null,
+      country?: string | null,
+      driveto?: string | null,
+    } | null,
+    imgs?:  Array< {
+      __typename: "Image",
+      key?: string | null,
+      id?: string | null,
+    } | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnDeleteStoreSubscriptionVariables = {
+  filter?: ModelSubscriptionStoreFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteStoreSubscription = {
+  onDeleteStore?:  {
+    __typename: "Store",
+    id: string,
+    isConfirmed?: boolean | null,
+    name?: string | null,
+    description?: string | null,
+    categories?:  Array< {
+      __typename: "Category",
+      id?: string | null,
+      name?: string | null,
+    } | null > | null,
+    services?: Array< number | null > | null,
+    clicked?: string | null,
+    sellplaces?:  {
+      __typename: "Sellplaces",
+      all?: number | null,
+      free?: number | null,
+    } | null,
+    pricelist?:  Array< {
+      __typename: "Priceitem",
+      name?: string | null,
+      price?: number | null,
+      id?: number | null,
+    } | null > | null,
+    embedmap?: string | null,
+    opentimes?:  Array< {
+      __typename: "Opentime",
+      day?: string | null,
+      start?: string | null,
+      end?: string | null,
+      id?: string | null,
+    } | null > | null,
+    contact?:  {
+      __typename: "Contact",
+      phone?: string | null,
+      email?: string | null,
+      website?: string | null,
+    } | null,
+    location?:  {
+      __typename: "Location",
+      address?: string | null,
+      city?: string | null,
+      zip?: string | null,
+      area?: string | null,
+      country?: string | null,
+      driveto?: string | null,
+    } | null,
+    imgs?:  Array< {
+      __typename: "Image",
+      key?: string | null,
+      id?: string | null,
+    } | null > | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    owner?: string | null,
   } | null,
 };

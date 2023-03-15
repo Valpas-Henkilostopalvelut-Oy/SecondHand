@@ -25,7 +25,7 @@ const onSubmit = async (values: any) => {
 const Createnew = (props: any) => {
   const { values, setValues } = props;
 
-  const handleClick = () => console.log(values);
+  const handleClick = () => onSubmit(values);
 
   return (
     <Grid item sm={2}>

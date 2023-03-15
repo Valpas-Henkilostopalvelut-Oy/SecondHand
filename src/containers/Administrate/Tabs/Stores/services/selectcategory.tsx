@@ -16,7 +16,7 @@ const Selectcategories = (props: any) => {
   useEffect(() => {
     const fetchCategories = async () => {
       await DataStore.query(Categories).then((data: any) => {
-        setCategories(data[0].categories);
+        setCategories(data);
       });
     };
 
@@ -34,8 +34,8 @@ const Selectcategories = (props: any) => {
       }
     };
 
-    updateValues();
-  }, [categories, selected]);
+    //updateValues();
+  }, []);
 
   const handleChange = (event: any) => setSelected(event.target.value);
 

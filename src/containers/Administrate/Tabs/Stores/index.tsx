@@ -1,46 +1,33 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Typography,
-  Grid,
-  TextField,
-  Collapse,
-  Button,
-} from "@mui/material";
-import { DataStore, Hub } from "aws-amplify";
-import { Store, Categories } from "../../../../models";
+import { Box, Grid } from "@mui/material";
+import { DataStore } from "aws-amplify";
+import type { LazyCategories } from "../../../../models";
+import { Store } from "../../../../models";
 import NewKirppis from "./services/addnew";
-
-const Kirppis = (props: any) => {
-  return;
-};
-
-const handleAddKirpis = async (values: any) => {
-  const { name, description } = values;
-};
+import KirppisItem from "./services/kirppisitem";
 
 const Kirppukset = (props: any) => {
-  const { auth, isAdmin } = props;
-  const [kirppukset, setKirppukset] = useState([]);
+  const { auth, isAdmin, isEmpty } = props;
+  const [kirppukset, setKirppukset] = useState<LazyCategories[]>([]);
 
   useEffect(() => {
     const fetchKirppukset = async () => {
-      await DataStore.query(Store).then((data: any) => {
-        setKirppukset(data);
-        console.log(data);
-      });
+      const data = await DataStore.query(Store);
+      setKirppukset(data);
     };
 
     fetchKirppukset();
-
-    console.log("qq");
-  }, []);
+  }, [isEmpty]);
 
   return (
     <Box>
       <Grid container spacing={2}>
         <NewKirppis {...props} />
       </Grid>
+
+      {kirppukset.map((kirppis) => (
+        <KirppisItem key={kirppis.id} {...kirppis} />
+      ))}
     </Box>
   );
 };

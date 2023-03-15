@@ -53,6 +53,7 @@ type EagerLocation = {
   readonly city?: string | null;
   readonly zip?: string | null;
   readonly area?: string | null;
+  readonly country?: string | null;
   readonly driveto?: string | null;
 }
 
@@ -61,6 +62,7 @@ type LazyLocation = {
   readonly city?: string | null;
   readonly zip?: string | null;
   readonly area?: string | null;
+  readonly country?: string | null;
   readonly driveto?: string | null;
 }
 
@@ -169,7 +171,7 @@ type EagerCategories = {
   };
   readonly id: string;
   readonly createdBy?: string | null;
-  readonly categories?: (Category | null)[] | null;
+  readonly name?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -181,7 +183,7 @@ type LazyCategories = {
   };
   readonly id: string;
   readonly createdBy?: string | null;
-  readonly categories?: (Category | null)[] | null;
+  readonly name?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -198,6 +200,7 @@ type EagerStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly isConfirmed?: boolean | null;
   readonly name?: string | null;
   readonly description?: string | null;
   readonly categories?: (Category | null)[] | null;
@@ -220,6 +223,7 @@ type LazyStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly isConfirmed?: boolean | null;
   readonly name?: string | null;
   readonly description?: string | null;
   readonly categories?: (Category | null)[] | null;

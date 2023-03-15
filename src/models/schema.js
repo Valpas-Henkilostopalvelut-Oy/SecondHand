@@ -106,15 +106,12 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "categories": {
-                    "name": "categories",
-                    "isArray": true,
-                    "type": {
-                        "nonModel": "Category"
-                    },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -163,15 +160,6 @@ export const schema = {
                                     "update",
                                     "delete"
                                 ]
-                            },
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
                             }
                         ]
                     }
@@ -186,6 +174,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "isConfirmed": {
+                    "name": "isConfirmed",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "name": {
@@ -454,6 +449,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "country": {
+                    "name": "country",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "driveto": {
                     "name": "driveto",
                     "isArray": false,
@@ -569,5 +571,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.6",
-    "version": "d40ab713b8f26d9d65a14924aecf8a56"
+    "version": "8d110858f9b55a1a5991cb4a8b61248e"
 };
