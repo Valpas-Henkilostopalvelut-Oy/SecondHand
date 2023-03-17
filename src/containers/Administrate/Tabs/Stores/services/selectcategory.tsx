@@ -2,22 +2,18 @@ import React, { useState, useEffect } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { DataStore } from "aws-amplify";
 import { Categories } from "../../../../../models";
-
-interface Category {
-  name: string;
-  id: string;
-}
+import type { LazyCategories } from "../../../../../models";
 
 const Selectcategories = (props: any) => {
   const { values, setValues } = props;
   const [selected, setSelected] = useState([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<LazyCategories[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      await DataStore.query(Categories).then((data: any) => {
-        setCategories(data);
-      });
+      const data = await DataStore.query(Categories);
+      setCategories(data);
+      console.log(data);
     };
 
     fetchCategories();
@@ -26,16 +22,23 @@ const Selectcategories = (props: any) => {
   useEffect(() => {
     const updateValues = () => {
       for (let i = 0; i < selected.length; i += 1) {
-        const value = selected[i];
-        const found = categories.find((category) => category.id === value);
-
-        if (found)
-          setValues({ ...values, categories: [...values.categories, found] });
+        const category = categories.find(
+          (category) => category.id === selected[i]
+        );
+        if (category) {
+          setValues({
+            ...values,
+            categories: [
+              ...values.categories,
+              { id: category.id, name: category.name },
+            ],
+          });
+        }
       }
     };
 
-    //updateValues();
-  }, []);
+    updateValues();
+  }, [selected]);
 
   const handleChange = (event: any) => setSelected(event.target.value);
 
@@ -50,7 +53,7 @@ const Selectcategories = (props: any) => {
         onChange={handleChange}
         multiple
       >
-        {categories.map((category: Category) => (
+        {categories.map((category: LazyCategories) => (
           <MenuItem key={category.id} value={category.id}>
             {category.name}
           </MenuItem>

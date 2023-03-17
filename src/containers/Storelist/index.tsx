@@ -13,6 +13,9 @@ import { storelist } from "./stores";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { categories } from "../../components/Search/categories";
 import { services } from "../../components/Search/services";
+import { DataStore } from "aws-amplify";
+import type { LazyStore, LazyCategories } from "../../models";
+import { Categories, Store } from "../../models";
 
 export const Storelist = () => {
   const [search, setSearch] = useState({
@@ -20,8 +23,17 @@ export const Storelist = () => {
     area: "",
     city: "",
   });
-  const list = storelist();
   const [category, setCategory] = useState<string[]>([]);
+  const [stores, setStores] = useState<LazyStore[]>([]);
+
+  useEffect(() => {
+    const fetchStores = async () => {
+      const stores = await DataStore.query(Store);
+      setStores(stores.filter((item) => item.isConfirmed));
+      console.log(stores);
+    };
+    fetchStores();
+  }, [search]);
 
   return (
     <Box>
@@ -33,10 +45,8 @@ export const Storelist = () => {
         setCategory={setCategory}
       />
 
-      {list.map((item) => (
-        <Box key={item.id}>
-          <Storeitem {...item} />
-        </Box>
+      {stores.map((item: LazyStore) => (
+        <Storeitem {...item} key={item.id} />
       ))}
     </Box>
   );
@@ -56,68 +66,76 @@ const Storeitem = (props: any) => {
   } = props;
 
   return (
-    <Accordion>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel1a-content"
-        id="panel1a-header"
-      >
-        <Typography>{name}</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography>{description}</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6">Kategoriat</Typography>
-            <Typography>
-              {categories.map((item: any) => (
-                <Box key={item.id}>{item.name}</Box>
-              ))}
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="h6">Aukiaika</Typography>
-            <Typography>{opentimes}</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="h6">Yhteystiedot</Typography>
-            <Typography>{contact.phone}</Typography>
-            <Typography>{contact.email}</Typography>
-            <Link href={contact.website} underline="hover">
-              Nettisiivu
-            </Link>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="h6">Sijainti</Typography>
-            <Typography>{location.address + ", " + location.city}</Typography>
-            <Typography>{location.zip}</Typography>
-            <Typography>{location.area}</Typography>
-            <Link href={location.driveto} underline="hover">
-              ajo-ohjeet
-            </Link>
-          </Grid>
+    <Box
+      sx={{
+        border: "1px solid #ccc",
+        borderRadius: "4px",
+        marginBottom: "1rem",
+      }}
+    >
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>{name}</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography>{description}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6">Kategoriat</Typography>
+              <Typography>
+                {categories.map((item: any) => (
+                  <Box key={item.id}>{item.name}</Box>
+                ))}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="h6">Aukiaika</Typography>
+              <Typography>{opentimes}</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="h6">Yhteystiedot</Typography>
+              <Typography>{contact.phone}</Typography>
+              <Typography>{contact.email}</Typography>
+              <Link href={contact.website} underline="hover">
+                Nettisiivu
+              </Link>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="h6">Sijainti</Typography>
+              <Typography>{location.address + ", " + location.city}</Typography>
+              <Typography>{location.zip}</Typography>
+              <Typography>{location.area}</Typography>
+              <Link href={location.driveto} underline="hover">
+                ajo-ohjeet
+              </Link>
+            </Grid>
 
-          <Grid item xs={12}>
-            <Itemimgs {...props} />
-          </Grid>
+            <Grid item xs={12}>
+              <Itemimgs {...props} />
+            </Grid>
 
-          <Grid item xs={4}>
-            <Typography variant="h6">Palvelut</Typography>
-            <Typography>{services.join(", ")}</Typography>
+            <Grid item xs={4}>
+              <Typography variant="h6">Palvelut</Typography>
+              <Typography>{services.join(", ")}</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="h6">Myyntipaikat</Typography>
+              <Typography>{sellplaces.all}</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="h6">Hinta</Typography>
+              <Typography>{pricelist.price}</Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Typography variant="h6">Myyntipaikat</Typography>
-            <Typography>{sellplaces.all}</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="h6">Hinta</Typography>
-            <Typography>{pricelist.price}</Typography>
-          </Grid>
-        </Grid>
-      </AccordionDetails>
-    </Accordion>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 };
 

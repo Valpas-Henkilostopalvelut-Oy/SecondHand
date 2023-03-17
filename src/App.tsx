@@ -16,7 +16,7 @@ const App = () => {
         const user = await Auth.currentAuthenticatedUser();
         const groups =
           user.signInUserSession.accessToken.payload["cognito:groups"];
-        if (groups && groups.includes("Admin")) {
+        if (groups && groups.includes("admin")) {
           setIsAdmin(true);
         }
 

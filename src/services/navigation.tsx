@@ -8,7 +8,6 @@ import NotFound from "../components/NotFound";
 import Adminpanel from "../containers/Administrate";
 
 export const Navigation = (props: any) => {
-  const { auth, isAdmin } = props;
   const Redirect = () => <Navigate to="/" />;
   return (
     <Routes>

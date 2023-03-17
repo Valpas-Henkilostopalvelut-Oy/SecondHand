@@ -3,11 +3,12 @@ import { Grid, Button } from "@mui/material";
 import { DataStore } from "aws-amplify";
 import { Store } from "../../../../../models";
 
-const onSubmit = async (values: any) => {
+const onSubmit = async (values: any, isAdmin: boolean) => {
   await DataStore.save(
     new Store({
       name: values.name,
       description: values.description,
+      isConfirmed: isAdmin,
       categories: values.categories,
       services: [],
       clicked: "0",
@@ -23,9 +24,10 @@ const onSubmit = async (values: any) => {
 };
 
 const Createnew = (props: any) => {
-  const { values, setValues } = props;
+  const { values, onClear, isAdmin } = props;
 
-  const handleClick = () => onSubmit(values);
+  const handleClick = async () =>
+    await onSubmit(values, isAdmin).then(onClear());
 
   return (
     <Grid item sm={2}>

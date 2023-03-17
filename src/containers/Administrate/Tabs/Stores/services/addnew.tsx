@@ -127,6 +127,14 @@ const NewKirppis = (props: any) => {
           <StoreBlock>
             <Grid container spacing={2}>
               <Grid item sm={12}>
+                <Typography variant="h6">Opentimes</Typography>
+              </Grid>
+            </Grid>
+          </StoreBlock>
+
+          <StoreBlock>
+            <Grid container spacing={2}>
+              <Grid item sm={12}>
                 <Typography variant="h6">Sijainti</Typography>
               </Grid>
               <Editaddress values={values} setValues={setValues} />
@@ -140,7 +148,14 @@ const NewKirppis = (props: any) => {
           <StoreBlock>
             <Grid container spacing={2}>
               <Grid item sm={10} />
-              <Createnew values={values} setValues={setValues} />
+              <Createnew
+                values={values}
+                {...props}
+                onClear={() => {
+                  setValues(tempValues);
+                  setOpen(false);
+                }}
+              />
             </Grid>
           </StoreBlock>
         </Collapse>

@@ -14,6 +14,7 @@ const Kirppukset = (props: any) => {
     const fetchKirppukset = async () => {
       const data = await DataStore.query(Store);
       setKirppukset(data);
+      console.log(data);
     };
 
     fetchKirppukset();
