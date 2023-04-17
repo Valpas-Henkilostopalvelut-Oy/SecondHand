@@ -66,8 +66,10 @@ const onDelete = async (id: string) => {
 };
 
 const KirppisItem = (props: LazyStore) => {
-  const { name, description, id, isConfirmed, categories, contact, location } =
+  const { name, description, id, isConfirmed, categories, contact, location, opentimes } =
     props;
+
+    console.log(opentimes)
 
   const handleDelete = () => onDelete(id);
 

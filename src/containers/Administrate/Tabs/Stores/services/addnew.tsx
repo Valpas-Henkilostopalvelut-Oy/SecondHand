@@ -19,6 +19,8 @@ import {
   Editzip,
 } from "./location";
 
+import Addopentimes from "./opentimes";
+
 import Createnew from "./create";
 
 const StoreBlock = styled(Box)(({ theme }) => ({
@@ -61,8 +63,8 @@ const NewKirppis = (props: any) => {
 
   return (
     <Grid item container xs={12} spacing={2}>
-      <Grid item xs={10} />
-      <Grid item xs={2}>
+      <Grid item sm={10} xs={12} />
+      <Grid item sm={2} xs={12}>
         <Button variant="contained" onClick={() => setOpen(!open)} fullWidth>
           Lisää kirppis
         </Button>
@@ -129,6 +131,8 @@ const NewKirppis = (props: any) => {
               <Grid item sm={12}>
                 <Typography variant="h6">Opentimes</Typography>
               </Grid>
+
+              <Addopentimes values={values} setValues={setValues} />
             </Grid>
           </StoreBlock>
 

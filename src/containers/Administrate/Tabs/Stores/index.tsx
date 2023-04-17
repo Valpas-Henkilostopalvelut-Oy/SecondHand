@@ -7,14 +7,13 @@ import NewKirppis from "./services/addnew";
 import KirppisItem from "./services/kirppisitem";
 
 const Kirppukset = (props: any) => {
-  const { auth, isAdmin, isEmpty } = props;
+  const { isEmpty } = props;
   const [kirppukset, setKirppukset] = useState<LazyCategories[]>([]);
 
   useEffect(() => {
     const fetchKirppukset = async () => {
       const data = await DataStore.query(Store);
       setKirppukset(data);
-      console.log(data);
     };
 
     fetchKirppukset();

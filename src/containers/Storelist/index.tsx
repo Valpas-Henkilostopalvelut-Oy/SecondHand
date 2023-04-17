@@ -14,7 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { categories } from "../../components/Search/categories";
 import { services } from "../../components/Search/services";
 import { DataStore } from "aws-amplify";
-import type { LazyStore, LazyCategories } from "../../models";
+import type { LazyStore, LazyCategories, LazyOpentime } from "../../models";
 import { Categories, Store } from "../../models";
 
 export const Storelist = () => {
@@ -96,7 +96,6 @@ const Storeitem = (props: any) => {
             </Grid>
             <Grid item xs={4}>
               <Typography variant="h6">Aukiaika</Typography>
-              <Typography>{opentimes}</Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="h6">Yhteystiedot</Typography>
@@ -114,10 +113,6 @@ const Storeitem = (props: any) => {
               <Link href={location.driveto} underline="hover">
                 ajo-ohjeet
               </Link>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Itemimgs {...props} />
             </Grid>
 
             <Grid item xs={4}>

@@ -15,7 +15,7 @@ const onSubmit = async (values: any, isAdmin: boolean) => {
       sellplaces: values.sellplaces,
       pricelist: [],
       embedmap: null,
-      opentimes: [],
+      opentimes: values.opentimes,
       contact: values.contact,
       location: values.location,
       imgs: [],
