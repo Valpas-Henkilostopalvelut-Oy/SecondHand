@@ -49,7 +49,6 @@ const Addopentimes = (props: any) => {
 
   useEffect(() => {
     setValues({ ...values, opentimes: times });
-    console.log(times);
   }, [times]);
 
   return (

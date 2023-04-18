@@ -13,7 +13,6 @@ const Selectcategories = (props: any) => {
     const fetchCategories = async () => {
       const data = await DataStore.query(Categories);
       setCategories(data);
-      console.log(data);
     };
 
     fetchCategories();

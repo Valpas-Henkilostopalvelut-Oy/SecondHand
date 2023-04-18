@@ -7,15 +7,21 @@ import {
   Box,
   Typography,
   Button,
+  styled,
 } from "@mui/material";
 import type {
   LazyStore,
   LazyCategory,
   LazyContact,
   LazyLocation,
+  LazyOpentime,
 } from "../../../../../models";
 import { Store } from "../../../../../models";
 import { DataStore } from "aws-amplify";
+
+const CustomBox = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+}));
 
 const Location = (props: LazyLocation) => {
   const { address, city, zip, area } = props;
@@ -65,11 +71,36 @@ const onDelete = async (id: string) => {
   await DataStore.delete(Store, id);
 };
 
-const KirppisItem = (props: LazyStore) => {
-  const { name, description, id, isConfirmed, categories, contact, location, opentimes } =
-    props;
+const Opentime = (props: any) => {
+  const { day, open, close } = props;
+  const o = new Date(open).toTimeString().split(" ")[0];
+  const c = new Date(close).toTimeString().split(" ")[0];
 
-    console.log(opentimes)
+  return (
+    <Box>
+      <Typography>
+        <b>{day}</b>
+      </Typography>
+      <Typography>
+        {o} - {c}
+      </Typography>
+    </Box>
+  );
+};
+
+const KirppisItem = (props: LazyStore) => {
+  const {
+    name,
+    description,
+    id,
+    isConfirmed,
+    categories,
+    contact,
+    location,
+    opentimes,
+  } = props;
+
+  console.log("kirppisitem", props);
 
   const handleDelete = () => onDelete(id);
 
@@ -88,34 +119,46 @@ const KirppisItem = (props: LazyStore) => {
         </AccordionSummary>
 
         <AccordionDetails>
-          <Box hidden={!!isConfirmed}>
+          <CustomBox hidden={!!isConfirmed}>
             <Typography>{description}</Typography>
-          </Box>
-          <Grid container spacing={2}>
-            <Grid item xs={10}>
-              <Typography>ID: {id}</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Button variant="contained" fullWidth onClick={handleDelete}>
-                Poista
-              </Button>
-            </Grid>
-          </Grid>
+          </CustomBox>
 
-          <Box>
-            <Typography>Kategoriat</Typography>
+          <CustomBox>
+            <Grid container spacing={2}>
+              <Grid item xs={10}>
+                <Typography>ID: {id}</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Button variant="contained" fullWidth onClick={handleDelete}>
+                  Poista
+                </Button>
+              </Grid>
+            </Grid>
+          </CustomBox>
+
+          <CustomBox>
+            <Typography>
+              <b>Kategoriat</b>
+            </Typography>
             {categories &&
               categories.map((category: LazyCategory | null) => {
                 if (!category) return null;
                 return <Category {...category} key={category.id} />;
               })}
-          </Box>
+          </CustomBox>
 
-          <Grid container spacing={2}>
-            <Grid item xs={4} />
-            <Contact {...contact} />
-            <Location {...location} />
-          </Grid>
+          <CustomBox>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                {opentimes &&
+                  opentimes.map((opentime: LazyOpentime | null, key) => (
+                    <Opentime key={key} {...opentime} />
+                  ))}
+              </Grid>
+              <Contact {...contact} />
+              <Location {...location} />
+            </Grid>
+          </CustomBox>
         </AccordionDetails>
       </Accordion>
     </Box>

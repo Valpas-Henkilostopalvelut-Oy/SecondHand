@@ -129,9 +129,8 @@ const NewKirppis = (props: any) => {
           <StoreBlock>
             <Grid container spacing={2}>
               <Grid item sm={12}>
-                <Typography variant="h6">Opentimes</Typography>
+                <Typography variant="h6">Aukioloajat </Typography>
               </Grid>
-
               <Addopentimes values={values} setValues={setValues} />
             </Grid>
           </StoreBlock>

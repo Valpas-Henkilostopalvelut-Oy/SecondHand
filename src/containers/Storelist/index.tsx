@@ -7,6 +7,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Link,
+  styled,
 } from "@mui/material";
 import { Search } from "../../components/Search";
 import { storelist } from "./stores";
@@ -16,6 +17,10 @@ import { services } from "../../components/Search/services";
 import { DataStore } from "aws-amplify";
 import type { LazyStore, LazyCategories, LazyOpentime } from "../../models";
 import { Categories, Store } from "../../models";
+
+const CustomBox = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+}));
 
 export const Storelist = () => {
   const [search, setSearch] = useState({
@@ -30,7 +35,6 @@ export const Storelist = () => {
     const fetchStores = async () => {
       const stores = await DataStore.query(Store);
       setStores(stores.filter((item) => item.isConfirmed));
-      console.log(stores);
     };
     fetchStores();
   }, [search]);
@@ -48,6 +52,23 @@ export const Storelist = () => {
       {stores.map((item: LazyStore) => (
         <Storeitem {...item} key={item.id} />
       ))}
+    </Box>
+  );
+};
+
+const Opentime = (props: any) => {
+  const { day, open, close } = props;
+  const o = new Date(open).toTimeString().split(" ")[0];
+  const c = new Date(close).toTimeString().split(" ")[0];
+
+  return (
+    <Box>
+      <Typography>
+        <b>{day}</b>
+      </Typography>
+      <Typography>
+        {o} - {c}
+      </Typography>
     </Box>
   );
 };
@@ -79,55 +100,68 @@ const Storeitem = (props: any) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>{name}</Typography>
+          {name}
         </AccordionSummary>
         <AccordionDetails>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography>{description}</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h6">Kategoriat</Typography>
-              <Typography>
-                {categories.map((item: any) => (
-                  <Box key={item.id}>{item.name}</Box>
-                ))}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="h6">Aukiaika</Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="h6">Yhteystiedot</Typography>
-              <Typography>{contact.phone}</Typography>
-              <Typography>{contact.email}</Typography>
-              <Link href={contact.website} underline="hover">
-                Nettisiivu
-              </Link>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="h6">Sijainti</Typography>
-              <Typography>{location.address + ", " + location.city}</Typography>
-              <Typography>{location.zip}</Typography>
-              <Typography>{location.area}</Typography>
-              <Link href={location.driveto} underline="hover">
-                ajo-ohjeet
-              </Link>
-            </Grid>
+          <CustomBox hidden={!description}>
+            <Typography>{description}</Typography>
+          </CustomBox>
 
-            <Grid item xs={4}>
-              <Typography variant="h6">Palvelut</Typography>
-              <Typography>{services.join(", ")}</Typography>
+          <CustomBox hidden={!categories}>
+            <Typography variant="h6">Kategoriat</Typography>
+            {categories.map((item: LazyCategories) => (
+              <Typography key={item.id}>{item.name}</Typography>
+            ))}
+          </CustomBox>
+
+          <CustomBox>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <Typography variant="h6">Aukiaika</Typography>
+                {opentimes.map((item: LazyOpentime) => (
+                  <Opentime {...item} key={item.id} />
+                ))}
+              </Grid>
+
+              <Grid item xs={4}>
+                <Typography variant="h6">Yhteystiedot</Typography>
+                <Typography>{contact.phone}</Typography>
+                <Typography>{contact.email}</Typography>
+                <Link href={contact.website} underline="hover">
+                  Nettisiivu
+                </Link>
+              </Grid>
+
+              <Grid item xs={4}>
+                <Typography variant="h6">Sijainti</Typography>
+                <Typography>
+                  {location.address + ", " + location.city}
+                </Typography>
+                <Typography>{location.zip}</Typography>
+                <Typography>{location.area}</Typography>
+                <Link href={location.driveto} underline="hover">
+                  ajo-ohjeet
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <Typography variant="h6">Myyntipaikat</Typography>
-              <Typography>{sellplaces.all}</Typography>
+          </CustomBox>
+
+          <CustomBox>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <Typography variant="h6">Palvelut</Typography>
+                <Typography>{services.join(", ")}</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="h6">Myyntipaikat</Typography>
+                <Typography>{sellplaces.all}</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="h6">Hinta</Typography>
+                <Typography>{pricelist.price}</Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <Typography variant="h6">Hinta</Typography>
-              <Typography>{pricelist.price}</Typography>
-            </Grid>
-          </Grid>
+          </CustomBox>
         </AccordionDetails>
       </Accordion>
     </Box>
@@ -136,9 +170,6 @@ const Storeitem = (props: any) => {
 
 const Itemimgs = (props: any) => {
   const { imgs, embedmap } = props;
-
-  // eslint-disable-next-line autofix/no-console
-  console.log(imgs);
 
   return (
     <Grid container spacing={2}>
