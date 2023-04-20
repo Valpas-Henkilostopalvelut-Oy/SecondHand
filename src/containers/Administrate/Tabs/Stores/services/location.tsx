@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 
 const Editaddress = (props: any) => {
   const { values, setValues } = props;
@@ -136,4 +136,20 @@ const Editcountry = (props: any) => {
   );
 };
 
-export { Editaddress, Editcity, Editarea, Editzip, Editcountry };
+const Location = (props: any) => {
+  const { values, setValues } = props;
+  return (
+    <Grid container spacing={2}>
+      <Grid item sm={12}>
+        <Typography variant="h6">Sijainti</Typography>
+      </Grid>
+      <Editaddress values={values} setValues={setValues} />
+      <Editcity values={values} setValues={setValues} />
+      <Editzip values={values} setValues={setValues} />
+      <Editarea values={values} setValues={setValues} />
+      <Editcountry values={values} setValues={setValues} />
+    </Grid>
+  );
+};
+
+export default Location;

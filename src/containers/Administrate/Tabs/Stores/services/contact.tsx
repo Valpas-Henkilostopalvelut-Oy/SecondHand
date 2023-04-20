@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
+import type { NewStoreProps } from "../types";
 
-const Editemail = (props: any) => {
+const Editemail = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [email, setEmail] = useState("");
 
@@ -28,7 +29,7 @@ const Editemail = (props: any) => {
   );
 };
 
-const Editphone = (props: any) => {
+const Editphone = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [phone, setPhone] = useState("");
 
@@ -55,7 +56,7 @@ const Editphone = (props: any) => {
   );
 };
 
-const Website = (props: any) => {
+const Website = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [website, setWebsite] = useState("");
 
@@ -82,4 +83,18 @@ const Website = (props: any) => {
   );
 };
 
-export { Editemail, Editphone, Website };
+const Contact = (props: NewStoreProps) => {
+  const { values, setValues } = props;
+  return (
+    <Grid container spacing={2}>
+      <Grid item sm={12}>
+        <Typography variant="h6">Yhteystiedot</Typography>
+      </Grid>
+      <Editemail values={values} setValues={setValues} />
+      <Editphone values={values} setValues={setValues} />
+      <Website values={values} setValues={setValues} />
+    </Grid>
+  );
+};
+
+export default Contact;

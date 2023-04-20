@@ -2,8 +2,16 @@ import React from "react";
 import { Grid, Button } from "@mui/material";
 import { DataStore } from "aws-amplify";
 import { Store } from "../../../../../models";
+import type { LazyStore } from "../../../../../models";
+import type { valuesProps } from "../types";
 
-const onSubmit = async (values: any, isAdmin: boolean) => {
+type Createprops = {
+  values: valuesProps;
+  onClear: () => void;
+  isAdmin: boolean;
+};
+
+const onSubmit = async (values: valuesProps, isAdmin: boolean) => {
   await DataStore.save(
     new Store({
       name: values.name,
@@ -23,19 +31,22 @@ const onSubmit = async (values: any, isAdmin: boolean) => {
   );
 };
 
-const Createnew = (props: any) => {
+const Create = (props: Createprops) => {
   const { values, onClear, isAdmin } = props;
 
   const handleClick = async () =>
-    await onSubmit(values, isAdmin).then(onClear());
+    await onSubmit(values, isAdmin).then(onClear);
 
   return (
-    <Grid item sm={2}>
-      <Button variant="contained" onClick={handleClick}>
-        Luo uusi kirppis
-      </Button>
+    <Grid container spacing={2}>
+      <Grid item sm={10} />
+      <Grid item sm={2}>
+        <Button variant="contained" onClick={handleClick}>
+          Luo uusi kirppis
+        </Button>
+      </Grid>
     </Grid>
   );
 };
 
-export default Createnew;
+export default Create;

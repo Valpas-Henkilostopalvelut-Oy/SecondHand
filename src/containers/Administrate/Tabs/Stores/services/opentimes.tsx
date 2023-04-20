@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import type { SetStateAction, Dispatch } from "react";
 import {
   Box,
   Grid,
@@ -18,12 +19,21 @@ import { TimeField } from "@mui/x-date-pickers/TimeField";
 import AddIcon from "@mui/icons-material/Add";
 import fi from "date-fns/locale/fi";
 import ClearIcon from "@mui/icons-material/Clear";
+import type { NewStoreProps } from "../types";
+import type { LazyOpentime } from "../../../../../models";
 
-type OpenTimes = {
-  id: string;
-  day: string;
-  open: Date;
-  close: Date;
+type FormProps = {
+  open: boolean;
+  times: LazyOpentime[];
+  setTimes: Dispatch<SetStateAction<LazyOpentime[]>>;
+  time: LazyOpentime;
+  setTime: Dispatch<SetStateAction<LazyOpentime>>;
+};
+
+type itemProps = {
+  item: LazyOpentime;
+  times: LazyOpentime[];
+  setTimes: Dispatch<SetStateAction<LazyOpentime[]>>;
 };
 
 const days = [
@@ -36,24 +46,26 @@ const days = [
   "Sunnuntai",
 ];
 
-const Addopentimes = (props: any) => {
+const emptyOpenTime: LazyOpentime = {
+  id: String(Date.now()),
+  day: "",
+  start: null,
+  end: null,
+};
+
+const Opentimes = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [open, setOpen] = useState(false);
-  const [times, setTimes] = useState<OpenTimes[]>([]);
-  const [time, setTime] = useState<OpenTimes>({
-    id: String(Date.now()),
-    day: "",
-    open: new Date(),
-    close: new Date(),
-  });
+  const [times, setTimes] = useState<LazyOpentime[]>([]);
+  const [time, setTime] = useState<LazyOpentime>(emptyOpenTime);
 
   useEffect(() => {
     setValues({ ...values, opentimes: times });
   }, [times]);
 
   return (
-    <>
-      {times.map((item: OpenTimes) => (
+    <Grid container spacing={2}>
+      {times.map((item: LazyOpentime) => (
         <Grid item xs={12} key={item.day}>
           <Timeitem item={item} times={times} setTimes={setTimes} />
         </Grid>
@@ -73,16 +85,16 @@ const Addopentimes = (props: any) => {
           Lisää aukioloaika
         </Button>
       </Grid>
-    </>
+    </Grid>
   );
 };
 
-const Timeitem = (props: any) => {
+const Timeitem = (props: itemProps) => {
   const { item, times, setTimes } = props;
-  const open = new Date(item.open).toLocaleTimeString("fi-FI");
-  const close = new Date(item.close).toLocaleTimeString("fi-FI");
+  const open = item.start && new Date(item.start).toLocaleTimeString("fi-FI");
+  const close = item.end && new Date(item.end).toLocaleTimeString("fi-FI");
   const handleRemove = () => {
-    const newTimes = times.filter((time: OpenTimes) => time.id !== item.id);
+    const newTimes = times.filter((time: LazyOpentime) => time.id !== item.id);
     setTimes(newTimes);
   };
 
@@ -107,7 +119,7 @@ const Timeitem = (props: any) => {
   );
 };
 
-const Createform = (props: any) => {
+const Createform = (props: FormProps) => {
   const { open, times, setTimes, time, setTime } = props;
   return (
     <Collapse in={open}>
@@ -135,9 +147,9 @@ const Createform = (props: any) => {
           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fi}>
             <TimeField
               label="Aukioloaika"
-              value={time.open}
+              value={time.start}
               onChange={(newValue: Date | null) =>
-                setTime({ ...time, open: newValue?.setSeconds(0) })
+                setTime({ ...time, start: newValue?.setSeconds(0) })
               }
             />
           </LocalizationProvider>
@@ -147,9 +159,9 @@ const Createform = (props: any) => {
           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fi}>
             <TimeField
               label="Sulkeutumisaika"
-              value={time.close}
+              value={time.end}
               onChange={(newValue: Date | null) =>
-                setTime({ ...time, close: newValue?.setSeconds(0) })
+                setTime({ ...time, end: newValue?.setSeconds(0) })
               }
             />
           </LocalizationProvider>
@@ -157,14 +169,14 @@ const Createform = (props: any) => {
 
         <Grid item sm={1} xs={12}>
           <IconButton
-            disabled={!time.day || !time.open || !time.close}
+            disabled={!time.day || !time.start || !time.end}
             onClick={() => {
               setTimes([...times, time]);
               setTime({
                 id: String(Date.now()),
                 day: "",
-                open: new Date(),
-                close: new Date(),
+                start: null,
+                end: null,
               });
             }}
           >
@@ -176,4 +188,4 @@ const Createform = (props: any) => {
   );
 };
 
-export default Addopentimes;
+export default Opentimes;

@@ -8,6 +8,17 @@ import type {
   LazyImage,
 } from "../../../../models";
 
+export type ImageTypes = {
+  identify: LazyImage;
+  imgUrl: string;
+  file: File;
+};
+
+export type NewStoreProps = {
+  values: valuesProps;
+  setValues: (values: valuesProps) => void;
+};
+
 export type StoreValues = {
   name: string;
   description: string;
