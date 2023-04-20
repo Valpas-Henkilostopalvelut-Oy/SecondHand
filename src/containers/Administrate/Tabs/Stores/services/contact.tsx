@@ -60,12 +60,24 @@ const Website = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [website, setWebsite] = useState("");
 
+  const addHttpsToUrl = (url: string) => {
+    if (!url) return null; // Return null if the input is falsy or empty
+
+    // Check if the input URL already has "http://" or "https://" prefix
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      // If not, add "https://" prefix
+      url = "https://" + url;
+    }
+
+    return url;
+  };
+
   const handleChange = (e: any) => setWebsite(e.target.value);
 
   useEffect(() => {
     setValues({
       ...values,
-      contact: { ...values.contact, website: website },
+      contact: { ...values.contact, website: addHttpsToUrl(website) },
     });
   }, [website]);
 

@@ -10,5 +10,11 @@
     "CREATE_AND_UPDATE",
     "DELETE"
   ],
-  "triggerFunction": "NONE"
+  "groupAccess": {
+    "admin": [
+      "CREATE_AND_UPDATE",
+      "READ",
+      "DELETE"
+    ]
+  }
 }

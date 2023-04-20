@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Typography, IconButton, Button, Box } from "@mui/material";
 import type { NewStoreProps, ImageTypes } from "../types";
 import type { LazyImage } from "../../../../../models";
@@ -8,6 +8,10 @@ import Clear from "@mui/icons-material/Clear";
 const ImageSection = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [images, setImages] = useState<ImageTypes[]>([]);
+
+  useEffect(() => {
+    setValues({ ...values, imgs: images });
+  }, [images]);
 
   const handleImage = (e: any) => {
     const id = Math.random().toString(36).substr(2, 9);

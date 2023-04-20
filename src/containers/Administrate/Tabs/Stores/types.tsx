@@ -8,6 +8,11 @@ import type {
   LazyImage,
 } from "../../../../models";
 
+export type ImgsTypes = {
+  url: string | null;
+  identify: LazyImage | null;
+};
+
 export type ImageTypes = {
   identify: LazyImage;
   imgUrl: string;
@@ -63,5 +68,5 @@ export type valuesProps = {
   opentimes?: (LazyOpentime | null)[] | null;
   contact?: LazyContact | null;
   location?: LazyLocation | null;
-  imgs?: (LazyImage | null)[] | null;
+  imgs?: (ImageTypes | null)[] | null;
 };

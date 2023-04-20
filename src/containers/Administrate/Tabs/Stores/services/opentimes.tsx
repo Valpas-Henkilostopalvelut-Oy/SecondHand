@@ -60,7 +60,13 @@ const Opentimes = (props: NewStoreProps) => {
   const [time, setTime] = useState<LazyOpentime>(emptyOpenTime);
 
   useEffect(() => {
-    setValues({ ...values, opentimes: times });
+    const mappedTimes = times.map((item: LazyOpentime) => ({
+      ...item,
+      start: item.start && new Date(item.start).toISOString(),
+      end: item.end && new Date(item.end).toISOString(),
+    }));
+
+    setValues({ ...values, opentimes: mappedTimes });
   }, [times]);
 
   return (
@@ -119,7 +125,7 @@ const Timeitem = (props: itemProps) => {
   );
 };
 
-const Createform = (props: FormProps) => {
+const Createform = (props: any) => {
   const { open, times, setTimes, time, setTime } = props;
   return (
     <Collapse in={open}>
