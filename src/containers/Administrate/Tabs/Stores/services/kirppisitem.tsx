@@ -73,16 +73,17 @@ const onDelete = async (id: string) => {
 
 const Opentime = (props: any) => {
   const { day, open, close } = props;
-  const o = new Date(open).toTimeString().split(" ")[0];
-  const c = new Date(close).toTimeString().split(" ")[0];
+  const o = new Date(open);
+  const c = new Date(close);
+  const opentime =
+    o.getHours() + ":" + o.getMinutes().toString().padStart(2, "0");
+  const closetime =
+    c.getHours() + ":" + c.getMinutes().toString().padStart(2, "0");
 
   return (
     <Box>
       <Typography>
-        <b>{day}</b>
-      </Typography>
-      <Typography>
-        {o} - {c}
+        <b>{day}:</b> {opentime} - {closetime}
       </Typography>
     </Box>
   );
@@ -99,8 +100,6 @@ const KirppisItem = (props: LazyStore) => {
     location,
     opentimes,
   } = props;
-
-  console.log("kirppisitem", props);
 
   const handleDelete = () => onDelete(id);
 

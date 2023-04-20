@@ -18,10 +18,10 @@ import {
   Editcountry,
   Editzip,
 } from "./location";
-
+import ImageSection from "./imgs";
 import Addopentimes from "./opentimes";
-
 import Createnew from "./create";
+import type { valuesProps } from "../types";
 
 const StoreBlock = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -30,7 +30,7 @@ const StoreBlock = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const tempValues = {
+const tempValues: valuesProps = {
   name: String(),
   description: String(),
   categories: [],
@@ -55,10 +55,11 @@ const tempValues = {
     driveto: null,
   },
   imgs: [],
+  id: "",
 };
 
 const NewKirppis = (props: any) => {
-  const [values, setValues] = useState(tempValues);
+  const [values, setValues] = useState<valuesProps>(tempValues);
   const [open, setOpen] = useState(false);
 
   return (
@@ -149,15 +150,16 @@ const NewKirppis = (props: any) => {
           </StoreBlock>
 
           <StoreBlock>
+            <ImageSection values={values} setValues={setValues} />
+          </StoreBlock>
+
+          <StoreBlock>
             <Grid container spacing={2}>
               <Grid item sm={10} />
               <Createnew
                 values={values}
                 {...props}
-                onClear={() => {
-                  setValues(tempValues);
-                  setOpen(false);
-                }}
+                onClear={() => setOpen(false)}
               />
             </Grid>
           </StoreBlock>

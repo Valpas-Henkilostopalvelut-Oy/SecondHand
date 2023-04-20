@@ -3,7 +3,7 @@ import { Box, Grid } from "@mui/material";
 import { DataStore } from "aws-amplify";
 import type { LazyCategories } from "../../../../models";
 import { Store } from "../../../../models";
-import NewKirppis from "./services/addnew";
+import NewKirppis from "./services/newkirppis";
 import KirppisItem from "./services/kirppisitem";
 
 const Kirppukset = (props: any) => {

@@ -21,5 +21,20 @@ export type AmplifyDependentResourcesAttributes = {
       "clientsGroupRole": "string",
       "visitorsGroupRole": "string"
     }
+  },
+  "function": {
+    "S3Triggerb5b36149": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    }
+  },
+  "storage": {
+    "s388debbbf": {
+      "BucketName": "string",
+      "Region": "string"
+    }
   }
 }

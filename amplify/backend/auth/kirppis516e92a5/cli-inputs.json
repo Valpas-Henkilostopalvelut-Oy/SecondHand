@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "kirppis516e92a5_identitypool_516e92a5",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "kirppi516e92a5",
     "userPoolName": "kirppis516e92a5_userpool_516e92a5",
     "autoVerifiedAttributes": [
