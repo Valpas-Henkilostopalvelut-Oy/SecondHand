@@ -140,6 +140,8 @@ const KirppisItem = (props: LazyStore) => {
         </AccordionSummary>
 
         <AccordionDetails>
+          <Button onClick={() => console.log(props)}>Log</Button>
+
           <CustomBox hidden={!!isConfirmed}>
             <Typography>{description}</Typography>
           </CustomBox>

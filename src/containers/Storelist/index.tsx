@@ -9,11 +9,8 @@ import {
   Link,
   styled,
 } from "@mui/material";
-import { Search } from "../../components/Search";
-import { storelist } from "./stores";
+import { Search } from "./Search";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { categories } from "../../components/Search/categories";
-import { services } from "../../components/Search/services";
 import { DataStore, Storage } from "aws-amplify";
 import type {
   LazyStore,
@@ -23,26 +20,73 @@ import type {
   LazyLocation,
   LazyImage,
 } from "../../models";
-import { Categories, Store } from "../../models";
-import type { ImgsTypes } from "./types";
+import { Store } from "../../models";
+import type { ImgsTypes, SearchState } from "./types";
 
 const CustomBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
 export const Storelist = () => {
-  const [search, setSearch] = useState({
+  const [search, setSearch] = useState<SearchState>({
     search: "",
     area: "",
     city: "",
+    category: [],
   });
-  const [category, setCategory] = useState<string[]>([]);
+
   const [stores, setStores] = useState<LazyStore[]>([]);
 
   useEffect(() => {
     const fetchStores = async () => {
       const stores = await DataStore.query(Store);
-      setStores(stores.filter((item) => item.isConfirmed));
+      const filterByArea = stores.filter((item) => {
+        if (search.area === "") return true;
+        return item.location?.area === search.area;
+      });
+
+      const filterByCity = filterByArea.filter((item) => {
+        if (search.city === "") return true;
+        return item.location?.city === search.city;
+      });
+
+      const filterByCategory = filterByCity.filter((item) => {
+        if (search.category.length === 0) return true;
+        console.log(item.categories);
+        return item.categories?.some((cat: any) =>
+          search.category.includes(cat?.name)
+        );
+      });
+
+      const filter = filterByCategory.filter((item) => {
+        if (search.search === "") return true;
+        return (
+          item?.name?.toLowerCase().includes(search.search.toLowerCase()) ||
+          item.location?.address
+            ?.toLowerCase()
+            .includes(search.search.toLowerCase()) ||
+          item.location?.city
+            ?.toLowerCase()
+            .includes(search.search.toLowerCase()) ||
+          item.location?.area
+            ?.toLowerCase()
+            .includes(search.search.toLowerCase()) ||
+          item.location?.zip
+            ?.toLowerCase()
+            .includes(search.search.toLowerCase()) ||
+          item.contact?.email
+            ?.toLowerCase()
+            .includes(search.search.toLowerCase()) ||
+          item.contact?.phone
+            ?.toLowerCase()
+            .includes(search.search.toLowerCase()) ||
+          item.contact?.website
+            ?.toLowerCase()
+            .includes(search.search.toLowerCase())
+        );
+      });
+
+      setStores(filter);
     };
     fetchStores();
   }, [search]);
@@ -53,8 +97,7 @@ export const Storelist = () => {
       <Search
         search={search}
         setSearch={setSearch}
-        category={category}
-        setCategory={setCategory}
+        onClick={() => console.log(search)}
       />
 
       {stores.map((item: LazyStore) => (
@@ -153,6 +196,12 @@ const Storeitem = (props: LazyStore) => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
+          sx={{
+            backgroundColor: "#f5f5f5",
+            borderBottom: "1px solid #ccc",
+            borderRadius: "0px",
+            padding: "10px 40px",
+          }}
         >
           {name}
         </AccordionSummary>
