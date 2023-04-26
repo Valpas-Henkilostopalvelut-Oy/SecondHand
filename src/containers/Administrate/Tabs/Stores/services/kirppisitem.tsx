@@ -26,7 +26,7 @@ const CustomBox = styled(Box)(({ theme }) => ({
 }));
 
 const Location = (props: LazyLocation) => {
-  const { address, city, zip, area } = props;
+  const { address, city, zip, admin_name } = props;
 
   return (
     <Grid item xs={4}>
@@ -37,7 +37,9 @@ const Location = (props: LazyLocation) => {
         <Typography>osoite: {address ? address : "Ei saatavilla"}</Typography>
         <Typography>postinumero: {zip ? zip : "Ei saatavilla"}</Typography>
         <Typography>kaupunki: {city ? city : "Ei saatavilla"}</Typography>
-        <Typography>alue: {area ? area : "Ei saatavilla"}</Typography>
+        <Typography>
+          alue: {admin_name ? admin_name : "Ei saatavilla"}
+        </Typography>
       </Box>
     </Grid>
   );

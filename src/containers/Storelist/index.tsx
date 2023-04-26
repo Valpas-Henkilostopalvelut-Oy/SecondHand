@@ -23,6 +23,12 @@ import type {
 import { Store } from "../../models";
 import type { ImgsTypes, SearchState } from "./types";
 
+const CustomIframe = styled("iframe")({
+  width: "100%",
+  height: "400px",
+  border: "none",
+});
+
 const CustomBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
@@ -42,7 +48,7 @@ export const Storelist = () => {
       const stores = await DataStore.query(Store);
       const filterByArea = stores.filter((item) => {
         if (search.area === "") return true;
-        return item.location?.area === search.area;
+        return item.location?.admin_name === search.area;
       });
 
       const filterByCity = filterByArea.filter((item) => {
@@ -68,7 +74,7 @@ export const Storelist = () => {
           item.location?.city
             ?.toLowerCase()
             .includes(search.search.toLowerCase()) ||
-          item.location?.area
+          item.location?.admin_name
             ?.toLowerCase()
             .includes(search.search.toLowerCase()) ||
           item.location?.zip
@@ -144,7 +150,7 @@ const Location = (props: LazyLocation) => (
     <Typography variant="h6">Sijainti</Typography>
     <Typography>{props.address + ", " + props.city}</Typography>
     <Typography>{props.zip}</Typography>
-    <Typography>{props.area}</Typography>
+    <Typography>{props.admin_name}</Typography>
     {props.driveto && (
       <Link href={props.driveto} underline="hover">
         ajo-ohjeet
@@ -166,6 +172,8 @@ const Storeitem = (props: LazyStore) => {
     location,
     imgs,
   } = props;
+
+  console.log(props.location?.iframe);
 
   useEffect(() => {
     const handleLoadImages = async () => {
@@ -222,7 +230,7 @@ const Storeitem = (props: LazyStore) => {
           <CustomBox>
             <Grid container spacing={2}>
               {images &&
-                images.map((item, key) => (
+                images.map((item) => (
                   <Grid item xs={4} key={item.identify?.id}>
                     <Box
                       sx={{
@@ -247,6 +255,12 @@ const Storeitem = (props: LazyStore) => {
                     </Box>
                   </Grid>
                 ))}
+
+              {location?.iframe && (
+                <Grid item xs={4}>
+                  <CustomIframe src={location?.iframe} loading="lazy" />
+                </Grid>
+              )}
             </Grid>
           </CustomBox>
 

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField, Typography } from "@mui/material";
+import { AreaSelect, CitySelect } from "./areas";
+import Driveto from "./driveto";
+import Iframe from "./Iframe";
 
 const Editaddress = (props: any) => {
   const { values, setValues } = props;
@@ -23,60 +26,6 @@ const Editaddress = (props: any) => {
         value={address}
         onChange={handleChange}
         helperText="Kirppiksen osoite"
-      />
-    </Grid>
-  );
-};
-
-const Editcity = (props: any) => {
-  const { values, setValues } = props;
-  const [city, setCity] = useState("");
-
-  const handleChange = (e: any) => setCity(e.target.value);
-
-  useEffect(() => {
-    setValues({
-      ...values,
-      location: { ...values.location, city: city },
-    });
-  }, [city]);
-
-  return (
-    <Grid item sm={4}>
-      <TextField
-        label="Kirppiksen kaupunki"
-        variant="outlined"
-        fullWidth
-        value={city}
-        onChange={handleChange}
-        helperText="Kirppiksen kaupunki"
-      />
-    </Grid>
-  );
-};
-
-const Editarea = (props: any) => {
-  const { values, setValues } = props;
-  const [area, setArea] = useState("");
-
-  const handleChange = (e: any) => setArea(e.target.value);
-
-  useEffect(() => {
-    setValues({
-      ...values,
-      location: { ...values.location, area: area },
-    });
-  }, [area]);
-
-  return (
-    <Grid item sm={4}>
-      <TextField
-        label="Kirppiksen alue"
-        variant="outlined"
-        fullWidth
-        value={area}
-        onChange={handleChange}
-        helperText="Kirppiksen alue"
       />
     </Grid>
   );
@@ -109,33 +58,6 @@ const Editzip = (props: any) => {
   );
 };
 
-const Editcountry = (props: any) => {
-  const { values, setValues } = props;
-  const [country, setCountry] = useState("");
-
-  const handleChange = (e: any) => setCountry(e.target.value);
-
-  useEffect(() => {
-    setValues({
-      ...values,
-      location: { ...values.location, country: country },
-    });
-  }, [country]);
-
-  return (
-    <Grid item sm={4}>
-      <TextField
-        label="Kirppiksen maa"
-        variant="outlined"
-        fullWidth
-        value={country}
-        onChange={handleChange}
-        helperText="Kirppiksen maa"
-      />
-    </Grid>
-  );
-};
-
 const Location = (props: any) => {
   const { values, setValues } = props;
   return (
@@ -144,10 +66,10 @@ const Location = (props: any) => {
         <Typography variant="h6">Sijainti</Typography>
       </Grid>
       <Editaddress values={values} setValues={setValues} />
-      <Editcity values={values} setValues={setValues} />
-      <Editzip values={values} setValues={setValues} />
-      <Editarea values={values} setValues={setValues} />
-      <Editcountry values={values} setValues={setValues} />
+      <AreaSelect values={values} setValues={setValues} />
+      <CitySelect values={values} setValues={setValues} />
+      <Driveto values={values} setValues={setValues} />
+      <Iframe values={values} setValues={setValues} />
     </Grid>
   );
 };

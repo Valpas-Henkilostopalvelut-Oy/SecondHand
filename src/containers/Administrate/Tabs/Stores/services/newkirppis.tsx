@@ -42,11 +42,7 @@ const tempValues: valuesProps = {
     website: null,
   },
   location: {
-    address: null,
-    city: null,
-    area: null,
-    country: null,
-    zip: null,
+    admin_name: null,
     driveto: null,
   },
   imgs: [],

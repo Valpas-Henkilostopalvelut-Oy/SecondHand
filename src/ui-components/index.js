@@ -5,8 +5,6 @@
  **************************************************************************/
 
 export { default as studioTheme } from "./studioTheme";
-export { default as AreasCreateForm } from "./AreasCreateForm";
-export { default as AreasUpdateForm } from "./AreasUpdateForm";
 export { default as CategoriesCreateForm } from "./CategoriesCreateForm";
 export { default as CategoriesUpdateForm } from "./CategoriesUpdateForm";
 export { default as StoreCreateForm } from "./StoreCreateForm";
