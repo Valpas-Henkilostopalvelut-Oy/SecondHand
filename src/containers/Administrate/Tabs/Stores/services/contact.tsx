@@ -18,12 +18,12 @@ const Editemail = (props: NewStoreProps) => {
   return (
     <Grid item sm={4}>
       <TextField
-        label="Kirppiksen sähköposti"
+        label="Sähköposti"
         variant="outlined"
         fullWidth
         value={email}
         onChange={handleChange}
-        helperText="Kirppiksen sähköposti"
+        helperText="Toimipisten sähköposti"
       />
     </Grid>
   );
@@ -45,12 +45,12 @@ const Editphone = (props: NewStoreProps) => {
   return (
     <Grid item sm={4}>
       <TextField
-        label="Kirppiksen puhelinnumero"
+        label="Puhelinnumero"
         variant="outlined"
         fullWidth
         value={phone}
         onChange={handleChange}
-        helperText="Kirppiksen puhelinnumero"
+        helperText="Toimipisten puhelinnumero"
       />
     </Grid>
   );
@@ -84,12 +84,12 @@ const Website = (props: NewStoreProps) => {
   return (
     <Grid item sm={4}>
       <TextField
-        label="Kirppiksen nettisivu"
+        label="Nettisivu"
         variant="outlined"
         fullWidth
         value={website}
         onChange={handleChange}
-        helperText="Kirppiksen nettisivu"
+        helperText="Toimipisten nettisivu"
       />
     </Grid>
   );

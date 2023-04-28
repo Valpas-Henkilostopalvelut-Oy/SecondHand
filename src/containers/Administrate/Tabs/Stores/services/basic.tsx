@@ -8,23 +8,23 @@ const Basic = (props: NewStoreProps) => {
   return (
     <Grid container spacing={2}>
       <Grid item sm={12}>
-        <Typography variant="h6">Lisää kirppis</Typography>
+        <Typography variant="h6">Lisää toimipiste</Typography>
       </Grid>
 
       <Grid item sm={6}>
         <TextField
-          label="Kirppiksen nimi"
+          label="Nimi"
           variant="outlined"
           fullWidth
           value={values.name}
           onChange={(e) => setValues({ ...values, name: e.target.value })}
-          helperText="Tämä on kirppiksen nimi"
+          helperText="Tämä on toimipisten nimi"
         />
       </Grid>
 
       <Grid item sm={6}>
         <TextField
-          label="Kirppiksen kuvaus"
+          label="Kuvaus"
           variant="outlined"
           fullWidth
           value={values.description}

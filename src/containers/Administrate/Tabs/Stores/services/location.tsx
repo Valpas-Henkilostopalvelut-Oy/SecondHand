@@ -20,12 +20,12 @@ const Editaddress = (props: any) => {
   return (
     <Grid item sm={4}>
       <TextField
-        label="Kirppiksen osoite"
+        label="Toimipaikan sijainti"
         variant="outlined"
         fullWidth
         value={address}
         onChange={handleChange}
-        helperText="Kirppiksen osoite"
+        helperText="Toimipaikan sijainti"
       />
     </Grid>
   );
@@ -47,12 +47,12 @@ const Editzip = (props: any) => {
   return (
     <Grid item sm={4}>
       <TextField
-        label="Kirppiksen postinumero"
+        label="Postinumero"
         variant="outlined"
         fullWidth
         value={zip}
         onChange={handleChange}
-        helperText="Kirppiksen postinumero"
+        helperText="Postinumero"
       />
     </Grid>
   );

@@ -47,18 +47,17 @@ export const Storelist = () => {
     const fetchStores = async () => {
       const stores = await DataStore.query(Store);
       const filterByArea = stores.filter((item) => {
-        if (search.area === "") return true;
+        if (search.area === "" || !search.area) return true;
         return item.location?.admin_name === search.area;
       });
 
       const filterByCity = filterByArea.filter((item) => {
-        if (search.city === "") return true;
+        if (search.city === "" || !search.city) return true;
         return item.location?.city === search.city;
       });
 
       const filterByCategory = filterByCity.filter((item) => {
-        if (search.category.length === 0) return true;
-        console.log(item.categories);
+        if (search.category.length === 0 || !search.category) return true;
         return item.categories?.some((cat: any) =>
           search.category.includes(cat?.name)
         );
@@ -113,23 +112,111 @@ export const Storelist = () => {
   );
 };
 
-const Opentime = (props: LazyOpentime) => {
-  const { day, start, end } = props;
-  if (!start || !end) return null;
+interface OpentimesReducer {
+  day_first: string | null | undefined;
+  day_last: string | null | undefined;
+  start: string | null | undefined;
+  end: string | null | undefined;
+}
 
-  const o = new Date(start);
-  const c = new Date(end);
-  const opentime =
-    o.getHours() + ":" + o.getMinutes().toString().padStart(2, "0");
-  const closetime =
-    c.getHours() + ":" + c.getMinutes().toString().padStart(2, "0");
-  return (
-    <Box>
-      <Typography>
-        <b>{day}</b> {opentime} - {closetime}
-      </Typography>
-    </Box>
-  );
+const Opentime = (props: any) => {
+  const d = [
+    {
+      day: "Maanantai",
+      s: "Ma",
+    },
+    {
+      day: "Tiistai",
+      s: "Ti",
+    },
+    {
+      day: "Keskiviikko",
+      s: "Ke",
+    },
+
+    {
+      day: "Torstai",
+      s: "To",
+    },
+
+    {
+      day: "Perjantai",
+
+      s: "Pe",
+    },
+    {
+      day: "Lauantai",
+      s: "La",
+    },
+    {
+      day: "Sunnuntai",
+      s: "Su",
+    },
+  ];
+
+  const { times } = props;
+  const q = times.reduce((acc: OpentimesReducer[], item: LazyOpentime) => {
+    const { day, start, end } = item;
+
+    const isAccEmpty = acc.length === 0;
+    const checkLatestAcc = acc[acc.length - 1];
+    const isSameTimeStart = checkLatestAcc?.start === start;
+    const isSameTimeEnd = checkLatestAcc?.end === end;
+    const findSameStartEnd = acc.find(
+      (item) => item.start === start && item.end === end
+    );
+
+    if (isAccEmpty) {
+      addValue();
+    } else if (isSameTimeStart && isSameTimeEnd) {
+      checkLatestAcc.day_last = day;
+      checkLatestAcc.end = end;
+    } else {
+      addValue();
+    }
+
+    function addValue() {
+      acc.push({
+        day_first: day,
+        day_last: day,
+        start,
+        end,
+      });
+    }
+
+    return acc;
+  }, []);
+
+  console.log(q);
+
+  return q.map((item: OpentimesReducer, index: number) => {
+    const s = item.start
+      ? new Date(item.start).toLocaleTimeString("fi-FI", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : null;
+    const e = item?.end
+      ? new Date(item?.end).toLocaleTimeString("fi-FI", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : null;
+
+    const { day_first, day_last } = item;
+    const dl = d.find((item) => item.day === day_last);
+    const df = d.find((item) => item.day === day_first);
+
+    const w = dl === df ? dl?.s : `${df?.s} - ${dl?.s}`;
+
+    return (
+      <Box key={index}>
+        <Typography>
+          {w}: {s} - {e}
+        </Typography>
+      </Box>
+    );
+  });
 };
 
 const Contact = (props: LazyContact) => (
@@ -172,8 +259,6 @@ const Storeitem = (props: LazyStore) => {
     location,
     imgs,
   } = props;
-
-  console.log(props.location?.iframe);
 
   useEffect(() => {
     const handleLoadImages = async () => {
@@ -267,11 +352,8 @@ const Storeitem = (props: LazyStore) => {
           <CustomBox>
             <Grid container spacing={2}>
               <Grid item xs={4}>
-                <Typography variant="h6">Aukiaika</Typography>
-                {opentimes &&
-                  opentimes.map((item: LazyOpentime | null) => {
-                    if (item) return <Opentime {...item} key={item.id} />;
-                  })}
+                <Typography variant="h6">Aukioloajat</Typography>
+                <Opentime times={opentimes} />
               </Grid>
 
               <Grid item xs={4}>

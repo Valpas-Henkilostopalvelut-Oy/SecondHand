@@ -41,6 +41,7 @@ type Opentime {
   start: AWSDateTime
   end: AWSDateTime
   id: String
+  isClosed: Boolean
 }
 
 type Priceitem {
