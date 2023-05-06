@@ -1,10 +1,36 @@
 import React from "react";
 import { Grid, Button } from "@mui/material";
-import { DataStore } from "aws-amplify";
-import { Store } from "../../../../../models";
+import { DataStore, Storage } from "aws-amplify";
+import { Image, Store } from "../../../../../models";
+import type { valuesProps, ImageTypes } from "../types";
 
-const onSubmit = async (values: any, isAdmin: boolean) => {
-  await DataStore.save(
+type Createprops = {
+  values: valuesProps;
+  onClear: () => void;
+  isAdmin: boolean;
+};
+
+const onUploadImage = async (props: ImageTypes) => {
+  const { identify, file } = props;
+  const { key } = await Storage.put(`${identify.key}-${identify.id}`, file, {
+    contentType: file.type,
+  });
+  return {
+    id: identify.id,
+    key,
+  };
+};
+
+const onSubmit = async (values: valuesProps, isAdmin: boolean) => {
+  const { imgs } = values;
+
+  if (!imgs) return;
+
+  const imgKeys = await Promise.all(
+    imgs.map((img) => img && onUploadImage(img))
+  );
+
+  const newData = await DataStore.save(
     new Store({
       name: values.name,
       description: values.description,
@@ -18,24 +44,29 @@ const onSubmit = async (values: any, isAdmin: boolean) => {
       opentimes: values.opentimes,
       contact: values.contact,
       location: values.location,
-      imgs: [],
+      imgs: imgKeys,
     })
   );
+
+  console.log("newData", newData);
+  console.log("imgKeys", imgKeys);
 };
 
-const Createnew = (props: any) => {
+const Create = (props: Createprops) => {
   const { values, onClear, isAdmin } = props;
 
-  const handleClick = async () =>
-    await onSubmit(values, isAdmin).then(onClear());
+  const handleClick = async () => await onSubmit(values, isAdmin).then(onClear);
 
   return (
-    <Grid item sm={2}>
-      <Button variant="contained" onClick={handleClick}>
-        Luo uusi kirppis
-      </Button>
+    <Grid container spacing={2}>
+      <Grid item sm={10} />
+      <Grid item sm={2}>
+        <Button variant="contained" onClick={handleClick}>
+          Luo uusi kirppis
+        </Button>
+      </Grid>
     </Grid>
   );
 };
 
-export default Createnew;
+export default Create;

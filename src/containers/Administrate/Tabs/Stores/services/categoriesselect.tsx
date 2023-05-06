@@ -4,7 +4,7 @@ import { DataStore } from "aws-amplify";
 import { Categories } from "../../../../../models";
 import type { LazyCategories } from "../../../../../models";
 
-const Selectcategories = (props: any) => {
+const CategoriesSelect = (props: any) => {
   const { values, setValues } = props;
   const [selected, setSelected] = useState([]);
   const [categories, setCategories] = useState<LazyCategories[]>([]);
@@ -62,4 +62,4 @@ const Selectcategories = (props: any) => {
   );
 };
 
-export { Selectcategories };
+export default CategoriesSelect;

@@ -18,21 +18,41 @@ export declare type Category = LazyLoading extends LazyLoadingDisabled ? EagerCa
 
 export declare const Category: (new (init: ModelInit<Category>) => Category)
 
-type EagerCity = {
-  readonly id?: string | null;
-  readonly name?: string | null;
-  readonly area?: string | null;
+type EagerLocation = {
+  readonly city?: string | null;
+  readonly lat?: string | null;
+  readonly lng?: string | null;
+  readonly country?: string | null;
+  readonly iso2?: string | null;
+  readonly admin_name?: string | null;
+  readonly capital?: string | null;
+  readonly population?: string | null;
+  readonly population_proper?: string | null;
+  readonly driveto?: string | null;
+  readonly address?: string | null;
+  readonly zip?: string | null;
+  readonly iframe?: string | null;
 }
 
-type LazyCity = {
-  readonly id?: string | null;
-  readonly name?: string | null;
-  readonly area?: string | null;
+type LazyLocation = {
+  readonly city?: string | null;
+  readonly lat?: string | null;
+  readonly lng?: string | null;
+  readonly country?: string | null;
+  readonly iso2?: string | null;
+  readonly admin_name?: string | null;
+  readonly capital?: string | null;
+  readonly population?: string | null;
+  readonly population_proper?: string | null;
+  readonly driveto?: string | null;
+  readonly address?: string | null;
+  readonly zip?: string | null;
+  readonly iframe?: string | null;
 }
 
-export declare type City = LazyLoading extends LazyLoadingDisabled ? EagerCity : LazyCity
+export declare type Location = LazyLoading extends LazyLoadingDisabled ? EagerLocation : LazyLocation
 
-export declare const City: (new (init: ModelInit<City>) => City)
+export declare const Location: (new (init: ModelInit<Location>) => Location)
 
 type EagerImage = {
   readonly key?: string | null;
@@ -47,28 +67,6 @@ type LazyImage = {
 export declare type Image = LazyLoading extends LazyLoadingDisabled ? EagerImage : LazyImage
 
 export declare const Image: (new (init: ModelInit<Image>) => Image)
-
-type EagerLocation = {
-  readonly address?: string | null;
-  readonly city?: string | null;
-  readonly zip?: string | null;
-  readonly area?: string | null;
-  readonly country?: string | null;
-  readonly driveto?: string | null;
-}
-
-type LazyLocation = {
-  readonly address?: string | null;
-  readonly city?: string | null;
-  readonly zip?: string | null;
-  readonly area?: string | null;
-  readonly country?: string | null;
-  readonly driveto?: string | null;
-}
-
-export declare type Location = LazyLoading extends LazyLoadingDisabled ? EagerLocation : LazyLocation
-
-export declare const Location: (new (init: ModelInit<Location>) => Location)
 
 type EagerContact = {
   readonly phone?: string | null;
@@ -133,36 +131,6 @@ type LazySellplaces = {
 export declare type Sellplaces = LazyLoading extends LazyLoadingDisabled ? EagerSellplaces : LazySellplaces
 
 export declare const Sellplaces: (new (init: ModelInit<Sellplaces>) => Sellplaces)
-
-type EagerAreas = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Areas, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly name?: string | null;
-  readonly cities?: (City | null)[] | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyAreas = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Areas, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly name?: string | null;
-  readonly cities?: (City | null)[] | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Areas = LazyLoading extends LazyLoadingDisabled ? EagerAreas : LazyAreas
-
-export declare const Areas: (new (init: ModelInit<Areas>) => Areas) & {
-  copyOf(source: Areas, mutator: (draft: MutableModel<Areas>) => MutableModel<Areas> | void): Areas;
-}
 
 type EagerCategories = {
   readonly [__modelMeta__]: {

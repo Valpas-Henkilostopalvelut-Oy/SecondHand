@@ -9,18 +9,13 @@ import {
   styled,
 } from "@mui/material";
 
-import { Editemail, Editphone, Website } from "./contact";
-import { Selectcategories } from "./selectcategory";
-import {
-  Editaddress,
-  Editarea,
-  Editcity,
-  Editcountry,
-  Editzip,
-} from "./location";
+import Contact from "./contact";
+import Location from "./location";
+import CategoriesSelect from "./categoriesselect";
 import ImageSection from "./imgs";
-import Addopentimes from "./opentimes";
-import Createnew from "./create";
+import Opentimes from "./opentimes";
+import Create from "./create";
+import Basic from "./basic";
 import type { valuesProps } from "../types";
 
 const StoreBlock = styled(Box)(({ theme }) => ({
@@ -47,11 +42,7 @@ const tempValues: valuesProps = {
     website: null,
   },
   location: {
-    address: null,
-    city: null,
-    area: null,
-    country: null,
-    zip: null,
+    admin_name: null,
     driveto: null,
   },
   imgs: [],
@@ -74,79 +65,23 @@ const NewKirppis = (props: any) => {
       <Grid item xs={12}>
         <Collapse in={open}>
           <StoreBlock>
-            <Grid container spacing={2}>
-              <Grid item sm={12}>
-                <Typography variant="h6">Lisää kirppis</Typography>
-              </Grid>
-
-              <Grid item sm={6}>
-                <TextField
-                  label="Kirppiksen nimi"
-                  variant="outlined"
-                  fullWidth
-                  value={values.name}
-                  onChange={(e) =>
-                    setValues({ ...values, name: e.target.value })
-                  }
-                  helperText="Tämä on kirppiksen nimi"
-                />
-              </Grid>
-
-              <Grid item sm={6}>
-                <TextField
-                  label="Kirppiksen kuvaus"
-                  variant="outlined"
-                  fullWidth
-                  value={values.description}
-                  multiline
-                  rows={3}
-                  onChange={(e) =>
-                    setValues({ ...values, description: e.target.value })
-                  }
-                />
-              </Grid>
-            </Grid>
+            <Basic values={values} setValues={setValues} />
           </StoreBlock>
 
           <StoreBlock>
-            <Grid container spacing={2}>
-              <Grid item sm={4}>
-                <Selectcategories values={values} setValues={setValues} />
-              </Grid>
-            </Grid>
+            <CategoriesSelect values={values} setValues={setValues} />
           </StoreBlock>
 
           <StoreBlock>
-            <Grid container spacing={2}>
-              <Grid item sm={12}>
-                <Typography variant="h6">Yhteystiedot</Typography>
-              </Grid>
-              <Editemail values={values} setValues={setValues} />
-              <Editphone values={values} setValues={setValues} />
-              <Website values={values} setValues={setValues} />
-            </Grid>
+            <Contact values={values} setValues={setValues} />
           </StoreBlock>
 
           <StoreBlock>
-            <Grid container spacing={2}>
-              <Grid item sm={12}>
-                <Typography variant="h6">Aukioloajat </Typography>
-              </Grid>
-              <Addopentimes values={values} setValues={setValues} />
-            </Grid>
+            <Opentimes values={values} setValues={setValues} />
           </StoreBlock>
 
           <StoreBlock>
-            <Grid container spacing={2}>
-              <Grid item sm={12}>
-                <Typography variant="h6">Sijainti</Typography>
-              </Grid>
-              <Editaddress values={values} setValues={setValues} />
-              <Editcity values={values} setValues={setValues} />
-              <Editzip values={values} setValues={setValues} />
-              <Editarea values={values} setValues={setValues} />
-              <Editcountry values={values} setValues={setValues} />
-            </Grid>
+            <Location values={values} setValues={setValues} />
           </StoreBlock>
 
           <StoreBlock>
@@ -154,14 +89,11 @@ const NewKirppis = (props: any) => {
           </StoreBlock>
 
           <StoreBlock>
-            <Grid container spacing={2}>
-              <Grid item sm={10} />
-              <Createnew
-                values={values}
-                {...props}
-                onClear={() => setOpen(false)}
-              />
-            </Grid>
+            <Create
+              values={values}
+              onClear={() => setValues(tempValues)}
+              {...props}
+            />
           </StoreBlock>
         </Collapse>
       </Grid>

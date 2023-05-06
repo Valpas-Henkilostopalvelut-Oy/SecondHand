@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
+import type { NewStoreProps } from "../types";
 
-const Editemail = (props: any) => {
+const Editemail = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [email, setEmail] = useState("");
 
@@ -17,18 +18,18 @@ const Editemail = (props: any) => {
   return (
     <Grid item sm={4}>
       <TextField
-        label="Kirppiksen sähköposti"
+        label="Sähköposti"
         variant="outlined"
         fullWidth
         value={email}
         onChange={handleChange}
-        helperText="Kirppiksen sähköposti"
+        helperText="Toimipisten sähköposti"
       />
     </Grid>
   );
 };
 
-const Editphone = (props: any) => {
+const Editphone = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [phone, setPhone] = useState("");
 
@@ -44,42 +45,68 @@ const Editphone = (props: any) => {
   return (
     <Grid item sm={4}>
       <TextField
-        label="Kirppiksen puhelinnumero"
+        label="Puhelinnumero"
         variant="outlined"
         fullWidth
         value={phone}
         onChange={handleChange}
-        helperText="Kirppiksen puhelinnumero"
+        helperText="Toimipisten puhelinnumero"
       />
     </Grid>
   );
 };
 
-const Website = (props: any) => {
+const Website = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [website, setWebsite] = useState("");
+
+  const addHttpsToUrl = (url: string) => {
+    if (!url) return null; // Return null if the input is falsy or empty
+
+    // Check if the input URL already has "http://" or "https://" prefix
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      // If not, add "https://" prefix
+      url = "https://" + url;
+    }
+
+    return url;
+  };
 
   const handleChange = (e: any) => setWebsite(e.target.value);
 
   useEffect(() => {
     setValues({
       ...values,
-      contact: { ...values.contact, website: website },
+      contact: { ...values.contact, website: addHttpsToUrl(website) },
     });
   }, [website]);
 
   return (
     <Grid item sm={4}>
       <TextField
-        label="Kirppiksen nettisivu"
+        label="Nettisivu"
         variant="outlined"
         fullWidth
         value={website}
         onChange={handleChange}
-        helperText="Kirppiksen nettisivu"
+        helperText="Toimipisten nettisivu"
       />
     </Grid>
   );
 };
 
-export { Editemail, Editphone, Website };
+const Contact = (props: NewStoreProps) => {
+  const { values, setValues } = props;
+  return (
+    <Grid container spacing={2}>
+      <Grid item sm={12}>
+        <Typography variant="h6">Yhteystiedot</Typography>
+      </Grid>
+      <Editemail values={values} setValues={setValues} />
+      <Editphone values={values} setValues={setValues} />
+      <Website values={values} setValues={setValues} />
+    </Grid>
+  );
+};
+
+export default Contact;

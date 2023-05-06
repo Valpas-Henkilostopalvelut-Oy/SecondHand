@@ -1,24 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Typography, IconButton, Button, Box } from "@mui/material";
-import type { valuesProps } from "../types";
+import type { NewStoreProps, ImageTypes } from "../types";
 import type { LazyImage } from "../../../../../models";
 import Add from "@mui/icons-material/Add";
 import Clear from "@mui/icons-material/Clear";
 
-type ImageTypes = {
-  identify: LazyImage;
-  imgUrl: string;
-  file: File;
-};
-
-type ImageSectionProps = {
-  values: valuesProps;
-  setValues: (values: valuesProps) => void;
-};
-
-const ImageSection = (props: ImageSectionProps) => {
+const ImageSection = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [images, setImages] = useState<ImageTypes[]>([]);
+
+  useEffect(() => {
+    setValues({ ...values, imgs: images });
+  }, [images]);
 
   const handleImage = (e: any) => {
     const id = Math.random().toString(36).substr(2, 9);

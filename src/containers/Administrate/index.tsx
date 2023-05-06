@@ -57,7 +57,6 @@ const Adminpanel = (props: any) => {
           <Tab label="Kategoriat" {...a11yProps(1)} />
           <Tab label="Tuotteet" {...a11yProps(2)} />
           <Tab label="Käyttäjät" {...a11yProps(3)} />
-          <Tab label="Aluet" {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -71,9 +70,6 @@ const Adminpanel = (props: any) => {
       </TabPanel>
       <TabPanel value={value} index={3}>
         Käyttäjät
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Aluet
       </TabPanel>
     </Box>
   );

@@ -3,16 +3,20 @@ type Category {
   name: String
 }
 
-type City {
-  id: String
-  name: String
-  area: String
-}
-
-type Areas @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private}]) {
-  id: ID!
-  name: String
-  cities: [City]
+type Location {
+  city: String
+  lat: String
+  lng: String
+  country: String
+  iso2: String
+  admin_name: String
+  capital: String
+  population: String
+  population_proper: String
+  driveto: AWSURL
+  address: String
+  zip: String
+  iframe: String
 }
 
 type Categories @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}]) {
@@ -26,15 +30,6 @@ type Image {
   id: String
 }
 
-type Location {
-  address: String
-  city: String
-  zip: String
-  area: String
-  country: String
-  driveto: AWSURL
-}
-
 type Contact {
   phone: String
   email: AWSEmail
@@ -46,6 +41,7 @@ type Opentime {
   start: AWSDateTime
   end: AWSDateTime
   id: String
+  isClosed: Boolean
 }
 
 type Priceitem {
