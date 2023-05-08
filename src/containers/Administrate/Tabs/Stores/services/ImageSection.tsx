@@ -20,6 +20,8 @@ const ImageSection = (props: NewStoreProps) => {
     const identify: LazyImage = {
       id: id,
       key: file.name,
+      url: imgUrl,
+      identify: undefined,
     };
 
     setImages([...images, { identify, imgUrl, file }]);
@@ -48,7 +50,6 @@ const ImageSection = (props: NewStoreProps) => {
 
       {images.map((image: ImageTypes, index) => (
         <Grid item sm={3} key={image.identify.id}>
-          {/** show image to 1:1 */}
           {image.imgUrl ? (
             <Box
               sx={{

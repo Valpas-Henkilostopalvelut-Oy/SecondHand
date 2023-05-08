@@ -89,6 +89,7 @@ type EagerOpentime = {
   readonly start?: string | null;
   readonly end?: string | null;
   readonly id?: string | null;
+  readonly isClosed?: boolean | null;
 }
 
 type LazyOpentime = {
@@ -96,6 +97,7 @@ type LazyOpentime = {
   readonly start?: string | null;
   readonly end?: string | null;
   readonly id?: string | null;
+  readonly isClosed?: boolean | null;
 }
 
 export declare type Opentime = LazyLoading extends LazyLoadingDisabled ? EagerOpentime : LazyOpentime

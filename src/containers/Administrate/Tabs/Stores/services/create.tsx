@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Button } from "@mui/material";
 import { DataStore, Storage } from "aws-amplify";
-import { Image, Store } from "../../../../../models";
+import { Store } from "../../../../../models";
 import type { valuesProps, ImageTypes } from "../types";
 
 type Createprops = {
@@ -12,7 +12,7 @@ type Createprops = {
 
 const onUploadImage = async (props: ImageTypes) => {
   const { identify, file } = props;
-  const { key } = await Storage.put(`${identify.key}-${identify.id}`, file, {
+  const { key } = await Storage.put(`${identify.id}-${identify.key}`, file, {
     contentType: file.type,
   });
   return {
@@ -27,10 +27,17 @@ const onSubmit = async (values: valuesProps, isAdmin: boolean) => {
   if (!imgs) return;
 
   const imgKeys = await Promise.all(
-    imgs.map((img) => img && onUploadImage(img))
+    imgs.map(async (img) => {
+      if (!img) return null;
+      const { id, key } = await onUploadImage(img);
+      return {
+        url: await Storage.get(key),
+        identify: { id, key },
+      };
+    })
   );
 
-  const newData = await DataStore.save(
+  await DataStore.save(
     new Store({
       name: values.name,
       description: values.description,
@@ -47,9 +54,6 @@ const onSubmit = async (values: valuesProps, isAdmin: boolean) => {
       imgs: imgKeys,
     })
   );
-
-  console.log("newData", newData);
-  console.log("imgKeys", imgKeys);
 };
 
 const Create = (props: Createprops) => {

@@ -26,7 +26,9 @@ export type SearchProps = {
   onClick: () => void;
 };
 
-export const SELECT_AREA = "SELECT_AREA";
-export const SELECT_CITY = "SELECT_CITY";
-export const SELECT_CATEGORY = "SELECT_CATEGORY";
-export const TYPE_SEARCH = "TYPE_SEARCH";
+export interface OpentimesReducer {
+  day_first: string | null | undefined;
+  day_last: string | null | undefined;
+  start: string | null | undefined;
+  end: string | null | undefined;
+}

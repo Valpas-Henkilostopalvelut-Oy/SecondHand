@@ -9,13 +9,13 @@ import {
   styled,
 } from "@mui/material";
 
-import Contact from "./contact";
-import Location from "./location";
-import CategoriesSelect from "./categoriesselect";
-import ImageSection from "./imgs";
-import Opentimes from "./opentimes";
-import Create from "./create";
-import Basic from "./basic";
+import Contact from "./Contact";
+import Location from "./Location";
+import CategoriesSelect from "./CategoriesSelect";
+import ImageSection from "./ImageSection";
+import Opentimes from "./Opentimes";
+import Create from "./Create";
+import Basic from "./Basic";
 import type { valuesProps } from "../types";
 
 const StoreBlock = styled(Box)(({ theme }) => ({
@@ -49,7 +49,7 @@ const tempValues: valuesProps = {
   id: "",
 };
 
-const NewKirppis = (props: any) => {
+const NewStore = (props: any) => {
   const [values, setValues] = useState<valuesProps>(tempValues);
   const [open, setOpen] = useState(false);
 
@@ -101,4 +101,4 @@ const NewKirppis = (props: any) => {
   );
 };
 
-export default NewKirppis;
+export default NewStore;

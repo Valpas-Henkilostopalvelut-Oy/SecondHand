@@ -226,6 +226,12 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
+                                "allow": "public",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
@@ -240,20 +246,11 @@ export const schema = {
                                 ]
                             },
                             {
-                                "provider": "userPools",
-                                "ownerField": "owner",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
+                                "allow": "private",
                                 "operations": [
                                     "create",
                                     "update",
                                     "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "public",
-                                "operations": [
                                     "read"
                                 ]
                             }
@@ -455,6 +452,13 @@ export const schema = {
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
+                },
+                "isClosed": {
+                    "name": "isClosed",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
                 }
             }
         },
@@ -505,5 +509,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.6",
-    "version": "921ca39b07d8254c08689b3feb2d479a"
+    "version": "06ce2bdc8d65da4c30138a9ba36689f9"
 };

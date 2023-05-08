@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, CssBaseline } from "@mui/material";
 import { Navigation } from "./services/navigation";
-import { Navbar } from "./components/Navbar";
+import { Navbar } from "./globalComponents/Navbar";
 import { Auth, DataStore } from "aws-amplify";
 
 const App = () => {

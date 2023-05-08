@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 import Category from "./Tabs/Categories";
-import Kirppukset from "./Tabs/Stores";
+import Stores from "./Tabs/Stores/Stores";
 import { Hub } from "aws-amplify";
 
 interface TabPanelProps {
@@ -31,7 +31,7 @@ const a11yProps = (index: any) => ({
   "aria-controls": `simple-tabpanel-${index}`,
 });
 
-const Adminpanel = (props: any) => {
+const Administrate = (props: any) => {
   const { auth, isAdmin } = props;
   const [value, setValue] = React.useState(0);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -60,7 +60,7 @@ const Adminpanel = (props: any) => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Kirppukset {...props} isEmpty={isEmpty} />
+        <Stores {...props} isEmpty={isEmpty} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Category {...props} isEmpty={isEmpty} />
@@ -75,4 +75,4 @@ const Adminpanel = (props: any) => {
   );
 };
 
-export default Adminpanel;
+export default Administrate;
