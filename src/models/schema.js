@@ -53,8 +53,14 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
                                     "read"
                                 ]
                             },
@@ -66,10 +72,19 @@ export const schema = {
                                     "admin"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
+                                    "read",
                                     "update",
                                     "delete"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -226,8 +241,14 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
                                     "read"
                                 ]
                             },
@@ -239,14 +260,14 @@ export const schema = {
                                     "admin"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
+                                    "read",
                                     "update",
                                     "delete"
                                 ]
                             },
                             {
-                                "allow": "private",
+                                "allow": "public",
                                 "operations": [
                                     "create",
                                     "update",

@@ -19,7 +19,7 @@ type Location {
   iframe: String
 }
 
-type Categories @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}]) {
+type Categories @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["admin"], operations: [create, read, update, delete]}, {allow: public}]) {
   id: ID!
   createdBy: String
   name: String
@@ -55,7 +55,7 @@ type Sellplaces {
   free: Int
 }
 
-type Store @model @auth(rules: [{allow: public, operations: [read]}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}, {allow: private}]) {
+type Store @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["admin"], operations: [create, read, update, delete]}, {allow: public}]) {
   id: ID!
   isConfirmed: Boolean
   name: String

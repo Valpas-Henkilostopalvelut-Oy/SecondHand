@@ -3,6 +3,7 @@ import { Grid, Button } from "@mui/material";
 import { DataStore, Storage } from "aws-amplify";
 import { Store } from "../../../../../models";
 import type { valuesProps, ImageTypes } from "../types";
+import type { LazyImage } from "../../../../../models";
 
 type Createprops = {
   values: valuesProps;
@@ -26,34 +27,35 @@ const onSubmit = async (values: valuesProps, isAdmin: boolean) => {
 
   if (!imgs) return;
 
-  const imgKeys = await Promise.all(
-    imgs.map(async (img) => {
-      if (!img) return null;
-      const { id, key } = await onUploadImage(img);
-      return {
-        url: await Storage.get(key),
-        identify: { id, key },
-      };
-    })
-  );
+  try {
+    const imgKeys = await Promise.all(
+      imgs.map(async (img) => {
+        if (!img) return null;
+        const { id, key } = await onUploadImage(img);
+        return {
+          key: key,
+          id: id,
+        };
+      })
+    );
 
-  await DataStore.save(
-    new Store({
-      name: values.name,
-      description: values.description,
-      isConfirmed: isAdmin,
-      categories: values.categories,
-      services: [],
-      clicked: "0",
-      sellplaces: values.sellplaces,
-      pricelist: [],
-      embedmap: null,
-      opentimes: values.opentimes,
-      contact: values.contact,
-      location: values.location,
-      imgs: imgKeys,
-    })
-  );
+    await DataStore.save(
+      new Store({
+        isConfirmed: isAdmin,
+        name: values.name,
+        description: values.description,
+        categories: values.categories,
+        services: [],
+        sellplaces: values.sellplaces,
+        opentimes: values.opentimes,
+        contact: values.contact,
+        location: values.location,
+        imgs: imgKeys.filter((item) => item !== null) as LazyImage[],
+      })
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const Create = (props: Createprops) => {

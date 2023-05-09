@@ -11,14 +11,13 @@ interface ImgsIframeProps {
 
 const ImgsIframe = (props: ImgsIframeProps) => {
   const { imgs, location } = props;
-  console.log(imgs);
 
   return (
     <>
       {imgs &&
         imgs.map((item: LazyImage | null) => {
           if (!item) return null;
-          return <OneImg {...item} key={item?.id} />;
+          return <OneImg key={item.key} fileKey={item?.key} id={item.id} />;
         })}
 
       {location?.iframe && (
@@ -30,8 +29,23 @@ const ImgsIframe = (props: ImgsIframeProps) => {
   );
 };
 
-const OneImg = (item: LazyImage) => {
-  return null;
+interface OneImgProps {
+  fileKey: string | undefined | null;
+  id: string | undefined | null;
+}
+
+const OneImg = (item: OneImgProps) => {
+  const { fileKey, id } = item;
+  const [url, setUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      if (!fileKey) return;
+      const url = await Storage.get(fileKey);
+      setUrl(url);
+    };
+    fetchImage();
+  }, [fileKey]);
 
   return (
     <Grid item xs={4}>
@@ -44,8 +58,8 @@ const OneImg = (item: LazyImage) => {
         }}
       >
         <img
-          src={item.url ?? ""}
-          alt={item.identify?.key ?? ""}
+          src={!url ? "img" : url}
+          alt={!id ? "img" : id}
           style={{
             position: "absolute",
             top: 0,

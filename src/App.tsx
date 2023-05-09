@@ -34,7 +34,7 @@ const App = () => {
       <CssBaseline />
       <Navbar auth={auth} isAdmin={isAdmin} />
       <Container sx={{ mt: 4 }}>
-        <Navigation auth={auth} setAuth={setAuth} isAdmin={isAdmin} />
+        <Navigation auth={auth} isAdmin={isAdmin} />
       </Container>
     </Box>
   );

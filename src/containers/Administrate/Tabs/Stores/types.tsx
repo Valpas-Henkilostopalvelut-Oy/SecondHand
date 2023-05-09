@@ -6,7 +6,13 @@ import type {
   LazyContact,
   LazyLocation,
   LazyImage,
+  LazyStore,
 } from "../../../../models";
+
+export interface StoresProps {
+  storelist: LazyStore[] | null | undefined;
+  isEmpty: boolean;
+}
 
 export type ImgsTypes = {
   url: string | null;

@@ -20,8 +20,6 @@ const ImageSection = (props: NewStoreProps) => {
     const identify: LazyImage = {
       id: id,
       key: file.name,
-      url: imgUrl,
-      identify: undefined,
     };
 
     setImages([...images, { identify, imgUrl, file }]);

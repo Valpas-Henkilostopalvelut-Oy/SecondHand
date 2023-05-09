@@ -8,7 +8,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import areas from "./fi.js";
-import type { NewStoreProps } from "../types";
+import type { NewStoreProps } from "../types.js";
 import type { LazyLocation } from "../../../../../models/index.js";
 
 /**
