@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface ApplicationState {
+  isDarkMode: boolean;
+  isDrawerOpen: boolean;
+  isEmpty: boolean;
+  isAdmin: boolean;
+  isAuth: boolean;
+}
+
 export const applicationSlice = createSlice({
   name: "application",
   initialState: {
@@ -10,20 +18,20 @@ export const applicationSlice = createSlice({
     isAuth: false,
   },
   reducers: {
-    toggleDarkMode: (state) => {
+    toggleDarkMode: (state, action) => {
       state.isDarkMode = !state.isDarkMode;
     },
-    toggleDrawer: (state) => {
+    toggleDrawer: (state, action) => {
       state.isDrawerOpen = !state.isDrawerOpen;
     },
-    toggleEmpty: (state) => {
-      state.isEmpty = !state.isEmpty;
+    toggleEmpty: (state, action) => {
+      state.isEmpty = action.payload;
     },
-    toggleAdmin: (state) => {
-      state.isAdmin = !state.isAdmin;
+    toggleAdmin: (state, action) => {
+      state.isAdmin = action.payload;
     },
-    toggleAuth: (state) => {
-      state.isAuth = !state.isAuth;
+    toggleAuth: (state, action) => {
+      state.isAuth = action.payload;
     },
   },
 });

@@ -22,34 +22,28 @@ const handleSignin = async (
   email: string,
   password: string,
   navigate: any,
-  setAuth: any,
   setMessages: any
 ) => {
   try {
     await Auth.signIn(email, password).then((user) => {
       if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-        setAuth(true);
         navigate("/new-password");
       } else {
-        setAuth(user);
         navigate("/");
       }
     });
   } catch (error: any) {
-    // eslint-disable-next-line autofix/no-console
-    console.warn("error signing in: ", error);
     setMessages(error.message);
   }
 };
 
-const SigninForm = (props: any) => {
+const SigninForm = () => {
   const navigate = useNavigate();
-  const { setAuth, auth } = props;
   const [messages, setMessages] = useState("");
 
   const onSubmit = async (values: ValueSignInForm) => {
     const { email, password } = values;
-    await handleSignin(email, password, navigate, setAuth, setMessages);
+    await handleSignin(email, password, navigate, setMessages);
   };
 
   return (

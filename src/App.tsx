@@ -1,43 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { Box, Container, CssBaseline } from "@mui/material";
+import React from "react";
+import { Box, Container, CssBaseline, } from "@mui/material";
 import { Navigation } from "./services/navigation";
-import { Navbar } from "./globalComponents/Navbar";
-import { Auth, DataStore } from "aws-amplify";
+import Navbar from "./globalComponents/Navbar";
+import loadingApp from "./services/loadingApp";
 
-const App = () => {
-  const [auth, setAuth] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+const Component = () => (
+  <Box>
+    <CssBaseline />
+    <Navbar />
+    <Container sx={{ mt: 4 }}>
+      <Navigation />
+    </Container>
+  </Box>
+);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        await Auth.currentAuthenticatedUser();
-        setAuth(true);
-        const user = await Auth.currentAuthenticatedUser();
-        const groups =
-          user.signInUserSession.accessToken.payload["cognito:groups"];
-        if (groups && groups.includes("admin")) {
-          setIsAdmin(true);
-        }
-
-        await DataStore.start();
-      } catch (err) {
-        setAuth(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
-  return (
-    <Box>
-      <CssBaseline />
-      <Navbar auth={auth} isAdmin={isAdmin} />
-      <Container sx={{ mt: 4 }}>
-        <Navigation auth={auth} isAdmin={isAdmin} />
-      </Container>
-    </Box>
-  );
-};
+const App = loadingApp(Component);
 
 export default App;

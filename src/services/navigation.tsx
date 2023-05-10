@@ -12,7 +12,7 @@ export const Navigation = (props: any) => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/storelist" element={<StorelistWithLoading {...props} />} />
+      <Route path="/stores" element={<StorelistWithLoading {...props} />} />
       <Route path="/signup" element={<Signup {...props} />} />
       <Route path="/signin" element={<Signin {...props} />} />
       <Route path="/admin" element={<Administrate {...props} />} />

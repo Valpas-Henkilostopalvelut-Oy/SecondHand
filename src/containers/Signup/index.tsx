@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SignupForm from "./services/signup";
-import ConfirmForm from "./services/confirm";
+import SignupForm from "./services/SignupForm";
+import ConfirmForm from "./services/ConfirmForm";
 
 const Signup = () => {
   const [email, setEmail] = useState("");

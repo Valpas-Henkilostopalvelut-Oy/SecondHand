@@ -19,34 +19,6 @@ Sentry.init({
 
 Amplify.configure(awsmobile);
 
-Hub.listen("auth", async (hubData: any) => {
-  const { payload: event } = hubData;
-  switch (event.event) {
-    case "signIn":
-      console.log("signed in");
-      await DataStore.start();
-      break;
-    case "signOut":
-      console.log("signed out");
-      await DataStore.clear();
-      await DataStore.stop();
-      break;
-    default:
-      break;
-  }
-});
-
-Hub.listen("datastore", async (data) => {
-  const { payload: event } = data;
-  switch (event.event) {
-    case "ready":
-      console.log(event.event);
-      break;
-    default:
-      break;
-  }
-});
-
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 

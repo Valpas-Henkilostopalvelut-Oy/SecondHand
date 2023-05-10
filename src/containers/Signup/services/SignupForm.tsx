@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, type FormikHelpers } from "formik";
 import * as Yup from "yup";
-import type { ValueSignUpForm } from "../types";
+import type {
+  ValueSignUpForm,
+  SignupFormProps,
+  HandleSignupProps,
+} from "../types";
 import { Auth } from "aws-amplify";
+import { onError } from "../../../services/errorLib";
 
 const values = {
   email: "",
@@ -21,11 +26,8 @@ const validationSchema = Yup.object().shape({
     .required("Confirm Password is required"),
 });
 
-const handleSignup = async (
-  email: string,
-  password: string,
-  setConfirm: any
-) => {
+const handleSignup = async (props: HandleSignupProps) => {
+  const { setConfirm, email, password } = props;
   try {
     await Auth.signUp({
       username: email,
@@ -34,19 +36,18 @@ const handleSignup = async (
         enabled: true,
       },
     }).then(() => setConfirm(true));
-  } catch (error) {
-    // eslint-disable-next-line autofix/no-console
-    console.warn("error signing up: ", error);
+  } catch (error: any) {
+    onError(error);
   }
 };
 
-const SignupForm = (props: any) => {
+const SignupForm = (props: SignupFormProps) => {
   const onSubmit = (
     values: ValueSignUpForm,
     actions: FormikHelpers<ValueSignUpForm>
   ) => {
     const { email, password } = values;
-    handleSignup(email, password, props.setConfirm);
+    handleSignup({ setConfirm: props.setConfirm, email, password });
   };
 
   return (
