@@ -1,22 +1,21 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Home } from "../containers/Home";
-import StorelistWithLoading from "../containers/Storelist";
-import Signup from "../containers/Signup";
-import Signin from "../containers/Signin";
+import { Routes, Route, createBrowserRouter } from "react-router-dom";
+import { Home } from "../pages/Home";
+import StorelistWithLoading from "../pages/Storelist";
+import Signup from "../pages/Signup";
+import Signin from "../pages/Signin";
 import NotFound from "../globalComponents/NotFound";
-import Administrate from "../containers/Administrate";
+import Administrate from "../pages/Administrate";
+import StoreList from "../pages/Administrate/StoreList";
 
-export const Navigation = (props: any) => {
-  const Redirect = () => <Navigate to="/" />;
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/stores" element={<StorelistWithLoading {...props} />} />
-      <Route path="/signup" element={<Signup {...props} />} />
-      <Route path="/signin" element={<Signin {...props} />} />
-      <Route path="/admin" element={<Administrate {...props} />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  );
-};
+export const Navigation = () => (
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/stores" element={<StorelistWithLoading />} />
+    <Route path="/signup" element={<Signup />} />
+    <Route path="/signin" element={<Signin />} />
+    <Route path="/admin" element={<Administrate />} />
+    <Route path="/admin/storelist" element={<StoreList />} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+);

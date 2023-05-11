@@ -6,6 +6,16 @@ interface ApplicationState {
   isEmpty: boolean;
   isAdmin: boolean;
   isAuth: boolean;
+  userData:
+    | {
+        id: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+        role: string;
+      }
+    | null
+    | undefined;
 }
 
 export const applicationSlice = createSlice({
@@ -16,7 +26,7 @@ export const applicationSlice = createSlice({
     isEmpty: true,
     isAdmin: false,
     isAuth: false,
-  },
+  } as ApplicationState,
   reducers: {
     toggleDarkMode: (state, action) => {
       state.isDarkMode = !state.isDarkMode;
@@ -33,6 +43,9 @@ export const applicationSlice = createSlice({
     toggleAuth: (state, action) => {
       state.isAuth = action.payload;
     },
+    setUserData: (state, action) => {
+      state.userData = action.payload;
+    },
   },
 });
 
@@ -42,6 +55,7 @@ export const {
   toggleEmpty,
   toggleAdmin,
   toggleAuth,
+  setUserData,
 } = applicationSlice.actions;
 
 export default applicationSlice.reducer;

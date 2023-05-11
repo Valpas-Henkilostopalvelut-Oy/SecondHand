@@ -15,7 +15,7 @@ import {
 import type { SelectChangeEvent } from "@mui/material/Select";
 import Select from "@mui/material/Select";
 
-import type { SearchProps, SearchState } from "../../containers/Storelist/types";
+import type { SearchProps, SearchState } from "../../pages/Storelist/types";
 import type { LazyCategories } from "../../models";
 import { Categories } from "../../models";
 import { DataStore } from "aws-amplify";
