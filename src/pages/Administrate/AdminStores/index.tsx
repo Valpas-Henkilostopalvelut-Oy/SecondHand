@@ -10,7 +10,7 @@ const Stores = (props: StoresProps) => {
   return (
     <Box>
       <Grid container spacing={2}>
-        <NewStore {...props} />
+        <NewStore />
       </Grid>
 
       {!!storelist &&
@@ -21,6 +21,6 @@ const Stores = (props: StoresProps) => {
   );
 };
 
-const StoresWithLoading = withLoading(Stores);
+const AdminStores = withLoading(Stores);
 
-export default StoresWithLoading;
+export default AdminStores;

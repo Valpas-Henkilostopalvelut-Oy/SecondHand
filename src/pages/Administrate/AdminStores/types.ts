@@ -4,7 +4,19 @@ import type {
   LazyContact,
   LazyLocation,
   LazyImage,
+  LazyStore,
 } from "../../../models";
+
+export interface ImageTypes {
+  id: string;
+  key: string;
+  filename: string;
+  imgUrl: string | null;
+}
+
+export interface StoresProps {
+  storelist: LazyStore[] | null | undefined;
+}
 
 export interface NewStoreProps {
   isCreating: boolean;
@@ -16,5 +28,5 @@ export interface NewStoreProps {
   openTimes: LazyOpentime[];
   contacts: LazyContact;
   location: LazyLocation;
-  imgs: LazyImage[];
+  files: ImageTypes[];
 }

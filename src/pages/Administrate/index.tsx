@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 import Category from "./Tabs/Categories";
-import Stores from "./Tabs/Stores/Stores";
 import { Hub } from "aws-amplify";
 
 interface TabPanelProps {
@@ -59,9 +58,6 @@ const Administrate = (props: any) => {
           <Tab label="Käyttäjät" {...a11yProps(3)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        <Stores {...props} isEmpty={isEmpty} />
-      </TabPanel>
       <TabPanel value={value} index={1}>
         <Category {...props} isEmpty={isEmpty} />
       </TabPanel>

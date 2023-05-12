@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
+/**import {
   Box,
   Typography,
   TextField,
@@ -7,29 +7,15 @@ import {
   Grid,
   Autocomplete,
 } from "@mui/material";
-import areas from "./fi.js";
-import type { NewStoreProps } from "../types.js";
-import type { LazyLocation } from "../../../../../models/index.js";
 
-/**
- * city: {
-    "city": "Helsinki", 
-    "lat": "60.1756", 
-    "lng": "24.9342", 
-    "country": "Finland", 
-    "iso2": "FI", 
-    "admin_name": "Uusimaa", 
-    "capital": "primary", 
-    "population": "642045", 
-    "population_proper": "642045"
-  }, 
- */
+import type { NewStoreProps } from "../types.js";
+import type { LazyLocation } from "../../../../models";
 
 export const AreaSelect = (props: NewStoreProps) => {
   const { values, setValues } = props;
   const [area, setArea] = useState(null);
 
-  areas.sort((a, b) => a.admin_name.localeCompare(b.admin_name));
+ 
 
   const uniqueArray = areas
     .filter(
@@ -118,3 +104,4 @@ export const CitySelect = (props: NewStoreProps) => {
     </Grid>
   );
 };
+*/

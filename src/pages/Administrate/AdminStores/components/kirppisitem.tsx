@@ -16,10 +16,10 @@ import type {
   LazyLocation,
   LazyOpentime,
   LazyImage,
-} from "../../../../../models";
-import { Store } from "../../../../../models";
+} from "../../../../models";
+import { Store } from "../../../../models";
 import { DataStore, Storage } from "aws-amplify";
-import type { ImgsTypes } from "../types";
+import type { ImageTypes } from "../types";
 
 const CustomBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -96,7 +96,6 @@ const Opentime = (props: LazyOpentime) => {
 };
 
 const KirppisItem = (props: LazyStore) => {
-  const [images, setImages] = useState<ImgsTypes[]>([]);
   const {
     name,
     description,
@@ -110,22 +109,6 @@ const KirppisItem = (props: LazyStore) => {
   } = props;
 
   const handleDelete = () => onDelete(id);
-
-  useEffect(() => {
-    const handleLoadimages = async () => {
-      if (!imgs) return;
-      const imgData = await Promise.all(
-        imgs.map(async (img: LazyImage | null) => {
-          const url = img ? await Storage.get(img.key ?? "") : null;
-          return { url, identify: img };
-        })
-      );
-
-      setImages(imgData);
-    };
-
-    handleLoadimages();
-  }, [props]);
 
   return (
     <Box sx={{ border: "1px solid #ccc", marginBottom: "1rem" }}>
@@ -174,33 +157,7 @@ const KirppisItem = (props: LazyStore) => {
           </CustomBox>
 
           <CustomBox>
-            <Grid container spacing={2}>
-              {images.map((image, key) => (
-                <Grid item xs={4} key={image.identify?.id}>
-                  <Box
-                    sx={{
-                      position: "relative",
-                      width: "100%",
-                      paddingBottom: "100%",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <img
-                      src={image.url ?? ""}
-                      alt={image.identify?.key ?? ""}
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
+            
           </CustomBox>
 
           <CustomBox>

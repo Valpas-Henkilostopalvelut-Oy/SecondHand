@@ -6,7 +6,7 @@ import Signup from "../pages/Signup";
 import Signin from "../pages/Signin";
 import NotFound from "../globalComponents/NotFound";
 import Administrate from "../pages/Administrate";
-import StoreList from "../pages/Administrate/StoreList";
+import AdminStores from "../pages/Administrate/AdminStores";
 
 export const Navigation = () => (
   <Routes>
@@ -14,8 +14,8 @@ export const Navigation = () => (
     <Route path="/stores" element={<StorelistWithLoading />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/signin" element={<Signin />} />
-    <Route path="/admin" element={<Administrate />} />
-    <Route path="/admin/storelist" element={<StoreList />} />
+    <Route path="/admin" element={<AdminStores />} />
+    <Route path="/admin/storelist" element={<AdminStores />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );

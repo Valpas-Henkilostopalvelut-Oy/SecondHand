@@ -16,7 +16,6 @@ import ImageSection from "./ImageSection";
 import Opentimes from "./Opentimes";
 import Create from "./Create";
 import Basic from "./Basic";
-import type { valuesProps } from "../types";
 
 const StoreBlock = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -25,32 +24,7 @@ const StoreBlock = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const tempValues: valuesProps = {
-  name: String(),
-  description: String(),
-  categories: [],
-  sellplaces: {
-    all: 0,
-    free: 0,
-  },
-  pricelist: [],
-  embedmap: null,
-  opentimes: [],
-  contact: {
-    email: null,
-    phone: null,
-    website: null,
-  },
-  location: {
-    admin_name: null,
-    driveto: null,
-  },
-  imgs: [],
-  id: "",
-};
-
-const NewStore = (props: any) => {
-  const [values, setValues] = useState<valuesProps>(tempValues);
+const NewStore = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -65,35 +39,31 @@ const NewStore = (props: any) => {
       <Grid item xs={12}>
         <Collapse in={open}>
           <StoreBlock>
-            <Basic values={values} setValues={setValues} />
+            <Basic />
           </StoreBlock>
 
           <StoreBlock>
-            <CategoriesSelect values={values} setValues={setValues} />
+            <Contact />
           </StoreBlock>
 
           <StoreBlock>
-            <Contact values={values} setValues={setValues} />
+            <CategoriesSelect />
           </StoreBlock>
 
           <StoreBlock>
-            <Opentimes values={values} setValues={setValues} />
+            <Opentimes />
           </StoreBlock>
 
           <StoreBlock>
-            <Location values={values} setValues={setValues} />
+            <Location />
           </StoreBlock>
 
           <StoreBlock>
-            <ImageSection values={values} setValues={setValues} />
+            <ImageSection />
           </StoreBlock>
 
           <StoreBlock>
-            <Create
-              values={values}
-              onClear={() => setValues(tempValues)}
-              {...props}
-            />
+            <Create />
           </StoreBlock>
         </Collapse>
       </Grid>
