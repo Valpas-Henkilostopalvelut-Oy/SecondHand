@@ -95,6 +95,11 @@ const Opentime = (props: LazyOpentime) => {
   );
 };
 
+const getImage = async (key: string) => {
+  const image = await Storage.get(key);
+  return image;
+};
+
 const KirppisItem = (props: LazyStore) => {
   const {
     name,
@@ -107,8 +112,22 @@ const KirppisItem = (props: LazyStore) => {
     opentimes,
     imgs,
   } = props;
+  const [images, setImages] = useState([]);
 
   const handleDelete = () => onDelete(id);
+
+  useEffect(() => {
+    const getImages = async () => {
+      const images: any = await Promise.all(
+        imgs?.map(async (img: any) => {
+          const image = await getImage(img.key);
+          return image;
+        }) ?? []
+      );
+      setImages(images);
+    };
+    getImages();
+  }, []);
 
   return (
     <Box sx={{ border: "1px solid #ccc", marginBottom: "1rem" }}>
@@ -157,7 +176,33 @@ const KirppisItem = (props: LazyStore) => {
           </CustomBox>
 
           <CustomBox>
-            
+            <Grid container spacing={2}>
+              {images &&
+                images.map((image, key) => (
+                  <Grid item xs={4} key={key}>
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "100%",
+                        paddingBottom: "100%",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <img
+                        src={image ?? ""}
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                ))}
+            </Grid>
           </CustomBox>
 
           <CustomBox>
