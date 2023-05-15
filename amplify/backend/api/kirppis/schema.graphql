@@ -55,7 +55,7 @@ type Sellplaces {
   free: Int
 }
 
-type Store @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["admin"], operations: [create, read, update, delete]}, {allow: public}]) {
+type Store @model @auth(rules: [{allow: owner}, {allow: groups, groups: ["admin"], operations: [create, read, update, delete]}, {allow: public, operations: [read]}]) {
   id: ID!
   isConfirmed: Boolean
   name: String

@@ -7,10 +7,10 @@ import type {
   LazyOpentime,
   LazyContact,
   LazyLocation,
-  LazyImage,
 } from "../../../../models";
 import { Store } from "../../../../models";
 import { DataStore, Storage } from "aws-amplify";
+import { useAppSelector } from "../../../../app/hooks";
 
 const initialState: NewStoreProps = {
   isCreating: false,
@@ -83,15 +83,19 @@ export const newStoreSlice = createSlice({
 
     addContact: (state, action: PayloadAction<LazyContact>) => {
       state.contacts = {
-        ...state.contacts,
-        ...action.payload,
+        email: action.payload.email,
+        phone: action.payload.phone,
+        website: action.payload.website,
       };
     },
 
     addLocation: (state, action: PayloadAction<LazyLocation>) => {
       state.location = {
-        ...state.location,
-        ...action.payload,
+        city: action.payload.city,
+        country: action.payload.country,
+        admin_name: action.payload.admin_name,
+        driveto: action.payload.driveto,
+        address: action.payload.address,
       };
     },
 
@@ -162,19 +166,17 @@ const onUploadImage = async (props: ImageTypes) => {
 };
 
 export const createNewStoreAsync =
-  (newStore: NewStoreProps) => async (dispatch: Dispatch) => {
+  (newStore: NewStoreProps, isAdmin: boolean) => async (dispatch: Dispatch) => {
     try {
-      dispatch(createNewStorePending());
       const { files } = newStore;
       const onUploadImages = await Promise.all(
         files.map((file) => onUploadImage(file))
       );
 
-      console.log(onUploadImages, files);
-
       const { name, description, categories, openTimes, contacts, location } =
         newStore;
       const store = new Store({
+        isConfirmed: isAdmin,
         name,
         description,
         categories,

@@ -19,7 +19,7 @@ import type {
 } from "../../../../models";
 import { Store } from "../../../../models";
 import { DataStore, Storage } from "aws-amplify";
-import type { ImageTypes } from "../types";
+import OpenTimes from "./StoreItem/components/Opentime";
 
 const CustomBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -206,16 +206,7 @@ const KirppisItem = (props: LazyStore) => {
           </CustomBox>
 
           <CustomBox>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                {opentimes &&
-                  opentimes.map((opentime: LazyOpentime | null, key) => (
-                    <Opentime key={key} {...opentime} />
-                  ))}
-              </Grid>
-              <Contact {...contact} />
-              <Location {...location} />
-            </Grid>
+            <OpenTimes {...props} />
           </CustomBox>
         </AccordionDetails>
       </Accordion>

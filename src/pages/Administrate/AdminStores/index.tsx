@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Grid } from "@mui/material";
 import type { StoresProps } from "./types";
 import NewStore from "./components/NewStore";
-import KirppisItem from "./components/kirppisitem";
+import StoreItem from "./components/StoreItem";
 import withLoading from "./components/withloading";
 
 const Stores = (props: StoresProps) => {
@@ -15,7 +15,7 @@ const Stores = (props: StoresProps) => {
 
       {!!storelist &&
         storelist.map((kirppis) => (
-          <KirppisItem key={kirppis.id} {...kirppis} />
+          <StoreItem key={kirppis.id} {...kirppis} />
         ))}
     </Box>
   );

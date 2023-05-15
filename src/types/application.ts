@@ -3,9 +3,9 @@ import type { Dispatch, SetStateAction } from "react";
 export interface UserData {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
+  firstName: string | null | undefined;
+  lastName: string | null | undefined;
+  role: string[] | null | undefined;
 }
 
 export interface ErrorLoginProps {

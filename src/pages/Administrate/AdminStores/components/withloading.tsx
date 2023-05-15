@@ -13,16 +13,14 @@ const withLoading =
     const [error, setError] = useState(null);
     const [data, setData] = useState<LazyStore[] | null>(null);
     const isEmpty = useAppSelector((state) => state.application.isEmpty);
+    console.log(isEmpty);
 
     useEffect(() => {
       const fetchData = async () => {
         try {
           const data = await DataStore.query(Store);
           setData(data);
-
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
+          setLoading(false);
         } catch (error: any) {
           setError(error);
         }
