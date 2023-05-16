@@ -2,11 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { Auth, DataStore, Hub } from "aws-amplify";
-import { toggleAuth, toggleAdmin, toggleEmpty } from "../app/application";
+import {
+  toggleAuth,
+  toggleAdmin,
+  toggleEmpty,
+  setUserID,
+} from "../app/application";
 import { useAppDispatch } from "../app/hooks";
-import { onError } from "./errorLib";
-import type { ErrorLoginProps, UserData } from "../types/application";
-import { string } from "yup";
+import type { ErrorLoginProps } from "../types/application";
 
 const loadingApp =
   (Component: (props: ErrorLoginProps) => JSX.Element) => () => {
@@ -16,6 +19,7 @@ const loadingApp =
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string>("");
+    const [userID, setID] = useState<string>("");
 
     useEffect(() => {
       const onLoad = async () => {
@@ -23,9 +27,10 @@ const loadingApp =
           await DataStore.start();
           await Auth.currentSession();
           setAuth(true);
-          const userA = await Auth.currentAuthenticatedUser();
+          const user = await Auth.currentAuthenticatedUser();
+          setID(user.attributes.sub);
           const groups =
-            userA.signInUserSession.accessToken.payload["cognito:groups"];
+            user.signInUserSession.accessToken.payload["cognito:groups"];
           if (groups && groups.includes("admin")) {
             setIsAdmin(true);
           }
@@ -69,6 +74,7 @@ const loadingApp =
     dispatch(toggleEmpty(isEmpty));
     dispatch(toggleAuth(auth));
     dispatch(toggleAdmin(isAdmin));
+    dispatch(setUserID(userID));
 
     if (loading) {
       return (

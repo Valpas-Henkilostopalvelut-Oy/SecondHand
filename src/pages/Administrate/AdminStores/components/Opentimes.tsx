@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import type { SetStateAction, Dispatch } from "react";
+import React, { useState } from "react";
 import {
-  Box,
   Grid,
   Typography,
   Button,
@@ -93,7 +91,7 @@ const Opentimes = () => {
 };
 
 const Timeitem = (props: LazyOpentime) => {
-  const { day, start, end, id, isClosed } = props;
+  const { day, start, end } = props;
   const dispatch = useAppDispatch();
   const open = new Date(start || "").toLocaleTimeString("fi-FI") || null;
   const close = new Date(end || "").toLocaleTimeString("fi-FI") || null;
@@ -107,7 +105,7 @@ const Timeitem = (props: LazyOpentime) => {
       <TableCell>{day}</TableCell>
       <TableCell>{open}</TableCell>
       <TableCell>{close}</TableCell>
-      <TableCell>
+      <TableCell align="right">
         <IconButton onClick={handleRemove}>
           <ClearIcon />
         </IconButton>

@@ -13,7 +13,7 @@ const withLoading =
     const [error, setError] = useState(null);
     const [data, setData] = useState<LazyStore[] | null>(null);
     const isEmpty = useAppSelector((state) => state.application.isEmpty);
-    console.log(isEmpty);
+    console.log("isEmpty", isEmpty);
 
     useEffect(() => {
       const fetchData = async () => {

@@ -2,11 +2,13 @@ import type { ThunkAction, Action } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import application from "./application";
 import newstore from "../pages/Administrate/AdminStores/redux/newstore";
+import adminStoresSlice from "../pages/Administrate/AdminStores/redux/adminStores";
 
 export const store = configureStore({
   reducer: {
     application,
     newstore,
+    adminStoresSlice,
   },
 });
 

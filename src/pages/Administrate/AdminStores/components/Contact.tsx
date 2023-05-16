@@ -21,7 +21,6 @@ const addHttpsToUrl = (url: string) => {
 
 const Contact = () => {
   const values = useAppSelector((state) => state.newstore).contacts;
-  const { email, phone, website } = values;
   const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
@@ -36,10 +35,10 @@ const Contact = () => {
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === "email") dispatch(addContact({ email: value }));
-    if (name === "phone") dispatch(addContact({ phone: value }));
+    if (name === "email") dispatch(addContact({ ...values, email: value }));
+    if (name === "phone") dispatch(addContact({ ...values, phone: value }));
     if (name === "website")
-      dispatch(addContact({ website: addHttpsToUrl(value) }));
+      dispatch(addContact({ ...values, website: addHttpsToUrl(value) }));
     formik.handleChange(e);
   };
 
@@ -55,7 +54,7 @@ const Contact = () => {
           variant="outlined"
           fullWidth
           type="email"
-          value={email || ""}
+          value={formik.values.email}
           onChange={handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.email && Boolean(formik.errors.email)}
@@ -69,7 +68,7 @@ const Contact = () => {
           variant="outlined"
           fullWidth
           type="tel"
-          value={phone || ""}
+          value={formik.values.phone}
           onChange={handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.phone && Boolean(formik.errors.phone)}
@@ -82,7 +81,7 @@ const Contact = () => {
           label="Nettisivu"
           variant="outlined"
           fullWidth
-          value={website || ""}
+          value={formik.values.website}
           onChange={handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.website && Boolean(formik.errors.website)}

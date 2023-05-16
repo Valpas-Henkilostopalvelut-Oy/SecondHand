@@ -1,15 +1,21 @@
 import React from "react";
-import { Grid, TextField, Typography, Autocomplete } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Typography,
+  Autocomplete,
+  Button,
+} from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { addLocation } from "../redux/newstore";
 import areas from "./fi.js";
-import Driveto from "./driveto";
+import Driveto from "./Driveto";
 import Iframe from "./Iframe";
 
 const Location = () => {
   const values = useAppSelector((state) => state.newstore).location;
   const dispatch = useAppDispatch();
-  const { address, zip, driveto, admin_name, city } = values;
+  const { address, zip } = values;
   const uniqueArray = areas
     .filter(
       (item, index, self) =>
@@ -25,14 +31,15 @@ const Location = () => {
   );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === "address") dispatch(addLocation({ address: value }));
-    if (name === "zip") dispatch(addLocation({ zip: value }));
+    if (name === "address")
+      dispatch(addLocation({ ...values, address: value }));
+    if (name === "zip") dispatch(addLocation({ ...values, zip: value }));
   };
   const handleChangeArea = (e: any, newValue: string | null) => {
-    dispatch(addLocation({ admin_name: newValue }));
+    dispatch(addLocation({ ...values, admin_name: newValue }));
   };
   const handleChangeCity = (e: any, newValue: any) => {
-    dispatch(addLocation({ ...newValue }));
+    dispatch(addLocation({ ...values, ...newValue }));
   };
 
   return (

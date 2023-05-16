@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Grid, TextField } from "@mui/material";
-import type { NewStoreProps } from "../types";
-import { useAppDispatch } from "../../../../app/hooks";
+import { TextField } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { addLocation } from "../redux/newstore";
 
 const addHttpsToUrl = (url: string) => {
@@ -15,15 +14,16 @@ const addHttpsToUrl = (url: string) => {
 const Iframe = () => {
   const [iframe, setIframe] = useState("");
   const dispatch = useAppDispatch();
+  const values = useAppSelector((state) => state.newstore.location);
 
   useEffect(() => {
     if (iframe) {
       const srcMatch = iframe.match(/src\s*=\s*"(.*?)"/i);
       if (srcMatch && srcMatch[1]) {
         const url = srcMatch[1];
-        dispatch(addLocation({ iframe: addHttpsToUrl(url) }));
+        dispatch(addLocation({ ...values, iframe: addHttpsToUrl(url) }));
       } else {
-        dispatch(addLocation({ iframe: addHttpsToUrl(iframe) }));
+        dispatch(addLocation({ ...values, iframe: addHttpsToUrl(iframe) }));
       }
     }
   }, [iframe]);

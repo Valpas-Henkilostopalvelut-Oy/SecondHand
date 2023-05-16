@@ -194,6 +194,7 @@ export default function StoreUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    userID: "",
     isConfirmed: false,
     name: "",
     description: "",
@@ -201,6 +202,7 @@ export default function StoreUpdateForm(props) {
     clicked: "",
     embedmap: "",
   };
+  const [userID, setUserID] = React.useState(initialValues.userID);
   const [isConfirmed, setIsConfirmed] = React.useState(
     initialValues.isConfirmed
   );
@@ -216,6 +218,7 @@ export default function StoreUpdateForm(props) {
     const cleanValues = storeRecord
       ? { ...initialValues, ...storeRecord }
       : initialValues;
+    setUserID(cleanValues.userID);
     setIsConfirmed(cleanValues.isConfirmed);
     setName(cleanValues.name);
     setDescription(cleanValues.description);
@@ -237,6 +240,7 @@ export default function StoreUpdateForm(props) {
   const [currentServicesValue, setCurrentServicesValue] = React.useState("");
   const servicesRef = React.createRef();
   const validations = {
+    userID: [],
     isConfirmed: [],
     name: [],
     description: [],
@@ -270,6 +274,7 @@ export default function StoreUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          userID,
           isConfirmed,
           name,
           description,
@@ -322,6 +327,36 @@ export default function StoreUpdateForm(props) {
       {...getOverrideProps(overrides, "StoreUpdateForm")}
       {...rest}
     >
+      <TextField
+        label="User id"
+        isRequired={false}
+        isReadOnly={false}
+        value={userID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              userID: value,
+              isConfirmed,
+              name,
+              description,
+              services,
+              clicked,
+              embedmap,
+            };
+            const result = onChange(modelFields);
+            value = result?.userID ?? value;
+          }
+          if (errors.userID?.hasError) {
+            runValidationTasks("userID", value);
+          }
+          setUserID(value);
+        }}
+        onBlur={() => runValidationTasks("userID", userID)}
+        errorMessage={errors.userID?.errorMessage}
+        hasError={errors.userID?.hasError}
+        {...getOverrideProps(overrides, "userID")}
+      ></TextField>
       <SwitchField
         label="Is confirmed"
         defaultChecked={false}
@@ -331,6 +366,7 @@ export default function StoreUpdateForm(props) {
           let value = e.target.checked;
           if (onChange) {
             const modelFields = {
+              userID,
               isConfirmed: value,
               name,
               description,
@@ -360,6 +396,7 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userID,
               isConfirmed,
               name: value,
               description,
@@ -389,6 +426,7 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userID,
               isConfirmed,
               name,
               description: value,
@@ -414,6 +452,7 @@ export default function StoreUpdateForm(props) {
           let values = items;
           if (onChange) {
             const modelFields = {
+              userID,
               isConfirmed,
               name,
               description,
@@ -469,6 +508,7 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userID,
               isConfirmed,
               name,
               description,
@@ -498,6 +538,7 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              userID,
               isConfirmed,
               name,
               description,

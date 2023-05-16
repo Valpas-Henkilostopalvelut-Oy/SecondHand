@@ -1,10 +1,10 @@
 import React from "react";
 import { Grid, TextField, Typography } from "@mui/material";
-import type { NewStoreProps } from "../types";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { setName, setDescription } from "../redux/newstore";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import type { LazyImage } from "../../../../models";
 
 const validationSchema = yup.object({
   name: yup.string().required("Nimi on pakollinen"),
@@ -43,7 +43,7 @@ const Basic = () => {
           label="Nimi"
           variant="outlined"
           fullWidth
-          value={values.name}
+          value={values.name || ""}
           onChange={handleChange}
           onBlur={formik.handleBlur}
           error={formik.touched.name && Boolean(formik.errors.name)}
@@ -57,7 +57,7 @@ const Basic = () => {
           label="Kuvaus"
           variant="outlined"
           fullWidth
-          value={values.description}
+          value={values.description || ""}
           onChange={handleChange}
           onBlur={formik.handleBlur}
           error={

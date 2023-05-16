@@ -13,6 +13,11 @@ import OpenTime from "./components/Opentime";
 import CustomBox from "./components/CustomBox";
 import { DataStore } from "aws-amplify";
 import { Store } from "../../../../../models";
+import Categories from "./components/Categories";
+import Images from "./components/Images";
+import StoreIframe from "./components/StoreIframe";
+import Contact from "./components/Contact";
+import Location from "./components/Location";
 
 const StoreItem = (props: LazyStore) => {
   const { isConfirmed, name } = props;
@@ -26,11 +31,7 @@ const StoreItem = (props: LazyStore) => {
   return (
     <Box
       sx={{
-        width: "100%",
-        margin: "auto",
-        padding: "10px",
-        border: "1px solid #ccc",
-        borderRadius: "5px",
+        padding: "1em",
         marginBottom: "10px",
       }}
     >
@@ -46,7 +47,11 @@ const StoreItem = (props: LazyStore) => {
           <StoreDetails {...props} />
         </AccordionDetails>
         <AccordionActions>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => console.log(props)}
+          >
             Muokkaa
           </Button>
           <Button variant="contained" color="error" onClick={handleDelete}>
@@ -59,24 +64,43 @@ const StoreItem = (props: LazyStore) => {
 };
 
 const StoreDetails = (props: LazyStore) => {
-  const { name, opentimes, description } = props;
+  const { opentimes, description, categories, imgs, location, contact } = props;
+  const iframe = location?.iframe;
 
   return (
     <Box>
-      <CustomBox>
-        <Typography>{name}</Typography>
-      </CustomBox>
       <CustomBox hidden={!description}>
         <Typography>
           <b>Kuvaus</b>
         </Typography>
         <Typography>{description}</Typography>
       </CustomBox>
+      <CustomBox hidden={!categories || categories.length === 0}>
+        <Categories {...props} />
+      </CustomBox>
       <CustomBox hidden={!opentimes || opentimes.length === 0}>
         <Typography>
           <b>Aukioloajat</b>
         </Typography>
         <OpenTime {...props} />
+      </CustomBox>
+      <CustomBox hidden={!contact}>
+        <Typography>
+          <b>Yhteystiedot</b>
+        </Typography>
+        <Contact {...props} />
+      </CustomBox>
+      <CustomBox hidden={!location}>
+        <Typography>
+          <b>Sijainti</b>
+        </Typography>
+        <Location {...props} />
+      </CustomBox>
+      <CustomBox hidden={!imgs || imgs.length === 0}>
+        <Images {...props} />
+      </CustomBox>
+      <CustomBox hidden={!iframe}>
+        <StoreIframe {...props} />
       </CustomBox>
     </Box>
   );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Typography, TextField } from "@mui/material";
-import type { NewStoreProps } from "../types";
+import { TextField } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { addLocation } from "../redux/newstore";
 
@@ -16,9 +15,10 @@ const addHttpsToUrl = (url: string) => {
 const Driveto = () => {
   const [driveto, setDriveto] = useState(null || "");
   const dispatch = useAppDispatch();
+  const values = useAppSelector((state) => state.newstore.location);
 
   useEffect(() => {
-    dispatch(addLocation({ driveto: addHttpsToUrl(driveto) }));
+    dispatch(addLocation({ ...values, driveto: addHttpsToUrl(driveto) }));
   }, [driveto]);
 
   const handleChange = (e: any) => setDriveto(e.target.value);

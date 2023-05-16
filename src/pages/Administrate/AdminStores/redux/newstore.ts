@@ -10,7 +10,6 @@ import type {
 } from "../../../../models";
 import { Store } from "../../../../models";
 import { DataStore, Storage } from "aws-amplify";
-import { useAppSelector } from "../../../../app/hooks";
 
 const initialState: NewStoreProps = {
   isCreating: false,
@@ -82,21 +81,11 @@ export const newStoreSlice = createSlice({
     },
 
     addContact: (state, action: PayloadAction<LazyContact>) => {
-      state.contacts = {
-        email: action.payload.email,
-        phone: action.payload.phone,
-        website: action.payload.website,
-      };
+      state.contacts = action.payload;
     },
 
     addLocation: (state, action: PayloadAction<LazyLocation>) => {
-      state.location = {
-        city: action.payload.city,
-        country: action.payload.country,
-        admin_name: action.payload.admin_name,
-        driveto: action.payload.driveto,
-        address: action.payload.address,
-      };
+      state.location = action.payload;
     },
 
     addOpenTime: (state, action: PayloadAction<LazyOpentime>) => {
@@ -106,11 +95,8 @@ export const newStoreSlice = createSlice({
       state.openTimes.filter((openTime) => openTime.id !== action.payload.id);
     },
 
-    addCategory: (state, action: PayloadAction<LazyCategory>) => {
-      state.categories.push(action.payload);
-    },
-    removeCategory: (state, action: PayloadAction<string>) => {
-      state.categories.filter((category) => category.id !== action.payload);
+    setCategories: (state, action: PayloadAction<LazyCategory[]>) => {
+      state.categories = action.payload;
     },
 
     createNewStorePending: (state) => {
@@ -137,8 +123,7 @@ export const {
   addContact,
   addOpenTime,
   removeOpenTime,
-  addCategory,
-  removeCategory,
+  setCategories,
   reset,
   addLocation,
   addFile,

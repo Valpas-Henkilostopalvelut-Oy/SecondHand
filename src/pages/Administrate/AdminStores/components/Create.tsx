@@ -13,6 +13,11 @@ const Create = () => {
 
   return (
     <Grid container spacing={2}>
+      <Grid item sm={12}>
+        <Button variant="contained" onClick={() => console.log(values)}>
+          Log
+        </Button>
+      </Grid>
       <Grid item sm={10} />
       <Grid item sm={2}>
         <Button variant="contained" onClick={handleClick}>

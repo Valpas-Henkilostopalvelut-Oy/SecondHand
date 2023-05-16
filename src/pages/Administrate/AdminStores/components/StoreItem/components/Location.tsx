@@ -1,24 +1,20 @@
 import React from "react";
-import { Grid, Typography, Box } from "@mui/material";
-import type { LazyLocation } from "../../../../../../models";
+import { Typography, Box } from "@mui/material";
+import type { LazyStore } from "../../../../../../models";
 
-const Location = (props: LazyLocation) => {
-  const { address, city, zip, admin_name } = props;
-
+const Location = (props: LazyStore) => {
+  const { location } = props;
+  const address = location?.address;
+  const zip = location?.zip;
+  const city = location?.city;
+  const admin_name = location?.admin_name;
   return (
-    <Grid item xs={4}>
-      <Typography>
-        <b>Sijainti</b>
-      </Typography>
-      <Box>
-        <Typography>osoite: {address ? address : "Ei saatavilla"}</Typography>
-        <Typography>postinumero: {zip ? zip : "Ei saatavilla"}</Typography>
-        <Typography>kaupunki: {city ? city : "Ei saatavilla"}</Typography>
-        <Typography>
-          alue: {admin_name ? admin_name : "Ei saatavilla"}
-        </Typography>
-      </Box>
-    </Grid>
+    <Box>
+      <Typography>osoite: {address ? address : "Ei saatavilla"}</Typography>
+      <Typography>postinumero: {zip ? zip : "Ei saatavilla"}</Typography>
+      <Typography>kaupunki: {city ? city : "Ei saatavilla"}</Typography>
+      <Typography>alue: {admin_name ? admin_name : "Ei saatavilla"}</Typography>
+    </Box>
   );
 };
 

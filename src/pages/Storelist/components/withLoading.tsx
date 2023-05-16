@@ -15,7 +15,9 @@ const withLoading =
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const data = await DataStore.query(Store);
+          const data = (await DataStore.query(Store)).filter(
+            (s) => s.isConfirmed
+          );
           setData(data);
 
           setTimeout(() => {
