@@ -20,6 +20,7 @@ export interface StoresProps {
 
 export interface NewStoreProps {
   isCreating: boolean;
+  isError: boolean;
   error: string | null;
   isConfirm: boolean;
   name: string;

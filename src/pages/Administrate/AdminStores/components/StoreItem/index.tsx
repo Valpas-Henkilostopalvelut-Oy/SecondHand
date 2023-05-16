@@ -11,22 +11,24 @@ import {
 } from "@mui/material";
 import OpenTime from "./components/Opentime";
 import CustomBox from "./components/CustomBox";
-import { DataStore } from "aws-amplify";
-import { Store } from "../../../../../models";
 import Categories from "./components/Categories";
 import Images from "./components/Images";
 import StoreIframe from "./components/StoreIframe";
 import Contact from "./components/Contact";
 import Location from "./components/Location";
+import EditItem from "./components/EditItem";
+import { deleteStoreAsync } from "../../redux/adminStores";
+import { useAppDispatch } from "../../../../../app/hooks";
 
 const StoreItem = (props: LazyStore) => {
   const { isConfirmed, name } = props;
   const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const dispatch = useAppDispatch();
   const handleClick = () => setOpen(!open);
-  const handleDelete = async () => {
-    const store: any = await DataStore.query(Store, props.id);
-    await DataStore.delete(store);
-  };
+  const handleEdit = () => setEdit(!edit);
+  const handleDelete = () => dispatch(deleteStoreAsync(props.id));
+
   if (!isConfirmed) return null;
   return (
     <Box
@@ -45,13 +47,10 @@ const StoreItem = (props: LazyStore) => {
         </AccordionSummary>
         <AccordionDetails>
           <StoreDetails {...props} />
+          <EditItem {...props} open={edit} setOpen={setEdit} />
         </AccordionDetails>
         <AccordionActions>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => console.log(props)}
-          >
+          <Button variant="contained" color="primary" onClick={handleEdit}>
             Muokkaa
           </Button>
           <Button variant="contained" color="error" onClick={handleDelete}>

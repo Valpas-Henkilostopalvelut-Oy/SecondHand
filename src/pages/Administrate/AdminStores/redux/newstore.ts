@@ -14,6 +14,7 @@ import { DataStore, Storage } from "aws-amplify";
 const initialState: NewStoreProps = {
   isCreating: false,
   error: null,
+  isError: false,
   isConfirm: false,
   name: "",
   description: null,
@@ -102,17 +103,21 @@ export const newStoreSlice = createSlice({
     createNewStorePending: (state) => {
       state.isCreating = true;
       state.error = null;
+      state.isError = false;
     },
     createNewStoreSuccess: (state) => {
       state.isCreating = false;
       state.error = null;
+      state.isError = false;
     },
     createNewStoreFailed: (state, action) => {
       state.isCreating = false;
       state.error = action.payload;
+      state.isError = true;
     },
     clearError: (state) => {
       state.error = null;
+      state.isError = false;
     },
   },
 });

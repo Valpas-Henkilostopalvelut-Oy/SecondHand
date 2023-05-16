@@ -13,3 +13,9 @@ export interface ErrorLoginProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<string>>;
 }
+
+export interface ErrorBoundaryProps {
+  error: string | null;
+  isError: boolean;
+  clearError: () => void;
+}
