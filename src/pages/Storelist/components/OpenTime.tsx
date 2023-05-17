@@ -39,6 +39,8 @@ const OpenTime = (props: any) => {
   ];
 
   const { times } = props;
+
+  if (!times) return null;
   const q = times.reduce((acc: OpentimesReducer[], item: LazyOpentime) => {
     const { day, start, end } = item;
 
