@@ -16,9 +16,6 @@
         "kirppis516e92a5": {},
         "userPoolGroups": {}
       },
-      "api": {
-        "kirppis": {}
-      },
       "function": {
         "S3Triggerb5b36149": {
           "deploymentBucketName": "amplify-kirppis-dev-103036-deployment",

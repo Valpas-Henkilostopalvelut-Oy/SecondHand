@@ -184,7 +184,7 @@ function ArrayField({
 export default function StoreUpdateForm(props) {
   const {
     id: idProp,
-    store,
+    store: storeModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -228,14 +228,16 @@ export default function StoreUpdateForm(props) {
     setEmbedmap(cleanValues.embedmap);
     setErrors({});
   };
-  const [storeRecord, setStoreRecord] = React.useState(store);
+  const [storeRecord, setStoreRecord] = React.useState(storeModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp ? await DataStore.query(Store, idProp) : store;
+      const record = idProp
+        ? await DataStore.query(Store, idProp)
+        : storeModelProp;
       setStoreRecord(record);
     };
     queryData();
-  }, [idProp, store]);
+  }, [idProp, storeModelProp]);
   React.useEffect(resetStateValues, [storeRecord]);
   const [currentServicesValue, setCurrentServicesValue] = React.useState("");
   const servicesRef = React.createRef();
@@ -570,7 +572,7 @@ export default function StoreUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || store)}
+          isDisabled={!(idProp || storeModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -582,7 +584,7 @@ export default function StoreUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || store) ||
+              !(idProp || storeModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
