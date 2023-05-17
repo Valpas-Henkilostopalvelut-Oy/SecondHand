@@ -12,7 +12,7 @@ const withLoading = (WrappedComponent: () => JSX.Element | null) => () => {
 
   useEffect(() => {
     dispatch(fetchStoresAsync());
-  }, [isEmpty]);
+  }, []);
 
   if (isLoading) {
     return (

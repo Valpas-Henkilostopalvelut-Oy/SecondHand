@@ -3,6 +3,7 @@ import type { Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import type { LazyStore } from "../../../../models";
 import { Store } from "../../../../models";
 import { DataStore } from "aws-amplify";
+import { stat } from "fs";
 
 interface initialStateProps {
   isLoading: boolean;
@@ -22,6 +23,10 @@ export const adminStores = createSlice({
   name: "adminStores",
   initialState,
   reducers: {
+    updateData: (state, action) => {
+      if (!state.data) state.data = [];
+      state.data.push(action.payload);
+    },
     updateStore: (state, action) => {
       state.data = state.data?.map((store) =>
         store.id === action.payload.id ? action.payload : store
@@ -59,6 +64,7 @@ export const adminStores = createSlice({
 
 export const {
   updateStore,
+  updateData,
   fetchStores,
   fetchStoresSuccess,
   fetchStoresFailure,
@@ -99,10 +105,10 @@ export const updateStoreAsync =
         name: res.name,
         description: res.description,
         categories: res.categories,
-        openTimes: res.opentimes,
-        contacts: res.contact,
+        opentimes: res.opentimes,
+        contact: res.contact,
         location: res.location,
-        images: res.imgs,
+        imgs: res.imgs,
         isConfirmed: res.isConfirmed,
       }));
 
@@ -121,10 +127,10 @@ export const fetchStoresAsync = () => async (dispatch: Dispatch) => {
       name: store.name,
       description: store.description,
       categories: store.categories,
-      openTimes: store.opentimes,
-      contacts: store.contact,
+      opentimes: store.opentimes,
+      contact: store.contact,
       location: store.location,
-      images: store.imgs,
+      imgs: store.imgs,
       isConfirmed: store.isConfirmed,
     }));
     dispatch(fetchStoresSuccess(seriablizedStores));

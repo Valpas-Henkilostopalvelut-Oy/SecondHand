@@ -8,11 +8,13 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import EditName from "./EditName";
-import EditDescription from "./EditDescription";
+import Basic from "./components/Basic";
 import type { EditItemProps } from "./types";
 import { updateStoreAsync } from "../../../../redux/adminStores";
 import { useAppDispatch } from "../../../../../../../app/hooks";
+import EditContact from "./components/EditContact";
+import EditCategorie from "./components/EditCategorie";
+import Location from "./components/EditLocation";
 
 const EditItem = (props: EditItemProps) => {
   const { open, setOpen, ...rest } = props;
@@ -28,6 +30,23 @@ const EditItem = (props: EditItemProps) => {
       [name]: value,
     }));
   };
+  const haneleEditContact = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setNewStore((prev) => ({
+      ...prev,
+      contact: {
+        ...prev.contact,
+        [name]: value,
+      },
+    }));
+  };
+  const handleEditCategories = (event: any, newValue: any) => {
+    setNewStore((prev) => ({
+      ...prev,
+      categories: newValue,
+    }));
+  };
+
   const handleSave = () => {
     dispatch(updateStoreAsync(newStore));
     onClose();
@@ -38,16 +57,10 @@ const EditItem = (props: EditItemProps) => {
       <DialogTitle>Muokkaa</DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
-          <EditName
-            {...newStore}
-            handleChange={handleChange}
-            grid={{ xs: 12, sm: 6, item: true }}
-          />
-          <EditDescription
-            {...newStore}
-            handleChange={handleChange}
-            grid={{ xs: 12, sm: 6, item: true }}
-          />
+          <Basic {...newStore} handleChange={handleChange} />
+          <EditContact {...newStore} handleChange={haneleEditContact} />
+          <EditCategorie {...newStore} handleChange={handleEditCategories} />
+          <Location {...newStore} setNewStore={setNewStore} />
         </Grid>
       </DialogContent>
       <DialogActions>

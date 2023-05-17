@@ -10,6 +10,7 @@ import type {
 } from "../../../../models";
 import { Store } from "../../../../models";
 import { DataStore, Storage } from "aws-amplify";
+import { updateData } from "./adminStores";
 
 const initialState: NewStoreProps = {
   isCreating: false,
@@ -176,7 +177,20 @@ export const createNewStoreAsync =
         imgs: onUploadImages,
       });
 
+      const storeToAdd = {
+        id: store.id,
+        name: store.name,
+        description: store.description,
+        categories: store.categories,
+        opentimes: store.opentimes,
+        contact: store.contact,
+        location: store.location,
+        imgs: store.imgs,
+        isConfirmed: store.isConfirmed,
+      };
+
       await DataStore.save(store);
+      dispatch(updateData(storeToAdd));
       dispatch(createNewStoreSuccess());
       dispatch(reset());
     } catch (error) {
