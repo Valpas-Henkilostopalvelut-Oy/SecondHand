@@ -9,8 +9,8 @@ import {
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { addLocation } from "../redux/newstore";
 import areas from "./fi.js";
-import Driveto from "./Driveto";
 import Iframe from "./Iframe";
+import Driveto from "./Driveto";
 
 const Location = () => {
   const values = useAppSelector((state) => state.newstore).location;
