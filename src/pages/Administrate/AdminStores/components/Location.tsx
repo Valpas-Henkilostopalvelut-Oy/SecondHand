@@ -10,7 +10,7 @@ import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { addLocation } from "../redux/newstore";
 import areas from "./fi.js";
 import Iframe from "./Iframe";
-import Driveto from "./Driveto";
+import Drivetourl from "./Drivetourl";
 
 const Location = () => {
   const values = useAppSelector((state) => state.newstore).location;
@@ -109,7 +109,7 @@ const Location = () => {
         <Iframe />
       </Grid>
       <Grid item sm={6} xs={12}>
-        <Driveto />
+        <Drivetourl />
       </Grid>
     </Grid>
   );

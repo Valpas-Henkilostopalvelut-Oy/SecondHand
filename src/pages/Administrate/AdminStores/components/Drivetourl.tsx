@@ -12,7 +12,7 @@ const addHttpsToUrl = (url: string) => {
   return url;
 };
 
-const Driveto = () => {
+const Drivetourl = () => {
   const [driveto, setDriveto] = useState(null || "");
   const dispatch = useAppDispatch();
   const values = useAppSelector((state) => state.newstore.location);
@@ -37,4 +37,4 @@ const Driveto = () => {
   );
 };
 
-export default Driveto;
+export default Drivetourl;
