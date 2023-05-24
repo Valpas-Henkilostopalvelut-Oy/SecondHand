@@ -4,34 +4,30 @@ import { DataStore } from "aws-amplify";
 import { Store } from "../../../models";
 import type { StorelistProps } from "../types";
 import { Box, CircularProgress } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { fetchStoreFilter, fetchStores } from "../../../app/stores";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 const withLoading =
   // eslint-disable-next-line react/display-name
   (WrappedComponent: (data: StorelistProps) => JSX.Element) => () => {
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [data, setData] = useState<LazyStore[] | null>(null);
+    const { category } = useParams<{ category: string }>();
+    const { data, isLoading } = useAppSelector((state) => state.stores);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const data = (await DataStore.query(Store)).filter(
-            (s) => s.isConfirmed
-          );
-          setData(data);
+      if (category) {
+        dispatch(
+          fetchStoreFilter({
+            categoryName: category,
+          })
+        );
+      } else {
+        dispatch(fetchStores());
+      }
+    }, [category]);
 
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
-        } catch (error: any) {
-          setError(error);
-        }
-      };
-
-      fetchData();
-    }, []);
-
-    if (loading) {
+    if (isLoading) {
       return (
         <Box
           sx={{
@@ -42,21 +38,6 @@ const withLoading =
           }}
         >
           <CircularProgress />
-        </Box>
-      );
-    }
-
-    if (error) {
-      return (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <h1>Something went wrong</h1>
         </Box>
       );
     }

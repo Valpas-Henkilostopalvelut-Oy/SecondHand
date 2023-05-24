@@ -14,6 +14,8 @@ import {
   TableCell,
   TableContainer,
   TableRow,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -24,6 +26,11 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { addOpenTime, removeOpenTime } from "../redux/newstore";
 import type { LazyOpentime } from "../../../../models";
+
+interface TimeFieldProps {
+  value: Date | null;
+  onChange: (date: Date | null) => void;
+}
 
 const days = [
   "Maanantai",
@@ -91,10 +98,10 @@ const Opentimes = () => {
 };
 
 const Timeitem = (props: LazyOpentime) => {
-  const { day, start, end } = props;
+  const { day, isClosed } = props;
   const dispatch = useAppDispatch();
-  const open = new Date(start || "").toLocaleTimeString("fi-FI") || null;
-  const close = new Date(end || "").toLocaleTimeString("fi-FI") || null;
+  const start = new Date(props.start || "");
+  const end = new Date(props.end || "");
 
   const handleRemove = () => {
     dispatch(removeOpenTime(props));
@@ -103,8 +110,23 @@ const Timeitem = (props: LazyOpentime) => {
   return (
     <TableRow>
       <TableCell>{day}</TableCell>
-      <TableCell>{open}</TableCell>
-      <TableCell>{close}</TableCell>
+      {!isClosed && (
+        <TableCell>
+          {start.toLocaleTimeString("fi-FI", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </TableCell>
+      )}
+      {!isClosed && (
+        <TableCell>
+          {end.toLocaleTimeString("fi-FI", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </TableCell>
+      )}
+      {isClosed && <TableCell colSpan={2}>Suljettu</TableCell>}
       <TableCell align="right">
         <IconButton onClick={handleRemove}>
           <ClearIcon />
@@ -124,14 +146,29 @@ const Createform = () => {
         start: time?.start?.toISOString(),
         end: time?.end?.toISOString(),
         id: Date.now().toString(),
-        isClosed: false,
+        isClosed: time.isClosed,
       })
     );
     setTime(emptyOpenTime);
   };
 
+  const handleChangeStart = (newValue: any) => {
+    setTime((prev) => ({ ...prev, start: newValue }));
+  };
+  const handleChangeEnd = (newValue: any) => {
+    setTime((prev) => ({ ...prev, end: newValue }));
+  };
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setTime((prev) => ({ ...prev, day: value }));
+  };
+  const handleCheckbox = (e: any) => {
+    const { checked } = e.target;
+    setTime((prev) => ({ ...prev, isClosed: checked }));
+  };
+
   return (
-    <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
+    <Grid container spacing={2} sx={{ mb: 2, mt: 2 }} alignItems="center">
       <Grid item sm={5} xs={12}>
         <FormControl fullWidth>
           <InputLabel id="day">Päivä</InputLabel>
@@ -140,7 +177,8 @@ const Createform = () => {
             id="day"
             value={time.day}
             label="Päivä"
-            onChange={(e) => setTime({ ...time, day: e.target.value })}
+            name="day"
+            onChange={handleChange}
           >
             {days.map((day) => (
               <MenuItem key={day} value={day}>
@@ -151,33 +189,49 @@ const Createform = () => {
         </FormControl>
       </Grid>
 
-      <Grid item sm={3} xs={12}>
+      <Grid item sm={2} xs={12}>
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fi}>
           <TimeField
             label="Aukioloaika"
             value={time.start}
-            onChange={(newValue: Date | null) =>
-              setTime({ ...time, start: newValue })
-            }
+            name="start"
+            onChange={handleChangeStart}
+            fullWidth
+            disabled={time.isClosed}
+            maxTime={time.end}
           />
         </LocalizationProvider>
       </Grid>
 
-      <Grid item sm={3} xs={12}>
+      <Grid item sm={2} xs={12}>
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fi}>
           <TimeField
             label="Sulkeutumisaika"
             value={time.end}
-            onChange={(newValue: Date | null) =>
-              setTime({ ...time, end: newValue })
-            }
+            name="end"
+            onChange={handleChangeEnd}
+            fullWidth
+            disabled={time.isClosed}
+            minTime={time.start}
           />
         </LocalizationProvider>
+      </Grid>
+      <Grid item sm={2} xs={12}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={time.isClosed}
+              onChange={handleCheckbox}
+              name="isClosed"
+            />
+          }
+          label="Suljettu"
+        />
       </Grid>
 
       <Grid item sm={1} xs={12}>
         <IconButton
-          disabled={!time.day || !time.start || !time.end}
+          disabled={(!time.day || !time.start || !time.end) && !time.isClosed}
           onClick={handleAdd}
         >
           <AddIcon />

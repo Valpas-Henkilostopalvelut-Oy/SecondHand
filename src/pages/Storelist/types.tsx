@@ -35,4 +35,5 @@ export interface OpentimesReducer {
   day_last: string | null | undefined;
   start: string | null | undefined;
   end: string | null | undefined;
+  isClosed: boolean | null | undefined;
 }

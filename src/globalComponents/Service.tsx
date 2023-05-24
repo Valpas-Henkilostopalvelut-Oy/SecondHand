@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import type { MouseEvent, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
+import type { MouseEvent } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { MenuOpenButton, NavigationButton } from "./CustomButtons";
 import { useLocation } from "react-router-dom";
+import type { BoxProps } from "@mui/material";
 
 interface Service {
   name: string;
@@ -23,20 +24,20 @@ const services = [
     to: "/kuljetus-ja-muuttopalvelut",
   },
   {
-    name: "Siiivouspalvelut",
+    name: "Siivouspalvelut",
     to: "/siivouspalvelut",
   },
   {
-    name: "Kehystyspalvelut",
-    to: "/kehystyspalvelut",
+    name: "Taulujen kehystys",
+    to: "/taulujen-kehystys",
   },
   {
-    name: "Verhoilu ja varjastimet",
-    to: "/verhoilu-ja-varjastimet",
+    name: "Verhoilu ja varjostimet",
+    to: "/verhoilu-ja-varjostimet",
   },
 ];
 
-const Services = () => {
+const Services = (props: BoxProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) =>
@@ -45,7 +46,7 @@ const Services = () => {
   const location = useLocation();
 
   return (
-    <>
+    <Box {...props}>
       <MenuOpenButton
         aria-controls="menu"
         aria-haspopup="true"
@@ -84,7 +85,7 @@ const Services = () => {
           </MenuItem>
         ))}
       </Menu>
-    </>
+    </Box>
   );
 };
 

@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { Auth } from "aws-amplify";
 
 interface ApplicationState {
   isDarkMode: boolean;
@@ -9,16 +10,22 @@ interface ApplicationState {
   userID: string | null;
 }
 
+const initialState: ApplicationState = {
+  isDarkMode: false,
+  isDrawerOpen: false,
+  isEmpty: true,
+  isAdmin: false,
+  isAuth: false,
+  userID: null,
+};
+
+export const logout = createAsyncThunk("application/logout", async () => {
+  await Auth.signOut();
+});
+
 export const applicationSlice = createSlice({
   name: "application",
-  initialState: {
-    isDarkMode: false,
-    isDrawerOpen: false,
-    isEmpty: true,
-    isAdmin: false,
-    isAuth: false,
-    userID: null,
-  } as ApplicationState,
+  initialState,
   reducers: {
     toggleDarkMode: (state, action) => {
       state.isDarkMode = !state.isDarkMode;
@@ -38,6 +45,13 @@ export const applicationSlice = createSlice({
     setUserID: (state, action) => {
       state.userID = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(logout.fulfilled, (state) => {
+      state.isAuth = false;
+      state.isAdmin = false;
+      state.userID = null;
+    });
   },
 });
 

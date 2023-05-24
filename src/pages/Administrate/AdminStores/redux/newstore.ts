@@ -94,7 +94,9 @@ export const newStoreSlice = createSlice({
       state.openTimes.push(action.payload);
     },
     removeOpenTime: (state, action: PayloadAction<LazyOpentime>) => {
-      state.openTimes.filter((openTime) => openTime.id !== action.payload.id);
+      state.openTimes = state.openTimes.filter(
+        (openTime) => openTime.id !== action.payload.id
+      );
     },
 
     setCategories: (state, action: PayloadAction<LazyCategory[]>) => {

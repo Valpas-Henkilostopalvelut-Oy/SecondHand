@@ -10,7 +10,7 @@ const Contact = (props: LazyContact) => (
     <Typography>{props.email}</Typography>
     {props.website && (
       <Link href={props.website} underline="hover">
-        Nettisiivu
+        {props.website}
       </Link>
     )}
   </Box>
