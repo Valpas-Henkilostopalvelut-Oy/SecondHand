@@ -5,7 +5,7 @@ import { Store } from "../../../models";
 import type { StorelistProps } from "../types";
 import { Box, CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { fetchStoreFilter, fetchStores } from "../../../app/stores";
+import { fetchStoreFilter, fetchStores } from "../../../app/reducer/stores";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 const withLoading =

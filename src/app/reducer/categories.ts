@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Categories } from "../models";
+import { Categories } from "../../models";
 import { DataStore } from "aws-amplify";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { Auth } from "aws-amplify";

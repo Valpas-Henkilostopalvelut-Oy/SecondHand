@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { LazyStore } from "../models";
-import { Store } from "../models";
+import type { LazyStore } from "../../models";
+import { Store } from "../../models";
 import { DataStore } from "aws-amplify";
 import type { PayloadAction } from "@reduxjs/toolkit";
 

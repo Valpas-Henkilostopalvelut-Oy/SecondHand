@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Box, Typography, Menu, MenuItem, IconButton } from "@mui/material";
+import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import type { BoxProps } from "@mui/material";
 import { NavigationButton } from "./CustomButtons";
-import MenuIcon from "@mui/icons-material/Menu";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import LoginIcon from "@mui/icons-material/Login";
-import { logout } from "../app/application";
+import { logout } from "../app/reducer/user";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const links = [
@@ -21,7 +20,7 @@ const links = [
 
 const Profile = (props: BoxProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { isAuth, isAdmin } = useAppSelector((state) => state.application);
+  const { isAuth } = useAppSelector((state) => state.user);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
     setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -30,8 +29,6 @@ const Profile = (props: BoxProps) => {
     dispatch(logout());
     handleClose();
   };
-
-  console.log("isAdmin", isAdmin);
 
   if (!isAuth) {
     return (

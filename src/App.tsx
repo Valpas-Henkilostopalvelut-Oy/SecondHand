@@ -6,19 +6,16 @@ import loadingApp from "./services/loadingApp";
 import type { ErrorLoginProps } from "./types/application";
 import { ErrorLogin } from "./services/errorLib";
 
-const Component = (props: ErrorLoginProps) => {
-  const { error, open, setOpen } = props;
-  return (
-    <Box>
-      <CssBaseline />
-      <Navbar />
-      <Container sx={{ mt: 4 }}>
-        <Navigation />
-      </Container>
-      <ErrorLogin error={error} open={open} setOpen={setOpen} />
-    </Box>
-  );
-};
+const Component = () => (
+  <Box>
+    <CssBaseline />
+    <Navbar />
+    <Container sx={{ mt: 4 }}>
+      <Navigation />
+    </Container>
+    <ErrorLogin />
+  </Box>
+);
 
 const App = loadingApp(Component);
 

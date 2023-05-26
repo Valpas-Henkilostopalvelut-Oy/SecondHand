@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import React from "react";
+import { Box, Button, TextField, Typography, Container } from "@mui/material";
 import { Formik, type FormikHelpers } from "formik";
 import * as Yup from "yup";
-import type { ValueSignInForm } from "./types";
-import { useNavigate } from "react-router-dom";
-import { Auth } from "aws-amplify";
+import { login } from "../app/reducer/user";
+import { useAppDispatch } from "../app/hooks";
+import { NavigationButton } from "../globalComponents/CustomButtons";
 
-const values = {
+interface FormValues {
+  email: string;
+  password: string;
+}
+
+const values: FormValues = {
   email: "",
   password: "",
 };
@@ -18,32 +23,16 @@ const validationSchema = Yup.object().shape({
     .required("Password is required"),
 });
 
-const handleSignin = async (
-  email: string,
-  password: string,
-  navigate: any,
-  setMessages: any
-) => {
-  try {
-    await Auth.signIn(email, password).then((user) => {
-      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-        navigate("/new-password");
-      } else {
-        navigate("/");
-      }
-    });
-  } catch (error: any) {
-    setMessages(error.message);
-  }
-};
-
 const SigninForm = () => {
-  const navigate = useNavigate();
-  const [messages, setMessages] = useState("");
-
-  const onSubmit = async (values: ValueSignInForm) => {
+  const dispatch = useAppDispatch();
+  const onSubmit = async (
+    values: FormValues,
+    { setSubmitting, resetForm }: FormikHelpers<FormValues>
+  ) => {
     const { email, password } = values;
-    await handleSignin(email, password, navigate, setMessages);
+    dispatch(login({ email, password }));
+    setSubmitting(false);
+    resetForm();
   };
 
   return (
@@ -57,6 +46,8 @@ const SigninForm = () => {
           values,
           errors,
           touched,
+          isValid,
+          dirty,
           handleChange,
           handleBlur,
           handleSubmit,
@@ -74,6 +65,7 @@ const SigninForm = () => {
               helperText={touched.email && errors.email}
               margin="normal"
               fullWidth
+              disabled={isSubmitting}
             />
             <TextField
               id="password"
@@ -87,17 +79,21 @@ const SigninForm = () => {
               helperText={touched.password && errors.password}
               margin="normal"
               fullWidth
+              disabled={isSubmitting}
             />
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="body2" color="error">
-                {messages}
-              </Typography>
-            </Box>
+            <Box mt={2} />
+            <Typography variant="body2" gutterBottom>
+              Eikö sinulla ole tunnuksia? Luo tunnukset{" "}
+              <NavigationButton to="/signup" sx={{ color: "primary.main" }}>
+                tästä
+              </NavigationButton>
+            </Typography>
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isValid || !dirty}
+              fullWidth
             >
               Kirjaudu sisään
             </Button>
@@ -108,13 +104,13 @@ const SigninForm = () => {
   );
 };
 
-const Signin = (props: any) => (
-  <Box>
+const Signin = () => (
+  <Container maxWidth="xs">
     <Typography variant="h4" component="h1" gutterBottom>
       Kirjaudu sisään
     </Typography>
-    <SigninForm {...props} />
-  </Box>
+    <SigninForm />
+  </Container>
 );
 
 export default Signin;

@@ -1,14 +1,10 @@
-import React, { useState } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import React from "react";
+import { Box, type BoxProps, Button, TextField } from "@mui/material";
 import { Formik, type FormikHelpers } from "formik";
 import * as Yup from "yup";
-import type {
-  ValueSignUpForm,
-  SignupFormProps,
-  HandleSignupProps,
-} from "../types";
-import { Auth } from "aws-amplify";
-import { onError } from "../../../services/errorLib";
+import type { ValueSignUpForm } from "../types";
+import { useAppDispatch } from "../../../app/hooks";
+import { signup } from "../../../app/reducer/user";
 
 const values = {
   email: "",
@@ -26,32 +22,23 @@ const validationSchema = Yup.object().shape({
     .required("Confirm Password is required"),
 });
 
-const handleSignup = async (props: HandleSignupProps) => {
-  const { setConfirm, email, password } = props;
-  try {
-    await Auth.signUp({
-      username: email,
-      password,
-      autoSignIn: {
-        enabled: true,
-      },
-    }).then(() => setConfirm(true));
-  } catch (error: any) {
-    onError(error);
-  }
-};
-
-const SignupForm = (props: SignupFormProps) => {
+const SignupForm = (props: BoxProps) => {
+  const dispatch = useAppDispatch();
   const onSubmit = (
     values: ValueSignUpForm,
     actions: FormikHelpers<ValueSignUpForm>
   ) => {
     const { email, password } = values;
-    handleSignup({ setConfirm: props.setConfirm, email, password });
+    const { setSubmitting, resetForm } = actions;
+    setTimeout(() => {
+      dispatch(signup({ email, password }));
+      setSubmitting(false);
+      resetForm();
+    }, 500);
   };
 
   return (
-    <Box>
+    <Box {...props}>
       <Formik
         initialValues={values}
         validationSchema={validationSchema}
@@ -61,6 +48,8 @@ const SignupForm = (props: SignupFormProps) => {
           values,
           errors,
           touched,
+          isValid,
+          dirty,
           handleChange,
           handleBlur,
           handleSubmit,
@@ -72,16 +61,14 @@ const SignupForm = (props: SignupFormProps) => {
               label="Sähköposti"
               margin="normal"
               name="email"
-              onChange={(e) => {
-                props.setEmail(e.target.value);
-                handleChange(e);
-              }}
+              onChange={handleChange}
               type="email"
               value={values.email}
               variant="outlined"
               onBlur={handleBlur}
               error={Boolean(errors.email && touched.email)}
               helperText={errors.email && touched.email && errors.email}
+              disabled={isSubmitting}
             />
             <TextField
               fullWidth
@@ -97,6 +84,7 @@ const SignupForm = (props: SignupFormProps) => {
               helperText={
                 errors.password && touched.password && errors.password
               }
+              disabled={isSubmitting}
             />
             <TextField
               fullWidth
@@ -114,6 +102,7 @@ const SignupForm = (props: SignupFormProps) => {
                 touched.confirmPassword &&
                 errors.confirmPassword
               }
+              disabled={isSubmitting}
             />
             <Box my={2}>
               <Button
@@ -122,7 +111,7 @@ const SignupForm = (props: SignupFormProps) => {
                 size="large"
                 type="submit"
                 variant="contained"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isValid || !dirty}
               >
                 Rekisteröidy
               </Button>

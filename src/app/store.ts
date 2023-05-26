@@ -1,10 +1,11 @@
 import type { ThunkAction, Action } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
-import application from "./application";
+import application from "./reducer/application";
 import newstore from "../pages/Administrate/AdminStores/redux/newstore";
 import adminStoresSlice from "../pages/Administrate/AdminStores/redux/adminStores";
-import stores from "./stores";
-import categories from "./categories";
+import stores from "./reducer/stores";
+import categories from "./reducer/categories";
+import user from "./reducer/user";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     adminStoresSlice,
     stores,
     categories,
+    user,
   },
 });
 

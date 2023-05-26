@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "../pages/Home";
 import StorelistWithLoading from "../pages/Storelist";
 import Signup from "../pages/Signup";
-import Signin from "../pages/Signin";
+import Signin from "../pages/Siginin";
 import NotFound from "../globalComponents/NotFound";
 import AdminStores from "../pages/Administrate/AdminStores";
 import Categories from "../pages/Categories";
@@ -42,15 +42,39 @@ const ProtectedRouteAdmin = (props: ProtectedRouteAdminProps) => {
   return children;
 };
 
+const ProtectedRouteAlreadyAuth = (props: ProtectedRouteProps) => {
+  const { isAuth, redirectPath, children } = props;
+
+  if (isAuth) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return children;
+};
+
 export const Navigation = () => {
-  const { isAuth, isAdmin } = useAppSelector((state) => state.application);
+  const { isAuth, isAdmin } = useAppSelector((state) => state.user);
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/stores" element={<StorelistWithLoading />} />
       <Route path="/stores/:category" element={<StorelistWithLoading />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/signin" element={<Signin />} />
+      <Route
+        path="/signup"
+        element={
+          <ProtectedRouteAlreadyAuth isAuth={isAuth} redirectPath="/">
+            <Signup />
+          </ProtectedRouteAlreadyAuth>
+        }
+      />
+      <Route
+        path="/signin"
+        element={
+          <ProtectedRouteAlreadyAuth isAuth={isAuth} redirectPath="/">
+            <Signin />
+          </ProtectedRouteAlreadyAuth>
+        }
+      />
       <Route
         path="/admin"
         element={
