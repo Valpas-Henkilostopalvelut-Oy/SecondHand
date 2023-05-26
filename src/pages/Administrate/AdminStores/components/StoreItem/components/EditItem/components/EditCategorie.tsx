@@ -1,39 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { TextField, Grid, Autocomplete } from "@mui/material";
-import { DataStore } from "aws-amplify";
-import type { EditItemState } from "../types";
-import { Categories } from "../../../../../../../../models";
-import type {
-  LazyCategory,
-  LazyCategories,
-} from "../../../../../../../../models";
+import { useAppSelector } from "../../../../../../../../app/hooks";
 
 const EditCategorie = (props: any) => {
   const { categories, handleChange } = props;
-  const [catego, setCategory] = useState<LazyCategory[]>([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const data = (await DataStore.query(Categories)).map(
-        (category: LazyCategories) => ({
-          id: category.id,
-          name: category.name,
-        })
-      );
-
-      setCategory(data);
-    };
-
-    fetchCategories();
-  }, []);
+  const { data } = useAppSelector((state) => state.categories);
+  const category = data?.map((item) => ({
+    id: item.id,
+    name: item.name,
+  }));
 
   return (
     <Grid item xs={12}>
       <Autocomplete
         multiple
         id="categori-select"
-        options={catego}
-        getOptionLabel={(option: any) => option.name}
+        value={categories}
+        options={category || []}
+        getOptionLabel={(option) => option?.name || ""}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
         onChange={handleChange}
         renderInput={(params) => (
           <TextField

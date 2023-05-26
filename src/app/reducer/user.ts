@@ -3,7 +3,7 @@ import {
   createAsyncThunk,
   type PayloadAction,
 } from "@reduxjs/toolkit";
-import { Auth } from "aws-amplify";
+import { Auth, DataStore } from "aws-amplify";
 
 interface userState {
   isAuth: boolean;
@@ -29,11 +29,20 @@ const initialState: userState = {
   userEmail: null,
 };
 
+export const loadDataStore = createAsyncThunk(
+  "application/loadDataStore",
+  async () => {
+    await DataStore.start();
+  }
+);
+
 export const getAuth = createAsyncThunk("application/getAuth", async () => {
   await Auth.currentSession();
   const { attributes, username, signInUserSession } =
     await Auth.currentAuthenticatedUser();
-  return { attributes, username, signInUserSession };
+  const isAdmin = signInUserSession.idToken.payload["cognito:groups"] || [];
+
+  return { attributes, username, isAdmin: isAdmin.includes("admin") };
 });
 
 export const logout = createAsyncThunk("application/logout", async () => {
@@ -44,6 +53,7 @@ export const login = createAsyncThunk(
   "application/login",
   async ({ email, password }: { email: string; password: string }) => {
     const user = await Auth.signIn(email, password);
+
     return user;
   }
 );
@@ -59,7 +69,6 @@ export const signup = createAsyncThunk(
       password: password,
     });
     dispatch(setEmail(email));
-    return user;
   }
 );
 
@@ -97,11 +106,8 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getAuth.fulfilled, (state, action) => {
-      const groups =
-        action.payload.signInUserSession.idToken.payload["cognito:groups"] ||
-        [];
+      state.isAdmin = action.payload.isAdmin;
       state.isLoading = false;
-      state.isAdmin = groups.includes("admin") || false;
       state.isAuth = true;
       state.userID = action.payload.username;
       state.userEmail = action.payload.attributes.email;
@@ -138,7 +144,6 @@ const userSlice = createSlice({
     });
     builder.addCase(verifyEmail.fulfilled, (state) => {
       state.isEmailVerified = true;
-      state.isConfirming = false;
     });
     builder.addCase(verifyEmail.rejected, (state, action) => {
       state.isError = true;
@@ -147,10 +152,17 @@ const userSlice = createSlice({
     builder.addCase(resendCode.fulfilled, (state) => {
       state.isEmailVerified = false;
     });
-    builder.addCase(signup.fulfilled, (state, action) => {
+    builder.addCase(signup.fulfilled, (state) => {
       state.isConfirming = true;
     });
     builder.addCase(signup.rejected, (state, action) => {
+      state.isError = true;
+      state.error = action.error.message;
+    });
+    builder.addCase(loadDataStore.fulfilled, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(loadDataStore.rejected, (state, action) => {
       state.isError = true;
       state.error = action.error.message;
     });

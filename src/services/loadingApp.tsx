@@ -4,7 +4,8 @@ import { Box, CircularProgress } from "@mui/material";
 import { Hub } from "aws-amplify";
 import { toggleEmpty } from "../app/reducer/application";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { getAuth } from "../app/reducer/user";
+import { getAuth, loadDataStore } from "../app/reducer/user";
+import { fetchCategories } from "../app/reducer/categories";
 
 const loadingApp = (Component: () => JSX.Element) => () => {
   const [isEmpty, setIsEmpty] = useState(true);
@@ -12,6 +13,8 @@ const loadingApp = (Component: () => JSX.Element) => () => {
   const { isLoading } = useAppSelector((state) => state.user);
 
   useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(loadDataStore());
     dispatch(getAuth());
   }, []);
 

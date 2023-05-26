@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-import type { LazyStore } from "../../../models";
-import { DataStore } from "aws-amplify";
-import { Store } from "../../../models";
+import React, { useEffect } from "react";
 import type { StorelistProps } from "../types";
 import { Box, CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";

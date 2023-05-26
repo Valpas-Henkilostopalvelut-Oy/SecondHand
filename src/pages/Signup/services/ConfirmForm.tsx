@@ -65,6 +65,7 @@ const ConfirmForm = (props: BoxProps) => {
               variant="contained"
               color="primary"
               disabled={isSubmitting || !isValid || !dirty}
+              fullWidth
             >
               Vahvista
             </Button>
