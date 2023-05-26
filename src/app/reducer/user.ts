@@ -31,8 +31,9 @@ const initialState: userState = {
 
 export const getAuth = createAsyncThunk("application/getAuth", async () => {
   await Auth.currentSession();
-  const user = await Auth.currentAuthenticatedUser();
-  return user;
+  const { attributes, username, signInUserSession } =
+    await Auth.currentAuthenticatedUser();
+  return { attributes, username, signInUserSession };
 });
 
 export const logout = createAsyncThunk("application/logout", async () => {
@@ -49,15 +50,16 @@ export const login = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   "application/signup",
-  async ({ email, password }: { email: string; password: string }) => {
+  async (
+    { email, password }: { email: string; password: string },
+    { dispatch }
+  ) => {
     const user = await Auth.signUp({
       username: email,
       password: password,
     });
-    return {
-      user,
-      email,
-    };
+    dispatch(setEmail(email));
+    return user;
   }
 );
 
@@ -88,6 +90,9 @@ const userSlice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.isError = true;
       state.error = action.payload;
+    },
+    setEmail: (state, action: PayloadAction<string>) => {
+      state.userEmail = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -143,7 +148,6 @@ const userSlice = createSlice({
       state.isEmailVerified = false;
     });
     builder.addCase(signup.fulfilled, (state, action) => {
-      state.userEmail = action.payload.email;
       state.isConfirming = true;
     });
     builder.addCase(signup.rejected, (state, action) => {
@@ -153,5 +157,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { dismissError, setError } = userSlice.actions;
+export const { dismissError, setError, setEmail } = userSlice.actions;
 export default userSlice.reducer;

@@ -9,6 +9,7 @@ import Opentimes from "./Opentimes";
 import Create from "./Create";
 import Basic from "./Basic";
 import SocialMedia from "./SocialMedia";
+import StoreType from "./StoreType";
 import { ErrorBoundary } from "../../../../services/errorLib";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { clearError } from "../redux/newstore";
@@ -48,6 +49,10 @@ const NewStore = () => {
 
             <StoreBlock>
               <CategoriesSelect />
+            </StoreBlock>
+
+            <StoreBlock>
+              <StoreType />
             </StoreBlock>
 
             <StoreBlock>

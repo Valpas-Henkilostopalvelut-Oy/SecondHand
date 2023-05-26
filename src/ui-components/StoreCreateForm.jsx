@@ -193,6 +193,7 @@ export default function StoreCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    type: "",
     userID: "",
     isConfirmed: false,
     name: "",
@@ -201,6 +202,7 @@ export default function StoreCreateForm(props) {
     clicked: "",
     embedmap: "",
   };
+  const [type, setType] = React.useState(initialValues.type);
   const [userID, setUserID] = React.useState(initialValues.userID);
   const [isConfirmed, setIsConfirmed] = React.useState(
     initialValues.isConfirmed
@@ -214,6 +216,7 @@ export default function StoreCreateForm(props) {
   const [embedmap, setEmbedmap] = React.useState(initialValues.embedmap);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setType(initialValues.type);
     setUserID(initialValues.userID);
     setIsConfirmed(initialValues.isConfirmed);
     setName(initialValues.name);
@@ -227,6 +230,7 @@ export default function StoreCreateForm(props) {
   const [currentServicesValue, setCurrentServicesValue] = React.useState("");
   const servicesRef = React.createRef();
   const validations = {
+    type: [],
     userID: [],
     isConfirmed: [],
     name: [],
@@ -261,6 +265,7 @@ export default function StoreCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          type,
           userID,
           isConfirmed,
           name,
@@ -314,6 +319,37 @@ export default function StoreCreateForm(props) {
       {...rest}
     >
       <TextField
+        label="Type"
+        isRequired={false}
+        isReadOnly={false}
+        value={type}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              type: value,
+              userID,
+              isConfirmed,
+              name,
+              description,
+              services,
+              clicked,
+              embedmap,
+            };
+            const result = onChange(modelFields);
+            value = result?.type ?? value;
+          }
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
+          }
+          setType(value);
+        }}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
+      ></TextField>
+      <TextField
         label="User id"
         isRequired={false}
         isReadOnly={false}
@@ -322,6 +358,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              type,
               userID: value,
               isConfirmed,
               name,
@@ -352,6 +389,7 @@ export default function StoreCreateForm(props) {
           let value = e.target.checked;
           if (onChange) {
             const modelFields = {
+              type,
               userID,
               isConfirmed: value,
               name,
@@ -382,6 +420,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              type,
               userID,
               isConfirmed,
               name: value,
@@ -412,6 +451,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              type,
               userID,
               isConfirmed,
               name,
@@ -438,6 +478,7 @@ export default function StoreCreateForm(props) {
           let values = items;
           if (onChange) {
             const modelFields = {
+              type,
               userID,
               isConfirmed,
               name,
@@ -494,6 +535,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              type,
               userID,
               isConfirmed,
               name,
@@ -524,6 +566,7 @@ export default function StoreCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              type,
               userID,
               isConfirmed,
               name,

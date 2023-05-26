@@ -16,6 +16,7 @@ import EditContact from "./components/EditContact";
 import EditCategorie from "./components/EditCategorie";
 import Location from "./components/EditLocation";
 import EditSocialMedia from "./components/EditSocialMedia";
+import EditType from "./components/EditType";
 
 const EditItem = (props: EditItemProps) => {
   const { open, setOpen, ...rest } = props;
@@ -75,14 +76,22 @@ const EditItem = (props: EditItemProps) => {
     });
   };
 
+  const handleEditType = (value: string) => {
+    setNewStore((prev) => ({
+      ...prev,
+      type: value,
+    }));
+  };
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>Muokkaa</DialogTitle>
       <DialogContent>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ padding: "1em" }}>
           <Basic {...newStore} handleChange={handleChange} />
           <EditContact {...newStore} handleChange={haneleEditContact} />
           <EditCategorie {...newStore} handleChange={handleEditCategories} />
+          <EditType {...newStore} handleChange={handleEditType} />
           <Location {...newStore} setNewStore={setNewStore} />
           <EditSocialMedia {...newStore} handleChange={handleEditSocialMedia} />
         </Grid>

@@ -17,7 +17,7 @@ interface StoreProps {
 }
 
 interface filterProps {
-  categoryName: string;
+  type: string;
 }
 
 interface initialStateProps {
@@ -50,6 +50,7 @@ export const fetchStores = createAsyncThunk(
         imgs: store.imgs,
         isConfirmed: store.isConfirmed,
         social: store.social,
+        type: store.type,
       }))
       .filter((store) => store.isConfirmed);
     return filteredStores;
@@ -59,7 +60,7 @@ export const fetchStores = createAsyncThunk(
 export const fetchStoreFilter = createAsyncThunk(
   "adminStores/fetchStoreFilter",
   async (filter: filterProps) => {
-    const { categoryName } = filter;
+    const { type } = filter;
     const stores = await DataStore.query(Store);
     const filteredStores = stores
       .map((store) => ({
@@ -73,14 +74,9 @@ export const fetchStoreFilter = createAsyncThunk(
         imgs: store.imgs,
         isConfirmed: store.isConfirmed,
         sosial: store.social,
+        type: store.type,
       }))
-      .filter(
-        (store) =>
-          store.isConfirmed &&
-          store.categories
-            ?.map((c) => c?.name?.toLowerCase())
-            .includes(categoryName.toLowerCase())
-      );
+      .filter((store) => store.isConfirmed && store.type === type);
 
     return filteredStores;
   }

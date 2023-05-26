@@ -18,7 +18,6 @@ const Storelist = ({ storelist }: StorelistProps) => {
 
   return (
     <Box>
-      <Typography variant="h4">Kirpputorit ja kierrätyskeskukset</Typography>
       <Search
         search={search}
         setSearch={setSearch}

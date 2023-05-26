@@ -14,6 +14,7 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type StoreUpdateFormInputValues = {
+    type?: string;
     userID?: string;
     isConfirmed?: boolean;
     name?: string;
@@ -23,6 +24,7 @@ export declare type StoreUpdateFormInputValues = {
     embedmap?: string;
 };
 export declare type StoreUpdateFormValidationValues = {
+    type?: ValidationFunction<string>;
     userID?: ValidationFunction<string>;
     isConfirmed?: ValidationFunction<boolean>;
     name?: ValidationFunction<string>;
@@ -34,6 +36,7 @@ export declare type StoreUpdateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type StoreUpdateFormOverridesProps = {
     StoreUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    type?: PrimitiveOverrideProps<TextFieldProps>;
     userID?: PrimitiveOverrideProps<TextFieldProps>;
     isConfirmed?: PrimitiveOverrideProps<SwitchFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;

@@ -33,6 +33,7 @@ export const fetchStoreAsync = createAsyncThunk(
       imgs: store.imgs,
       isConfirmed: store.isConfirmed,
       social: store.social,
+      type: store.type,
     }));
     return seriablizedStores;
   }
@@ -133,6 +134,7 @@ export const updateStoreAsync =
           updated.imgs = store.imgs;
           updated.isConfirmed = store.isConfirmed;
           updated.social = store.social;
+          updated.type = store.type;
         })
       ).then((res) => ({
         id: res.id,
@@ -145,6 +147,7 @@ export const updateStoreAsync =
         imgs: res.imgs,
         isConfirmed: res.isConfirmed,
         social: res.social,
+        type: res.type,
       }));
 
       dispatch(updateStore(updatedStore));

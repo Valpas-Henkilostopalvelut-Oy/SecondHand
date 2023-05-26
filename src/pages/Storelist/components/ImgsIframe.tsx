@@ -21,7 +21,7 @@ const ImgsIframe = (props: ImgsIframeProps) => {
         })}
 
       {location?.iframe && (
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <CustomIframe src={location?.iframe} loading="lazy" />
         </Grid>
       )}
@@ -48,7 +48,7 @@ const OneImg = (item: OneImgProps) => {
   }, [fileKey]);
 
   return (
-    <Grid item xs={4}>
+    <Grid item xs={6} sm={4}>
       <Box
         sx={{
           position: "relative",

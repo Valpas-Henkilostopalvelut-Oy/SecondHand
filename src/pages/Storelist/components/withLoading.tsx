@@ -17,11 +17,7 @@ const withLoading =
 
     useEffect(() => {
       if (category) {
-        dispatch(
-          fetchStoreFilter({
-            categoryName: category,
-          })
-        );
+        dispatch(fetchStoreFilter({ type: category }));
       } else {
         dispatch(fetchStores());
       }

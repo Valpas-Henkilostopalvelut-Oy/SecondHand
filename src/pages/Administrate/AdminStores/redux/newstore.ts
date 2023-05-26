@@ -15,6 +15,7 @@ import { updateData } from "../../../../app/reducer/adminStores";
 
 const initialState: NewStoreProps = {
   isCreating: false,
+  type: null,
   error: null,
   isError: false,
   isConfirm: false,
@@ -86,6 +87,7 @@ export const createNewStoreAsync = createAsyncThunk(
       contacts,
       location,
       social,
+      type,
     } = newStore;
     const store = new Store({
       isConfirmed: isAdmin,
@@ -97,6 +99,7 @@ export const createNewStoreAsync = createAsyncThunk(
       location,
       imgs: onUploadImages,
       social,
+      type,
     });
 
     const storeToAdd = {
@@ -109,6 +112,8 @@ export const createNewStoreAsync = createAsyncThunk(
       location: store.location,
       imgs: store.imgs,
       isConfirmed: store.isConfirmed,
+      social: store.social,
+      type: store.type,
     };
 
     await DataStore.save(store);
@@ -120,6 +125,9 @@ export const newStoreSlice = createSlice({
   name: "newStore",
   initialState,
   reducers: {
+    setType: (state, action: PayloadAction<string>) => {
+      state.type = action.payload;
+    },
     setSocial: (state, action: PayloadAction<LazySocial>) => {
       state.social = action.payload;
     },
@@ -170,6 +178,7 @@ export const newStoreSlice = createSlice({
       state.isCreating = true;
     });
     builder.addCase(createNewStoreAsync.fulfilled, (state) => {
+      state.type = null;
       state.isCreating = false;
       state.isConfirm = true;
       state.error = null;
@@ -220,6 +229,7 @@ export const {
   removeFile,
   clearError,
   setSocial,
+  setType,
 } = newStoreSlice.actions;
 
 export default newStoreSlice.reducer;

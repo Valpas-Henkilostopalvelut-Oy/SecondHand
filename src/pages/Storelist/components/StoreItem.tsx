@@ -77,16 +77,16 @@ const StoreItem = (props: LazyStore) => {
 
           <CustomBox>
             <Grid container spacing={2}>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Typography variant="h6">Aukioloajat</Typography>
                 <OpenTime times={opentimes} />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Contact {...contact} />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Location {...location} />
               </Grid>
             </Grid>

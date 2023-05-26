@@ -220,6 +220,7 @@ type EagerStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly type?: string | null;
   readonly userID?: string | null;
   readonly isConfirmed?: boolean | null;
   readonly name?: string | null;
@@ -245,6 +246,7 @@ type LazyStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly type?: string | null;
   readonly userID?: string | null;
   readonly isConfirmed?: boolean | null;
   readonly name?: string | null;

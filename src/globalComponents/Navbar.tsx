@@ -21,13 +21,18 @@ const links = [
     title: "Etusivu",
     path: "/",
   },
+
   {
-    title: "Kirpputorit",
+    title: "Kaikki",
     path: "/stores",
   },
   {
+    title: "Kirpputorit",
+    path: "/stores/fleamarket",
+  },
+  {
     title: "Kaupat",
-    path: "/stores/Kaupat",
+    path: "/stores/shops",
   },
   {
     title: "Galleriat",
@@ -39,7 +44,7 @@ const links = [
   },
   {
     title: "Taphtumat",
-    path: "/stores/tapahtumat",
+    path: "/stores/events",
   },
 ];
 
