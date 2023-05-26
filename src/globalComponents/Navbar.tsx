@@ -19,11 +19,6 @@ import Profile from "./Profile";
 const links = [
   {
     title: "Etusivu",
-    path: "/",
-  },
-
-  {
-    title: "Kaikki",
     path: "/stores",
   },
   {

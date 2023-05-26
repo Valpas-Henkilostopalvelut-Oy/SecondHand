@@ -18,12 +18,7 @@ const Storelist = ({ storelist }: StorelistProps) => {
 
   return (
     <Box>
-      <Search
-        search={search}
-        setSearch={setSearch}
-        onClick={() => console.log(search)}
-      />
-
+      <Search />
       {!!storelist &&
         storelist.map((item: LazyStore) => (
           <StoreItem {...item} key={item.id} />

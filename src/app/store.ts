@@ -6,6 +6,7 @@ import adminStoresSlice from "./reducer/adminStores";
 import stores from "./reducer/stores";
 import categories from "./reducer/categories";
 import user from "./reducer/user";
+import search from "../globalComponents/Search/redux/search";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     stores,
     categories,
     user,
+    search,
   },
 });
 
