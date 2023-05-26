@@ -54,7 +54,10 @@ export const signup = createAsyncThunk(
       username: email,
       password: password,
     });
-    return user;
+    return {
+      user,
+      email,
+    };
   }
 );
 
@@ -130,6 +133,7 @@ const userSlice = createSlice({
     });
     builder.addCase(verifyEmail.fulfilled, (state) => {
       state.isEmailVerified = true;
+      state.isConfirming = false;
     });
     builder.addCase(verifyEmail.rejected, (state, action) => {
       state.isError = true;
@@ -138,7 +142,8 @@ const userSlice = createSlice({
     builder.addCase(resendCode.fulfilled, (state) => {
       state.isEmailVerified = false;
     });
-    builder.addCase(signup.fulfilled, (state) => {
+    builder.addCase(signup.fulfilled, (state, action) => {
+      state.userEmail = action.payload.email;
       state.isConfirming = true;
     });
     builder.addCase(signup.rejected, (state, action) => {

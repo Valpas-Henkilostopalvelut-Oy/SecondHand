@@ -55,6 +55,24 @@ type Sellplaces {
   free: Int
 }
 
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  username: String
+  email: AWSEmail
+  stores: [Store]
+  role: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Social {
+  facebook: String
+  instagram: String
+  twitter: String
+  youtube: String
+  tiktok: String
+}
+
 type Store @model @auth(rules: [{allow: public}]) {
   id: ID!
   userID: String
@@ -71,5 +89,6 @@ type Store @model @auth(rules: [{allow: public}]) {
   contact: Contact
   location: Location
   imgs: [Image]
+  social: Social
 }
  

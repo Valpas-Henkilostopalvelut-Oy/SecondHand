@@ -15,7 +15,7 @@ export interface ErrorLoginProps {
 }
 
 export interface ErrorBoundaryProps {
-  error: string | null;
+  error: string | null | undefined;
   isError: boolean;
   clearError: () => void;
 }

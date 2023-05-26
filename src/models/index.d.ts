@@ -134,6 +134,26 @@ export declare type Sellplaces = LazyLoading extends LazyLoadingDisabled ? Eager
 
 export declare const Sellplaces: (new (init: ModelInit<Sellplaces>) => Sellplaces)
 
+type EagerSocial = {
+  readonly facebook?: string | null;
+  readonly instagram?: string | null;
+  readonly twitter?: string | null;
+  readonly youtube?: string | null;
+  readonly tiktok?: string | null;
+}
+
+type LazySocial = {
+  readonly facebook?: string | null;
+  readonly instagram?: string | null;
+  readonly twitter?: string | null;
+  readonly youtube?: string | null;
+  readonly tiktok?: string | null;
+}
+
+export declare type Social = LazyLoading extends LazyLoadingDisabled ? EagerSocial : LazySocial
+
+export declare const Social: (new (init: ModelInit<Social>) => Social)
+
 type EagerCategories = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Categories, 'id'>;
@@ -164,6 +184,36 @@ export declare const Categories: (new (init: ModelInit<Categories>) => Categorie
   copyOf(source: Categories, mutator: (draft: MutableModel<Categories>) => MutableModel<Categories> | void): Categories;
 }
 
+type EagerUser = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<User, 'id'>;
+  };
+  readonly id: string;
+  readonly username?: string | null;
+  readonly email?: string | null;
+  readonly role?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyUser = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<User, 'id'>;
+  };
+  readonly id: string;
+  readonly username?: string | null;
+  readonly email?: string | null;
+  readonly role?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type User = LazyLoading extends LazyLoadingDisabled ? EagerUser : LazyUser
+
+export declare const User: (new (init: ModelInit<User>) => User) & {
+  copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
+}
+
 type EagerStore = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Store, 'id'>;
@@ -184,6 +234,7 @@ type EagerStore = {
   readonly contact?: Contact | null;
   readonly location?: Location | null;
   readonly imgs?: (Image | null)[] | null;
+  readonly social?: Social | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -208,6 +259,7 @@ type LazyStore = {
   readonly contact?: Contact | null;
   readonly location?: Location | null;
   readonly imgs?: (Image | null)[] | null;
+  readonly social?: Social | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

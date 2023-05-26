@@ -4,7 +4,7 @@ import NewStore from "./components/NewStore";
 import StoreItem from "./components/StoreItem";
 import withLoading from "./components/withloading";
 import { ErrorBoundary } from "../../../services/errorLib";
-import { clearError } from "./redux/adminStores";
+import { clearError } from "../../../app/reducer/adminStores";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 const Stores = () => {

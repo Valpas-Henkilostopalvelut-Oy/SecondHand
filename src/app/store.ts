@@ -2,7 +2,7 @@ import type { ThunkAction, Action } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import application from "./reducer/application";
 import newstore from "../pages/Administrate/AdminStores/redux/newstore";
-import adminStoresSlice from "../pages/Administrate/AdminStores/redux/adminStores";
+import adminStoresSlice from "./reducer/adminStores";
 import stores from "./reducer/stores";
 import categories from "./reducer/categories";
 import user from "./reducer/user";

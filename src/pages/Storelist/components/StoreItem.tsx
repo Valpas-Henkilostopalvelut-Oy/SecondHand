@@ -3,6 +3,7 @@ import React from "react";
 import {
   AccordionDetails,
   AccordionSummary,
+  AccordionActions,
   Box,
   Grid,
   Typography,
@@ -16,6 +17,7 @@ import OpenTime from "./OpenTime";
 import Contact from "./Contact";
 import Location from "./Location";
 import ImgsIframe from "./ImgsIframe";
+import SocialMedia from "./SocialMedia";
 
 const StoreItem = (props: LazyStore) => {
   const {
@@ -28,6 +30,7 @@ const StoreItem = (props: LazyStore) => {
     contact,
     location,
     imgs,
+    social,
   } = props;
 
   return (
@@ -106,6 +109,9 @@ const StoreItem = (props: LazyStore) => {
             </Grid>
           </CustomBox>
         </AccordionDetails>
+        <AccordionActions>
+          <SocialMedia {...social} />
+        </AccordionActions>
       </Accordion>
     </Box>
   );

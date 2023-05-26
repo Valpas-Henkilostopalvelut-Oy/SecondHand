@@ -8,7 +8,12 @@ const Create = () => {
   const values = useAppSelector((state) => state.newstore);
   const { isAdmin } = useAppSelector((state) => state.user);
   const handleClick = () => {
-    dispatch(createNewStoreAsync(values, isAdmin));
+    dispatch(
+      createNewStoreAsync({
+        newStore: values,
+        isAdmin: isAdmin,
+      })
+    )
   };
 
   return (

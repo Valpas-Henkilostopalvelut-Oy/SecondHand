@@ -49,6 +49,7 @@ export const fetchStores = createAsyncThunk(
         location: store.location,
         imgs: store.imgs,
         isConfirmed: store.isConfirmed,
+        social: store.social,
       }))
       .filter((store) => store.isConfirmed);
     return filteredStores;
@@ -65,19 +66,20 @@ export const fetchStoreFilter = createAsyncThunk(
         id: store.id,
         name: store.name,
         description: store.description,
-
         categories: store.categories,
         opentimes: store.opentimes,
-
         contact: store.contact,
         location: store.location,
         imgs: store.imgs,
         isConfirmed: store.isConfirmed,
+        sosial: store.social,
       }))
       .filter(
         (store) =>
           store.isConfirmed &&
-          store.categories?.map((c) => c?.name).includes(categoryName)
+          store.categories
+            ?.map((c) => c?.name?.toLowerCase())
+            .includes(categoryName.toLowerCase())
       );
 
     return filteredStores;

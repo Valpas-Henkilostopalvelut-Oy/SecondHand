@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import Basic from "./components/Basic";
 import type { EditItemProps } from "./types";
-import { updateStoreAsync } from "../../../../redux/adminStores";
+import { updateStoreAsync } from "../../../../../../../app/reducer/adminStores";
 import { useAppDispatch } from "../../../../../../../app/hooks";
 import EditContact from "./components/EditContact";
 import EditCategorie from "./components/EditCategorie";
 import Location from "./components/EditLocation";
+import EditSocialMedia from "./components/EditSocialMedia";
 
 const EditItem = (props: EditItemProps) => {
   const { open, setOpen, ...rest } = props;
@@ -51,6 +52,28 @@ const EditItem = (props: EditItemProps) => {
     dispatch(updateStoreAsync(newStore));
     onClose();
   };
+  const handleEditSocialMedia = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = event.target;
+    setNewStore((prev) => {
+      if (!prev.social) {
+        return {
+          ...prev,
+          social: {
+            [name]: value,
+          },
+        };
+      }
+      return {
+        ...prev,
+        social: {
+          ...prev.social,
+          [name]: value,
+        },
+      };
+    });
+  };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
@@ -61,6 +84,7 @@ const EditItem = (props: EditItemProps) => {
           <EditContact {...newStore} handleChange={haneleEditContact} />
           <EditCategorie {...newStore} handleChange={handleEditCategories} />
           <Location {...newStore} setNewStore={setNewStore} />
+          <EditSocialMedia {...newStore} handleChange={handleEditSocialMedia} />
         </Grid>
       </DialogContent>
       <DialogActions>

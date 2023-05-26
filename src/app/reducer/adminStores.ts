@@ -1,9 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { Dispatch, PayloadAction } from "@reduxjs/toolkit";
-import type { LazyStore } from "../../../../models";
-import { Store } from "../../../../models";
+import type { LazyStore } from "../../models";
+import { Store } from "../../models";
 import { DataStore } from "aws-amplify";
-import { stat } from "fs";
 
 interface initialStateProps {
   isLoading: boolean;
@@ -18,6 +17,40 @@ const initialState: initialStateProps = {
   error: null,
   data: null,
 };
+
+export const fetchStoreAsync = createAsyncThunk(
+  "adminStores/fetchStores",
+  async () => {
+    const stores = await DataStore.query(Store);
+    const seriablizedStores = stores.map((store) => ({
+      id: store.id,
+      name: store.name,
+      description: store.description,
+      categories: store.categories,
+      opentimes: store.opentimes,
+      contact: store.contact,
+      location: store.location,
+      imgs: store.imgs,
+      isConfirmed: store.isConfirmed,
+      social: store.social,
+    }));
+    return seriablizedStores;
+  }
+);
+
+export const confirmStoreAsync = createAsyncThunk(
+  "adminStores/confirmStore",
+  async (id: string) => {
+    const store = await DataStore.query(Store, id);
+    if (!store) throw new Error("Store not found");
+    const updatedStore = await DataStore.save(
+      Store.copyOf(store, (updated) => {
+        updated.isConfirmed = true;
+      })
+    );
+    return updatedStore;
+  }
+);
 
 export const adminStores = createSlice({
   name: "adminStores",
@@ -43,35 +76,35 @@ export const adminStores = createSlice({
     deleteStore: (state, action) => {
       state.data = state.data?.filter((store) => store.id !== action.payload);
     },
-    fetchStores: (state) => {
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchStoreAsync.pending, (state) => {
       state.isLoading = true;
       state.isError = false;
       state.error = null;
-    },
-    fetchStoresSuccess: (state, action) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.error = null;
-      state.data = action.payload;
-    },
-    fetchStoresFailure: (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.error = action.payload;
-    },
+    });
+    builder.addCase(
+      fetchStoreAsync.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.error = null;
+        state.data = action.payload;
+      }
+    );
+    builder.addCase(
+      fetchStoreAsync.rejected,
+      (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.payload.message;
+      }
+    );
   },
 });
 
-export const {
-  updateStore,
-  updateData,
-  fetchStores,
-  fetchStoresSuccess,
-  fetchStoresFailure,
-  updateError,
-  clearError,
-  deleteStore,
-} = adminStores.actions;
+export const { updateStore, updateData, updateError, clearError, deleteStore } =
+  adminStores.actions;
 
 export const deleteStoreAsync = (id: string) => async (dispatch: Dispatch) => {
   try {
@@ -99,6 +132,7 @@ export const updateStoreAsync =
           updated.location = store.location;
           updated.imgs = store.imgs;
           updated.isConfirmed = store.isConfirmed;
+          updated.social = store.social;
         })
       ).then((res) => ({
         id: res.id,
@@ -110,6 +144,7 @@ export const updateStoreAsync =
         location: res.location,
         imgs: res.imgs,
         isConfirmed: res.isConfirmed,
+        social: res.social,
       }));
 
       dispatch(updateStore(updatedStore));
@@ -117,26 +152,5 @@ export const updateStoreAsync =
       dispatch(updateError(error.message));
     }
   };
-
-export const fetchStoresAsync = () => async (dispatch: Dispatch) => {
-  dispatch(fetchStores());
-  try {
-    const stores = await DataStore.query(Store);
-    const seriablizedStores = stores.map((store) => ({
-      id: store.id,
-      name: store.name,
-      description: store.description,
-      categories: store.categories,
-      opentimes: store.opentimes,
-      contact: store.contact,
-      location: store.location,
-      imgs: store.imgs,
-      isConfirmed: store.isConfirmed,
-    }));
-    dispatch(fetchStoresSuccess(seriablizedStores));
-  } catch (error: any) {
-    dispatch(fetchStoresFailure(error.message));
-  }
-};
 
 export default adminStores.reducer;

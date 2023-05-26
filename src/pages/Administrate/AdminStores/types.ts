@@ -5,6 +5,7 @@ import type {
   LazyLocation,
   LazyImage,
   LazyStore,
+  LazySocial,
 } from "../../../models";
 
 export interface ImageTypes {
@@ -21,10 +22,11 @@ export interface StoresProps {
 export interface NewStoreProps {
   isCreating: boolean;
   isError: boolean;
-  error: string | null;
+  error: string | null | undefined;
   isConfirm: boolean;
   name: string;
   description: string | null;
+  social: LazySocial;
   categories: LazyCategory[];
   openTimes: LazyOpentime[];
   contacts: LazyContact;

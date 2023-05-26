@@ -8,6 +8,7 @@ import ImageSection from "./ImageSection";
 import Opentimes from "./Opentimes";
 import Create from "./Create";
 import Basic from "./Basic";
+import SocialMedia from "./SocialMedia";
 import { ErrorBoundary } from "../../../../services/errorLib";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { clearError } from "../redux/newstore";
@@ -59,6 +60,10 @@ const NewStore = () => {
 
             <StoreBlock>
               <ImageSection />
+            </StoreBlock>
+
+            <StoreBlock>
+              <SocialMedia />
             </StoreBlock>
 
             <StoreBlock>

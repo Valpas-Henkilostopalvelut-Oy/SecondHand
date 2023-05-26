@@ -17,7 +17,8 @@ import StoreIframe from "./components/StoreIframe";
 import Contact from "./components/Contact";
 import Location from "./components/Location";
 import EditItem from "./components/EditItem";
-import { deleteStoreAsync } from "../../redux/adminStores";
+import SocialMedia from "./components/SocialMedia";
+import { deleteStoreAsync } from "../../../../../app/reducer/adminStores";
 import { useAppDispatch } from "../../../../../app/hooks";
 
 const StoreItem = (props: LazyStore) => {
@@ -28,6 +29,8 @@ const StoreItem = (props: LazyStore) => {
   const handleClick = () => setOpen(!open);
   const handleEdit = () => setEdit(!edit);
   const handleDelete = () => dispatch(deleteStoreAsync(props.id));
+  //const handleConfirm = () => dispatch(confirmStoreAsync(props.id));
+  const handleLog = () => console.log(props);
 
   if (!isConfirmed) return null;
   return (
@@ -50,6 +53,9 @@ const StoreItem = (props: LazyStore) => {
           <EditItem {...props} open={edit} setOpen={setEdit} />
         </AccordionDetails>
         <AccordionActions>
+          <Button variant="contained" color="info" onClick={handleLog}>
+            Log
+          </Button>
           <Button variant="contained" color="primary" onClick={handleEdit}>
             Muokkaa
           </Button>
@@ -63,7 +69,15 @@ const StoreItem = (props: LazyStore) => {
 };
 
 const StoreDetails = (props: LazyStore) => {
-  const { opentimes, description, categories, imgs, location, contact } = props;
+  const {
+    opentimes,
+    description,
+    categories,
+    imgs,
+    location,
+    contact,
+    social,
+  } = props;
   const iframe = location?.iframe;
 
   return (
@@ -94,6 +108,12 @@ const StoreDetails = (props: LazyStore) => {
           <b>Sijainti</b>
         </Typography>
         <Location {...props} />
+      </CustomBox>
+      <CustomBox hidden={!social}>
+        <Typography>
+          <b>Sosiaalinen media</b>
+        </Typography>
+        <SocialMedia {...social} />
       </CustomBox>
       <CustomBox hidden={!imgs || imgs.length === 0}>
         <Images {...props} />

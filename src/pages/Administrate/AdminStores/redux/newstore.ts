@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Dispatch } from "@reduxjs/toolkit";
 import type { NewStoreProps, ImageTypes } from "../types";
@@ -7,10 +7,11 @@ import type {
   LazyOpentime,
   LazyContact,
   LazyLocation,
+  LazySocial,
 } from "../../../../models";
 import { Store } from "../../../../models";
 import { DataStore, Storage } from "aws-amplify";
-import { updateData } from "./adminStores";
+import { updateData } from "../../../../app/reducer/adminStores";
 
 const initialState: NewStoreProps = {
   isCreating: false,
@@ -35,36 +36,92 @@ const initialState: NewStoreProps = {
     zip: null,
     iframe: null,
   },
+  social: {
+    facebook: null,
+    instagram: null,
+    twitter: null,
+    youtube: null,
+  },
   files: [],
 };
+
+const onUploadImage = async (props: ImageTypes) => {
+  const { id, imgUrl, filename } = props;
+  const response = await fetch(imgUrl as string);
+  const blob = await response.blob();
+  const { key } = await Storage.put(`${id}-${filename}`, blob, {
+    contentType: "image/png",
+    progressCallback(progress) {
+      console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+    },
+  });
+  return {
+    id: id,
+    key,
+  };
+};
+
+export const createNewStoreAsync = createAsyncThunk(
+  "newStore/createNewStoreAsync",
+  async (
+    {
+      newStore,
+      isAdmin,
+    }: {
+      newStore: NewStoreProps;
+      isAdmin: boolean;
+    },
+    { dispatch }: { dispatch: Dispatch }
+  ) => {
+    const { files } = newStore;
+    const onUploadImages = await Promise.all(
+      files.map((file) => onUploadImage(file))
+    );
+
+    const {
+      name,
+      description,
+      categories,
+      openTimes,
+      contacts,
+      location,
+      social,
+    } = newStore;
+    const store = new Store({
+      isConfirmed: isAdmin,
+      name,
+      description,
+      categories,
+      opentimes: openTimes,
+      contact: contacts,
+      location,
+      imgs: onUploadImages,
+      social,
+    });
+
+    const storeToAdd = {
+      id: store.id,
+      name: store.name,
+      description: store.description,
+      categories: store.categories,
+      opentimes: store.opentimes,
+      contact: store.contact,
+      location: store.location,
+      imgs: store.imgs,
+      isConfirmed: store.isConfirmed,
+    };
+
+    await DataStore.save(store);
+    dispatch(updateData(storeToAdd));
+  }
+);
 
 export const newStoreSlice = createSlice({
   name: "newStore",
   initialState,
   reducers: {
-    reset: (state) => {
-      state.isCreating = false;
-      state.error = null;
-      state.isConfirm = false;
-      state.name = "";
-      state.description = null;
-      state.categories = [];
-      state.openTimes = [];
-      state.contacts = {
-        email: null,
-        phone: null,
-        website: null,
-      };
-      state.location = {
-        city: null,
-        country: null,
-        admin_name: null,
-        driveto: null,
-        address: null,
-        zip: null,
-        iframe: null,
-      };
-      state.files = [];
+    setSocial: (state, action: PayloadAction<LazySocial>) => {
+      state.social = action.payload;
     },
 
     addFile: (state, action: PayloadAction<ImageTypes>) => {
@@ -103,25 +160,51 @@ export const newStoreSlice = createSlice({
       state.categories = action.payload;
     },
 
-    createNewStorePending: (state) => {
-      state.isCreating = true;
-      state.error = null;
-      state.isError = false;
-    },
-    createNewStoreSuccess: (state) => {
-      state.isCreating = false;
-      state.error = null;
-      state.isError = false;
-    },
-    createNewStoreFailed: (state, action) => {
-      state.isCreating = false;
-      state.error = action.payload;
-      state.isError = true;
-    },
     clearError: (state) => {
       state.error = null;
       state.isError = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createNewStoreAsync.pending, (state) => {
+      state.isCreating = true;
+    });
+    builder.addCase(createNewStoreAsync.fulfilled, (state) => {
+      state.isCreating = false;
+      state.isConfirm = true;
+      state.error = null;
+      state.isError = false;
+      state.name = "";
+      state.description = null;
+      state.categories = [];
+      state.openTimes = [];
+      state.contacts = {
+        email: null,
+        phone: null,
+        website: null,
+      };
+      state.location = {
+        city: null,
+        country: null,
+        admin_name: null,
+        driveto: null,
+        address: null,
+        zip: null,
+        iframe: null,
+      };
+      state.social = {
+        facebook: null,
+        instagram: null,
+        twitter: null,
+        youtube: null,
+      };
+      state.files = [];
+    });
+    builder.addCase(createNewStoreAsync.rejected, (state, action) => {
+      state.isCreating = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
   },
 });
 
@@ -132,72 +215,11 @@ export const {
   addOpenTime,
   removeOpenTime,
   setCategories,
-  reset,
   addLocation,
   addFile,
   removeFile,
-  createNewStorePending,
-  createNewStoreSuccess,
-  createNewStoreFailed,
   clearError,
+  setSocial,
 } = newStoreSlice.actions;
-
-const onUploadImage = async (props: ImageTypes) => {
-  const { id, imgUrl, filename } = props;
-  const response = await fetch(imgUrl as string);
-  const blob = await response.blob();
-  const { key } = await Storage.put(`${id}-${filename}`, blob, {
-    contentType: "image/png",
-    progressCallback(progress) {
-      console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-    },
-  });
-  return {
-    id: id,
-    key,
-  };
-};
-
-export const createNewStoreAsync =
-  (newStore: NewStoreProps, isAdmin: boolean) => async (dispatch: Dispatch) => {
-    try {
-      const { files } = newStore;
-      const onUploadImages = await Promise.all(
-        files.map((file) => onUploadImage(file))
-      );
-
-      const { name, description, categories, openTimes, contacts, location } =
-        newStore;
-      const store = new Store({
-        isConfirmed: isAdmin,
-        name,
-        description,
-        categories,
-        opentimes: openTimes,
-        contact: contacts,
-        location,
-        imgs: onUploadImages,
-      });
-
-      const storeToAdd = {
-        id: store.id,
-        name: store.name,
-        description: store.description,
-        categories: store.categories,
-        opentimes: store.opentimes,
-        contact: store.contact,
-        location: store.location,
-        imgs: store.imgs,
-        isConfirmed: store.isConfirmed,
-      };
-
-      await DataStore.save(store);
-      dispatch(updateData(storeToAdd));
-      dispatch(createNewStoreSuccess());
-      dispatch(reset());
-    } catch (error) {
-      dispatch(createNewStoreFailed(error));
-    }
-  };
 
 export default newStoreSlice.reducer;

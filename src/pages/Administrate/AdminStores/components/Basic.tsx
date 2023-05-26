@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { setName, setDescription } from "../redux/newstore";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import type { LazyImage } from "../../../../models";
 
 const validationSchema = yup.object({
   name: yup.string().required("Nimi on pakollinen"),

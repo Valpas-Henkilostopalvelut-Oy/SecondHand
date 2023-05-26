@@ -7,5 +7,7 @@
 export { default as studioTheme } from "./studioTheme";
 export { default as CategoriesCreateForm } from "./CategoriesCreateForm";
 export { default as CategoriesUpdateForm } from "./CategoriesUpdateForm";
+export { default as UserCreateForm } from "./UserCreateForm";
+export { default as UserUpdateForm } from "./UserUpdateForm";
 export { default as StoreCreateForm } from "./StoreCreateForm";
 export { default as StoreUpdateForm } from "./StoreUpdateForm";

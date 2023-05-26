@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
-import { fetchStoresAsync } from "../redux/adminStores";
+import { fetchStoreAsync } from "../../../../app/reducer/adminStores";
 
 const withLoading = (WrappedComponent: () => JSX.Element | null) => () => {
   const isEmpty = useAppSelector((state) => state.application.isEmpty);
@@ -11,7 +11,7 @@ const withLoading = (WrappedComponent: () => JSX.Element | null) => () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchStoresAsync());
+    dispatch(fetchStoreAsync());
   }, []);
 
   if (isLoading) {
