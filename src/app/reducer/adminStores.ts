@@ -39,19 +39,7 @@ export const fetchStoreAsync = createAsyncThunk(
   }
 );
 
-export const confirmStoreAsync = createAsyncThunk(
-  "adminStores/confirmStore",
-  async (id: string) => {
-    const store = await DataStore.query(Store, id);
-    if (!store) throw new Error("Store not found");
-    const updatedStore = await DataStore.save(
-      Store.copyOf(store, (updated) => {
-        updated.isConfirmed = true;
-      })
-    );
-    return updatedStore;
-  }
-);
+
 
 export const adminStores = createSlice({
   name: "adminStores",

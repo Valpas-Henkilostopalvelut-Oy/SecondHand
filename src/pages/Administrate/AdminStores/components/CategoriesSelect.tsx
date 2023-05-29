@@ -8,7 +8,11 @@ const CategoriesSelect = () => {
   const dispatch = useAppDispatch();
 
   const handleChange = (e: any, newValues: any) => {
-    dispatch(setCategories([...newValues]));
+    dispatch(
+      setCategories(
+        newValues.map((item: any) => ({ id: item.id, name: item.name }))
+      )
+    );
   };
 
   return (

@@ -11,7 +11,7 @@ import type {
 } from "../../../../models";
 import { Store } from "../../../../models";
 import { DataStore, Storage } from "aws-amplify";
-import { updateData } from "../../../../app/reducer/adminStores";
+import { updateData } from "../../../../app/reducer/stores";
 
 const initialState: NewStoreProps = {
   isCreating: false,

@@ -27,12 +27,11 @@ const SigninForm = () => {
   const dispatch = useAppDispatch();
   const onSubmit = async (
     values: FormValues,
-    { setSubmitting, resetForm }: FormikHelpers<FormValues>
+    { setSubmitting }: FormikHelpers<FormValues>
   ) => {
     const { email, password } = values;
     dispatch(login({ email, password }));
     setSubmitting(false);
-    resetForm();
   };
 
   return (

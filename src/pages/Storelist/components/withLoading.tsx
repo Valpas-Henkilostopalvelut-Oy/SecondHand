@@ -4,6 +4,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { fetchStoreFilter, fetchStores } from "../../../app/reducer/stores";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { resetSearch } from "../../../globalComponents/Search/redux/search";
 
 const withLoading =
   // eslint-disable-next-line react/display-name
@@ -14,10 +15,19 @@ const withLoading =
 
     useEffect(() => {
       if (category) {
-        dispatch(fetchStoreFilter({ type: category }));
+        dispatch(
+          fetchStoreFilter({
+            type: category,
+            title: "",
+            category: null,
+            area: null,
+            city: null,
+          })
+        );
       } else {
         dispatch(fetchStores());
       }
+      dispatch(resetSearch());
     }, [category]);
 
     if (isLoading) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   TextField,
@@ -11,6 +11,7 @@ import areas from "./fi";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { setCategory, setArea, setCity, setSearch } from "./redux/search";
 import { useParams } from "react-router-dom";
+import { fetchStoreFilter } from "../../app/reducer/stores";
 
 const AteaSelect = (props: GridProps) => {
   const { area } = useAppSelector((state) => state.search);
@@ -119,7 +120,7 @@ const TitleSelect = (props: GridProps) => {
         fullWidth
         id="search"
         label="Haku..."
-        variant="outlined"
+        variant="standard"
         value={search}
         onChange={handleChange}
       />
@@ -130,19 +131,29 @@ const TitleSelect = (props: GridProps) => {
 export const Search = () => {
   const data = useAppSelector((state) => state.search);
   const { category } = useParams();
-  const handleClick = () => console.log(data, category);
+  const dispatch = useAppDispatch();
+  const handleClick = () =>
+    dispatch(
+      fetchStoreFilter({
+        title: data.search,
+        type: category,
+        category: data.category,
+        area: data.area,
+        city: data.city,
+      })
+    );
   return (
     <Box sx={{ mt: 4 }}>
-      <Grid container spacing={1}>
-        <TitleSelect item sm={4} xs={12} />
-        <CategorySelect item sm={4} xs={12} />
-        <AteaSelect item sm={4} xs={12} />
-        <CitySelect item sm={4} xs={12} />
-        <Grid item sm={4} xs={12}>
+      <Grid container spacing={1} alignItems="center">
+        <TitleSelect item sm={10} xs={12} />
+        <Grid item sm={2} xs={12}>
           <Button variant="contained" fullWidth onClick={handleClick}>
             Hae
           </Button>
         </Grid>
+        <CategorySelect item sm={4} xs={12} />
+        <AteaSelect item sm={4} xs={12} />
+        <CitySelect item sm={4} xs={12} />
       </Grid>
     </Box>
   );
