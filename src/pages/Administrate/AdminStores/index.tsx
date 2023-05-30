@@ -1,34 +1,32 @@
-import React from "react";
-import { Box, Grid } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, CircularProgress } from "@mui/material";
 import NewStore from "./components/NewStore";
 import StoreItem from "./components/StoreItem";
-import withLoading from "./components/withloading";
-import { ErrorBoundary } from "../../../services/errorLib";
-import { clearError } from "../../../app/reducer/adminStores";
+import { fetchStores } from "../../../app/reducer/stores";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { AdminSearch } from "../../../globalComponents/Search";
+import { ErrorStore } from "../../../services/errorLib";
+import LoadingComponent from "../../../globalComponents/LoadingComponent";
 
 const Stores = () => {
-  const { data, error, isError } = useAppSelector(
-    (state) => state.adminStoresSlice
-  );
+  const { data, isLoading } = useAppSelector((state) => state.stores);
   const dispatch = useAppDispatch();
-  const clear = () => dispatch(clearError());
 
-  if (!data) return null;
+  useEffect(() => {
+    dispatch(fetchStores());
+  }, []);
+
   return (
     <Box>
-      <Grid container spacing={2}>
-        <NewStore />
-      </Grid>
-
-      {data.map((kirppis) => (
-        <StoreItem key={kirppis.id} {...kirppis} />
-      ))}
-      <ErrorBoundary error={error} isError={isError} clearError={clear} />
+      <AdminSearch />
+      <NewStore />
+      {isLoading && <LoadingComponent />}
+      {!isLoading &&
+        data &&
+        data.map((kirppis) => <StoreItem key={kirppis.id} {...kirppis} />)}
+      <ErrorStore />
     </Box>
   );
 };
 
-const AdminStores = withLoading(Stores);
-
-export default AdminStores;
+export default Stores;

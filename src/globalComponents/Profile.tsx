@@ -58,8 +58,13 @@ const Profile = (props: BoxProps) => {
         onClose={handleClose}
       >
         {links.map((link) => (
-          <MenuItem key={link.title} onClick={handleClose}>
-            <NavigationButton to={link.path}>{link.title}</NavigationButton>
+          <MenuItem
+            key={link.title}
+            onClick={handleClose}
+            component={NavigationButton}
+            to={link.path}
+          >
+            {link.title}
           </MenuItem>
         ))}
         <MenuItem onClick={handleLogout}>Logout</MenuItem>

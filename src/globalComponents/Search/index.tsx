@@ -1,36 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   TextField,
   Grid,
   Button,
   Autocomplete,
+  Checkbox,
+  FormControlLabel,
   type GridProps,
 } from "@mui/material";
 import areas from "./fi";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { setCategory, setArea, setCity, setSearch } from "./redux/search";
 import { useParams } from "react-router-dom";
 import { fetchStoreFilter } from "../../app/reducer/stores";
+import { type StoreType, storeTypes } from "../storeType";
 
-const AteaSelect = (props: GridProps) => {
-  const { area } = useAppSelector((state) => state.search);
-  const dispatch = useAppDispatch();
+interface SearchValues {
+  type: StoreType | null;
+  search: string;
+  area: string | null;
+  category: string[] | null;
+  city: string | null;
+  isConfirmed: boolean;
+}
+
+interface BlockProps {
+  grid?: GridProps;
+  search?: SearchValues;
+  value: string | string[] | null | boolean | undefined | StoreType;
+  handleChange: (event: any, newValue: any) => void;
+}
+
+const searchValues: SearchValues = {
+  type: null,
+  search: "",
+  area: null,
+  category: null,
+  city: null,
+  isConfirmed: true,
+};
+
+const AteaSelect = (props: BlockProps) => {
   const uniqueArray = areas
     .map((item) => item.admin_name)
     .sort((a, b) => a.localeCompare(b))
     .filter((item, index, self) => index === self.findIndex((t) => t === item));
 
-  const handleChange = (e: any, newValue: string | null) =>
-    dispatch(setArea(newValue));
-
   return (
-    <Grid {...props}>
+    <Grid {...props.grid}>
       <Autocomplete
         id="area-select"
         options={uniqueArray}
-        value={area}
-        onChange={handleChange}
+        value={props.value}
+        onChange={props.handleChange}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -45,25 +67,20 @@ const AteaSelect = (props: GridProps) => {
   );
 };
 
-const CitySelect = (props: GridProps) => {
-  const { area, city } = useAppSelector((state) => state.search);
-  const dispatch = useAppDispatch();
+const CitySelect = (props: BlockProps) => {
   const uniqueArray = areas
-    .filter((item) => item.admin_name === area)
+    .filter((item) => item.admin_name === props.search?.area)
     .map((item) => item.city)
     .sort((a, b) => a.localeCompare(b));
 
-  const handleChange = (e: any, newValue: string | null) =>
-    dispatch(setCity(newValue));
-
   return (
-    <Grid {...props}>
+    <Grid {...props.grid}>
       <Autocomplete
         id="city-select"
-        value={city}
+        value={props.value}
         options={uniqueArray}
-        onChange={handleChange}
-        disabled={!area}
+        onChange={props.handleChange}
+        disabled={!props.search?.area}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -78,22 +95,18 @@ const CitySelect = (props: GridProps) => {
   );
 };
 
-const CategorySelect = (props: GridProps) => {
+const CategorySelect = (props: BlockProps) => {
   const { data } = useAppSelector((state) => state.categories);
-  const { category } = useAppSelector((state) => state.search);
-  const dispatch = useAppDispatch();
   const uniqueArray = data?.map((item) => item.name);
-  const handleChange = (e: any, newValue: any) =>
-    dispatch(setCategory(newValue));
 
   return (
-    <Grid {...props}>
+    <Grid {...props.grid}>
       <Autocomplete
         multiple
         id="category-select"
         options={uniqueArray || []}
-        value={category || []}
-        onChange={handleChange}
+        value={props.search?.category || []}
+        onChange={props.handleChange}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -108,30 +121,158 @@ const CategorySelect = (props: GridProps) => {
   );
 };
 
-const TitleSelect = (props: GridProps) => {
-  const { search } = useAppSelector((state) => state.search);
+const TitleSelect = (props: BlockProps) => (
+  <Grid {...props.grid}>
+    <TextField
+      fullWidth
+      id="search"
+      label="Haku..."
+      variant="standard"
+      value={props.value}
+      onChange={(e) => props.handleChange(e, e.target.value)}
+    />
+  </Grid>
+);
+
+const ConfirmedSelect = (props: BlockProps) => {
+  const [values, setValues] = useState(false);
+  return (
+    <Grid {...props.grid}>
+      <Box
+        sx={{
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          padding: "6px",
+          margin: "16px 0px 8px 0px",
+        }}
+        onClick={() => setValues(!values)}
+      >
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={props.search?.isConfirmed}
+              onChange={props.handleChange}
+              name="isConfirmed"
+            />
+          }
+          label="Vahvistettu vain"
+        />
+      </Box>
+    </Grid>
+  );
+};
+
+const TypeSelect = (props: BlockProps) => (
+  <Grid {...props.grid}>
+    <Autocomplete
+      id="type-select"
+      options={storeTypes}
+      value={props.search?.type}
+      onChange={props.handleChange}
+      getOptionLabel={(option) => option.name}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Tyyppi"
+          placeholder="Valitse tyyppi"
+          margin="normal"
+          variant="outlined"
+        />
+      )}
+    />
+  </Grid>
+);
+
+export const AdminSearch = () => {
+  const [data, setData] = useState(searchValues);
   const dispatch = useAppDispatch();
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    dispatch(setSearch(e.target.value));
+  const { isAdmin } = useAppSelector((state) => state.user);
+  if (!isAdmin) return null;
+  const handleClick = () =>
+    dispatch(
+      fetchStoreFilter({
+        title: data.search,
+        type: data.type?.id,
+        category: data.category,
+        area: data.area,
+        city: data.city,
+        isConfirmed: data.isConfirmed,
+      })
+    );
+
+  const handleChangeTitle = (event: any, newValue: any) => {
+    setData({ ...data, search: newValue });
+  };
+  const handleChangeArea = (event: any, newValue: any) => {
+    setData({ ...data, area: newValue });
+  };
+  const handleChangeCity = (event: any, newValue: any) => {
+    setData({ ...data, city: newValue });
+  };
+  const handleChangeCategory = (event: any, newValue: any) => {
+    setData({ ...data, category: newValue });
+  };
+  const handleChangeType = (event: any, newValue: any) => {
+    setData({ ...data, type: newValue });
+  };
+  const handleChangeConfirmed = (event: any, newValue: any) => {
+    setData({ ...data, isConfirmed: newValue });
+  };
 
   return (
-    <Grid {...props}>
-      <TextField
-        fullWidth
-        id="search"
-        label="Haku..."
-        variant="standard"
-        value={search}
-        onChange={handleChange}
+    <Grid container spacing={1} alignItems="center">
+      <TitleSelect
+        value={data.search}
+        handleChange={handleChangeTitle}
+        grid={{ item: true, xs: 12, sm: 10 }}
+      />
+      <Grid item xs={12} sm={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleClick}
+        >
+          Hae
+        </Button>
+      </Grid>
+      <TypeSelect
+        value={data.type}
+        handleChange={handleChangeType}
+        grid={{ item: true, xs: 12, sm: 6 }}
+      />
+      <CategorySelect
+        grid={{ item: true, xs: 12, sm: 6 }}
+        search={data}
+        value={data.category}
+        handleChange={handleChangeCategory}
+      />
+      <AteaSelect
+        grid={{ item: true, xs: 12, sm: 4 }}
+        search={data}
+        value={data.area}
+        handleChange={handleChangeArea}
+      />
+      <CitySelect
+        grid={{ item: true, xs: 12, sm: 4 }}
+        search={data}
+        value={data.city}
+        handleChange={handleChangeCity}
+      />
+      <ConfirmedSelect
+        grid={{ item: true, xs: 12, sm: 4 }}
+        search={data}
+        value={data.isConfirmed}
+        handleChange={handleChangeConfirmed}
       />
     </Grid>
   );
 };
 
 export const Search = () => {
-  const data = useAppSelector((state) => state.search);
-  const { category } = useParams();
+  const [data, setData] = useState(searchValues);
   const dispatch = useAppDispatch();
+  const { category } = useParams();
   const handleClick = () =>
     dispatch(
       fetchStoreFilter({
@@ -140,20 +281,55 @@ export const Search = () => {
         category: data.category,
         area: data.area,
         city: data.city,
+        isConfirmed: true,
       })
     );
+
+  const handleChangeTitle = (event: any, newValue: any) => {
+    setData({ ...data, search: newValue });
+  };
+  const handleChangeArea = (event: any, newValue: any) => {
+    setData({ ...data, area: newValue });
+  };
+  const handleChangeCity = (event: any, newValue: any) => {
+    setData({ ...data, city: newValue });
+  };
+  const handleChangeCategory = (event: any, newValue: any) => {
+    setData({ ...data, category: newValue });
+  };
+
   return (
     <Box sx={{ mt: 4 }}>
       <Grid container spacing={1} alignItems="center">
-        <TitleSelect item sm={10} xs={12} />
+        <TitleSelect
+          grid={{ item: true, xs: 12, sm: 10 }}
+          value={data.search}
+          handleChange={handleChangeTitle}
+          search={data}
+        />
         <Grid item sm={2} xs={12}>
           <Button variant="contained" fullWidth onClick={handleClick}>
             Hae
           </Button>
         </Grid>
-        <CategorySelect item sm={4} xs={12} />
-        <AteaSelect item sm={4} xs={12} />
-        <CitySelect item sm={4} xs={12} />
+        <CategorySelect
+          grid={{ item: true, xs: 12, sm: 4 }}
+          value={data.category}
+          handleChange={handleChangeCategory}
+          search={data}
+        />
+        <AteaSelect
+          grid={{ item: true, xs: 12, sm: 4 }}
+          value={data.area}
+          handleChange={handleChangeArea}
+          search={data}
+        />
+        <CitySelect
+          grid={{ item: true, xs: 12, sm: 4 }}
+          value={data.city}
+          handleChange={handleChangeCity}
+          search={data}
+        />
       </Grid>
     </Box>
   );

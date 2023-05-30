@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import Basic from "./components/Basic";
 import type { EditItemProps } from "./types";
-import { updateStoreAsync } from "../../../../../../../app/reducer/adminStores";
-import { useAppDispatch } from "../../../../../../../app/hooks";
+import { updateStoreAsync } from "../../../../../../../app/reducer/stores";
+import { useAppDispatch, useAppSelector } from "../../../../../../../app/hooks";
 import EditContact from "./components/EditContact";
 import EditCategorie from "./components/EditCategorie";
 import Location from "./components/EditLocation";
@@ -19,11 +19,13 @@ import EditSocialMedia from "./components/EditSocialMedia";
 import EditType from "./components/EditType";
 
 const EditItem = (props: EditItemProps) => {
+  const isAdmin = useAppSelector((state) => state.user.isAdmin);
   const { open, setOpen, ...rest } = props;
   const dispatch = useAppDispatch();
   const [newStore, setNewStore] = useState<LazyStore>({
     ...rest,
   });
+  const { id } = rest;
   const onClose = () => setOpen(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -50,7 +52,7 @@ const EditItem = (props: EditItemProps) => {
   };
 
   const handleSave = () => {
-    dispatch(updateStoreAsync(newStore));
+    dispatch(updateStoreAsync({ id, data: newStore, isAdmin: isAdmin }));
     onClose();
   };
   const handleEditSocialMedia = (

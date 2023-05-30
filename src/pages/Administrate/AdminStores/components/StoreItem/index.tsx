@@ -8,6 +8,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Tooltip,
 } from "@mui/material";
 import OpenTime from "./components/Opentime";
 import CustomBox from "./components/CustomBox";
@@ -18,41 +19,66 @@ import Contact from "./components/Contact";
 import Location from "./components/Location";
 import EditItem from "./components/EditItem";
 import SocialMedia from "./components/SocialMedia";
-import { deleteStoreAsync } from "../../../../../app/reducer/adminStores";
-import { useAppDispatch } from "../../../../../app/hooks";
+import {
+  deleteStoreAsync,
+  confirmStoreAsync,
+} from "../../../../../app/reducer/stores";
+import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 
 const StoreItem = (props: LazyStore) => {
   const { isConfirmed, name } = props;
+  const isAdmin = useAppSelector((state) => state.user.isAdmin);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
   const dispatch = useAppDispatch();
   const handleClick = () => setOpen(!open);
   const handleEdit = () => setEdit(!edit);
-  const handleDelete = () => dispatch(deleteStoreAsync(props.id));
-  //const handleConfirm = () => dispatch(confirmStoreAsync(props.id));
+  const handleDelete = () =>
+    dispatch(
+      deleteStoreAsync({
+        id: props.id,
+        isAdmin: isAdmin,
+      })
+    );
+  const handleConfirm = () =>
+    dispatch(
+      confirmStoreAsync({
+        id: props.id,
+        isAdmin: isAdmin,
+      })
+    );
   const handleLog = () => console.log(props);
 
-  if (!isConfirmed) return null;
   return (
-    <Box
-      sx={{
-        padding: "1em",
-        marginBottom: "10px",
-      }}
-    >
-      <Accordion
-        expanded={open}
-        onChange={handleClick}
-        sx={{ width: "100%", border: "none" }}
-      >
+    <Box sx={{ marginBottom: "1em" }}>
+      <Accordion expanded={open} onChange={handleClick} elevation={3}>
         <AccordionSummary>
           <Typography>{name}</Typography>
+          <Tooltip title="Vahvistettu" sx={{ display: "none" }}>
+            <ThumbUpAltIcon
+              sx={{
+                marginLeft: "auto",
+                color: "success.main",
+                display: isConfirmed ? "block" : "none",
+              }}
+            />
+          </Tooltip>
         </AccordionSummary>
         <AccordionDetails>
           <StoreDetails {...props} />
           <EditItem {...props} open={edit} setOpen={setEdit} />
         </AccordionDetails>
         <AccordionActions>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleConfirm}
+            disabled={!!isConfirmed}
+            sx={{ display: isConfirmed ? "none" : "block" }}
+          >
+            Vahvista
+          </Button>
           <Button variant="contained" color="info" onClick={handleLog}>
             Log
           </Button>

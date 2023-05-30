@@ -1,8 +1,8 @@
 import React from "react";
 import { Alert, Snackbar } from "@mui/material";
-import type { ErrorLoginProps, ErrorBoundaryProps } from "../types/application";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { dismissError } from "../app/reducer/user";
+import { clearError } from "../app/reducer/stores";
 
 export const onError = (error: Error) => {
   const message = error.toString();
@@ -12,11 +12,10 @@ export const onError = (error: Error) => {
   }
 };
 
-export const ErrorBoundary = (props: ErrorBoundaryProps) => {
-  const { error, isError, clearError } = props;
-  if (!isError) return null;
-  const handleClose = () => clearError();
-
+export const ErrorStore = () => {
+  const { isError, error } = useAppSelector((state) => state.stores);
+  const dispatch = useAppDispatch();
+  const handleClose = () => dispatch(clearError());
   return (
     <Snackbar open={isError} autoHideDuration={6000} onClose={handleClose}>
       <Alert

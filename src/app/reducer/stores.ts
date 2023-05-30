@@ -10,6 +10,7 @@ interface filterProps {
   category: string[] | null;
   area: string | null;
   city: string | null;
+  isConfirmed: boolean | undefined | null;
 }
 
 interface initialStateProps {
@@ -134,32 +135,35 @@ export const fetchStores = createAsyncThunk(
 export const fetchStoreFilter = createAsyncThunk(
   "adminStores/fetchStoreFilter",
   async (filter: filterProps) => {
-    const { type, title, area, city, category } = filter;
+    const { type, title, area, city, category, isConfirmed } = filter;
     const stores = await DataStore.query(Store);
-    const filteredStores = stores
-      .map((store) => ({
-        id: store.id,
-        name: store.name,
-        description: store.description,
-        categories: store.categories,
-        opentimes: store.opentimes,
-        contact: store.contact,
-        location: store.location,
-        imgs: store.imgs,
-        isConfirmed: store.isConfirmed,
-        sosial: store.social,
-        type: store.type,
-      }))
-      .filter((store) => store.isConfirmed);
+    const filteredStores = stores.map((store) => ({
+      id: store.id,
+      name: store.name,
+      description: store.description,
+      categories: store.categories,
+      opentimes: store.opentimes,
+      contact: store.contact,
+      location: store.location,
+      imgs: store.imgs,
+      isConfirmed: store.isConfirmed,
+      sosial: store.social,
+      type: store.type,
+    }));
+
+    // Apply search by confirmed
+    const searchedStoresByConfirmed = filteredStores.filter(
+      (store) => store.isConfirmed === isConfirmed
+    );
 
     // Apply search filter based on the category
     const searchedStoresByCategory = category
-      ? filteredStores.filter((store) =>
+      ? searchedStoresByConfirmed.filter((store) =>
           category.every((category) =>
             store.categories?.map((c) => c?.name).includes(category)
           )
         )
-      : filteredStores;
+      : searchedStoresByConfirmed;
 
     // Apply search filter based on the type
     const searchedStoresByType = type
@@ -199,6 +203,10 @@ const stores = createSlice({
     updateData: (state, action) => {
       if (!state.data) state.data = [];
       state.data.push(action.payload);
+    },
+    clearError: (state) => {
+      state.isError = false;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -305,5 +313,5 @@ const stores = createSlice({
   },
 });
 
-export const { updateData } = stores.actions;
+export const { updateData, clearError } = stores.actions;
 export default stores.reducer;

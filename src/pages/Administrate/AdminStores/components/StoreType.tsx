@@ -2,25 +2,7 @@ import React from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { useAppDispatch } from "../../../../app/hooks";
 import { setType } from "../redux/newstore";
-/**
- * storeType
- * fleamarket
- * shops
- * galleries
- * auctions
- * events
- */
-interface StoreType {
-  id: string;
-  name: string;
-}
-const storeTypes: StoreType[] = [
-  { id: "fleamarket", name: "Kirpputorit" },
-  { id: "shops", name: "Kaupat" },
-  { id: "galleries", name: "Galleriat" },
-  { id: "auctions", name: "Huutokaupat" },
-  { id: "events", name: "Tapahtumat" },
-];
+import { storeTypes } from "../../../../globalComponents/storeType";
 
 const StoreType = () => {
   const dispatch = useAppDispatch();

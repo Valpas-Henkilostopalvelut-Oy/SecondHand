@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { Box, Button, Grid, Collapse, styled } from "@mui/material";
 
+import {
+  Box,
+  Button,
+  Grid,
+  Collapse,
+  styled,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
 import Contact from "./Contact";
 import Location from "./Location";
 import CategoriesSelect from "./CategoriesSelect";
@@ -10,9 +18,7 @@ import Create from "./Create";
 import Basic from "./Basic";
 import SocialMedia from "./SocialMedia";
 import StoreType from "./StoreType";
-import { ErrorBoundary } from "../../../../services/errorLib";
-import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
-import { clearError } from "../redux/newstore";
+import AddIcon from "@mui/icons-material/Add";
 
 const StoreBlock = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -23,62 +29,54 @@ const StoreBlock = styled(Box)(({ theme }) => ({
 
 const NewStore = () => {
   const [open, setOpen] = useState(false);
-  const { error, isError } = useAppSelector((state) => state.newstore);
-  const dispatch = useAppDispatch();
-  const clear = () => dispatch(clearError());
 
   return (
-    <>
-      <Grid item container xs={12} spacing={2}>
-        <Grid item sm={8} xs={12} />
-        <Grid item sm={4} xs={12}>
-          <Button variant="contained" onClick={() => setOpen(!open)} fullWidth>
-            Lisää kirppis
-          </Button>
-        </Grid>
+    <Box>
+      <Box textAlign={"right"} marginBottom={2}>
+        <Tooltip title="Lisää uusi kauppa">
+          <IconButton onClick={() => setOpen(!open)}>
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Collapse in={open}>
+        <StoreBlock>
+          <Basic />
+        </StoreBlock>
 
-        <Grid item xs={12}>
-          <Collapse in={open}>
-            <StoreBlock>
-              <Basic />
-            </StoreBlock>
+        <StoreBlock>
+          <Contact />
+        </StoreBlock>
 
-            <StoreBlock>
-              <Contact />
-            </StoreBlock>
+        <StoreBlock>
+          <CategoriesSelect />
+        </StoreBlock>
 
-            <StoreBlock>
-              <CategoriesSelect />
-            </StoreBlock>
+        <StoreBlock>
+          <StoreType />
+        </StoreBlock>
 
-            <StoreBlock>
-              <StoreType />
-            </StoreBlock>
+        <StoreBlock>
+          <Opentimes />
+        </StoreBlock>
 
-            <StoreBlock>
-              <Opentimes />
-            </StoreBlock>
+        <StoreBlock>
+          <Location />
+        </StoreBlock>
 
-            <StoreBlock>
-              <Location />
-            </StoreBlock>
+        <StoreBlock>
+          <ImageSection />
+        </StoreBlock>
 
-            <StoreBlock>
-              <ImageSection />
-            </StoreBlock>
+        <StoreBlock>
+          <SocialMedia />
+        </StoreBlock>
 
-            <StoreBlock>
-              <SocialMedia />
-            </StoreBlock>
-
-            <StoreBlock>
-              <Create />
-            </StoreBlock>
-          </Collapse>
-        </Grid>
-      </Grid>
-      <ErrorBoundary error={error} isError={isError} clearError={clear} />
-    </>
+        <StoreBlock>
+          <Create />
+        </StoreBlock>
+      </Collapse>
+    </Box>
   );
 };
 
