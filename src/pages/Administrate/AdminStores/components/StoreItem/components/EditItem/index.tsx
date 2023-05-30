@@ -10,7 +10,10 @@ import {
 } from "@mui/material";
 import Basic from "./components/Basic";
 import type { EditItemProps } from "./types";
-import { updateStoreAsync } from "../../../../../../../app/reducer/stores";
+import {
+  unconfirmStoreAsync,
+  updateStoreAsync,
+} from "../../../../../../../app/reducer/stores";
 import { useAppDispatch, useAppSelector } from "../../../../../../../app/hooks";
 import EditContact from "./components/EditContact";
 import EditCategorie from "./components/EditCategorie";
@@ -53,6 +56,10 @@ const EditItem = (props: EditItemProps) => {
 
   const handleSave = () => {
     dispatch(updateStoreAsync({ id, data: newStore, isAdmin: isAdmin }));
+    onClose();
+  };
+  const handleUnconfirm = () => {
+    dispatch(unconfirmStoreAsync({ id, isAdmin: isAdmin }));
     onClose();
   };
   const handleEditSocialMedia = (
@@ -99,6 +106,11 @@ const EditItem = (props: EditItemProps) => {
         </Grid>
       </DialogContent>
       <DialogActions>
+        <Button variant="contained" onClick={handleUnconfirm} color="error" sx={{
+          display: isAdmin ? "block" : "none"
+        }}>
+          Poista vahvistus
+        </Button>
         <Button variant="contained" onClick={handleSave}>
           Tallenna
         </Button>

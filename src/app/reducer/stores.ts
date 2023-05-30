@@ -1,8 +1,34 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { LazyStore } from "../../models";
+import type {
+  Category,
+  Contact,
+  LazyStore,
+  Opentime,
+  Image,
+  Social,
+} from "../../models";
 import { Store } from "../../models";
 import { DataStore } from "aws-amplify";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
+interface StoreItem {
+  readonly id: string;
+  readonly type?: string | null;
+  readonly userID?: string | null;
+  readonly isConfirmed?: boolean | null;
+  readonly name?: string | null;
+  readonly description?: string | null;
+  readonly categories?: (Category | null)[] | null;
+  readonly services?: (number | null)[] | null;
+  readonly clicked?: string | null;
+  readonly opentimes?: (Opentime | null)[] | null;
+  readonly contact?: Contact | null;
+  readonly location?: Location | null;
+  readonly imgs?: (Image | null)[] | null;
+  readonly social?: Social | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
 
 interface filterProps {
   title: string;
@@ -43,7 +69,53 @@ export const confirmStoreAsync = createAsyncThunk(
       Store.copyOf(store, (updated) => {
         updated.isConfirmed = true;
       })
-    );
+    ).then((res) => ({
+      id: res.id,
+      name: res.name,
+      description: res.description,
+      categories: res.categories,
+      opentimes: res.opentimes,
+      contact: res.contact,
+      location: res.location,
+      imgs: res.imgs,
+      isConfirmed: res.isConfirmed,
+      social: res.social,
+      type: res.type,
+    }));
+    return updatedStore;
+  }
+);
+
+export const unconfirmStoreAsync = createAsyncThunk(
+  "adminStores/unconfirmStore",
+  async ({
+    id,
+    isAdmin,
+  }: {
+    id: string;
+    isAdmin: boolean | undefined | null;
+  }) => {
+    const store = await DataStore.query(Store, id);
+    if (!isAdmin) throw new Error("You are not authorized to unconfirm stores");
+    if (!store) throw new Error("Store not found");
+    const updatedStore = await DataStore.save(
+      Store.copyOf(store, (updated) => {
+        updated.isConfirmed = false;
+      })
+    ).then((res) => ({
+      id: res.id,
+      name: res.name,
+      description: res.description,
+      categories: res.categories,
+      opentimes: res.opentimes,
+      contact: res.contact,
+      location: res.location,
+      imgs: res.imgs,
+      isConfirmed: res.isConfirmed,
+      social: res.social,
+      type: res.type,
+    }));
+
     return updatedStore;
   }
 );
@@ -259,8 +331,9 @@ const stores = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        if (!state.data) state.data = [];
-        state.data.push(action.payload);
+        state.data = state.data?.filter(
+          (store) => store.id !== action.payload.id
+        );
       }
     );
     builder.addCase(confirmStoreAsync.rejected, (state, action) => {
@@ -306,6 +379,28 @@ const stores = createSlice({
       }
     );
     builder.addCase(updateStoreAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(unconfirmStoreAsync.pending, (state) => {
+      state.isLoading = true;
+      state.isError = false;
+      state.error = null;
+    });
+    builder.addCase(
+      unconfirmStoreAsync.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.error = null;
+        state.data = state.data?.filter(
+          (store) => store.id !== action.payload.id
+        );
+      }
+    );
+    builder.addCase(unconfirmStoreAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.error = action.error.message;

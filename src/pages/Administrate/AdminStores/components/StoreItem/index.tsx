@@ -52,8 +52,15 @@ const StoreItem = (props: LazyStore) => {
 
   return (
     <Box sx={{ marginBottom: "1em" }}>
-      <Accordion expanded={open} onChange={handleClick} elevation={3}>
-        <AccordionSummary>
+      <Accordion expanded={open} onChange={handleClick}>
+        <AccordionSummary
+          sx={{
+            backgroundColor: "#f5f5f5",
+            borderBottom: "1px solid #ccc",
+            borderRadius: "0px",
+            padding: "10px 40px",
+          }}
+        >
           <Typography>{name}</Typography>
           <Tooltip title="Vahvistettu" sx={{ display: "none" }}>
             <ThumbUpAltIcon
@@ -80,7 +87,7 @@ const StoreItem = (props: LazyStore) => {
             Vahvista
           </Button>
           <Button variant="contained" color="info" onClick={handleLog}>
-            Log
+            Debug
           </Button>
           <Button variant="contained" color="primary" onClick={handleEdit}>
             Muokkaa

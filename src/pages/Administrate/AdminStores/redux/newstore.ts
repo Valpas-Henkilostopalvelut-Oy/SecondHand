@@ -168,7 +168,7 @@ export const newStoreSlice = createSlice({
       state.categories = action.payload;
     },
 
-    clearError: (state) => {
+    clearCreateError: (state) => {
       state.error = null;
       state.isError = false;
     },
@@ -227,7 +227,7 @@ export const {
   addLocation,
   addFile,
   removeFile,
-  clearError,
+  clearCreateError,
   setSocial,
   setType,
 } = newStoreSlice.actions;
