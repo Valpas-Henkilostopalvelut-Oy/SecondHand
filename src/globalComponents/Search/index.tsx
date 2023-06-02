@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import areas from "./fi";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchStoreFilter } from "../../app/reducer/stores";
 import { type StoreType, storeTypes } from "../storeType";
 
@@ -273,7 +273,8 @@ export const Search = () => {
   const [data, setData] = useState(searchValues);
   const dispatch = useAppDispatch();
   const { category } = useParams();
-  const handleClick = () =>
+  const navigate = useNavigate();
+  const handleClick = () => {
     dispatch(
       fetchStoreFilter({
         title: data.search,
@@ -283,7 +284,11 @@ export const Search = () => {
         city: data.city,
         isConfirmed: true,
       })
-    );
+    ).then(() => {
+      if (category) navigate(`/stores/${category}`);
+      else navigate(`/stores`);
+    });
+  };
 
   const handleChangeTitle = (event: any, newValue: any) => {
     setData({ ...data, search: newValue });

@@ -19,7 +19,11 @@
       "function": {
         "S3Triggerb5b36149": {
           "deploymentBucketName": "amplify-kirppis-dev-103036-deployment",
-          "s3Key": "amplify-builds/S3Triggerb5b36149-3177657945644a6e4739-build.zip"
+          "s3Key": "amplify-builds/S3Triggerb5b36149-462f2b4f674652507745-build.zip"
+        },
+        "kirpisUserProfile": {
+          "deploymentBucketName": "amplify-kirppis-dev-103036-deployment",
+          "s3Key": "amplify-builds/kirpisUserProfile-5075646a2f6743585335-build.zip"
         }
       },
       "storage": {

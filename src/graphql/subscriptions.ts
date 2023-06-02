@@ -2,60 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateAreas = /* GraphQL */ `
-  subscription OnCreateAreas($filter: ModelSubscriptionAreasFilterInput) {
-    onCreateAreas(filter: $filter) {
-      id
-      name
-      cities {
-        id
-        name
-        area
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onUpdateAreas = /* GraphQL */ `
-  subscription OnUpdateAreas($filter: ModelSubscriptionAreasFilterInput) {
-    onUpdateAreas(filter: $filter) {
-      id
-      name
-      cities {
-        id
-        name
-        area
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onDeleteAreas = /* GraphQL */ `
-  subscription OnDeleteAreas($filter: ModelSubscriptionAreasFilterInput) {
-    onDeleteAreas(filter: $filter) {
-      id
-      name
-      cities {
-        id
-        name
-        area
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
 export const onCreateCategories = /* GraphQL */ `
   subscription OnCreateCategories(
     $filter: ModelSubscriptionCategoriesFilterInput
@@ -104,13 +50,270 @@ export const onDeleteCategories = /* GraphQL */ `
     }
   }
 `;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $username: String
+  ) {
+    onCreateUser(filter: $filter, username: $username) {
+      id
+      username
+      email
+      stores {
+        id
+        type
+        username
+        isConfirmed
+        name
+        description
+        categories {
+          id
+          name
+        }
+        services
+        clicked
+        sellplaces {
+          all
+          free
+        }
+        pricelist {
+          name
+          price
+          id
+        }
+        embedmap
+        opentimes {
+          day
+          start
+          end
+          id
+          isClosed
+        }
+        contact {
+          phone
+          email
+          website
+        }
+        location {
+          city
+          lat
+          lng
+          country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
+          driveto
+          address
+          zip
+          iframe
+        }
+        imgs {
+          key
+          id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      role
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $username: String
+  ) {
+    onUpdateUser(filter: $filter, username: $username) {
+      id
+      username
+      email
+      stores {
+        id
+        type
+        username
+        isConfirmed
+        name
+        description
+        categories {
+          id
+          name
+        }
+        services
+        clicked
+        sellplaces {
+          all
+          free
+        }
+        pricelist {
+          name
+          price
+          id
+        }
+        embedmap
+        opentimes {
+          day
+          start
+          end
+          id
+          isClosed
+        }
+        contact {
+          phone
+          email
+          website
+        }
+        location {
+          city
+          lat
+          lng
+          country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
+          driveto
+          address
+          zip
+          iframe
+        }
+        imgs {
+          key
+          id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      role
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $username: String
+  ) {
+    onDeleteUser(filter: $filter, username: $username) {
+      id
+      username
+      email
+      stores {
+        id
+        type
+        username
+        isConfirmed
+        name
+        description
+        categories {
+          id
+          name
+        }
+        services
+        clicked
+        sellplaces {
+          all
+          free
+        }
+        pricelist {
+          name
+          price
+          id
+        }
+        embedmap
+        opentimes {
+          day
+          start
+          end
+          id
+          isClosed
+        }
+        contact {
+          phone
+          email
+          website
+        }
+        location {
+          city
+          lat
+          lng
+          country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
+          driveto
+          address
+          zip
+          iframe
+        }
+        imgs {
+          key
+          id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      role
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateStore = /* GraphQL */ `
   subscription OnCreateStore(
     $filter: ModelSubscriptionStoreFilterInput
-    $owner: String
+    $username: String
   ) {
-    onCreateStore(filter: $filter, owner: $owner) {
+    onCreateStore(filter: $filter, username: $username) {
       id
+      type
+      username
       isConfirmed
       name
       description
@@ -135,6 +338,7 @@ export const onCreateStore = /* GraphQL */ `
         start
         end
         id
+        isClosed
       }
       contact {
         phone
@@ -142,33 +346,48 @@ export const onCreateStore = /* GraphQL */ `
         website
       }
       location {
-        address
         city
-        zip
-        area
+        lat
+        lng
         country
+        iso2
+        admin_name
+        capital
+        population
+        population_proper
         driveto
+        address
+        zip
+        iframe
       }
       imgs {
         key
         id
+      }
+      social {
+        facebook
+        instagram
+        twitter
+        youtube
+        tiktok
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
 export const onUpdateStore = /* GraphQL */ `
   subscription OnUpdateStore(
     $filter: ModelSubscriptionStoreFilterInput
-    $owner: String
+    $username: String
   ) {
-    onUpdateStore(filter: $filter, owner: $owner) {
+    onUpdateStore(filter: $filter, username: $username) {
       id
+      type
+      username
       isConfirmed
       name
       description
@@ -193,6 +412,7 @@ export const onUpdateStore = /* GraphQL */ `
         start
         end
         id
+        isClosed
       }
       contact {
         phone
@@ -200,33 +420,48 @@ export const onUpdateStore = /* GraphQL */ `
         website
       }
       location {
-        address
         city
-        zip
-        area
+        lat
+        lng
         country
+        iso2
+        admin_name
+        capital
+        population
+        population_proper
         driveto
+        address
+        zip
+        iframe
       }
       imgs {
         key
         id
+      }
+      social {
+        facebook
+        instagram
+        twitter
+        youtube
+        tiktok
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
 export const onDeleteStore = /* GraphQL */ `
   subscription OnDeleteStore(
     $filter: ModelSubscriptionStoreFilterInput
-    $owner: String
+    $username: String
   ) {
-    onDeleteStore(filter: $filter, owner: $owner) {
+    onDeleteStore(filter: $filter, username: $username) {
       id
+      type
+      username
       isConfirmed
       name
       description
@@ -251,6 +486,7 @@ export const onDeleteStore = /* GraphQL */ `
         start
         end
         id
+        isClosed
       }
       contact {
         phone
@@ -258,23 +494,36 @@ export const onDeleteStore = /* GraphQL */ `
         website
       }
       location {
-        address
         city
-        zip
-        area
+        lat
+        lng
         country
+        iso2
+        admin_name
+        capital
+        population
+        population_proper
         driveto
+        address
+        zip
+        iframe
       }
       imgs {
         key
         id
+      }
+      social {
+        facebook
+        instagram
+        twitter
+        youtube
+        tiktok
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;

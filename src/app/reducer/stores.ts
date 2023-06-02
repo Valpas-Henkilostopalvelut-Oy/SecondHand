@@ -1,35 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type {
-  Category,
-  Contact,
-  LazyStore,
-  Opentime,
-  Image,
-  Social,
-} from "../../models";
+import type { LazyStore } from "../../models";
 import { Store } from "../../models";
 import { DataStore } from "aws-amplify";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-interface StoreItem {
-  readonly id: string;
-  readonly type?: string | null;
-  readonly userID?: string | null;
-  readonly isConfirmed?: boolean | null;
-  readonly name?: string | null;
-  readonly description?: string | null;
-  readonly categories?: (Category | null)[] | null;
-  readonly services?: (number | null)[] | null;
-  readonly clicked?: string | null;
-  readonly opentimes?: (Opentime | null)[] | null;
-  readonly contact?: Contact | null;
-  readonly location?: Location | null;
-  readonly imgs?: (Image | null)[] | null;
-  readonly social?: Social | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
 interface filterProps {
   title: string;
   type: string | null | undefined;
@@ -81,6 +54,7 @@ export const confirmStoreAsync = createAsyncThunk(
       isConfirmed: res.isConfirmed,
       social: res.social,
       type: res.type,
+      username: res.username,
     }));
     return updatedStore;
   }
@@ -114,6 +88,7 @@ export const unconfirmStoreAsync = createAsyncThunk(
       isConfirmed: res.isConfirmed,
       social: res.social,
       type: res.type,
+      username: res.username,
     }));
 
     return updatedStore;
@@ -159,6 +134,7 @@ export const updateStoreAsync = createAsyncThunk(
       isConfirmed: res.isConfirmed,
       social: res.social,
       type: res.type,
+      username: res.username,
     }));
     return updatedStore;
   }
@@ -198,6 +174,7 @@ export const fetchStores = createAsyncThunk(
         isConfirmed: store.isConfirmed,
         social: store.social,
         type: store.type,
+        username: store.username,
       }))
       .filter((store) => store.isConfirmed);
     return filteredStores;
@@ -221,6 +198,7 @@ export const fetchStoreFilter = createAsyncThunk(
       isConfirmed: store.isConfirmed,
       sosial: store.social,
       type: store.type,
+      username: store.username,
     }));
 
     // Apply search by confirmed

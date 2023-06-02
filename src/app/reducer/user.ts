@@ -47,6 +47,8 @@ export const getAuth = createAsyncThunk("application/getAuth", async () => {
 
 export const logout = createAsyncThunk("application/logout", async () => {
   await Auth.signOut();
+  await DataStore.clear();
+  await DataStore.start();
 });
 
 export const login = createAsyncThunk(
@@ -64,7 +66,7 @@ export const signup = createAsyncThunk(
     { email, password }: { email: string; password: string },
     { dispatch }
   ) => {
-    const user = await Auth.signUp({
+    await Auth.signUp({
       username: email,
       password: password,
     });

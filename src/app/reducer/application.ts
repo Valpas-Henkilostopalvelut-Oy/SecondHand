@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Auth } from "aws-amplify";
+import { Auth, DataStore } from "aws-amplify";
 
 interface ApplicationState {
   isDarkMode: boolean;
@@ -12,6 +12,13 @@ const initialState: ApplicationState = {
   isDrawerOpen: false,
   isEmpty: true,
 };
+
+const loadDataStore = createAsyncThunk(
+  "application/loadDataStore",
+  async () => {
+    await DataStore.start();
+  }
+);
 
 export const applicationSlice = createSlice({
   name: "application",

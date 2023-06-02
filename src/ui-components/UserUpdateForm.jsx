@@ -27,14 +27,10 @@ export default function UserUpdateForm(props) {
     username: "",
     email: "",
     role: "",
-    createdAt: "",
-    updatedAt: "",
   };
   const [username, setUsername] = React.useState(initialValues.username);
   const [email, setEmail] = React.useState(initialValues.email);
   const [role, setRole] = React.useState(initialValues.role);
-  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
-  const [updatedAt, setUpdatedAt] = React.useState(initialValues.updatedAt);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
@@ -43,8 +39,6 @@ export default function UserUpdateForm(props) {
     setUsername(cleanValues.username);
     setEmail(cleanValues.email);
     setRole(cleanValues.role);
-    setCreatedAt(cleanValues.createdAt);
-    setUpdatedAt(cleanValues.updatedAt);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
@@ -62,8 +56,6 @@ export default function UserUpdateForm(props) {
     username: [],
     email: [{ type: "Email" }],
     role: [],
-    createdAt: [],
-    updatedAt: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -82,23 +74,6 @@ export default function UserUpdateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
-  };
   return (
     <Grid
       as="form"
@@ -111,8 +86,6 @@ export default function UserUpdateForm(props) {
           username,
           email,
           role,
-          createdAt,
-          updatedAt,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -171,8 +144,6 @@ export default function UserUpdateForm(props) {
               username: value,
               email,
               role,
-              createdAt,
-              updatedAt,
             };
             const result = onChange(modelFields);
             value = result?.username ?? value;
@@ -199,8 +170,6 @@ export default function UserUpdateForm(props) {
               username,
               email: value,
               role,
-              createdAt,
-              updatedAt,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -227,8 +196,6 @@ export default function UserUpdateForm(props) {
               username,
               email,
               role: value,
-              createdAt,
-              updatedAt,
             };
             const result = onChange(modelFields);
             value = result?.role ?? value;
@@ -242,66 +209,6 @@ export default function UserUpdateForm(props) {
         errorMessage={errors.role?.errorMessage}
         hasError={errors.role?.hasError}
         {...getOverrideProps(overrides, "role")}
-      ></TextField>
-      <TextField
-        label="Created at"
-        isRequired={false}
-        isReadOnly={false}
-        type="datetime-local"
-        value={createdAt && convertToLocal(new Date(createdAt))}
-        onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
-          if (onChange) {
-            const modelFields = {
-              username,
-              email,
-              role,
-              createdAt: value,
-              updatedAt,
-            };
-            const result = onChange(modelFields);
-            value = result?.createdAt ?? value;
-          }
-          if (errors.createdAt?.hasError) {
-            runValidationTasks("createdAt", value);
-          }
-          setCreatedAt(value);
-        }}
-        onBlur={() => runValidationTasks("createdAt", createdAt)}
-        errorMessage={errors.createdAt?.errorMessage}
-        hasError={errors.createdAt?.hasError}
-        {...getOverrideProps(overrides, "createdAt")}
-      ></TextField>
-      <TextField
-        label="Updated at"
-        isRequired={false}
-        isReadOnly={false}
-        type="datetime-local"
-        value={updatedAt && convertToLocal(new Date(updatedAt))}
-        onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
-          if (onChange) {
-            const modelFields = {
-              username,
-              email,
-              role,
-              createdAt,
-              updatedAt: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.updatedAt ?? value;
-          }
-          if (errors.updatedAt?.hasError) {
-            runValidationTasks("updatedAt", value);
-          }
-          setUpdatedAt(value);
-        }}
-        onBlur={() => runValidationTasks("updatedAt", updatedAt)}
-        errorMessage={errors.updatedAt?.errorMessage}
-        hasError={errors.updatedAt?.hasError}
-        {...getOverrideProps(overrides, "updatedAt")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -6,14 +6,15 @@ import { createNewStoreAsync } from "../redux/newstore";
 const Create = () => {
   const dispatch = useAppDispatch();
   const values = useAppSelector((state) => state.newstore);
-  const { isAdmin } = useAppSelector((state) => state.user);
+  const { isAdmin, userID } = useAppSelector((state) => state.user);
   const handleClick = () => {
     dispatch(
       createNewStoreAsync({
         newStore: values,
         isAdmin: isAdmin,
+        username: userID,
       })
-    )
+    );
   };
 
   return (

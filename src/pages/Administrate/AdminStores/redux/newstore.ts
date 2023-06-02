@@ -68,9 +68,11 @@ export const createNewStoreAsync = createAsyncThunk(
     {
       newStore,
       isAdmin,
+      username,
     }: {
       newStore: NewStoreProps;
       isAdmin: boolean;
+      username: string | null;
     },
     { dispatch }: { dispatch: Dispatch }
   ) => {
@@ -90,6 +92,7 @@ export const createNewStoreAsync = createAsyncThunk(
       type,
     } = newStore;
     const store = new Store({
+      username: username,
       isConfirmed: isAdmin,
       name,
       description,
@@ -103,6 +106,7 @@ export const createNewStoreAsync = createAsyncThunk(
     });
 
     const storeToAdd = {
+      username: store.username,
       id: store.id,
       name: store.name,
       description: store.description,

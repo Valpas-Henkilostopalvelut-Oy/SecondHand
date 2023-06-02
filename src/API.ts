@@ -2,24 +2,20 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateAreasInput = {
+export type CreateCategoriesInput = {
   id?: string | null,
+  createdBy?: string | null,
   name?: string | null,
-  cities?: Array< CityInput | null > | null,
   _version?: number | null,
 };
 
-export type CityInput = {
-  id?: string | null,
-  name?: string | null,
-  area?: string | null,
-};
-
-export type ModelAreasConditionInput = {
+export type ModelCategoriesConditionInput = {
+  createdBy?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  and?: Array< ModelAreasConditionInput | null > | null,
-  or?: Array< ModelAreasConditionInput | null > | null,
-  not?: ModelAreasConditionInput | null,
+  and?: Array< ModelCategoriesConditionInput | null > | null,
+  or?: Array< ModelCategoriesConditionInput | null > | null,
+  not?: ModelCategoriesConditionInput | null,
+  _deleted?: ModelBooleanInput | null,
 };
 
 export type ModelStringInput = {
@@ -62,50 +58,11 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Areas = {
-  __typename: "Areas",
-  id: string,
-  name?: string | null,
-  cities?:  Array<City | null > | null,
-  createdAt: string,
-  updatedAt: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-};
-
-export type City = {
-  __typename: "City",
-  id?: string | null,
-  name?: string | null,
-  area?: string | null,
-};
-
-export type UpdateAreasInput = {
-  id: string,
-  name?: string | null,
-  cities?: Array< CityInput | null > | null,
-  _version?: number | null,
-};
-
-export type DeleteAreasInput = {
-  id: string,
-  _version?: number | null,
-};
-
-export type CreateCategoriesInput = {
-  id?: string | null,
-  createdBy?: string | null,
-  name?: string | null,
-  _version?: number | null,
-};
-
-export type ModelCategoriesConditionInput = {
-  createdBy?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelCategoriesConditionInput | null > | null,
-  or?: Array< ModelCategoriesConditionInput | null > | null,
-  not?: ModelCategoriesConditionInput | null,
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type Categories = {
@@ -132,101 +89,43 @@ export type DeleteCategoriesInput = {
   _version?: number | null,
 };
 
-export type CreateStoreInput = {
+export type CreateUserInput = {
   id?: string | null,
-  isConfirmed?: boolean | null,
-  name?: string | null,
-  description?: string | null,
-  categories?: Array< CategoryInput | null > | null,
-  services?: Array< number | null > | null,
-  clicked?: string | null,
-  sellplaces?: SellplacesInput | null,
-  pricelist?: Array< PriceitemInput | null > | null,
-  embedmap?: string | null,
-  opentimes?: Array< OpentimeInput | null > | null,
-  contact?: ContactInput | null,
-  location?: LocationInput | null,
-  imgs?: Array< ImageInput | null > | null,
+  username?: string | null,
+  email?: string | null,
+  role?: string | null,
   _version?: number | null,
 };
 
-export type CategoryInput = {
-  id?: string | null,
-  name?: string | null,
+export type ModelUserConditionInput = {
+  username?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  role?: ModelStringInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
+  _deleted?: ModelBooleanInput | null,
 };
 
-export type SellplacesInput = {
-  all?: number | null,
-  free?: number | null,
-};
-
-export type PriceitemInput = {
-  name?: string | null,
-  price?: number | null,
-  id?: number | null,
-};
-
-export type OpentimeInput = {
-  day?: string | null,
-  start?: string | null,
-  end?: string | null,
-  id?: string | null,
-};
-
-export type ContactInput = {
-  phone?: string | null,
+export type User = {
+  __typename: "User",
+  id: string,
+  username?: string | null,
   email?: string | null,
-  website?: string | null,
-};
-
-export type LocationInput = {
-  address?: string | null,
-  city?: string | null,
-  zip?: string | null,
-  area?: string | null,
-  country?: string | null,
-  driveto?: string | null,
-};
-
-export type ImageInput = {
-  key?: string | null,
-  id?: string | null,
-};
-
-export type ModelStoreConditionInput = {
-  isConfirmed?: ModelBooleanInput | null,
-  name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  services?: ModelIntInput | null,
-  clicked?: ModelStringInput | null,
-  embedmap?: ModelStringInput | null,
-  and?: Array< ModelStoreConditionInput | null > | null,
-  or?: Array< ModelStoreConditionInput | null > | null,
-  not?: ModelStoreConditionInput | null,
-};
-
-export type ModelBooleanInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
-export type ModelIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
+  stores?:  Array<Store | null > | null,
+  role?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
 };
 
 export type Store = {
   __typename: "Store",
   id: string,
+  type?: string | null,
+  username?: string | null,
   isConfirmed?: boolean | null,
   name?: string | null,
   description?: string | null,
@@ -240,12 +139,12 @@ export type Store = {
   contact?: Contact | null,
   location?: Location | null,
   imgs?:  Array<Image | null > | null,
+  social?: Social | null,
   createdAt: string,
   updatedAt: string,
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
-  owner?: string | null,
 };
 
 export type Category = {
@@ -273,6 +172,7 @@ export type Opentime = {
   start?: string | null,
   end?: string | null,
   id?: string | null,
+  isClosed?: boolean | null,
 };
 
 export type Contact = {
@@ -284,12 +184,19 @@ export type Contact = {
 
 export type Location = {
   __typename: "Location",
-  address?: string | null,
   city?: string | null,
-  zip?: string | null,
-  area?: string | null,
+  lat?: string | null,
+  lng?: string | null,
   country?: string | null,
+  iso2?: string | null,
+  admin_name?: string | null,
+  capital?: string | null,
+  population?: string | null,
+  population_proper?: string | null,
   driveto?: string | null,
+  address?: string | null,
+  zip?: string | null,
+  iframe?: string | null,
 };
 
 export type Image = {
@@ -298,8 +205,32 @@ export type Image = {
   id?: string | null,
 };
 
-export type UpdateStoreInput = {
+export type Social = {
+  __typename: "Social",
+  facebook?: string | null,
+  instagram?: string | null,
+  twitter?: string | null,
+  youtube?: string | null,
+  tiktok?: string | null,
+};
+
+export type UpdateUserInput = {
   id: string,
+  username?: string | null,
+  email?: string | null,
+  role?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateStoreInput = {
+  id?: string | null,
+  type?: string | null,
+  username?: string | null,
   isConfirmed?: boolean | null,
   name?: string | null,
   description?: string | null,
@@ -313,6 +244,114 @@ export type UpdateStoreInput = {
   contact?: ContactInput | null,
   location?: LocationInput | null,
   imgs?: Array< ImageInput | null > | null,
+  social?: SocialInput | null,
+  _version?: number | null,
+};
+
+export type CategoryInput = {
+  id?: string | null,
+  name?: string | null,
+};
+
+export type SellplacesInput = {
+  all?: number | null,
+  free?: number | null,
+};
+
+export type PriceitemInput = {
+  name?: string | null,
+  price?: number | null,
+  id?: number | null,
+};
+
+export type OpentimeInput = {
+  day?: string | null,
+  start?: string | null,
+  end?: string | null,
+  id?: string | null,
+  isClosed?: boolean | null,
+};
+
+export type ContactInput = {
+  phone?: string | null,
+  email?: string | null,
+  website?: string | null,
+};
+
+export type LocationInput = {
+  city?: string | null,
+  lat?: string | null,
+  lng?: string | null,
+  country?: string | null,
+  iso2?: string | null,
+  admin_name?: string | null,
+  capital?: string | null,
+  population?: string | null,
+  population_proper?: string | null,
+  driveto?: string | null,
+  address?: string | null,
+  zip?: string | null,
+  iframe?: string | null,
+};
+
+export type ImageInput = {
+  key?: string | null,
+  id?: string | null,
+};
+
+export type SocialInput = {
+  facebook?: string | null,
+  instagram?: string | null,
+  twitter?: string | null,
+  youtube?: string | null,
+  tiktok?: string | null,
+};
+
+export type ModelStoreConditionInput = {
+  type?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  isConfirmed?: ModelBooleanInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  services?: ModelIntInput | null,
+  clicked?: ModelStringInput | null,
+  embedmap?: ModelStringInput | null,
+  and?: Array< ModelStoreConditionInput | null > | null,
+  or?: Array< ModelStoreConditionInput | null > | null,
+  not?: ModelStoreConditionInput | null,
+  _deleted?: ModelBooleanInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type UpdateStoreInput = {
+  id: string,
+  type?: string | null,
+  username?: string | null,
+  isConfirmed?: boolean | null,
+  name?: string | null,
+  description?: string | null,
+  categories?: Array< CategoryInput | null > | null,
+  services?: Array< number | null > | null,
+  clicked?: string | null,
+  sellplaces?: SellplacesInput | null,
+  pricelist?: Array< PriceitemInput | null > | null,
+  embedmap?: string | null,
+  opentimes?: Array< OpentimeInput | null > | null,
+  contact?: ContactInput | null,
+  location?: LocationInput | null,
+  imgs?: Array< ImageInput | null > | null,
+  social?: SocialInput | null,
   _version?: number | null,
 };
 
@@ -321,12 +360,14 @@ export type DeleteStoreInput = {
   _version?: number | null,
 };
 
-export type ModelAreasFilterInput = {
+export type ModelCategoriesFilterInput = {
   id?: ModelIDInput | null,
+  createdBy?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  and?: Array< ModelAreasFilterInput | null > | null,
-  or?: Array< ModelAreasFilterInput | null > | null,
-  not?: ModelAreasFilterInput | null,
+  and?: Array< ModelCategoriesFilterInput | null > | null,
+  or?: Array< ModelCategoriesFilterInput | null > | null,
+  not?: ModelCategoriesFilterInput | null,
+  _deleted?: ModelBooleanInput | null,
 };
 
 export type ModelIDInput = {
@@ -345,22 +386,6 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type ModelAreasConnection = {
-  __typename: "ModelAreasConnection",
-  items:  Array<Areas | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type ModelCategoriesFilterInput = {
-  id?: ModelIDInput | null,
-  createdBy?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelCategoriesFilterInput | null > | null,
-  or?: Array< ModelCategoriesFilterInput | null > | null,
-  not?: ModelCategoriesFilterInput | null,
-};
-
 export type ModelCategoriesConnection = {
   __typename: "ModelCategoriesConnection",
   items:  Array<Categories | null >,
@@ -368,8 +393,28 @@ export type ModelCategoriesConnection = {
   startedAt?: number | null,
 };
 
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  username?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  role?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+  _deleted?: ModelBooleanInput | null,
+};
+
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items:  Array<User | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
 export type ModelStoreFilterInput = {
   id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
+  username?: ModelStringInput | null,
   isConfirmed?: ModelBooleanInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
@@ -379,6 +424,7 @@ export type ModelStoreFilterInput = {
   and?: Array< ModelStoreFilterInput | null > | null,
   or?: Array< ModelStoreFilterInput | null > | null,
   not?: ModelStoreFilterInput | null,
+  _deleted?: ModelBooleanInput | null,
 };
 
 export type ModelStoreConnection = {
@@ -388,11 +434,13 @@ export type ModelStoreConnection = {
   startedAt?: number | null,
 };
 
-export type ModelSubscriptionAreasFilterInput = {
+export type ModelSubscriptionCategoriesFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  createdBy?: ModelSubscriptionStringInput | null,
   name?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionAreasFilterInput | null > | null,
-  or?: Array< ModelSubscriptionAreasFilterInput | null > | null,
+  and?: Array< ModelSubscriptionCategoriesFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCategoriesFilterInput | null > | null,
+  _deleted?: ModelBooleanInput | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -425,16 +473,18 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionCategoriesFilterInput = {
+export type ModelSubscriptionUserFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  createdBy?: ModelSubscriptionStringInput | null,
-  name?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionCategoriesFilterInput | null > | null,
-  or?: Array< ModelSubscriptionCategoriesFilterInput | null > | null,
+  email?: ModelSubscriptionStringInput | null,
+  role?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  _deleted?: ModelBooleanInput | null,
 };
 
 export type ModelSubscriptionStoreFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  type?: ModelSubscriptionStringInput | null,
   isConfirmed?: ModelSubscriptionBooleanInput | null,
   name?: ModelSubscriptionStringInput | null,
   description?: ModelSubscriptionStringInput | null,
@@ -443,6 +493,7 @@ export type ModelSubscriptionStoreFilterInput = {
   embedmap?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionStoreFilterInput | null > | null,
   or?: Array< ModelSubscriptionStoreFilterInput | null > | null,
+  _deleted?: ModelBooleanInput | null,
 };
 
 export type ModelSubscriptionBooleanInput = {
@@ -460,78 +511,6 @@ export type ModelSubscriptionIntInput = {
   between?: Array< number | null > | null,
   in?: Array< number | null > | null,
   notIn?: Array< number | null > | null,
-};
-
-export type CreateAreasMutationVariables = {
-  input: CreateAreasInput,
-  condition?: ModelAreasConditionInput | null,
-};
-
-export type CreateAreasMutation = {
-  createAreas?:  {
-    __typename: "Areas",
-    id: string,
-    name?: string | null,
-    cities?:  Array< {
-      __typename: "City",
-      id?: string | null,
-      name?: string | null,
-      area?: string | null,
-    } | null > | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type UpdateAreasMutationVariables = {
-  input: UpdateAreasInput,
-  condition?: ModelAreasConditionInput | null,
-};
-
-export type UpdateAreasMutation = {
-  updateAreas?:  {
-    __typename: "Areas",
-    id: string,
-    name?: string | null,
-    cities?:  Array< {
-      __typename: "City",
-      id?: string | null,
-      name?: string | null,
-      area?: string | null,
-    } | null > | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type DeleteAreasMutationVariables = {
-  input: DeleteAreasInput,
-  condition?: ModelAreasConditionInput | null,
-};
-
-export type DeleteAreasMutation = {
-  deleteAreas?:  {
-    __typename: "Areas",
-    id: string,
-    name?: string | null,
-    cities?:  Array< {
-      __typename: "City",
-      id?: string | null,
-      name?: string | null,
-      area?: string | null,
-    } | null > | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
 };
 
 export type CreateCategoriesMutationVariables = {
@@ -591,6 +570,294 @@ export type DeleteCategoriesMutation = {
   } | null,
 };
 
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type CreateUserMutation = {
+  createUser?:  {
+    __typename: "User",
+    id: string,
+    username?: string | null,
+    email?: string | null,
+    stores?:  Array< {
+      __typename: "Store",
+      id: string,
+      type?: string | null,
+      username?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
+      } | null,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+        isClosed?: boolean | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        city?: string | null,
+        lat?: string | null,
+        lng?: string | null,
+        country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
+        driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null > | null,
+    role?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserMutation = {
+  updateUser?:  {
+    __typename: "User",
+    id: string,
+    username?: string | null,
+    email?: string | null,
+    stores?:  Array< {
+      __typename: "Store",
+      id: string,
+      type?: string | null,
+      username?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
+      } | null,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+        isClosed?: boolean | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        city?: string | null,
+        lat?: string | null,
+        lng?: string | null,
+        country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
+        driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null > | null,
+    role?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    id: string,
+    username?: string | null,
+    email?: string | null,
+    stores?:  Array< {
+      __typename: "Store",
+      id: string,
+      type?: string | null,
+      username?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
+      } | null,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+        isClosed?: boolean | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        city?: string | null,
+        lat?: string | null,
+        lng?: string | null,
+        country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
+        driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null > | null,
+    role?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type CreateStoreMutationVariables = {
   input: CreateStoreInput,
   condition?: ModelStoreConditionInput | null,
@@ -600,6 +867,8 @@ export type CreateStoreMutation = {
   createStore?:  {
     __typename: "Store",
     id: string,
+    type?: string | null,
+    username?: string | null,
     isConfirmed?: boolean | null,
     name?: string | null,
     description?: string | null,
@@ -628,6 +897,7 @@ export type CreateStoreMutation = {
       start?: string | null,
       end?: string | null,
       id?: string | null,
+      isClosed?: boolean | null,
     } | null > | null,
     contact?:  {
       __typename: "Contact",
@@ -637,24 +907,38 @@ export type CreateStoreMutation = {
     } | null,
     location?:  {
       __typename: "Location",
-      address?: string | null,
       city?: string | null,
-      zip?: string | null,
-      area?: string | null,
+      lat?: string | null,
+      lng?: string | null,
       country?: string | null,
+      iso2?: string | null,
+      admin_name?: string | null,
+      capital?: string | null,
+      population?: string | null,
+      population_proper?: string | null,
       driveto?: string | null,
+      address?: string | null,
+      zip?: string | null,
+      iframe?: string | null,
     } | null,
     imgs?:  Array< {
       __typename: "Image",
       key?: string | null,
       id?: string | null,
     } | null > | null,
+    social?:  {
+      __typename: "Social",
+      facebook?: string | null,
+      instagram?: string | null,
+      twitter?: string | null,
+      youtube?: string | null,
+      tiktok?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
@@ -667,6 +951,8 @@ export type UpdateStoreMutation = {
   updateStore?:  {
     __typename: "Store",
     id: string,
+    type?: string | null,
+    username?: string | null,
     isConfirmed?: boolean | null,
     name?: string | null,
     description?: string | null,
@@ -695,6 +981,7 @@ export type UpdateStoreMutation = {
       start?: string | null,
       end?: string | null,
       id?: string | null,
+      isClosed?: boolean | null,
     } | null > | null,
     contact?:  {
       __typename: "Contact",
@@ -704,24 +991,38 @@ export type UpdateStoreMutation = {
     } | null,
     location?:  {
       __typename: "Location",
-      address?: string | null,
       city?: string | null,
-      zip?: string | null,
-      area?: string | null,
+      lat?: string | null,
+      lng?: string | null,
       country?: string | null,
+      iso2?: string | null,
+      admin_name?: string | null,
+      capital?: string | null,
+      population?: string | null,
+      population_proper?: string | null,
       driveto?: string | null,
+      address?: string | null,
+      zip?: string | null,
+      iframe?: string | null,
     } | null,
     imgs?:  Array< {
       __typename: "Image",
       key?: string | null,
       id?: string | null,
     } | null > | null,
+    social?:  {
+      __typename: "Social",
+      facebook?: string | null,
+      instagram?: string | null,
+      twitter?: string | null,
+      youtube?: string | null,
+      tiktok?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
@@ -734,6 +1035,8 @@ export type DeleteStoreMutation = {
   deleteStore?:  {
     __typename: "Store",
     id: string,
+    type?: string | null,
+    username?: string | null,
     isConfirmed?: boolean | null,
     name?: string | null,
     description?: string | null,
@@ -762,6 +1065,7 @@ export type DeleteStoreMutation = {
       start?: string | null,
       end?: string | null,
       id?: string | null,
+      isClosed?: boolean | null,
     } | null > | null,
     contact?:  {
       __typename: "Contact",
@@ -771,108 +1075,38 @@ export type DeleteStoreMutation = {
     } | null,
     location?:  {
       __typename: "Location",
-      address?: string | null,
       city?: string | null,
-      zip?: string | null,
-      area?: string | null,
+      lat?: string | null,
+      lng?: string | null,
       country?: string | null,
+      iso2?: string | null,
+      admin_name?: string | null,
+      capital?: string | null,
+      population?: string | null,
+      population_proper?: string | null,
       driveto?: string | null,
+      address?: string | null,
+      zip?: string | null,
+      iframe?: string | null,
     } | null,
     imgs?:  Array< {
       __typename: "Image",
       key?: string | null,
       id?: string | null,
     } | null > | null,
+    social?:  {
+      __typename: "Social",
+      facebook?: string | null,
+      instagram?: string | null,
+      twitter?: string | null,
+      youtube?: string | null,
+      tiktok?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
-  } | null,
-};
-
-export type GetAreasQueryVariables = {
-  id: string,
-};
-
-export type GetAreasQuery = {
-  getAreas?:  {
-    __typename: "Areas",
-    id: string,
-    name?: string | null,
-    cities?:  Array< {
-      __typename: "City",
-      id?: string | null,
-      name?: string | null,
-      area?: string | null,
-    } | null > | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type ListAreasQueryVariables = {
-  filter?: ModelAreasFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListAreasQuery = {
-  listAreas?:  {
-    __typename: "ModelAreasConnection",
-    items:  Array< {
-      __typename: "Areas",
-      id: string,
-      name?: string | null,
-      cities?:  Array< {
-        __typename: "City",
-        id?: string | null,
-        name?: string | null,
-        area?: string | null,
-      } | null > | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncAreasQueryVariables = {
-  filter?: ModelAreasFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncAreasQuery = {
-  syncAreas?:  {
-    __typename: "ModelAreasConnection",
-    items:  Array< {
-      __typename: "Areas",
-      id: string,
-      name?: string | null,
-      cities?:  Array< {
-        __typename: "City",
-        id?: string | null,
-        name?: string | null,
-        area?: string | null,
-      } | null > | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -945,6 +1179,188 @@ export type SyncCategoriesQuery = {
   } | null,
 };
 
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    username?: string | null,
+    email?: string | null,
+    stores?:  Array< {
+      __typename: "Store",
+      id: string,
+      type?: string | null,
+      username?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
+      } | null,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+        isClosed?: boolean | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        city?: string | null,
+        lat?: string | null,
+        lng?: string | null,
+        country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
+        driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null > | null,
+    role?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      username?: string | null,
+      email?: string | null,
+      stores?:  Array< {
+        __typename: "Store",
+        id: string,
+        type?: string | null,
+        username?: string | null,
+        isConfirmed?: boolean | null,
+        name?: string | null,
+        description?: string | null,
+        services?: Array< number | null > | null,
+        clicked?: string | null,
+        embedmap?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null > | null,
+      role?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncUsersQuery = {
+  syncUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      username?: string | null,
+      email?: string | null,
+      stores?:  Array< {
+        __typename: "Store",
+        id: string,
+        type?: string | null,
+        username?: string | null,
+        isConfirmed?: boolean | null,
+        name?: string | null,
+        description?: string | null,
+        services?: Array< number | null > | null,
+        clicked?: string | null,
+        embedmap?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null > | null,
+      role?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type GetStoreQueryVariables = {
   id: string,
 };
@@ -953,6 +1369,8 @@ export type GetStoreQuery = {
   getStore?:  {
     __typename: "Store",
     id: string,
+    type?: string | null,
+    username?: string | null,
     isConfirmed?: boolean | null,
     name?: string | null,
     description?: string | null,
@@ -981,6 +1399,7 @@ export type GetStoreQuery = {
       start?: string | null,
       end?: string | null,
       id?: string | null,
+      isClosed?: boolean | null,
     } | null > | null,
     contact?:  {
       __typename: "Contact",
@@ -990,24 +1409,38 @@ export type GetStoreQuery = {
     } | null,
     location?:  {
       __typename: "Location",
-      address?: string | null,
       city?: string | null,
-      zip?: string | null,
-      area?: string | null,
+      lat?: string | null,
+      lng?: string | null,
       country?: string | null,
+      iso2?: string | null,
+      admin_name?: string | null,
+      capital?: string | null,
+      population?: string | null,
+      population_proper?: string | null,
       driveto?: string | null,
+      address?: string | null,
+      zip?: string | null,
+      iframe?: string | null,
     } | null,
     imgs?:  Array< {
       __typename: "Image",
       key?: string | null,
       id?: string | null,
     } | null > | null,
+    social?:  {
+      __typename: "Social",
+      facebook?: string | null,
+      instagram?: string | null,
+      twitter?: string | null,
+      youtube?: string | null,
+      tiktok?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
@@ -1023,6 +1456,8 @@ export type ListStoresQuery = {
     items:  Array< {
       __typename: "Store",
       id: string,
+      type?: string | null,
+      username?: string | null,
       isConfirmed?: boolean | null,
       name?: string | null,
       description?: string | null,
@@ -1051,6 +1486,7 @@ export type ListStoresQuery = {
         start?: string | null,
         end?: string | null,
         id?: string | null,
+        isClosed?: boolean | null,
       } | null > | null,
       contact?:  {
         __typename: "Contact",
@@ -1060,24 +1496,38 @@ export type ListStoresQuery = {
       } | null,
       location?:  {
         __typename: "Location",
-        address?: string | null,
         city?: string | null,
-        zip?: string | null,
-        area?: string | null,
+        lat?: string | null,
+        lng?: string | null,
         country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
         driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
       } | null,
       imgs?:  Array< {
         __typename: "Image",
         key?: string | null,
         id?: string | null,
       } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -1097,6 +1547,8 @@ export type SyncStoresQuery = {
     items:  Array< {
       __typename: "Store",
       id: string,
+      type?: string | null,
+      username?: string | null,
       isConfirmed?: boolean | null,
       name?: string | null,
       description?: string | null,
@@ -1125,6 +1577,7 @@ export type SyncStoresQuery = {
         start?: string | null,
         end?: string | null,
         id?: string | null,
+        isClosed?: boolean | null,
       } | null > | null,
       contact?:  {
         __typename: "Contact",
@@ -1134,96 +1587,41 @@ export type SyncStoresQuery = {
       } | null,
       location?:  {
         __typename: "Location",
-        address?: string | null,
         city?: string | null,
-        zip?: string | null,
-        area?: string | null,
+        lat?: string | null,
+        lng?: string | null,
         country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
         driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
       } | null,
       imgs?:  Array< {
         __typename: "Image",
         key?: string | null,
         id?: string | null,
       } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
-  } | null,
-};
-
-export type OnCreateAreasSubscriptionVariables = {
-  filter?: ModelSubscriptionAreasFilterInput | null,
-};
-
-export type OnCreateAreasSubscription = {
-  onCreateAreas?:  {
-    __typename: "Areas",
-    id: string,
-    name?: string | null,
-    cities?:  Array< {
-      __typename: "City",
-      id?: string | null,
-      name?: string | null,
-      area?: string | null,
-    } | null > | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnUpdateAreasSubscriptionVariables = {
-  filter?: ModelSubscriptionAreasFilterInput | null,
-};
-
-export type OnUpdateAreasSubscription = {
-  onUpdateAreas?:  {
-    __typename: "Areas",
-    id: string,
-    name?: string | null,
-    cities?:  Array< {
-      __typename: "City",
-      id?: string | null,
-      name?: string | null,
-      area?: string | null,
-    } | null > | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnDeleteAreasSubscriptionVariables = {
-  filter?: ModelSubscriptionAreasFilterInput | null,
-};
-
-export type OnDeleteAreasSubscription = {
-  onDeleteAreas?:  {
-    __typename: "Areas",
-    id: string,
-    name?: string | null,
-    cities?:  Array< {
-      __typename: "City",
-      id?: string | null,
-      name?: string | null,
-      area?: string | null,
-    } | null > | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1281,15 +1679,305 @@ export type OnDeleteCategoriesSubscription = {
   } | null,
 };
 
+export type OnCreateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  username?: string | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    username?: string | null,
+    email?: string | null,
+    stores?:  Array< {
+      __typename: "Store",
+      id: string,
+      type?: string | null,
+      username?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
+      } | null,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+        isClosed?: boolean | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        city?: string | null,
+        lat?: string | null,
+        lng?: string | null,
+        country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
+        driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null > | null,
+    role?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  username?: string | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    username?: string | null,
+    email?: string | null,
+    stores?:  Array< {
+      __typename: "Store",
+      id: string,
+      type?: string | null,
+      username?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
+      } | null,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+        isClosed?: boolean | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        city?: string | null,
+        lat?: string | null,
+        lng?: string | null,
+        country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
+        driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null > | null,
+    role?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  username?: string | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    username?: string | null,
+    email?: string | null,
+    stores?:  Array< {
+      __typename: "Store",
+      id: string,
+      type?: string | null,
+      username?: string | null,
+      isConfirmed?: boolean | null,
+      name?: string | null,
+      description?: string | null,
+      categories?:  Array< {
+        __typename: "Category",
+        id?: string | null,
+        name?: string | null,
+      } | null > | null,
+      services?: Array< number | null > | null,
+      clicked?: string | null,
+      sellplaces?:  {
+        __typename: "Sellplaces",
+        all?: number | null,
+        free?: number | null,
+      } | null,
+      pricelist?:  Array< {
+        __typename: "Priceitem",
+        name?: string | null,
+        price?: number | null,
+        id?: number | null,
+      } | null > | null,
+      embedmap?: string | null,
+      opentimes?:  Array< {
+        __typename: "Opentime",
+        day?: string | null,
+        start?: string | null,
+        end?: string | null,
+        id?: string | null,
+        isClosed?: boolean | null,
+      } | null > | null,
+      contact?:  {
+        __typename: "Contact",
+        phone?: string | null,
+        email?: string | null,
+        website?: string | null,
+      } | null,
+      location?:  {
+        __typename: "Location",
+        city?: string | null,
+        lat?: string | null,
+        lng?: string | null,
+        country?: string | null,
+        iso2?: string | null,
+        admin_name?: string | null,
+        capital?: string | null,
+        population?: string | null,
+        population_proper?: string | null,
+        driveto?: string | null,
+        address?: string | null,
+        zip?: string | null,
+        iframe?: string | null,
+      } | null,
+      imgs?:  Array< {
+        __typename: "Image",
+        key?: string | null,
+        id?: string | null,
+      } | null > | null,
+      social?:  {
+        __typename: "Social",
+        facebook?: string | null,
+        instagram?: string | null,
+        twitter?: string | null,
+        youtube?: string | null,
+        tiktok?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null > | null,
+    role?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type OnCreateStoreSubscriptionVariables = {
   filter?: ModelSubscriptionStoreFilterInput | null,
-  owner?: string | null,
+  username?: string | null,
 };
 
 export type OnCreateStoreSubscription = {
   onCreateStore?:  {
     __typename: "Store",
     id: string,
+    type?: string | null,
+    username?: string | null,
     isConfirmed?: boolean | null,
     name?: string | null,
     description?: string | null,
@@ -1318,6 +2006,7 @@ export type OnCreateStoreSubscription = {
       start?: string | null,
       end?: string | null,
       id?: string | null,
+      isClosed?: boolean | null,
     } | null > | null,
     contact?:  {
       __typename: "Contact",
@@ -1327,36 +2016,52 @@ export type OnCreateStoreSubscription = {
     } | null,
     location?:  {
       __typename: "Location",
-      address?: string | null,
       city?: string | null,
-      zip?: string | null,
-      area?: string | null,
+      lat?: string | null,
+      lng?: string | null,
       country?: string | null,
+      iso2?: string | null,
+      admin_name?: string | null,
+      capital?: string | null,
+      population?: string | null,
+      population_proper?: string | null,
       driveto?: string | null,
+      address?: string | null,
+      zip?: string | null,
+      iframe?: string | null,
     } | null,
     imgs?:  Array< {
       __typename: "Image",
       key?: string | null,
       id?: string | null,
     } | null > | null,
+    social?:  {
+      __typename: "Social",
+      facebook?: string | null,
+      instagram?: string | null,
+      twitter?: string | null,
+      youtube?: string | null,
+      tiktok?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
 export type OnUpdateStoreSubscriptionVariables = {
   filter?: ModelSubscriptionStoreFilterInput | null,
-  owner?: string | null,
+  username?: string | null,
 };
 
 export type OnUpdateStoreSubscription = {
   onUpdateStore?:  {
     __typename: "Store",
     id: string,
+    type?: string | null,
+    username?: string | null,
     isConfirmed?: boolean | null,
     name?: string | null,
     description?: string | null,
@@ -1385,6 +2090,7 @@ export type OnUpdateStoreSubscription = {
       start?: string | null,
       end?: string | null,
       id?: string | null,
+      isClosed?: boolean | null,
     } | null > | null,
     contact?:  {
       __typename: "Contact",
@@ -1394,36 +2100,52 @@ export type OnUpdateStoreSubscription = {
     } | null,
     location?:  {
       __typename: "Location",
-      address?: string | null,
       city?: string | null,
-      zip?: string | null,
-      area?: string | null,
+      lat?: string | null,
+      lng?: string | null,
       country?: string | null,
+      iso2?: string | null,
+      admin_name?: string | null,
+      capital?: string | null,
+      population?: string | null,
+      population_proper?: string | null,
       driveto?: string | null,
+      address?: string | null,
+      zip?: string | null,
+      iframe?: string | null,
     } | null,
     imgs?:  Array< {
       __typename: "Image",
       key?: string | null,
       id?: string | null,
     } | null > | null,
+    social?:  {
+      __typename: "Social",
+      facebook?: string | null,
+      instagram?: string | null,
+      twitter?: string | null,
+      youtube?: string | null,
+      tiktok?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
 export type OnDeleteStoreSubscriptionVariables = {
   filter?: ModelSubscriptionStoreFilterInput | null,
-  owner?: string | null,
+  username?: string | null,
 };
 
 export type OnDeleteStoreSubscription = {
   onDeleteStore?:  {
     __typename: "Store",
     id: string,
+    type?: string | null,
+    username?: string | null,
     isConfirmed?: boolean | null,
     name?: string | null,
     description?: string | null,
@@ -1452,6 +2174,7 @@ export type OnDeleteStoreSubscription = {
       start?: string | null,
       end?: string | null,
       id?: string | null,
+      isClosed?: boolean | null,
     } | null > | null,
     contact?:  {
       __typename: "Contact",
@@ -1461,23 +2184,37 @@ export type OnDeleteStoreSubscription = {
     } | null,
     location?:  {
       __typename: "Location",
-      address?: string | null,
       city?: string | null,
-      zip?: string | null,
-      area?: string | null,
+      lat?: string | null,
+      lng?: string | null,
       country?: string | null,
+      iso2?: string | null,
+      admin_name?: string | null,
+      capital?: string | null,
+      population?: string | null,
+      population_proper?: string | null,
       driveto?: string | null,
+      address?: string | null,
+      zip?: string | null,
+      iframe?: string | null,
     } | null,
     imgs?:  Array< {
       __typename: "Image",
       key?: string | null,
       id?: string | null,
     } | null > | null,
+    social?:  {
+      __typename: "Social",
+      facebook?: string | null,
+      instagram?: string | null,
+      twitter?: string | null,
+      youtube?: string | null,
+      tiktok?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };

@@ -2,69 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createAreas = /* GraphQL */ `
-  mutation CreateAreas(
-    $input: CreateAreasInput!
-    $condition: ModelAreasConditionInput
-  ) {
-    createAreas(input: $input, condition: $condition) {
-      id
-      name
-      cities {
-        id
-        name
-        area
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateAreas = /* GraphQL */ `
-  mutation UpdateAreas(
-    $input: UpdateAreasInput!
-    $condition: ModelAreasConditionInput
-  ) {
-    updateAreas(input: $input, condition: $condition) {
-      id
-      name
-      cities {
-        id
-        name
-        area
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteAreas = /* GraphQL */ `
-  mutation DeleteAreas(
-    $input: DeleteAreasInput!
-    $condition: ModelAreasConditionInput
-  ) {
-    deleteAreas(input: $input, condition: $condition) {
-      id
-      name
-      cities {
-        id
-        name
-        area
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
 export const createCategories = /* GraphQL */ `
   mutation CreateCategories(
     $input: CreateCategoriesInput!
@@ -116,6 +53,261 @@ export const deleteCategories = /* GraphQL */ `
     }
   }
 `;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+      username
+      email
+      stores {
+        id
+        type
+        username
+        isConfirmed
+        name
+        description
+        categories {
+          id
+          name
+        }
+        services
+        clicked
+        sellplaces {
+          all
+          free
+        }
+        pricelist {
+          name
+          price
+          id
+        }
+        embedmap
+        opentimes {
+          day
+          start
+          end
+          id
+          isClosed
+        }
+        contact {
+          phone
+          email
+          website
+        }
+        location {
+          city
+          lat
+          lng
+          country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
+          driveto
+          address
+          zip
+          iframe
+        }
+        imgs {
+          key
+          id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      role
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      id
+      username
+      email
+      stores {
+        id
+        type
+        username
+        isConfirmed
+        name
+        description
+        categories {
+          id
+          name
+        }
+        services
+        clicked
+        sellplaces {
+          all
+          free
+        }
+        pricelist {
+          name
+          price
+          id
+        }
+        embedmap
+        opentimes {
+          day
+          start
+          end
+          id
+          isClosed
+        }
+        contact {
+          phone
+          email
+          website
+        }
+        location {
+          city
+          lat
+          lng
+          country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
+          driveto
+          address
+          zip
+          iframe
+        }
+        imgs {
+          key
+          id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      role
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      id
+      username
+      email
+      stores {
+        id
+        type
+        username
+        isConfirmed
+        name
+        description
+        categories {
+          id
+          name
+        }
+        services
+        clicked
+        sellplaces {
+          all
+          free
+        }
+        pricelist {
+          name
+          price
+          id
+        }
+        embedmap
+        opentimes {
+          day
+          start
+          end
+          id
+          isClosed
+        }
+        contact {
+          phone
+          email
+          website
+        }
+        location {
+          city
+          lat
+          lng
+          country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
+          driveto
+          address
+          zip
+          iframe
+        }
+        imgs {
+          key
+          id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      role
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createStore = /* GraphQL */ `
   mutation CreateStore(
     $input: CreateStoreInput!
@@ -123,6 +315,8 @@ export const createStore = /* GraphQL */ `
   ) {
     createStore(input: $input, condition: $condition) {
       id
+      type
+      username
       isConfirmed
       name
       description
@@ -147,6 +341,7 @@ export const createStore = /* GraphQL */ `
         start
         end
         id
+        isClosed
       }
       contact {
         phone
@@ -154,23 +349,36 @@ export const createStore = /* GraphQL */ `
         website
       }
       location {
-        address
         city
-        zip
-        area
+        lat
+        lng
         country
+        iso2
+        admin_name
+        capital
+        population
+        population_proper
         driveto
+        address
+        zip
+        iframe
       }
       imgs {
         key
         id
+      }
+      social {
+        facebook
+        instagram
+        twitter
+        youtube
+        tiktok
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
@@ -181,6 +389,8 @@ export const updateStore = /* GraphQL */ `
   ) {
     updateStore(input: $input, condition: $condition) {
       id
+      type
+      username
       isConfirmed
       name
       description
@@ -205,6 +415,7 @@ export const updateStore = /* GraphQL */ `
         start
         end
         id
+        isClosed
       }
       contact {
         phone
@@ -212,23 +423,36 @@ export const updateStore = /* GraphQL */ `
         website
       }
       location {
-        address
         city
-        zip
-        area
+        lat
+        lng
         country
+        iso2
+        admin_name
+        capital
+        population
+        population_proper
         driveto
+        address
+        zip
+        iframe
       }
       imgs {
         key
         id
+      }
+      social {
+        facebook
+        instagram
+        twitter
+        youtube
+        tiktok
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
@@ -239,6 +463,8 @@ export const deleteStore = /* GraphQL */ `
   ) {
     deleteStore(input: $input, condition: $condition) {
       id
+      type
+      username
       isConfirmed
       name
       description
@@ -263,6 +489,7 @@ export const deleteStore = /* GraphQL */ `
         start
         end
         id
+        isClosed
       }
       contact {
         phone
@@ -270,23 +497,36 @@ export const deleteStore = /* GraphQL */ `
         website
       }
       location {
-        address
         city
-        zip
-        area
+        lat
+        lng
         country
+        iso2
+        admin_name
+        capital
+        population
+        population_proper
         driveto
+        address
+        zip
+        iframe
       }
       imgs {
         key
         id
+      }
+      social {
+        facebook
+        instagram
+        twitter
+        youtube
+        tiktok
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;

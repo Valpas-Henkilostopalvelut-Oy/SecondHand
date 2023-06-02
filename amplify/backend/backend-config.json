@@ -14,21 +14,21 @@
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "AWS_IAM"
-            },
-            {
               "authenticationType": "AMAZON_COGNITO_USER_POOLS",
               "userPoolConfig": {
                 "userPoolId": "authkirppis516e92a5"
               }
+            },
+            {
+              "authenticationType": "AWS_LAMBDA",
+              "lambdaAuthorizerConfig": {
+                "lambdaFunction": "kirpisUserProfile",
+                "ttlSeconds": "300"
+              }
             }
           ],
           "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 30,
-              "description": "api key description"
-            },
-            "authenticationType": "API_KEY"
+            "authenticationType": "AWS_IAM"
           }
         }
       },
@@ -85,6 +85,11 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "kirpisUserProfile": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -101,6 +106,22 @@
         {
           "category": "function",
           "resourceName": "S3Triggerb5b36149"
+        }
+      ]
+    },
+    "AMPLIFY_function_kirpisUserProfile_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "kirpisUserProfile"
+        }
+      ]
+    },
+    "AMPLIFY_function_kirpisUserProfile_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "kirpisUserProfile"
         }
       ]
     }

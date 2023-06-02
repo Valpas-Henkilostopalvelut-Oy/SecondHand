@@ -187,6 +187,7 @@ export declare const Categories: (new (init: ModelInit<Categories>) => Categorie
 type EagerUser = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<User, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly username?: string | null;
@@ -199,6 +200,7 @@ type EagerUser = {
 type LazyUser = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<User, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly username?: string | null;
@@ -221,7 +223,7 @@ type EagerStore = {
   };
   readonly id: string;
   readonly type?: string | null;
-  readonly userID?: string | null;
+  readonly username?: string | null;
   readonly isConfirmed?: boolean | null;
   readonly name?: string | null;
   readonly description?: string | null;
@@ -247,7 +249,7 @@ type LazyStore = {
   };
   readonly id: string;
   readonly type?: string | null;
-  readonly userID?: string | null;
+  readonly username?: string | null;
   readonly isConfirmed?: boolean | null;
   readonly name?: string | null;
   readonly description?: string | null;

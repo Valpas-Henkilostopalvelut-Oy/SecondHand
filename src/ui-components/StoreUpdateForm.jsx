@@ -195,7 +195,7 @@ export default function StoreUpdateForm(props) {
   } = props;
   const initialValues = {
     type: "",
-    userID: "",
+    username: "",
     isConfirmed: false,
     name: "",
     description: "",
@@ -204,7 +204,7 @@ export default function StoreUpdateForm(props) {
     embedmap: "",
   };
   const [type, setType] = React.useState(initialValues.type);
-  const [userID, setUserID] = React.useState(initialValues.userID);
+  const [username, setUsername] = React.useState(initialValues.username);
   const [isConfirmed, setIsConfirmed] = React.useState(
     initialValues.isConfirmed
   );
@@ -221,7 +221,7 @@ export default function StoreUpdateForm(props) {
       ? { ...initialValues, ...storeRecord }
       : initialValues;
     setType(cleanValues.type);
-    setUserID(cleanValues.userID);
+    setUsername(cleanValues.username);
     setIsConfirmed(cleanValues.isConfirmed);
     setName(cleanValues.name);
     setDescription(cleanValues.description);
@@ -246,7 +246,7 @@ export default function StoreUpdateForm(props) {
   const servicesRef = React.createRef();
   const validations = {
     type: [],
-    userID: [],
+    username: [],
     isConfirmed: [],
     name: [],
     description: [],
@@ -281,7 +281,7 @@ export default function StoreUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           type,
-          userID,
+          username,
           isConfirmed,
           name,
           description,
@@ -344,7 +344,7 @@ export default function StoreUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               type: value,
-              userID,
+              username,
               isConfirmed,
               name,
               description,
@@ -366,16 +366,16 @@ export default function StoreUpdateForm(props) {
         {...getOverrideProps(overrides, "type")}
       ></TextField>
       <TextField
-        label="User id"
+        label="Username"
         isRequired={false}
         isReadOnly={false}
-        value={userID}
+        value={username}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               type,
-              userID: value,
+              username: value,
               isConfirmed,
               name,
               description,
@@ -384,17 +384,17 @@ export default function StoreUpdateForm(props) {
               embedmap,
             };
             const result = onChange(modelFields);
-            value = result?.userID ?? value;
+            value = result?.username ?? value;
           }
-          if (errors.userID?.hasError) {
-            runValidationTasks("userID", value);
+          if (errors.username?.hasError) {
+            runValidationTasks("username", value);
           }
-          setUserID(value);
+          setUsername(value);
         }}
-        onBlur={() => runValidationTasks("userID", userID)}
-        errorMessage={errors.userID?.errorMessage}
-        hasError={errors.userID?.hasError}
-        {...getOverrideProps(overrides, "userID")}
+        onBlur={() => runValidationTasks("username", username)}
+        errorMessage={errors.username?.errorMessage}
+        hasError={errors.username?.hasError}
+        {...getOverrideProps(overrides, "username")}
       ></TextField>
       <SwitchField
         label="Is confirmed"
@@ -406,7 +406,7 @@ export default function StoreUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               type,
-              userID,
+              username,
               isConfirmed: value,
               name,
               description,
@@ -437,7 +437,7 @@ export default function StoreUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               type,
-              userID,
+              username,
               isConfirmed,
               name: value,
               description,
@@ -468,7 +468,7 @@ export default function StoreUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               type,
-              userID,
+              username,
               isConfirmed,
               name,
               description: value,
@@ -495,7 +495,7 @@ export default function StoreUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               type,
-              userID,
+              username,
               isConfirmed,
               name,
               description,
@@ -552,7 +552,7 @@ export default function StoreUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               type,
-              userID,
+              username,
               isConfirmed,
               name,
               description,
@@ -583,7 +583,7 @@ export default function StoreUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               type,
-              userID,
+              username,
               isConfirmed,
               name,
               description,

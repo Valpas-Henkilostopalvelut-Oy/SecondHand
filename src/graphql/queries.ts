@@ -2,82 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getAreas = /* GraphQL */ `
-  query GetAreas($id: ID!) {
-    getAreas(id: $id) {
-      id
-      name
-      cities {
-        id
-        name
-        area
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const listAreas = /* GraphQL */ `
-  query ListAreas(
-    $filter: ModelAreasFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listAreas(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        cities {
-          id
-          name
-          area
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncAreas = /* GraphQL */ `
-  query SyncAreas(
-    $filter: ModelAreasFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncAreas(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        name
-        cities {
-          id
-          name
-          area
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 export const getCategories = /* GraphQL */ `
   query GetCategories($id: ID!) {
     getCategories(id: $id) {
@@ -142,10 +66,178 @@ export const syncCategories = /* GraphQL */ `
     }
   }
 `;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      username
+      email
+      stores {
+        id
+        type
+        username
+        isConfirmed
+        name
+        description
+        categories {
+          id
+          name
+        }
+        services
+        clicked
+        sellplaces {
+          all
+          free
+        }
+        pricelist {
+          name
+          price
+          id
+        }
+        embedmap
+        opentimes {
+          day
+          start
+          end
+          id
+          isClosed
+        }
+        contact {
+          phone
+          email
+          website
+        }
+        location {
+          city
+          lat
+          lng
+          country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
+          driveto
+          address
+          zip
+          iframe
+        }
+        imgs {
+          key
+          id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      role
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        email
+        stores {
+          id
+          type
+          username
+          isConfirmed
+          name
+          description
+          services
+          clicked
+          embedmap
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        role
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncUsers = /* GraphQL */ `
+  query SyncUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUsers(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        username
+        email
+        stores {
+          id
+          type
+          username
+          isConfirmed
+          name
+          description
+          services
+          clicked
+          embedmap
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        role
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getStore = /* GraphQL */ `
   query GetStore($id: ID!) {
     getStore(id: $id) {
       id
+      type
+      username
       isConfirmed
       name
       description
@@ -170,6 +262,7 @@ export const getStore = /* GraphQL */ `
         start
         end
         id
+        isClosed
       }
       contact {
         phone
@@ -177,23 +270,36 @@ export const getStore = /* GraphQL */ `
         website
       }
       location {
-        address
         city
-        zip
-        area
+        lat
+        lng
         country
+        iso2
+        admin_name
+        capital
+        population
+        population_proper
         driveto
+        address
+        zip
+        iframe
       }
       imgs {
         key
         id
+      }
+      social {
+        facebook
+        instagram
+        twitter
+        youtube
+        tiktok
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
@@ -206,6 +312,8 @@ export const listStores = /* GraphQL */ `
     listStores(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
+        username
         isConfirmed
         name
         description
@@ -230,6 +338,7 @@ export const listStores = /* GraphQL */ `
           start
           end
           id
+          isClosed
         }
         contact {
           phone
@@ -237,23 +346,36 @@ export const listStores = /* GraphQL */ `
           website
         }
         location {
-          address
           city
-          zip
-          area
+          lat
+          lng
           country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
           driveto
+          address
+          zip
+          iframe
         }
         imgs {
           key
           id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
       }
       nextToken
       startedAt
@@ -275,6 +397,8 @@ export const syncStores = /* GraphQL */ `
     ) {
       items {
         id
+        type
+        username
         isConfirmed
         name
         description
@@ -299,6 +423,7 @@ export const syncStores = /* GraphQL */ `
           start
           end
           id
+          isClosed
         }
         contact {
           phone
@@ -306,23 +431,36 @@ export const syncStores = /* GraphQL */ `
           website
         }
         location {
-          address
           city
-          zip
-          area
+          lat
+          lng
           country
+          iso2
+          admin_name
+          capital
+          population
+          population_proper
           driveto
+          address
+          zip
+          iframe
         }
         imgs {
           key
           id
+        }
+        social {
+          facebook
+          instagram
+          twitter
+          youtube
+          tiktok
         }
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        owner
       }
       nextToken
       startedAt
