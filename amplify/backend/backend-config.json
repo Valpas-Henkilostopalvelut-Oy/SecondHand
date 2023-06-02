@@ -18,17 +18,15 @@
               "userPoolConfig": {
                 "userPoolId": "authkirppis516e92a5"
               }
-            },
-            {
-              "authenticationType": "AWS_LAMBDA",
-              "lambdaAuthorizerConfig": {
-                "lambdaFunction": "kirpisUserProfile",
-                "ttlSeconds": "300"
-              }
             }
           ],
           "defaultAuthentication": {
-            "authenticationType": "AWS_IAM"
+            "apiKeyConfig": {
+              "apiKeyExpirationDate": "2024-06-01T14:50:50.957Z",
+              "apiKeyExpirationDays": 365,
+              "description": "SecondHand API Key"
+            },
+            "authenticationType": "API_KEY"
           }
         }
       },
@@ -80,52 +78,7 @@
       "service": "Cognito-UserPool-Groups"
     }
   },
-  "function": {
-    "S3Triggerb5b36149": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "kirpisUserProfile": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
-  "parameters": {
-    "AMPLIFY_function_S3Triggerb5b36149_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "S3Triggerb5b36149"
-        }
-      ]
-    },
-    "AMPLIFY_function_S3Triggerb5b36149_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "S3Triggerb5b36149"
-        }
-      ]
-    },
-    "AMPLIFY_function_kirpisUserProfile_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "kirpisUserProfile"
-        }
-      ]
-    },
-    "AMPLIFY_function_kirpisUserProfile_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "kirpisUserProfile"
-        }
-      ]
-    }
-  },
+  "function": {},
   "storage": {
     "s388debbbf": {
       "dependsOn": [

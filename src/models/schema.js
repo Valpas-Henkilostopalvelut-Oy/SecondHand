@@ -56,15 +56,7 @@ export const schema = {
                                 "allow": "public",
                                 "operations": [
                                     "read"
-                                ],
-                                "provider": "iam"
-                            },
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "read"
-                                ],
-                                "provider": "iam"
+                                ]
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -148,12 +140,18 @@ export const schema = {
                                 "provider": "userPools",
                                 "ownerField": "username",
                                 "allow": "owner",
-                                "identityClaim": "cognito:username",
                                 "operations": [
+                                    "read",
                                     "create",
                                     "update",
-                                    "delete",
-                                    "read"
+                                    "delete"
+                                ],
+                                "identityClaim": "cognito:username"
+                            },
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "create"
                                 ]
                             },
                             {
@@ -350,27 +348,25 @@ export const schema = {
                                 "provider": "userPools",
                                 "ownerField": "username",
                                 "allow": "owner",
-                                "identityClaim": "cognito:username",
                                 "operations": [
+                                    "read",
                                     "create",
                                     "update",
-                                    "delete",
-                                    "read"
-                                ]
+                                    "delete"
+                                ],
+                                "identityClaim": "cognito:username"
                             },
                             {
                                 "allow": "public",
                                 "operations": [
                                     "read"
-                                ],
-                                "provider": "iam"
+                                ]
                             },
                             {
                                 "allow": "private",
                                 "operations": [
-                                    "read"
-                                ],
-                                "provider": "iam"
+                                    "create"
+                                ]
                             },
                             {
                                 "groupClaim": "cognito:groups",
