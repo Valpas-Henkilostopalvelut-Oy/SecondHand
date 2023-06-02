@@ -23,22 +23,18 @@ export default function UserCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    username: "",
     email: "",
     role: "",
   };
-  const [username, setUsername] = React.useState(initialValues.username);
   const [email, setEmail] = React.useState(initialValues.email);
   const [role, setRole] = React.useState(initialValues.role);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setUsername(initialValues.username);
     setEmail(initialValues.email);
     setRole(initialValues.role);
     setErrors({});
   };
   const validations = {
-    username: [],
     email: [{ type: "Email" }],
     role: [],
   };
@@ -68,7 +64,6 @@ export default function UserCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          username,
           email,
           role,
         };
@@ -117,32 +112,6 @@ export default function UserCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Username"
-        isRequired={false}
-        isReadOnly={false}
-        value={username}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              username: value,
-              email,
-              role,
-            };
-            const result = onChange(modelFields);
-            value = result?.username ?? value;
-          }
-          if (errors.username?.hasError) {
-            runValidationTasks("username", value);
-          }
-          setUsername(value);
-        }}
-        onBlur={() => runValidationTasks("username", username)}
-        errorMessage={errors.username?.errorMessage}
-        hasError={errors.username?.hasError}
-        {...getOverrideProps(overrides, "username")}
-      ></TextField>
-      <TextField
         label="Email"
         isRequired={false}
         isReadOnly={false}
@@ -151,7 +120,6 @@ export default function UserCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
               email: value,
               role,
             };
@@ -177,7 +145,6 @@ export default function UserCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
               email,
               role: value,
             };

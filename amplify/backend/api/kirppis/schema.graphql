@@ -20,8 +20,8 @@ type Location {
 }
 
 type Categories @model @auth(rules: [
-  { allow: public, operations: [read]},
-  { allow: groups, groups: ["admin"], operations: [read, create, update, delete]}
+  { allow: public },
+  { allow: groups, groups: ["admin"], operations: [read, create, update, delete], provider: userPools},
 ]) {
   id: ID!
   createdBy: String
@@ -59,11 +59,10 @@ type Sellplaces {
 }
 
 type User @model @auth(rules: [
-  { allow: groups, groups: ["admin"], operations: [read, create, update, delete]}
-  { allow: owner, ownerField: "username"},
+  { allow: public },
+  { allow: groups, groups: ["admin"], operations: [read, create, update, delete], provider: userPools},
   ]) {
   id: ID!
-  username: String
   email: AWSEmail
   stores: [Store]
   role: String
@@ -80,13 +79,11 @@ type Social {
 type Store
 @model 
 @auth(rules: [
-  { allow: public, operations: [read] },
-  { allow: groups, groups: ["admin"], operations: [read, create, update, delete]},
-  { allow: owner, ownerField: "username" },
+  { allow: public },
+  { allow: groups, groups: ["admin"], operations: [read, create, update, delete], provider: userPools},
   ]) {
   id: ID!
   type: String
-  username: String
   isConfirmed: Boolean
   name: String
   description: String
