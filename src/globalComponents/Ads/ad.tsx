@@ -22,6 +22,7 @@ interface Ad {
 
 const Side = (item: Side) => {
   const { image, title, button } = item;
+  console.log(image);
   return (
     <Grid item xs={12} sm={6} textAlign="center">
       <Box
@@ -34,7 +35,7 @@ const Side = (item: Side) => {
           fontWeight: 900,
           lineHeight: "1.2",
           textDecoration: "none",
-          typography: {
+          p: {
             fontFamily: "Roboto",
             fontWeight: 900,
             fontSize: "1.5rem",

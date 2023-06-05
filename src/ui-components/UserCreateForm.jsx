@@ -6,11 +6,180 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Badge,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Icon,
+  ScrollView,
+  Text,
+  TextField,
+  useTheme,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
+function ArrayField({
+  items = [],
+  onChange,
+  label,
+  inputFieldRef,
+  children,
+  hasError,
+  setFieldValue,
+  currentFieldValue,
+  defaultFieldValue,
+  lengthLimit,
+  getBadgeText,
+  errorMessage,
+}) {
+  const labelElement = <Text>{label}</Text>;
+  const {
+    tokens: {
+      components: {
+        fieldmessages: { error: errorStyles },
+      },
+    },
+  } = useTheme();
+  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
+  const [isEditing, setIsEditing] = React.useState();
+  React.useEffect(() => {
+    if (isEditing) {
+      inputFieldRef?.current?.focus();
+    }
+  }, [isEditing]);
+  const removeItem = async (removeIndex) => {
+    const newItems = items.filter((value, index) => index !== removeIndex);
+    await onChange(newItems);
+    setSelectedBadgeIndex(undefined);
+  };
+  const addItem = async () => {
+    if (
+      currentFieldValue !== undefined &&
+      currentFieldValue !== null &&
+      currentFieldValue !== "" &&
+      !hasError
+    ) {
+      const newItems = [...items];
+      if (selectedBadgeIndex !== undefined) {
+        newItems[selectedBadgeIndex] = currentFieldValue;
+        setSelectedBadgeIndex(undefined);
+      } else {
+        newItems.push(currentFieldValue);
+      }
+      await onChange(newItems);
+      setIsEditing(false);
+    }
+  };
+  const arraySection = (
+    <React.Fragment>
+      {!!items?.length && (
+        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
+          {items.map((value, index) => {
+            return (
+              <Badge
+                key={index}
+                style={{
+                  cursor: "pointer",
+                  alignItems: "center",
+                  marginRight: 3,
+                  marginTop: 3,
+                  backgroundColor:
+                    index === selectedBadgeIndex ? "#B8CEF9" : "",
+                }}
+                onClick={() => {
+                  setSelectedBadgeIndex(index);
+                  setFieldValue(items[index]);
+                  setIsEditing(true);
+                }}
+              >
+                {getBadgeText ? getBadgeText(value) : value.toString()}
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    paddingLeft: 3,
+                    width: 20,
+                    height: 20,
+                  }}
+                  viewBox={{ width: 20, height: 20 }}
+                  paths={[
+                    {
+                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
+                      stroke: "black",
+                    },
+                  ]}
+                  ariaLabel="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    removeItem(index);
+                  }}
+                />
+              </Badge>
+            );
+          })}
+        </ScrollView>
+      )}
+      <Divider orientation="horizontal" marginTop={5} />
+    </React.Fragment>
+  );
+  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
+    return (
+      <React.Fragment>
+        {labelElement}
+        {arraySection}
+      </React.Fragment>
+    );
+  }
+  return (
+    <React.Fragment>
+      {labelElement}
+      {isEditing && children}
+      {!isEditing ? (
+        <>
+          <Button
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Add item
+          </Button>
+          {errorMessage && hasError && (
+            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+              {errorMessage}
+            </Text>
+          )}
+        </>
+      ) : (
+        <Flex justifyContent="flex-end">
+          {(currentFieldValue || isEditing) && (
+            <Button
+              children="Cancel"
+              type="button"
+              size="small"
+              onClick={() => {
+                setFieldValue(defaultFieldValue);
+                setIsEditing(false);
+                setSelectedBadgeIndex(undefined);
+              }}
+            ></Button>
+          )}
+          <Button
+            size="small"
+            variation="link"
+            isDisabled={hasError}
+            onClick={addItem}
+          >
+            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
+          </Button>
+        </Flex>
+      )}
+      {arraySection}
+    </React.Fragment>
+  );
+}
 export default function UserCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -23,19 +192,30 @@ export default function UserCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    username: "",
     email: "",
+    stores: [],
     role: "",
   };
+  const [username, setUsername] = React.useState(initialValues.username);
   const [email, setEmail] = React.useState(initialValues.email);
+  const [stores, setStores] = React.useState(initialValues.stores);
   const [role, setRole] = React.useState(initialValues.role);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setUsername(initialValues.username);
     setEmail(initialValues.email);
+    setStores(initialValues.stores);
+    setCurrentStoresValue("");
     setRole(initialValues.role);
     setErrors({});
   };
+  const [currentStoresValue, setCurrentStoresValue] = React.useState("");
+  const storesRef = React.createRef();
   const validations = {
+    username: [{ type: "Required" }],
     email: [{ type: "Email" }],
+    stores: [],
     role: [],
   };
   const runValidationTasks = async (
@@ -64,7 +244,9 @@ export default function UserCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          username,
           email,
+          stores,
           role,
         };
         const validationResponses = await Promise.all(
@@ -112,6 +294,33 @@ export default function UserCreateForm(props) {
       {...rest}
     >
       <TextField
+        label="Username"
+        isRequired={true}
+        isReadOnly={false}
+        value={username}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username: value,
+              email,
+              stores,
+              role,
+            };
+            const result = onChange(modelFields);
+            value = result?.username ?? value;
+          }
+          if (errors.username?.hasError) {
+            runValidationTasks("username", value);
+          }
+          setUsername(value);
+        }}
+        onBlur={() => runValidationTasks("username", username)}
+        errorMessage={errors.username?.errorMessage}
+        hasError={errors.username?.hasError}
+        {...getOverrideProps(overrides, "username")}
+      ></TextField>
+      <TextField
         label="Email"
         isRequired={false}
         isReadOnly={false}
@@ -120,7 +329,9 @@ export default function UserCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              username,
               email: value,
+              stores,
               role,
             };
             const result = onChange(modelFields);
@@ -136,6 +347,51 @@ export default function UserCreateForm(props) {
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
       ></TextField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              username,
+              email,
+              stores: values,
+              role,
+            };
+            const result = onChange(modelFields);
+            values = result?.stores ?? values;
+          }
+          setStores(values);
+          setCurrentStoresValue("");
+        }}
+        currentFieldValue={currentStoresValue}
+        label={"Stores"}
+        items={stores}
+        hasError={errors?.stores?.hasError}
+        errorMessage={errors?.stores?.errorMessage}
+        setFieldValue={setCurrentStoresValue}
+        inputFieldRef={storesRef}
+        defaultFieldValue={""}
+      >
+        <TextField
+          label="Stores"
+          isRequired={false}
+          isReadOnly={false}
+          value={currentStoresValue}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.stores?.hasError) {
+              runValidationTasks("stores", value);
+            }
+            setCurrentStoresValue(value);
+          }}
+          onBlur={() => runValidationTasks("stores", currentStoresValue)}
+          errorMessage={errors.stores?.errorMessage}
+          hasError={errors.stores?.hasError}
+          ref={storesRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "stores")}
+        ></TextField>
+      </ArrayField>
       <TextField
         label="Role"
         isRequired={false}
@@ -145,7 +401,9 @@ export default function UserCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              username,
               email,
+              stores,
               role: value,
             };
             const result = onChange(modelFields);

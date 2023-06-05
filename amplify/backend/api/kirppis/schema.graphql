@@ -19,10 +19,7 @@ type Location {
   iframe: String
 }
 
-type Categories @model @auth(rules: [
-  { allow: public },
-  { allow: groups, groups: ["admin"], operations: [read, create, update, delete], provider: userPools},
-]) {
+type Categories @model @auth(rules: [{allow: public, operations: [read], provider: iam}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}]) {
   id: ID!
   createdBy: String
   name: String
@@ -58,13 +55,11 @@ type Sellplaces {
   free: Int
 }
 
-type User @model @auth(rules: [
-  { allow: public },
-  { allow: groups, groups: ["admin"], operations: [read, create, update, delete], provider: userPools},
-  ]) {
+type User @model @auth(rules: [{allow: public, operations: [read], provider: iam},{allow: owner, ownerField: "usernameID"}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}]) {
   id: ID!
+  usernameID: String!
   email: AWSEmail
-  stores: [Store]
+  stores: [String]
   role: String
 }
 
@@ -76,23 +71,16 @@ type Social {
   tiktok: String
 }
 
-type Store
-@model 
-@auth(rules: [
-  { allow: public },
-  { allow: groups, groups: ["admin"], operations: [read, create, update, delete], provider: userPools},
-  ]) {
+type Store @model @auth(rules: [{allow: public, operations: [read], provider: iam},{allow: owner, ownerField: "usernameID"}, {allow: groups, groups: ["admin"], operations: [read, create, update, delete]}]) {
   id: ID!
+  usernameID: String!
   type: String
   isConfirmed: Boolean
   name: String
   description: String
   categories: [Category]
-  services: [Int]
   clicked: String
-  sellplaces: Sellplaces
   pricelist: [Priceitem]
-  embedmap: AWSURL
   opentimes: [Opentime]
   contact: Contact
   location: Location

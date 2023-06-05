@@ -14,19 +14,14 @@
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-              "userPoolConfig": {
-                "userPoolId": "authkirppis516e92a5"
-              }
+              "authenticationType": "AWS_IAM"
             }
           ],
           "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDate": "2024-06-01T14:50:50.957Z",
-              "apiKeyExpirationDays": 365,
-              "description": "SecondHand API Key"
-            },
-            "authenticationType": "API_KEY"
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authkirppis516e92a5"
+            }
           }
         }
       },
@@ -78,7 +73,31 @@
       "service": "Cognito-UserPool-Groups"
     }
   },
-  "function": {},
+  "function": {
+    "userprofilecreating": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "kirppis"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "kirppis516e92a5"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "storage": {
     "s388debbbf": {
       "dependsOn": [

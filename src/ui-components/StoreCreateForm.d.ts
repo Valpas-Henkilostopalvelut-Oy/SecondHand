@@ -13,33 +13,30 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type StoreCreateFormInputValues = {
+    username?: string;
     type?: string;
     isConfirmed?: boolean;
     name?: string;
     description?: string;
-    services?: number[];
     clicked?: string;
-    embedmap?: string;
 };
 export declare type StoreCreateFormValidationValues = {
+    username?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
     isConfirmed?: ValidationFunction<boolean>;
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
-    services?: ValidationFunction<number>;
     clicked?: ValidationFunction<string>;
-    embedmap?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type StoreCreateFormOverridesProps = {
     StoreCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    username?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<TextFieldProps>;
     isConfirmed?: PrimitiveOverrideProps<SwitchFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
-    services?: PrimitiveOverrideProps<TextFieldProps>;
     clicked?: PrimitiveOverrideProps<TextFieldProps>;
-    embedmap?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type StoreCreateFormProps = React.PropsWithChildren<{
     overrides?: StoreCreateFormOverridesProps | undefined | null;

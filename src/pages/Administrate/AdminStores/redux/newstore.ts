@@ -72,7 +72,7 @@ export const createNewStoreAsync = createAsyncThunk(
     }: {
       newStore: NewStoreProps;
       isAdmin: boolean;
-      username: string | null;
+      username: string;
     },
     { dispatch }: { dispatch: Dispatch }
   ) => {

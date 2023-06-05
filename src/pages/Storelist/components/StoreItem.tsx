@@ -24,8 +24,6 @@ const StoreItem = (props: LazyStore) => {
     name,
     description,
     categories,
-    services,
-    sellplaces,
     opentimes,
     contact,
     location,
@@ -89,23 +87,6 @@ const StoreItem = (props: LazyStore) => {
               <Grid item xs={12} sm={4}>
                 <Location {...location} />
               </Grid>
-            </Grid>
-          </CustomBox>
-
-          <CustomBox>
-            <Grid container spacing={2}>
-              {services && (
-                <Grid item xs={4}>
-                  <Typography variant="h6">Palvelut</Typography>
-                  <Typography>{services.join(", ")}</Typography>
-                </Grid>
-              )}
-              {sellplaces && (
-                <Grid item xs={4}>
-                  <Typography variant="h6">Myyntipaikat</Typography>
-                  <Typography>{sellplaces.all}</Typography>
-                </Grid>
-              )}
             </Grid>
           </CustomBox>
         </AccordionDetails>

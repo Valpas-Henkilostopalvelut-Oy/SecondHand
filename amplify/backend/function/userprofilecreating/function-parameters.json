@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "api": {
+      "kirppis": [
+        "Mutation"
+      ]
+    },
+    "auth": {
+      "kirppis516e92a5": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

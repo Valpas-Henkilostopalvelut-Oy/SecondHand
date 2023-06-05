@@ -7,180 +7,16 @@
 /* eslint-disable */
 import * as React from "react";
 import {
-  Badge,
   Button,
-  Divider,
   Flex,
   Grid,
-  Icon,
-  ScrollView,
   SwitchField,
-  Text,
   TextField,
-  useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Store } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-function ArrayField({
-  items = [],
-  onChange,
-  label,
-  inputFieldRef,
-  children,
-  hasError,
-  setFieldValue,
-  currentFieldValue,
-  defaultFieldValue,
-  lengthLimit,
-  getBadgeText,
-  errorMessage,
-}) {
-  const labelElement = <Text>{label}</Text>;
-  const {
-    tokens: {
-      components: {
-        fieldmessages: { error: errorStyles },
-      },
-    },
-  } = useTheme();
-  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
-  const [isEditing, setIsEditing] = React.useState();
-  React.useEffect(() => {
-    if (isEditing) {
-      inputFieldRef?.current?.focus();
-    }
-  }, [isEditing]);
-  const removeItem = async (removeIndex) => {
-    const newItems = items.filter((value, index) => index !== removeIndex);
-    await onChange(newItems);
-    setSelectedBadgeIndex(undefined);
-  };
-  const addItem = async () => {
-    if (
-      currentFieldValue !== undefined &&
-      currentFieldValue !== null &&
-      currentFieldValue !== "" &&
-      !hasError
-    ) {
-      const newItems = [...items];
-      if (selectedBadgeIndex !== undefined) {
-        newItems[selectedBadgeIndex] = currentFieldValue;
-        setSelectedBadgeIndex(undefined);
-      } else {
-        newItems.push(currentFieldValue);
-      }
-      await onChange(newItems);
-      setIsEditing(false);
-    }
-  };
-  const arraySection = (
-    <React.Fragment>
-      {!!items?.length && (
-        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
-          {items.map((value, index) => {
-            return (
-              <Badge
-                key={index}
-                style={{
-                  cursor: "pointer",
-                  alignItems: "center",
-                  marginRight: 3,
-                  marginTop: 3,
-                  backgroundColor:
-                    index === selectedBadgeIndex ? "#B8CEF9" : "",
-                }}
-                onClick={() => {
-                  setSelectedBadgeIndex(index);
-                  setFieldValue(items[index]);
-                  setIsEditing(true);
-                }}
-              >
-                {getBadgeText ? getBadgeText(value) : value.toString()}
-                <Icon
-                  style={{
-                    cursor: "pointer",
-                    paddingLeft: 3,
-                    width: 20,
-                    height: 20,
-                  }}
-                  viewBox={{ width: 20, height: 20 }}
-                  paths={[
-                    {
-                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
-                      stroke: "black",
-                    },
-                  ]}
-                  ariaLabel="button"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    removeItem(index);
-                  }}
-                />
-              </Badge>
-            );
-          })}
-        </ScrollView>
-      )}
-      <Divider orientation="horizontal" marginTop={5} />
-    </React.Fragment>
-  );
-  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
-    return (
-      <React.Fragment>
-        {labelElement}
-        {arraySection}
-      </React.Fragment>
-    );
-  }
-  return (
-    <React.Fragment>
-      {labelElement}
-      {isEditing && children}
-      {!isEditing ? (
-        <>
-          <Button
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          >
-            Add item
-          </Button>
-          {errorMessage && hasError && (
-            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
-              {errorMessage}
-            </Text>
-          )}
-        </>
-      ) : (
-        <Flex justifyContent="flex-end">
-          {(currentFieldValue || isEditing) && (
-            <Button
-              children="Cancel"
-              type="button"
-              size="small"
-              onClick={() => {
-                setFieldValue(defaultFieldValue);
-                setIsEditing(false);
-                setSelectedBadgeIndex(undefined);
-              }}
-            ></Button>
-          )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
-            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
-          </Button>
-        </Flex>
-      )}
-      {arraySection}
-    </React.Fragment>
-  );
-}
 export default function StoreUpdateForm(props) {
   const {
     id: idProp,
@@ -194,14 +30,14 @@ export default function StoreUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    username: "",
     type: "",
     isConfirmed: false,
     name: "",
     description: "",
-    services: [],
     clicked: "",
-    embedmap: "",
   };
+  const [username, setUsername] = React.useState(initialValues.username);
   const [type, setType] = React.useState(initialValues.type);
   const [isConfirmed, setIsConfirmed] = React.useState(
     initialValues.isConfirmed
@@ -210,22 +46,18 @@ export default function StoreUpdateForm(props) {
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [services, setServices] = React.useState(initialValues.services);
   const [clicked, setClicked] = React.useState(initialValues.clicked);
-  const [embedmap, setEmbedmap] = React.useState(initialValues.embedmap);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = storeRecord
       ? { ...initialValues, ...storeRecord }
       : initialValues;
+    setUsername(cleanValues.username);
     setType(cleanValues.type);
     setIsConfirmed(cleanValues.isConfirmed);
     setName(cleanValues.name);
     setDescription(cleanValues.description);
-    setServices(cleanValues.services ?? []);
-    setCurrentServicesValue("");
     setClicked(cleanValues.clicked);
-    setEmbedmap(cleanValues.embedmap);
     setErrors({});
   };
   const [storeRecord, setStoreRecord] = React.useState(storeModelProp);
@@ -239,16 +71,13 @@ export default function StoreUpdateForm(props) {
     queryData();
   }, [idProp, storeModelProp]);
   React.useEffect(resetStateValues, [storeRecord]);
-  const [currentServicesValue, setCurrentServicesValue] = React.useState("");
-  const servicesRef = React.createRef();
   const validations = {
+    username: [{ type: "Required" }],
     type: [],
     isConfirmed: [],
     name: [],
     description: [],
-    services: [],
     clicked: [],
-    embedmap: [{ type: "URL" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -276,13 +105,12 @@ export default function StoreUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          username,
           type,
           isConfirmed,
           name,
           description,
-          services,
           clicked,
-          embedmap,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -330,6 +158,35 @@ export default function StoreUpdateForm(props) {
       {...rest}
     >
       <TextField
+        label="Username"
+        isRequired={true}
+        isReadOnly={false}
+        value={username}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username: value,
+              type,
+              isConfirmed,
+              name,
+              description,
+              clicked,
+            };
+            const result = onChange(modelFields);
+            value = result?.username ?? value;
+          }
+          if (errors.username?.hasError) {
+            runValidationTasks("username", value);
+          }
+          setUsername(value);
+        }}
+        onBlur={() => runValidationTasks("username", username)}
+        errorMessage={errors.username?.errorMessage}
+        hasError={errors.username?.hasError}
+        {...getOverrideProps(overrides, "username")}
+      ></TextField>
+      <TextField
         label="Type"
         isRequired={false}
         isReadOnly={false}
@@ -338,13 +195,12 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              username,
               type: value,
               isConfirmed,
               name,
               description,
-              services,
               clicked,
-              embedmap,
             };
             const result = onChange(modelFields);
             value = result?.type ?? value;
@@ -368,13 +224,12 @@ export default function StoreUpdateForm(props) {
           let value = e.target.checked;
           if (onChange) {
             const modelFields = {
+              username,
               type,
               isConfirmed: value,
               name,
               description,
-              services,
               clicked,
-              embedmap,
             };
             const result = onChange(modelFields);
             value = result?.isConfirmed ?? value;
@@ -398,13 +253,12 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              username,
               type,
               isConfirmed,
               name: value,
               description,
-              services,
               clicked,
-              embedmap,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -428,13 +282,12 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              username,
               type,
               isConfirmed,
               name,
               description: value,
-              services,
               clicked,
-              embedmap,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -449,58 +302,6 @@ export default function StoreUpdateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextField>
-      <ArrayField
-        onChange={async (items) => {
-          let values = items;
-          if (onChange) {
-            const modelFields = {
-              type,
-              isConfirmed,
-              name,
-              description,
-              services: values,
-              clicked,
-              embedmap,
-            };
-            const result = onChange(modelFields);
-            values = result?.services ?? values;
-          }
-          setServices(values);
-          setCurrentServicesValue("");
-        }}
-        currentFieldValue={currentServicesValue}
-        label={"Services"}
-        items={services}
-        hasError={errors?.services?.hasError}
-        errorMessage={errors?.services?.errorMessage}
-        setFieldValue={setCurrentServicesValue}
-        inputFieldRef={servicesRef}
-        defaultFieldValue={""}
-      >
-        <TextField
-          label="Services"
-          isRequired={false}
-          isReadOnly={false}
-          type="number"
-          step="any"
-          value={currentServicesValue}
-          onChange={(e) => {
-            let value = isNaN(parseInt(e.target.value))
-              ? e.target.value
-              : parseInt(e.target.value);
-            if (errors.services?.hasError) {
-              runValidationTasks("services", value);
-            }
-            setCurrentServicesValue(value);
-          }}
-          onBlur={() => runValidationTasks("services", currentServicesValue)}
-          errorMessage={errors.services?.errorMessage}
-          hasError={errors.services?.hasError}
-          ref={servicesRef}
-          labelHidden={true}
-          {...getOverrideProps(overrides, "services")}
-        ></TextField>
-      </ArrayField>
       <TextField
         label="Clicked"
         isRequired={false}
@@ -510,13 +311,12 @@ export default function StoreUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              username,
               type,
               isConfirmed,
               name,
               description,
-              services,
               clicked: value,
-              embedmap,
             };
             const result = onChange(modelFields);
             value = result?.clicked ?? value;
@@ -530,36 +330,6 @@ export default function StoreUpdateForm(props) {
         errorMessage={errors.clicked?.errorMessage}
         hasError={errors.clicked?.hasError}
         {...getOverrideProps(overrides, "clicked")}
-      ></TextField>
-      <TextField
-        label="Embedmap"
-        isRequired={false}
-        isReadOnly={false}
-        value={embedmap}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              type,
-              isConfirmed,
-              name,
-              description,
-              services,
-              clicked,
-              embedmap: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.embedmap ?? value;
-          }
-          if (errors.embedmap?.hasError) {
-            runValidationTasks("embedmap", value);
-          }
-          setEmbedmap(value);
-        }}
-        onBlur={() => runValidationTasks("embedmap", embedmap)}
-        errorMessage={errors.embedmap?.errorMessage}
-        hasError={errors.embedmap?.hasError}
-        {...getOverrideProps(overrides, "embedmap")}
       ></TextField>
       <Flex
         justifyContent="space-between"

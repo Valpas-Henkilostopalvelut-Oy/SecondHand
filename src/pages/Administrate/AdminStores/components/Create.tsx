@@ -12,7 +12,7 @@ const Create = () => {
       createNewStoreAsync({
         newStore: values,
         isAdmin: isAdmin,
-        username: userID,
+        username: userID || "",
       })
     );
   };

@@ -91,7 +91,7 @@ export const schema = {
                     "name": "username",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "email": {
@@ -100,6 +100,14 @@ export const schema = {
                     "type": "AWSEmail",
                     "isRequired": false,
                     "attributes": []
+                },
+                "stores": {
+                    "name": "stores",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "role": {
                     "name": "role",
@@ -137,6 +145,18 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
+                                "provider": "userPools",
+                                "ownerField": "username",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
@@ -148,18 +168,6 @@ export const schema = {
                                     "create",
                                     "update",
                                     "delete"
-                                ]
-                            },
-                            {
-                                "provider": "userPools",
-                                "ownerField": "username",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
                                 ]
                             }
                         ]
@@ -177,15 +185,15 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "type": {
-                    "name": "type",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "username": {
                     "name": "username",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -222,27 +230,10 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
-                "services": {
-                    "name": "services",
-                    "isArray": true,
-                    "type": "Int",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
                 "clicked": {
                     "name": "clicked",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "sellplaces": {
-                    "name": "sellplaces",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "Sellplaces"
-                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -255,13 +246,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true
-                },
-                "embedmap": {
-                    "name": "embedmap",
-                    "isArray": false,
-                    "type": "AWSURL",
-                    "isRequired": false,
-                    "attributes": []
                 },
                 "opentimes": {
                     "name": "opentimes",
@@ -356,18 +340,6 @@ export const schema = {
                                     "create",
                                     "update",
                                     "delete"
-                                ]
-                            },
-                            {
-                                "provider": "userPools",
-                                "ownerField": "username",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
                                 ]
                             }
                         ]
@@ -665,5 +637,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "12a5dc83b74ea2523303604fe87b74b1"
+    "version": "70701405a534c6b33b9142d4fcc0c7be"
 };

@@ -2,8 +2,7 @@ export type AmplifyDependentResourcesAttributes = {
   "api": {
     "kirppis": {
       "GraphQLAPIEndpointOutput": "string",
-      "GraphQLAPIIdOutput": "string",
-      "GraphQLAPIKeyOutput": "string"
+      "GraphQLAPIIdOutput": "string"
     }
   },
   "auth": {
@@ -20,6 +19,15 @@ export type AmplifyDependentResourcesAttributes = {
       "adminGroupRole": "string",
       "clientsGroupRole": "string",
       "visitorsGroupRole": "string"
+    }
+  },
+  "function": {
+    "userprofilecreating": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
     }
   },
   "storage": {
