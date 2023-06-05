@@ -21,12 +21,6 @@
       },
       "api": {
         "kirppis": {}
-      },
-      "function": {
-        "userprofilecreating": {
-          "deploymentBucketName": "amplify-kirppis-dev-103036-deployment",
-          "s3Key": "amplify-builds/userprofilecreating-67734d36436f455a504e-build.zip"
-        }
       }
     }
   }

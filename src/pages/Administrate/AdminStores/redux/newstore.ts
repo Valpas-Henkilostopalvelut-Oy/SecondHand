@@ -92,7 +92,7 @@ export const createNewStoreAsync = createAsyncThunk(
       type,
     } = newStore;
     const store = new Store({
-      username: username,
+      usernameID: username,
       isConfirmed: isAdmin,
       name,
       description,
@@ -106,7 +106,7 @@ export const createNewStoreAsync = createAsyncThunk(
     });
 
     const storeToAdd = {
-      username: store.username,
+      username: store.usernameID,
       id: store.id,
       name: store.name,
       description: store.description,

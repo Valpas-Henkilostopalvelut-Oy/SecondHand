@@ -54,7 +54,7 @@ export const confirmStoreAsync = createAsyncThunk(
       isConfirmed: res.isConfirmed,
       social: res.social,
       type: res.type,
-      username: res.username,
+      usernameID: res.usernameID,
     }));
     return updatedStore;
   }
@@ -88,7 +88,7 @@ export const unconfirmStoreAsync = createAsyncThunk(
       isConfirmed: res.isConfirmed,
       social: res.social,
       type: res.type,
-      username: res.username,
+      usernameID: res.usernameID,
     }));
 
     return updatedStore;
@@ -134,7 +134,7 @@ export const updateStoreAsync = createAsyncThunk(
       isConfirmed: res.isConfirmed,
       social: res.social,
       type: res.type,
-      username: res.username,
+      usernameID: res.usernameID,
     }));
     return updatedStore;
   }
@@ -174,7 +174,7 @@ export const fetchStores = createAsyncThunk(
         isConfirmed: store.isConfirmed,
         social: store.social,
         type: store.type,
-        username: store.username,
+        usernameID: store.usernameID,
       }))
       .filter((store) => store.isConfirmed);
     return filteredStores;
@@ -198,7 +198,7 @@ export const fetchStoreFilter = createAsyncThunk(
       isConfirmed: store.isConfirmed,
       sosial: store.social,
       type: store.type,
-      username: store.username,
+      usernameID: store.usernameID,
     }));
 
     // Apply search by confirmed

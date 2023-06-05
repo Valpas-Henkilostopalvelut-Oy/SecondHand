@@ -190,7 +190,7 @@ type EagerUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly username: string;
+  readonly usernameID: string;
   readonly email?: string | null;
   readonly stores?: (string | null)[] | null;
   readonly role?: string | null;
@@ -204,7 +204,7 @@ type LazyUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly username: string;
+  readonly usernameID: string;
   readonly email?: string | null;
   readonly stores?: (string | null)[] | null;
   readonly role?: string | null;
@@ -224,7 +224,7 @@ type EagerStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly username: string;
+  readonly usernameID: string;
   readonly type?: string | null;
   readonly isConfirmed?: boolean | null;
   readonly name?: string | null;
@@ -247,7 +247,7 @@ type LazyStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly username: string;
+  readonly usernameID: string;
   readonly type?: string | null;
   readonly isConfirmed?: boolean | null;
   readonly name?: string | null;

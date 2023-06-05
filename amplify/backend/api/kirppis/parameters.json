@@ -2,7 +2,7 @@
   "AppSyncApiName": "kirppis",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
-  "AuthModeLastUpdated": "2023-06-05T14:11:56.843Z",
+  "AuthModeLastUpdated": "2023-06-05T14:46:44.758Z",
   "AuthCognitoUserPoolId": {
     "Fn::GetAtt": [
       "authkirppis516e92a5",
