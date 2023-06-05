@@ -22,7 +22,7 @@ type Location {
 type Categories @model
   @auth(
     rules: [
-      { allow: public, operations: [read] }
+      { allow: public }
       { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
     ]
   ) {
@@ -61,11 +61,19 @@ type Sellplaces {
   free: Int
 }
 
+type Social {
+  facebook: String
+  instagram: String
+  twitter: String
+  youtube: String
+  tiktok: String
+}
+
 type User
   @model
   @auth(
     rules: [
-      { allow: public, operations: [read] }
+      { allow: public }
       { allow: owner, ownerField: "usernameID" }
       { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
     ]
@@ -77,19 +85,11 @@ type User
   role: String
 }
 
-type Social {
-  facebook: String
-  instagram: String
-  twitter: String
-  youtube: String
-  tiktok: String
-}
-
 type Store
   @model
   @auth(
     rules: [
-      { allow: public, operations: [read] }
+      { allow: public }
       { allow: owner, ownerField: "usernameID" }
       { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
     ]
