@@ -1,10 +1,11 @@
 import type { ThunkAction, Action } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import application from "./reducer/application";
-import newstore from "../pages/Administrate/AdminStores/redux/newstore";
+import newstore from "../admin/AdminStores/redux/newstore";
 import stores from "./reducer/stores";
 import categories from "./reducer/categories";
 import user from "./reducer/user";
+import ads from "./reducer/ads";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     stores,
     categories,
     user,
+    ads,
   },
 });
 

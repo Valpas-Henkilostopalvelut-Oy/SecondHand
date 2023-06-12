@@ -154,6 +154,42 @@ export declare type Social = LazyLoading extends LazyLoadingDisabled ? EagerSoci
 
 export declare const Social: (new (init: ModelInit<Social>) => Social)
 
+type EagerSideButton = {
+  readonly text: string;
+  readonly link: string;
+  readonly color?: string | null;
+  readonly background?: string | null;
+  readonly id?: string | null;
+}
+
+type LazySideButton = {
+  readonly text: string;
+  readonly link: string;
+  readonly color?: string | null;
+  readonly background?: string | null;
+  readonly id?: string | null;
+}
+
+export declare type SideButton = LazyLoading extends LazyLoadingDisabled ? EagerSideButton : LazySideButton
+
+export declare const SideButton: (new (init: ModelInit<SideButton>) => SideButton)
+
+type EagerSide = {
+  readonly image?: string | null;
+  readonly title: string;
+  readonly button?: SideButton | null;
+}
+
+type LazySide = {
+  readonly image?: string | null;
+  readonly title: string;
+  readonly button?: SideButton | null;
+}
+
+export declare type Side = LazyLoading extends LazyLoadingDisabled ? EagerSide : LazySide
+
+export declare const Side: (new (init: ModelInit<Side>) => Side)
+
 type EagerCategories = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Categories, 'id'>;
@@ -182,6 +218,44 @@ export declare type Categories = LazyLoading extends LazyLoadingDisabled ? Eager
 
 export declare const Categories: (new (init: ModelInit<Categories>) => Categories) & {
   copyOf(source: Categories, mutator: (draft: MutableModel<Categories>) => MutableModel<Categories> | void): Categories;
+}
+
+type EagerAds = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Ads, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly firm: string;
+  readonly site?: string | null;
+  readonly backgroundColor?: string | null;
+  readonly left: Side;
+  readonly right?: Side | null;
+  readonly isHidden?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyAds = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Ads, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly firm: string;
+  readonly site?: string | null;
+  readonly backgroundColor?: string | null;
+  readonly left: Side;
+  readonly right?: Side | null;
+  readonly isHidden?: boolean | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Ads = LazyLoading extends LazyLoadingDisabled ? EagerAds : LazyAds
+
+export declare const Ads: (new (init: ModelInit<Ads>) => Ads) & {
+  copyOf(source: Ads, mutator: (draft: MutableModel<Ads>) => MutableModel<Ads> | void): Ads;
 }
 
 type EagerUser = {

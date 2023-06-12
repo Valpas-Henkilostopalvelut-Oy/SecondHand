@@ -16,14 +16,14 @@ interface initialStateProps {
   isLoading: boolean;
   isError: boolean;
   error: string | null | undefined;
-  data: CategoriesProps[] | null | undefined;
+  data: CategoriesProps[] | [];
 }
 
 const initialState: initialStateProps = {
   isLoading: false,
   isError: false,
   error: null,
-  data: null,
+  data: [],
 };
 
 export const fetchCategories = createAsyncThunk(
@@ -74,8 +74,7 @@ const categories = createSlice({
   initialState,
   reducers: {
     updateData: (state, action) => {
-      if (!state.data) state.data = [];
-      state.data.push(action.payload);
+      state.data = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -108,13 +107,7 @@ const categories = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        state.data?.push({
-          id: action.payload.id,
-          createdBy: action.payload.createdBy,
-          name: action.payload.name,
-          createdAt: action.payload.createdAt,
-          updatedAt: action.payload.updatedAt,
-        });
+        state.data = [...state.data, action.payload];
       })
       .addCase(addCategory.rejected, (state, action) => {
         state.isLoading = false;

@@ -6,7 +6,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 interface filterProps {
   title: string;
   type: string | null | undefined;
-  category: string[] | null;
+  category: string[] | null | undefined;
   area: string | null;
   city: string | null;
   isConfirmed: boolean | undefined | null;
@@ -16,14 +16,14 @@ interface initialStateProps {
   isLoading: boolean;
   isError: boolean;
   error: string | null | undefined;
-  data: LazyStore[] | null | undefined;
+  data: LazyStore[] | [];
 }
 
 const initialState: initialStateProps = {
   isLoading: false,
   isError: false,
   error: null,
-  data: null,
+  data: [],
 };
 
 export const confirmStoreAsync = createAsyncThunk(
@@ -251,8 +251,7 @@ const stores = createSlice({
   initialState,
   reducers: {
     updateData: (state, action) => {
-      if (!state.data) state.data = [];
-      state.data.push(action.payload);
+      state.data = action.payload;
     },
     clearError: (state) => {
       state.isError = false;

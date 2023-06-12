@@ -4,10 +4,11 @@ import { schema } from './schema';
 
 
 
-const { Categories, User, Store, Category, Location, Image, Contact, Opentime, Priceitem, Sellplaces, Social } = initSchema(schema);
+const { Categories, Ads, User, Store, Category, Location, Image, Contact, Opentime, Priceitem, Sellplaces, Social, SideButton, Side } = initSchema(schema);
 
 export {
   Categories,
+  Ads,
   User,
   Store,
   Category,
@@ -17,5 +18,7 @@ export {
   Opentime,
   Priceitem,
   Sellplaces,
-  Social
+  Social,
+  SideButton,
+  Side
 };

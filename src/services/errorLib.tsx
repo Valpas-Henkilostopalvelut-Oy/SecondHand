@@ -3,7 +3,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { dismissError } from "../app/reducer/user";
 import { clearError } from "../app/reducer/stores";
-import { clearCreateError } from "../pages/Administrate/AdminStores/redux/newstore";
+import { clearCreateError } from "../admin/AdminStores/redux/newstore";
 
 export const onError = (error: Error) => {
   const message = error.toString();

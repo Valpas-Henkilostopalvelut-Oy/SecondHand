@@ -1,12 +1,13 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "../pages/Home";
+import AdForm from "../admin/Ads";
 import StorelistWithLoading from "../pages/Storelist";
 import Signup from "../pages/Signup";
 import Signin from "../pages/Siginin";
 import NotFound from "../globalComponents/NotFound";
-import AdminStores from "../pages/Administrate/AdminStores";
-import Categories from "../pages/Categories";
+import AdminStores from "../admin/AdminStores";
+import Categories from "../admin/Categories";
 import { useAppSelector } from "../app/hooks";
 
 interface ProtectedRouteProps {
@@ -59,6 +60,14 @@ export const Navigation = () => {
       <Route path="/" element={<Home />} />
       <Route path="/stores" element={<StorelistWithLoading />} />
       <Route path="/stores/:category" element={<StorelistWithLoading />} />
+      <Route
+        path="/ads"
+        element={
+          <ProtectedRoute isAuth={isAuth} redirectPath="/signin">
+            <AdForm />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/signup"
         element={

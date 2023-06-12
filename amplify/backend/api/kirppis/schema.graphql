@@ -69,6 +69,33 @@ type Social {
   tiktok: String
 }
 
+type SideButton {
+  text: String!
+  link: String!
+  color: String
+  background: String
+  id: String
+}
+
+type Side {
+  image: String
+  title: String!
+  button: SideButton
+}
+
+type Ads @model @auth(rules: [
+  { allow: public }
+  { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+]) {
+  id: ID!
+  firm: String!
+  site: String
+  backgroundColor: String
+  left: Side!
+  right: Side
+  isHidden: Boolean
+}
+
 type User
   @model
   @auth(
