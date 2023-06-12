@@ -250,8 +250,8 @@ const stores = createSlice({
   name: "adminStores",
   initialState,
   reducers: {
-    updateData: (state, action) => {
-      state.data = action.payload;
+    updateData: (state, action: PayloadAction<any>) => {
+      state.data = [...state.data, action.payload];
     },
     clearError: (state) => {
       state.isError = false;
