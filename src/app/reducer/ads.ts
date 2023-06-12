@@ -42,7 +42,8 @@ const removeImageFromStorage = async (key: string) => {
 
 export const removeAd = createAsyncThunk(
   "ads/removeAd",
-  async ({ id, isAdmin }: { id: string; isAdmin: boolean }) => {
+  async ({ id, isAdmin }: { id?: string | null; isAdmin: boolean }) => {
+    if (!id) throw new Error("Ad id is not provided");
     const toBeDeleted = await DataStore.query(Ads, id);
     if (!isAdmin) throw new Error("You are not authorized to delete this ad");
     if (!toBeDeleted) throw new Error("Ad not found");
@@ -53,7 +54,7 @@ export const removeAd = createAsyncThunk(
       await removeImageFromStorage(toBeDeleted.right.image);
     }
     const deleted = await DataStore.delete(toBeDeleted);
-    return deleted;
+    return deleted.id;
   }
 );
 
@@ -135,10 +136,13 @@ const adsSlice = createSlice({
     builder.addCase(removeAd.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(removeAd.fulfilled, (state, action: PayloadAction<any>) => {
-      state.isLoading = false;
-      state.ads = state.ads.filter((ad) => ad.id !== action.payload.id);
-    });
+    builder.addCase(
+      removeAd.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        state.isLoading = false;
+        state.ads = state.ads.filter((ad) => ad.id !== action.payload);
+      }
+    );
     builder.addCase(removeAd.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;

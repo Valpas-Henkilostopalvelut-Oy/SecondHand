@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "../pages/Home";
-import AdForm from "../admin/Ads";
+import Ads from "../admin/Ads";
 import StorelistWithLoading from "../pages/Storelist";
 import Signup from "../pages/Signup";
 import Signin from "../pages/Siginin";
@@ -64,7 +64,7 @@ export const Navigation = () => {
         path="/ads"
         element={
           <ProtectedRoute isAuth={isAuth} redirectPath="/signin">
-            <AdForm />
+            <Ads />
           </ProtectedRoute>
         }
       />

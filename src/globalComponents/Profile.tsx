@@ -16,6 +16,10 @@ const links = [
     title: "Kategoriat",
     path: "/categories",
   },
+  {
+    title: "Mainokset",
+    path: "/ads",
+  },
 ];
 
 const Profile = (props: BoxProps) => {
