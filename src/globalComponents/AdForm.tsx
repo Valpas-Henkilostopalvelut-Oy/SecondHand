@@ -37,6 +37,7 @@ const initialValues: Ad = {
   firm: "",
   site: "",
   backgroundColor: "",
+  isHidden: true,
   left: AdSide,
   right: null,
 };
@@ -60,8 +61,8 @@ const OneSide = ({
 }) => {
   const imageComponent = image ? (
     <ImageComponent
-      image={URL.createObjectURL(image)}
-      alt="ad"
+      fileUrl={URL.createObjectURL(image)}
+      id="ad"
       boxProps={{ onClick: deleteImage }}
     />
   ) : (

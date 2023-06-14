@@ -22,6 +22,9 @@ const getFixedAd = (ad: LazyAds) => ({
   backgroundColor: ad.backgroundColor,
   left: ad.left,
   right: ad.right,
+  isHidden: ad.isHidden,
+  createdAt: ad.createdAt,
+  updatedAt: ad.updatedAt,
 });
 
 const addImageToStorage = async (image: File) => {
@@ -32,6 +35,7 @@ const addImageToStorage = async (image: File) => {
   const stored = await Storage.put(key, image, {
     contentType: image.type,
   });
+  console.log(stored);
   return stored.key;
 };
 
@@ -39,6 +43,21 @@ const removeImageFromStorage = async (key: string) => {
   const deleted = await Storage.remove(key);
   return deleted;
 };
+
+export const hiddenAd = createAsyncThunk(
+  "ads/hiddenAd",
+  async ({ id, isHidden }: { id?: string | null; isHidden: boolean }) => {
+    if (!id) throw new Error("Ad id is not provided");
+    const toBeUpdated = await DataStore.query(Ads, id);
+    if (!toBeUpdated) throw new Error("Ad not found");
+    const updated = await DataStore.save(
+      Ads.copyOf(toBeUpdated, (updated) => {
+        updated.isHidden = isHidden;
+      })
+    );
+    return getFixedAd(updated);
+  }
+);
 
 export const removeAd = createAsyncThunk(
   "ads/removeAd",
@@ -144,6 +163,21 @@ const adsSlice = createSlice({
       }
     );
     builder.addCase(removeAd.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(hiddenAd.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(hiddenAd.fulfilled, (state, action: PayloadAction<any>) => {
+      state.isLoading = false;
+      state.ads = state.ads.map((ad) =>
+        ad.id === action.payload.id ? action.payload : ad
+      );
+    });
+    builder.addCase(hiddenAd.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.error = action.error.message;

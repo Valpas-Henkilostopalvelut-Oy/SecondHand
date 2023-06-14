@@ -6,6 +6,7 @@ import StoreItem from "./components/StoreItem";
 import { useParams } from "react-router-dom";
 import { fetchStoreFilter, fetchStores } from "../../app/reducer/stores";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import LoadingComponent from "../../globalComponents/LoadingComponent";
 
 const Storelist = () => {
   const { category } = useParams<{ category: string }>();
@@ -28,23 +29,16 @@ const Storelist = () => {
     }
   }, [category]);
 
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
   return (
     <Box>
       <Search />
-      {isLoading && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "70vh",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      )}
-      {!!data &&
-        data.map((item: LazyStore) => <StoreItem {...item} key={item.id} />)}
+      {data.map((item: LazyStore) => (
+        <StoreItem {...item} key={item.id} />
+      ))}
     </Box>
   );
 };

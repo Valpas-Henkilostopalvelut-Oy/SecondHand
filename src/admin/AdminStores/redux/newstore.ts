@@ -140,7 +140,7 @@ export const newStoreSlice = createSlice({
       state.files.push(action.payload);
     },
     removeFile: (state, action: PayloadAction<ImageTypes>) => {
-      state.files.filter((file) => file.id !== action.payload.id);
+      state.files = state.files.filter((file) => file.id !== action.payload.id);
     },
 
     setName: (state, action: PayloadAction<string>) => {

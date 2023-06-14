@@ -11,10 +11,11 @@ import {
 } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import type { Ad, Side, AdButton } from "../../types/ad";
-import { fetchAds, removeAd } from "../../app/reducer/ads";
+import { fetchAds, removeAd, hiddenAd } from "../../app/reducer/ads";
 import ImageComponent from "../../globalComponents/ImageComponent";
 import { Storage } from "aws-amplify";
 import AdForm from "../../globalComponents/AdForm";
+import LoadingComponent from "../../globalComponents/LoadingComponent";
 
 const loadImage = async (key: string) => {
   const url = await Storage.get(key);
@@ -22,17 +23,6 @@ const loadImage = async (key: string) => {
 };
 
 const OneSide = ({ data }: { data?: Side | null }) => {
-  const [loadedImage, setLoadedImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    const load = async () => {
-      if (data?.image) {
-        const url = await loadImage(data?.image);
-        setLoadedImage(url);
-      }
-    };
-    data?.image && load();
-  }, [data?.image]);
   if (!data) return null;
   const { title, button } = data;
 
@@ -45,7 +35,7 @@ const OneSide = ({ data }: { data?: Side | null }) => {
       }}
     >
       <Typography>{title}</Typography>
-      <ImageComponent image={loadedImage} />
+      <ImageComponent fileKey={data?.image} id={data?.title} />
       <Button variant="contained" color="primary" href={button?.link}>
         {button?.text}
       </Button>
@@ -63,13 +53,14 @@ const AdItem = ({
   isAdmin: boolean;
 }) => {
   const [open, setOpen] = useState(false);
-  const { id, firm, site, backgroundColor, left, right } = ad;
-  const handleLog = () => {
-    console.log(ad);
-  };
+  const { id, firm, site, backgroundColor, left, right, isHidden } = ad;
+  const handleLog = () => console.log(ad);
   const dispatch = useAppDispatch();
   const handleRemove = () => {
     dispatch(removeAd({ id, isAdmin }));
+  };
+  const handleHidden = () => {
+    dispatch(hiddenAd({ id, isHidden: !isHidden }));
   };
 
   return (
@@ -106,6 +97,9 @@ const AdItem = ({
           <Button variant="contained" color="primary" onClick={handleLog}>
             Log
           </Button>
+          <Button variant="contained" color="primary" onClick={handleHidden}>
+            {isHidden ? "Näytä" : "Piilota"}
+          </Button>
           {isAdmin && (
             <Button variant="contained" color="error" onClick={handleRemove}>
               Poista
@@ -118,13 +112,15 @@ const AdItem = ({
 };
 
 const Ads = () => {
-  const { ads } = useAppSelector((state) => state.ads);
+  const { ads, isLoading } = useAppSelector((state) => state.ads);
   const { isAdmin } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchAds());
   }, []);
+
+  if (isLoading) return <LoadingComponent />;
 
   return (
     <Box>

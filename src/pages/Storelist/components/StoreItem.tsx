@@ -8,16 +8,19 @@ import {
   Grid,
   Typography,
   Accordion,
+  Link,
 } from "@mui/material";
 
 import CustomBox from "./CustomBox";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import type { LazyStore, LazyCategory } from "../../../models";
+import type { LazyStore } from "../../../models";
 import OpenTime from "./OpenTime";
-import Contact from "./Contact";
-import Location from "./Location";
-import ImgsIframe from "./ImgsIframe";
 import SocialMedia from "./SocialMedia";
+import CustomIframe from "./CustomIframe";
+import ImageComponent from "../../../globalComponents/ImageComponent";
+
+//https://www.n3xtlevel.fi/ to www.n3xtlevel.fi
+const removeHttps = (url: string) => url.replace(/(^\w+:|^)\/\//, "");
 
 const StoreItem = (props: LazyStore) => {
   const {
@@ -55,37 +58,91 @@ const StoreItem = (props: LazyStore) => {
         </AccordionSummary>
         <AccordionDetails>
           <CustomBox hidden={!description}>
+            <Typography variant="h6">
+              <b>Kuvaus</b>
+            </Typography>
             <Typography>{description}</Typography>
           </CustomBox>
 
-          <CustomBox hidden={!categories}>
-            <Typography variant="h6">Kategoriat</Typography>
-            {categories &&
-              categories.map((item: LazyCategory | null) => {
-                if (item)
-                  return <Typography key={item.id}>{item.name}</Typography>;
-              })}
+          <CustomBox hidden={!categories || categories.length === 0}>
+            <Typography variant="h6">
+              <b>Kategoriat</b>
+            </Typography>
+            {categories?.map((item) => (
+              <Typography key={item?.id}>{item?.name}</Typography>
+            ))}
           </CustomBox>
 
           <CustomBox>
+            <Typography variant="h6">
+              <b>Kuvat</b>
+            </Typography>
             <Grid container spacing={2}>
-              <ImgsIframe imgs={imgs} location={location} />
+              {imgs?.map((item) => (
+                <Grid item xs={12} sm={4} key={item?.id}>
+                  <ImageComponent fileKey={item?.key} id={item?.id} poping />
+                </Grid>
+              ))}
+              <Grid item xs={12} sm={4}>
+                <CustomIframe
+                  url={location?.iframe}
+                  props={{ loading: "lazy" }}
+                />
+              </Grid>
             </Grid>
           </CustomBox>
 
           <CustomBox>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={4}>
-                <Typography variant="h6">Aukioloajat</Typography>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                hidden={!opentimes || opentimes.length === 0}
+              >
+                <Typography variant="h6">
+                  <b>Aukioloajat</b>
+                </Typography>
                 <OpenTime times={opentimes} />
               </Grid>
 
-              <Grid item xs={12} sm={4}>
-                <Contact {...contact} />
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                hidden={
+                  !contact ||
+                  (!contact.email && !contact.phone && !contact.website)
+                }
+              >
+                <Typography variant="h6">
+                  <b>Yhteystiedot</b>
+                </Typography>
+                <Typography>{contact?.phone}</Typography>
+                <Typography>{contact?.email}</Typography>
+
+                <Link
+                  href={contact?.website || "#"}
+                  underline="hover"
+                  target="_blank"
+                >
+                  {removeHttps(contact?.website || "")}
+                </Link>
               </Grid>
 
               <Grid item xs={12} sm={4}>
-                <Location {...location} />
+                <Typography variant="h6">
+                  <b>Sijainti</b>
+                </Typography>
+                <Typography>
+                  {location?.address ? location?.address + ", " : ""}
+                  {location?.city}
+                </Typography>
+                <Typography>{location?.zip}</Typography>
+                <Typography>{location?.admin_name}</Typography>
+                <Link href={location?.driveto || "#"} underline="hover">
+                  ajo-ohjeet
+                </Link>
               </Grid>
             </Grid>
           </CustomBox>

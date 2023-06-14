@@ -16,6 +16,7 @@ import {
   TableRow,
   Checkbox,
   FormControlLabel,
+  Box,
 } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -63,37 +64,30 @@ const Opentimes = () => {
   const values = useAppSelector((state) => state.newstore).openTimes;
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
         <Typography variant="h6">Aukioloajat</Typography>
-      </Grid>
-
-      <Grid item xs={12} hidden={values.length === 0}>
-        <TableContainer>
-          <Table>
-            <TableBody>
-              {values.map((time) => (
-                <Timeitem key={time.id} {...time} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-
-      <Grid item xs={12}>
-        <Collapse in={open}>
-          <Createform />
-        </Collapse>
-        <Button
-          variant="outlined"
+        <IconButton
+          component="label"
+          sx={{ ml: 2 }}
           onClick={() => setOpen(!open)}
-          fullWidth
-          sx={{ mt: 2 }}
         >
-          Lisää aukioloaika
-        </Button>
-      </Grid>
-    </Grid>
+          <AddIcon />
+        </IconButton>
+      </Box>
+      <TableContainer>
+        <Table>
+          <TableBody>
+            {values.map((time) => (
+              <Timeitem key={time.id} {...time} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Collapse in={open}>
+        <Createform />
+      </Collapse>
+    </Box>
   );
 };
 
