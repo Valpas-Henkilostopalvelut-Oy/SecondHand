@@ -26,6 +26,11 @@ const initialState: initialStateProps = {
   data: [],
 };
 
+const getFixedStore = (store: LazyStore) => {
+  const { ...rest } = store;
+  return rest;
+};
+
 export const confirmStoreAsync = createAsyncThunk(
   "adminStores/confirmStore",
   async ({
@@ -42,21 +47,8 @@ export const confirmStoreAsync = createAsyncThunk(
       Store.copyOf(store, (updated) => {
         updated.isConfirmed = true;
       })
-    ).then((res) => ({
-      id: res.id,
-      name: res.name,
-      description: res.description,
-      categories: res.categories,
-      opentimes: res.opentimes,
-      contact: res.contact,
-      location: res.location,
-      imgs: res.imgs,
-      isConfirmed: res.isConfirmed,
-      social: res.social,
-      type: res.type,
-      usernameID: res.usernameID,
-    }));
-    return updatedStore;
+    );
+    return getFixedStore(updatedStore);
   }
 );
 
@@ -76,22 +68,9 @@ export const unconfirmStoreAsync = createAsyncThunk(
       Store.copyOf(store, (updated) => {
         updated.isConfirmed = false;
       })
-    ).then((res) => ({
-      id: res.id,
-      name: res.name,
-      description: res.description,
-      categories: res.categories,
-      opentimes: res.opentimes,
-      contact: res.contact,
-      location: res.location,
-      imgs: res.imgs,
-      isConfirmed: res.isConfirmed,
-      social: res.social,
-      type: res.type,
-      usernameID: res.usernameID,
-    }));
+    );
 
-    return updatedStore;
+    return getFixedStore(updatedStore);
   }
 );
 
@@ -122,21 +101,8 @@ export const updateStoreAsync = createAsyncThunk(
         updated.social = data.social;
         updated.type = data.type;
       })
-    ).then((res) => ({
-      id: res.id,
-      name: res.name,
-      description: res.description,
-      categories: res.categories,
-      opentimes: res.opentimes,
-      contact: res.contact,
-      location: res.location,
-      imgs: res.imgs,
-      isConfirmed: res.isConfirmed,
-      social: res.social,
-      type: res.type,
-      usernameID: res.usernameID,
-    }));
-    return updatedStore;
+    );
+    return getFixedStore(updatedStore);
   }
 );
 
@@ -162,20 +128,7 @@ export const fetchStores = createAsyncThunk(
   async () => {
     const stores = await DataStore.query(Store);
     const filteredStores = stores
-      .map((store) => ({
-        id: store.id,
-        name: store.name,
-        description: store.description,
-        categories: store.categories,
-        opentimes: store.opentimes,
-        contact: store.contact,
-        location: store.location,
-        imgs: store.imgs,
-        isConfirmed: store.isConfirmed,
-        social: store.social,
-        type: store.type,
-        usernameID: store.usernameID,
-      }))
+      .map((store) => getFixedStore(store))
       .filter((store) => store.isConfirmed);
     return filteredStores;
   }
@@ -186,20 +139,7 @@ export const fetchStoreFilter = createAsyncThunk(
   async (filter: filterProps) => {
     const { type, title, area, city, category, isConfirmed } = filter;
     const stores = await DataStore.query(Store);
-    const filteredStores = stores.map((store) => ({
-      id: store.id,
-      name: store.name,
-      description: store.description,
-      categories: store.categories,
-      opentimes: store.opentimes,
-      contact: store.contact,
-      location: store.location,
-      imgs: store.imgs,
-      isConfirmed: store.isConfirmed,
-      sosial: store.social,
-      type: store.type,
-      usernameID: store.usernameID,
-    }));
+    const filteredStores = stores.map((store) => getFixedStore(store));
 
     // Apply search by confirmed
     const searchedStoresByConfirmed = filteredStores.filter(

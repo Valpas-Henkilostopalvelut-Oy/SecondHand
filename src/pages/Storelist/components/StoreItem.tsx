@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   AccordionDetails,
@@ -23,6 +23,7 @@ import ImageComponent from "../../../globalComponents/ImageComponent";
 const removeHttps = (url: string) => url.replace(/(^\w+:|^)\/\//, "");
 
 const StoreItem = (props: LazyStore) => {
+  const [open, setOpen] = useState(false);
   const {
     name,
     description,
@@ -33,6 +34,7 @@ const StoreItem = (props: LazyStore) => {
     imgs,
     social,
   } = props;
+  const handleClick = () => setOpen(!open);
 
   return (
     <Box
@@ -42,7 +44,7 @@ const StoreItem = (props: LazyStore) => {
         marginBottom: "1rem",
       }}
     >
-      <Accordion>
+      <Accordion expanded={open} onChange={handleClick}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -56,8 +58,8 @@ const StoreItem = (props: LazyStore) => {
         >
           {name}
         </AccordionSummary>
-        <AccordionDetails>
-          <CustomBox hidden={!description}>
+        <AccordionDetails sx={{ padding: "0px 40px" }}>
+          <CustomBox hidden={!description} onClick={handleClick}>
             <Typography variant="h6">
               <b>Kuvaus</b>
             </Typography>
@@ -73,7 +75,7 @@ const StoreItem = (props: LazyStore) => {
             ))}
           </CustomBox>
 
-          <CustomBox>
+          <CustomBox hidden={!imgs || imgs.length === 0}>
             <Typography variant="h6">
               <b>Kuvat</b>
             </Typography>

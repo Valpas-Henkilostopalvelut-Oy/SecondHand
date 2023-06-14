@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  DialogActions,
 } from "@mui/material";
 import { Storage } from "aws-amplify";
 import { Close as CloseIcon } from "@mui/icons-material";
@@ -74,11 +75,6 @@ const ImageComponent = (item: OneImgProps) => {
       </Box>
       {poping && (
         <Dialog open={open} onClose={handleClose} maxWidth="md">
-          <DialogTitle>
-            <IconButton aria-label="close" onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
           <DialogContent>
             <img
               src={
@@ -90,6 +86,11 @@ const ImageComponent = (item: OneImgProps) => {
               style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
           </DialogContent>
+          <DialogActions>
+            <IconButton aria-label="close" onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </DialogActions>
         </Dialog>
       )}
     </>
