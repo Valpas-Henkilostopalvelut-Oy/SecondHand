@@ -25,9 +25,10 @@ import {
 } from "../../../../app/reducer/stores";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import LogoImage from "../../../../globalComponents/LogoImage";
 
 const StoreItem = (props: LazyStore) => {
-  const { isConfirmed, name } = props;
+  const { settings, name } = props;
   const isAdmin = useAppSelector((state) => state.user.isAdmin);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -49,10 +50,13 @@ const StoreItem = (props: LazyStore) => {
       })
     );
   const handleLog = () => console.log(props);
-
   return (
     <Box sx={{ marginBottom: "1em" }}>
-      <Accordion expanded={open} onChange={handleClick}>
+      <Accordion
+        expanded={open}
+        onChange={handleClick}
+        TransitionProps={{ unmountOnExit: true }}
+      >
         <AccordionSummary
           sx={{
             backgroundColor: "#f5f5f5",
@@ -67,7 +71,7 @@ const StoreItem = (props: LazyStore) => {
               sx={{
                 marginLeft: "auto",
                 color: "success.main",
-                display: isConfirmed ? "block" : "none",
+                display: settings.isConfirmed ? "block" : "none",
               }}
             />
           </Tooltip>
@@ -81,8 +85,8 @@ const StoreItem = (props: LazyStore) => {
             variant="contained"
             color="success"
             onClick={handleConfirm}
-            disabled={!!isConfirmed}
-            sx={{ display: isConfirmed ? "none" : "block" }}
+            disabled={!!settings.isConfirmed}
+            sx={{ display: settings.isConfirmed ? "none" : "block" }}
           >
             Vahvista
           </Button>
@@ -110,11 +114,18 @@ const StoreDetails = (props: LazyStore) => {
     location,
     contact,
     social,
+    logo,
   } = props;
   const iframe = location?.iframe;
 
   return (
     <Box>
+      <CustomBox hidden={!logo} display="flex" alignItems="center">
+        <Typography>
+          <b>Logo</b>
+        </Typography>
+        <LogoImage skey={logo} isAdmin />
+      </CustomBox>
       <CustomBox hidden={!description}>
         <Typography>
           <b>Kuvaus</b>

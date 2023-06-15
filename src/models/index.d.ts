@@ -190,6 +190,26 @@ export declare type Side = LazyLoading extends LazyLoadingDisabled ? EagerSide :
 
 export declare const Side: (new (init: ModelInit<Side>) => Side)
 
+type EagerStoreSettings = {
+  readonly isPaid?: boolean | null;
+  readonly isHidden?: boolean | null;
+  readonly isConfirmed?: boolean | null;
+  readonly isPremium?: boolean | null;
+  readonly isPromoted?: boolean | null;
+}
+
+type LazyStoreSettings = {
+  readonly isPaid?: boolean | null;
+  readonly isHidden?: boolean | null;
+  readonly isConfirmed?: boolean | null;
+  readonly isPremium?: boolean | null;
+  readonly isPromoted?: boolean | null;
+}
+
+export declare type StoreSettings = LazyLoading extends LazyLoadingDisabled ? EagerStoreSettings : LazyStoreSettings
+
+export declare const StoreSettings: (new (init: ModelInit<StoreSettings>) => StoreSettings)
+
 type EagerCategories = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Categories, 'id'>;
@@ -300,7 +320,6 @@ type EagerStore = {
   readonly id: string;
   readonly usernameID: string;
   readonly type?: string | null;
-  readonly isConfirmed?: boolean | null;
   readonly name?: string | null;
   readonly description?: string | null;
   readonly categories?: (Category | null)[] | null;
@@ -310,7 +329,10 @@ type EagerStore = {
   readonly contact?: Contact | null;
   readonly location?: Location | null;
   readonly imgs?: (Image | null)[] | null;
-  readonly social?: Social | null;
+  readonly social: Social;
+  readonly isConfirmed?: boolean | null;
+  readonly settings: StoreSettings;
+  readonly logo?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -323,7 +345,6 @@ type LazyStore = {
   readonly id: string;
   readonly usernameID: string;
   readonly type?: string | null;
-  readonly isConfirmed?: boolean | null;
   readonly name?: string | null;
   readonly description?: string | null;
   readonly categories?: (Category | null)[] | null;
@@ -333,7 +354,10 @@ type LazyStore = {
   readonly contact?: Contact | null;
   readonly location?: Location | null;
   readonly imgs?: (Image | null)[] | null;
-  readonly social?: Social | null;
+  readonly social: Social;
+  readonly isConfirmed?: boolean | null;
+  readonly settings: StoreSettings;
+  readonly logo?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

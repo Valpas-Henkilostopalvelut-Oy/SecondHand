@@ -44,6 +44,7 @@ const initialState: NewStoreProps = {
     youtube: null,
   },
   files: [],
+  logo: null,
 };
 
 const onUploadImage = async (props: ImageTypes) => {
@@ -76,10 +77,11 @@ export const createNewStoreAsync = createAsyncThunk(
     },
     { dispatch }: { dispatch: Dispatch }
   ) => {
-    const { files } = newStore;
+    const { files, logo } = newStore;
     const onUploadImages = await Promise.all(
       files.map((file) => onUploadImage(file))
     );
+    const onUploadLogo = await onUploadImage(logo as ImageTypes);
 
     const {
       name,
@@ -93,7 +95,7 @@ export const createNewStoreAsync = createAsyncThunk(
     } = newStore;
     const store = new Store({
       usernameID: username,
-      isConfirmed: isAdmin,
+      settings: { isConfirmed: isAdmin },
       name,
       description,
       categories,
@@ -103,6 +105,7 @@ export const createNewStoreAsync = createAsyncThunk(
       imgs: onUploadImages,
       social,
       type,
+      logo: onUploadLogo.key,
     });
 
     const storeToAdd = {
@@ -115,13 +118,14 @@ export const createNewStoreAsync = createAsyncThunk(
       contact: store.contact,
       location: store.location,
       imgs: store.imgs,
-      isConfirmed: store.isConfirmed,
+      isConfirmed: store.settings.isConfirmed,
       social: store.social,
       type: store.type,
     };
 
     await DataStore.save(store);
     dispatch(updateData(storeToAdd));
+    dispatch(clearForm());
   }
 );
 
@@ -129,6 +133,9 @@ export const newStoreSlice = createSlice({
   name: "newStore",
   initialState,
   reducers: {
+    setLogo: (state, action: PayloadAction<ImageTypes | null>) => {
+      state.logo = action.payload;
+    },
     setType: (state, action: PayloadAction<string>) => {
       state.type = action.payload;
     },
@@ -176,15 +183,10 @@ export const newStoreSlice = createSlice({
       state.error = null;
       state.isError = false;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(createNewStoreAsync.pending, (state) => {
-      state.isCreating = true;
-    });
-    builder.addCase(createNewStoreAsync.fulfilled, (state) => {
+    clearForm: (state) => {
       state.type = null;
       state.isCreating = false;
-      state.isConfirm = true;
+      state.isConfirm = false;
       state.error = null;
       state.isError = false;
       state.name = "";
@@ -212,6 +214,12 @@ export const newStoreSlice = createSlice({
         youtube: null,
       };
       state.files = [];
+      state.logo = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createNewStoreAsync.pending, (state) => {
+      state.isCreating = true;
     });
     builder.addCase(createNewStoreAsync.rejected, (state, action) => {
       state.isCreating = false;
@@ -234,6 +242,8 @@ export const {
   clearCreateError,
   setSocial,
   setType,
+  setLogo,
+  clearForm,
 } = newStoreSlice.actions;
 
 export default newStoreSlice.reducer;

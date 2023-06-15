@@ -24,8 +24,6 @@ const Storelist = () => {
           isConfirmed: true,
         })
       );
-    } else {
-      dispatch(fetchStores());
     }
   }, [category]);
 

@@ -33,4 +33,5 @@ export interface NewStoreProps {
   contacts: LazyContact;
   location: LazyLocation;
   files: ImageTypes[];
+  logo?: ImageTypes | null;
 }

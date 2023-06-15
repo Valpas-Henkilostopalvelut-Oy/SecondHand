@@ -323,13 +323,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "isConfirmed": {
-                    "name": "isConfirmed",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -415,6 +408,29 @@ export const schema = {
                     "type": {
                         "nonModel": "Social"
                     },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "isConfirmed": {
+                    "name": "isConfirmed",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "settings": {
+                    "name": "settings",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "StoreSettings"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "logo": {
+                    "name": "logo",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -841,8 +857,48 @@ export const schema = {
                     "attributes": []
                 }
             }
+        },
+        "StoreSettings": {
+            "name": "StoreSettings",
+            "fields": {
+                "isPaid": {
+                    "name": "isPaid",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "isHidden": {
+                    "name": "isHidden",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "isConfirmed": {
+                    "name": "isConfirmed",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "isPremium": {
+                    "name": "isPremium",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "isPromoted": {
+                    "name": "isPromoted",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "427f99466a29436586f15a4f52471601"
+    "version": "94add30f1b6521ba7b67d57f410234b7"
 };

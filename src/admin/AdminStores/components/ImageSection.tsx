@@ -1,10 +1,56 @@
 import React from "react";
-import { Grid, Typography, Button, IconButton } from "@mui/material";
+import { Grid, Typography, Button, IconButton, Box } from "@mui/material";
 import type { ImageTypes } from "../types";
 import Add from "@mui/icons-material/Add";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
-import { addFile, removeFile } from "../redux/newstore";
+import { addFile, removeFile, setLogo } from "../redux/newstore";
 import ImageComponent from "../../../globalComponents/ImageComponent";
+import LogoImage from "../../../globalComponents/LogoImage";
+
+export const SelectLogo = () => {
+  const { logo } = useAppSelector((state) => state.newstore);
+  const dispatch = useAppDispatch();
+
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    if (!files) return;
+    if (files.length === 0) return;
+    const id = Math.random().toString(36).substr(2, 9);
+    const filename = files[0].name;
+    const key = id + "-" + filename;
+    const file = files[0];
+    const imgUrl = URL.createObjectURL(file);
+    const newImage = { id, key, filename, imgUrl };
+    dispatch(setLogo(newImage));
+  };
+
+  const handleDelete = () => {
+    dispatch(setLogo(null));
+  };
+
+  return (
+    <Box display="flex" alignItems="center">
+      <Typography variant="h6">Valitse logo</Typography>
+      <IconButton component="label">
+        <Add />
+        <input
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={handleImage}
+        />
+      </IconButton>
+      {logo && (
+        <Box display="flex" alignItems="center">
+          <LogoImage isAdmin url={logo.imgUrl} />
+          <Button variant="outlined" color="inherit" onClick={handleDelete}>
+            Poista
+          </Button>
+        </Box>
+      )}
+    </Box>
+  );
+};
 
 const ImageSection = () => {
   const values = useAppSelector((state) => state.newstore).files;
@@ -13,6 +59,7 @@ const ImageSection = () => {
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files) return;
+    if (files.length === 0) return;
     const id = Math.random().toString(36).substr(2, 9);
     const filename = files[0].name;
     const key = id + "-" + filename;

@@ -31,6 +31,29 @@ const getFixedStore = (store: LazyStore) => {
   return rest;
 };
 
+export const updateLogoAsync = createAsyncThunk(
+  "adminStores/updateLogo",
+  async ({
+    id,
+    isAdmin,
+    logo,
+  }: {
+    id: string;
+    isAdmin: boolean | undefined | null;
+    logo: string | null;
+  }) => {
+    const store = await DataStore.query(Store, id);
+    if (!isAdmin) throw new Error("You are not authorized to update stores");
+    if (!store) throw new Error("Store not found");
+    const updatedStore = await DataStore.save(
+      Store.copyOf(store, (updated) => {
+        updated.logo = logo;
+      })
+    );
+    return getFixedStore(updatedStore);
+  }
+);
+
 export const confirmStoreAsync = createAsyncThunk(
   "adminStores/confirmStore",
   async ({
@@ -45,7 +68,7 @@ export const confirmStoreAsync = createAsyncThunk(
     if (!store) throw new Error("Store not found");
     const updatedStore = await DataStore.save(
       Store.copyOf(store, (updated) => {
-        updated.isConfirmed = true;
+        updated.settings.isConfirmed = true;
       })
     );
     return getFixedStore(updatedStore);
@@ -66,7 +89,7 @@ export const unconfirmStoreAsync = createAsyncThunk(
     if (!store) throw new Error("Store not found");
     const updatedStore = await DataStore.save(
       Store.copyOf(store, (updated) => {
-        updated.isConfirmed = false;
+        updated.settings.isConfirmed = false;
       })
     );
 
@@ -97,7 +120,7 @@ export const updateStoreAsync = createAsyncThunk(
         updated.contact = data.contact;
         updated.location = data.location;
         updated.imgs = data.imgs;
-        updated.isConfirmed = data.isConfirmed;
+        updated.settings.isConfirmed = data.settings.isConfirmed;
         updated.social = data.social;
         updated.type = data.type;
       })
@@ -129,7 +152,7 @@ export const fetchStores = createAsyncThunk(
     const stores = await DataStore.query(Store);
     const filteredStores = stores
       .map((store) => getFixedStore(store))
-      .filter((store) => store.isConfirmed);
+      .filter((store) => store.settings.isConfirmed);
     return filteredStores;
   }
 );
@@ -143,7 +166,10 @@ export const fetchStoreFilter = createAsyncThunk(
 
     // Apply search by confirmed
     const searchedStoresByConfirmed = filteredStores.filter(
-      (store) => store.isConfirmed === isConfirmed
+      (store) =>
+        store.settings.isConfirmed === isConfirmed ||
+        store.settings.isConfirmed === null ||
+        store.settings.isConfirmed === undefined
     );
 
     // Apply search filter based on the category
@@ -190,7 +216,7 @@ const stores = createSlice({
   name: "adminStores",
   initialState,
   reducers: {
-    updateData: (state, action: PayloadAction<any>) => {
+    updateData: (state, action: PayloadAction<any>): void => {
       state.data = [...state.data, action.payload];
     },
     clearError: (state) => {
@@ -318,6 +344,25 @@ const stores = createSlice({
       }
     );
     builder.addCase(unconfirmStoreAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(updateLogoAsync.pending, (state) => {
+      state.isLoading = true;
+      state.isError = false;
+      state.error = null;
+    });
+    builder.addCase(updateLogoAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data = state.data?.map((store) =>
+        store.id === action.payload.id ? action.payload : store
+      );
+    });
+    builder.addCase(updateLogoAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.error = action.error.message;

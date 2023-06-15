@@ -4,7 +4,7 @@ import { schema } from './schema';
 
 
 
-const { Categories, Ads, User, Store, Category, Location, Image, Contact, Opentime, Priceitem, Sellplaces, Social, SideButton, Side } = initSchema(schema);
+const { Categories, Ads, User, Store, Category, Location, Image, Contact, Opentime, Priceitem, Sellplaces, Social, SideButton, Side, StoreSettings } = initSchema(schema);
 
 export {
   Categories,
@@ -20,5 +20,6 @@ export {
   Sellplaces,
   Social,
   SideButton,
-  Side
+  Side,
+  StoreSettings
 };

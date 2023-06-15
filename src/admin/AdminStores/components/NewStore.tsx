@@ -12,7 +12,7 @@ import {
 import Contact from "./Contact";
 import Location from "./Location";
 import CategoriesSelect from "./CategoriesSelect";
-import ImageSection from "./ImageSection";
+import ImageSection, { SelectLogo } from "./ImageSection";
 import Opentimes from "./Opentimes";
 import Create from "./Create";
 import Basic from "./Basic";
@@ -39,7 +39,10 @@ const NewStore = () => {
           </IconButton>
         </Tooltip>
       </Box>
-      <Collapse in={open}>
+      <Collapse in={open} unmountOnExit>
+        <StoreBlock>
+          <SelectLogo />
+        </StoreBlock>
         <StoreBlock>
           <Basic />
         </StoreBlock>

@@ -20,9 +20,10 @@ import EditCategorie from "./components/EditCategorie";
 import Location from "./components/EditLocation";
 import EditSocialMedia from "./components/EditSocialMedia";
 import EditType from "./components/EditType";
+import EditLogo from "./components/EditLogo";
 
 const EditItem = (props: EditItemProps) => {
-  const isAdmin = useAppSelector((state) => state.user.isAdmin);
+  const { isAdmin } = useAppSelector((state) => state.user);
   const { open, setOpen, ...rest } = props;
   const dispatch = useAppDispatch();
   const [newStore, setNewStore] = useState<LazyStore>({
@@ -98,6 +99,7 @@ const EditItem = (props: EditItemProps) => {
       <DialogContent>
         <Grid container spacing={2} sx={{ padding: "1em" }}>
           <Basic {...newStore} handleChange={handleChange} />
+          <EditLogo {...newStore} />
           <EditContact {...newStore} handleChange={haneleEditContact} />
           <EditCategorie {...newStore} handleChange={handleEditCategories} />
           <EditType {...newStore} handleChange={handleEditType} />
@@ -106,9 +108,14 @@ const EditItem = (props: EditItemProps) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={handleUnconfirm} color="error" sx={{
-          display: isAdmin ? "block" : "none"
-        }}>
+        <Button
+          variant="contained"
+          onClick={handleUnconfirm}
+          color="error"
+          sx={{
+            display: isAdmin ? "block" : "none",
+          }}
+        >
           Poista vahvistus
         </Button>
         <Button variant="contained" onClick={handleSave}>

@@ -83,6 +83,14 @@ type Side {
   button: SideButton
 }
 
+type StoreSettings {
+  isPaid: Boolean
+  isHidden: Boolean
+  isConfirmed: Boolean
+  isPremium: Boolean
+  isPromoted: Boolean
+}
+
 type Ads @model @auth(rules: [
   { allow: public }
   { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
@@ -124,7 +132,6 @@ type Store
   id: ID!
   usernameID: String!
   type: String
-  isConfirmed: Boolean
   name: String
   description: String
   categories: [Category]
@@ -134,5 +141,8 @@ type Store
   contact: Contact
   location: Location
   imgs: [Image]
-  social: Social
+  social: Social!
+  isConfirmed: Boolean
+  settings: StoreSettings!
+  logo: String
 }

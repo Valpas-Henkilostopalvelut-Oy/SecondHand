@@ -10,20 +10,18 @@ import LoadingComponent from "../../globalComponents/LoadingComponent";
 
 const Stores = () => {
   const { data, isLoading } = useAppSelector((state) => state.stores);
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchStores());
-  }, []);
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <Box>
       <AdminSearch />
       <NewStore />
-      {isLoading && <LoadingComponent />}
-      {!isLoading &&
-        data &&
-        data.map((kirppis) => <StoreItem key={kirppis.id} {...kirppis} />)}
+      {data.map((kirppis) => (
+        <StoreItem key={kirppis.id} {...kirppis} />
+      ))}
       <ErrorStore />
     </Box>
   );
