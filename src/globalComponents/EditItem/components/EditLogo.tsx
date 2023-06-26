@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import LogoImage from "../../../../../../../globalComponents/LogoImage";
-import { useAppSelector, useAppDispatch } from "../../../../../../../app/hooks";
-import { updateLogoAsync } from "../../../../../../../app/reducer/stores";
-import type { LazyStore } from "../../../../../../../models";
+import LogoImage from "../../LogoImage";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { updateLogoAsync } from "../../../app/reducer/stores";
+import type { LazyStore } from "../../../models";
 import { Storage } from "aws-amplify";
 
 const EditLogo = ({ logo, id }: LazyStore) => {

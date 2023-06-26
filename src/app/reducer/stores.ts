@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { LazyStore } from "../../models";
+import type { LazyCategory, LazyStore } from "../../models";
 import { Store } from "../../models";
-import { DataStore } from "aws-amplify";
+import { DataStore, Storage } from "aws-amplify";
 import type { PayloadAction } from "@reduxjs/toolkit";
 interface filterProps {
   title: string;
@@ -30,6 +30,63 @@ const getFixedStore = (store: LazyStore) => {
   const { ...rest } = store;
   return rest;
 };
+
+export const uploadImageAsync = createAsyncThunk(
+  "adminStores/uploadImage",
+  async ({
+    id,
+    file,
+    fileName,
+    fileId,
+    isAdmin,
+  }: {
+    id: string;
+    isAdmin: boolean | undefined | null;
+    file: File;
+    fileName: string;
+    fileId: string;
+  }) => {
+    if (!isAdmin) throw new Error("You are not authorized to update stores");
+    const store = await DataStore.query(Store, id);
+    if (!store) throw new Error("Store not found");
+    const { key } = await Storage.put(`${fileName}`, file, {
+      contentType: "image/png",
+      progressCallback(progress) {
+        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+      },
+    });
+    const updatedStore = await DataStore.save(
+      Store.copyOf(store, (updated) => {
+        updated.imgs = [...(store.imgs || []), { key, id: fileId }];
+      })
+    );
+    return getFixedStore(updatedStore);
+  }
+);
+
+export const deleteImageAsync = createAsyncThunk(
+  "adminStores/deleteImage",
+  async ({
+    id,
+    isAdmin,
+    key,
+  }: {
+    id: string;
+    isAdmin: boolean | undefined | null;
+    key: string;
+  }) => {
+    if (!isAdmin) throw new Error("You are not authorized to update stores");
+    const store = await DataStore.query(Store, id);
+    if (!store) throw new Error("Store not found");
+    await Storage.remove(key);
+    const updatedStore = await DataStore.save(
+      Store.copyOf(store, (updated) => {
+        updated.imgs = store.imgs?.filter((file) => file?.key !== key);
+      })
+    );
+    return getFixedStore(updatedStore);
+  }
+);
 
 export const updateLogoAsync = createAsyncThunk(
   "adminStores/updateLogo",
@@ -102,27 +159,20 @@ export const updateStoreAsync = createAsyncThunk(
   async ({
     id,
     isAdmin,
-    data,
+    name,
+    value,
   }: {
     id: string;
     isAdmin: boolean | undefined | null;
-    data: LazyStore;
+    name: string;
+    value: any;
   }) => {
     const store = await DataStore.query(Store, id);
     if (!isAdmin) throw new Error("You are not authorized to update stores");
     if (!store) throw new Error("Store not found");
     const updatedStore = await DataStore.save(
-      Store.copyOf(store, (updated) => {
-        updated.name = data.name;
-        updated.description = data.description;
-        updated.categories = data.categories;
-        updated.opentimes = data.opentimes;
-        updated.contact = data.contact;
-        updated.location = data.location;
-        updated.imgs = data.imgs;
-        updated.settings.isConfirmed = data.settings.isConfirmed;
-        updated.social = data.social;
-        updated.type = data.type;
+      Store.copyOf(store, (updated: any) => {
+        updated[name] = value;
       })
     );
     return getFixedStore(updatedStore);
@@ -306,7 +356,6 @@ const stores = createSlice({
     });
 
     builder.addCase(updateStoreAsync.pending, (state) => {
-      state.isLoading = true;
       state.isError = false;
       state.error = null;
     });
@@ -363,6 +412,44 @@ const stores = createSlice({
       );
     });
     builder.addCase(updateLogoAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    /*builder.addCase(uploadImageAsync.pending, (state) => {
+      state.isLoading = true;
+      state.isError = false;
+      state.error = null;
+    });*/
+    builder.addCase(uploadImageAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data = state.data?.map((store) =>
+        store.id === action.payload.id ? action.payload : store
+      );
+    });
+    builder.addCase(uploadImageAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    /*builder.addCase(deleteImageAsync.pending, (state) => {
+      state.isLoading = true;
+      state.isError = false;
+      state.error = null;
+    });*/
+    builder.addCase(deleteImageAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data = state.data?.map((store) =>
+        store.id === action.payload.id ? action.payload : store
+      );
+    });
+    builder.addCase(deleteImageAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.error = action.error.message;

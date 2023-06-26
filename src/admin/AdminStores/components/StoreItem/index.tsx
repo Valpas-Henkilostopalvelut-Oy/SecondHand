@@ -17,7 +17,7 @@ import Images from "./components/Images";
 import StoreIframe from "./components/StoreIframe";
 import Contact from "./components/Contact";
 import Location from "./components/Location";
-import EditItem from "./components/EditItem";
+import EditItem from "../../../../globalComponents/EditItem";
 import SocialMedia from "./components/SocialMedia";
 import {
   deleteStoreAsync,
@@ -78,7 +78,7 @@ const StoreItem = (props: LazyStore) => {
         </AccordionSummary>
         <AccordionDetails>
           <StoreDetails {...props} />
-          <EditItem {...props} open={edit} setOpen={setEdit} />
+          <EditItem dataId={props.id} open={edit} setOpen={setEdit} />
         </AccordionDetails>
         <AccordionActions>
           <Button

@@ -7,11 +7,25 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 
 const EditSocialMedia = (props: EditItemState) => {
-  const { social, handleChange } = props;
+  const { social, setStore } = props;
   const facebook = social?.facebook;
   const instagram = social?.instagram;
   const twitter = social?.twitter;
   const youtube = social?.youtube;
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setStore((prevState) => {
+      if (!prevState) return null;
+      return {
+        ...prevState,
+        social: {
+          ...prevState.social,
+          [name]: value,
+        },
+      };
+    });
+  };
 
   return (
     <>

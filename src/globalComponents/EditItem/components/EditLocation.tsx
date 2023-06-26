@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { TextField, Grid, Autocomplete } from "@mui/material";
 import areas from "./fi.js";
+import { useAppDispatch } from "../../../app/hooks";
+import { updateStoreAsync } from "../../../app/reducer/stores";
+import type { EditItemState } from "../types.js";
 
-const Location = (props: any) => {
-  const { location, setNewStore } = props;
+const Location = (props: EditItemState) => {
+  const dispatch = useAppDispatch();
+  const { location, setStore, isAdmin } = props;
   const address = location?.address;
   const zip = location?.zip;
-  const admin_name = location.admin_name;
+  const admin_name = location?.admin_name;
 
   const uniqueArray = areas
     .filter(
@@ -14,44 +18,80 @@ const Location = (props: any) => {
         index === self.findIndex((t) => t.admin_name === item.admin_name)
     )
     .map((item) => item.admin_name);
-  const filteredArray = areas.filter((item) => item.admin_name === admin_name);
+  //const filteredArray = areas.filter((item) => item.admin_name === admin_name);
 
   const uniqueFilteredArray = areas.filter(
     (item, index, self) => index === self.findIndex((t) => t.city === item.city)
   );
 
-  const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewStore((prev: any) => ({
-      ...prev,
-      location: {
-        ...prev.location,
-        [name]: value,
-      },
-    }));
+  const handleUpdate = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    console.log("handleUpdate", name, value);
+    dispatch(
+      updateStoreAsync({
+        id: props.id,
+        isAdmin,
+        name,
+        value,
+      })
+    );
   };
 
-  const handleChangeAdminname = (e: any, newValue: any) => {
-    if (newValue) {
-      setNewStore((prev: any) => ({
+  const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setStore((prev) => {
+      if (!prev) return null;
+      return {
         ...prev,
         location: {
           ...prev.location,
-          admin_name: newValue,
+          [name]: value,
         },
-      }));
+      };
+    });
+  };
+
+  const handleChangeAdminname = (e: any, newValue: string | null) => {
+    if (newValue) {
+      setStore((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          location: {
+            ...prev.location,
+            admin_name: newValue,
+          },
+        };
+      });
     }
   };
 
-  const handleChangeCity = (e: any, newValue: any) => {
+  const handleChangeCity = (
+    e: any,
+    newValue: {
+      city: string;
+      lat: string;
+      lng: string;
+      country: string;
+      iso2: string;
+      admin_name: string;
+      capital: string;
+      population: string;
+      population_proper: string;
+    } | null
+  ) => {
     if (newValue) {
-      setNewStore((prev: any) => ({
-        ...prev,
-        location: {
-          ...prev.location,
-          ...newValue,
-        },
-      }));
+      setStore((prev) => {
+        if (!prev) return;
+        return {
+          ...prev,
+          location: {
+            ...prev.location,
+            ...newValue,
+          },
+        };
+      });
     }
   };
 
@@ -65,6 +105,7 @@ const Location = (props: any) => {
           fullWidth
           value={address}
           onChange={handleChangeText}
+          onBlur={handleUpdate}
           helperText="Osoite"
         />
       </Grid>
@@ -76,6 +117,7 @@ const Location = (props: any) => {
           fullWidth
           value={zip || ""}
           onChange={handleChangeText}
+          onBlur={handleUpdate}
           helperText="Postinumero"
         />
       </Grid>
@@ -99,14 +141,11 @@ const Location = (props: any) => {
       <Grid item sm={6} xs={12}>
         <Autocomplete
           id="city-select"
-          value={location}
+          value={null}
           disabled={!admin_name}
           options={uniqueFilteredArray.sort((a, b) =>
             a.city.localeCompare(b.city)
           )}
-          isOptionEqualToValue={(option, value) =>
-            option.admin_name === admin_name
-          }
           fullWidth
           getOptionLabel={(option) => option.city}
           onChange={handleChangeCity}
