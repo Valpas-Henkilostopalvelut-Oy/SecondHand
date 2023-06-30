@@ -46,6 +46,7 @@ const validationSchema = yup.object({
 
 const EvaluationForm = ({ box }: { box?: BoxProps }) => {
   const { isAdmin } = useAppSelector((state) => state.user);
+  
   const dispatch = useAppDispatch();
 
   return (
