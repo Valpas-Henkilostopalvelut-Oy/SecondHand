@@ -1,9 +1,17 @@
 import React from "react";
-import { Box, type BoxProps, TextField, Button, Grid } from "@mui/material";
+import {
+  Box,
+  type BoxProps,
+  TextField,
+  Button,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import ImageComponent from "./ImageComponent";
+import { Storage } from "aws-amplify";
 
 interface EvaluationFormProps {
   name: string;
@@ -30,8 +38,8 @@ const validationSchema = yup.object({
   images: yup
     .array()
     .min(1, "Kuvat on pakollinen")
-    .required("Kuvat on pakollinen")
-    .max(5, "Kuvia voi olla maksimissaan 5"),
+    .max(4, "Kuvia voi olla maksimissaan 5")
+    .required("Kuvat on pakollinen"),
   categoria: yup.string().required("Kategoria on pakollinen"),
   type: yup.string().required("Tyyppi on pakollinen"),
 });
@@ -50,12 +58,22 @@ const EvaluationForm = ({ box }: { box?: BoxProps }) => {
           description: "",
           categoria: "",
           type: "",
-          images: {} as FileList,
+          images: [] as File[],
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          setSubmitting(false);
+        onSubmit={async (values, { setSubmitting }) => {
+          //upload images to Storage in folder "evaluation"
+          const images = await Promise.all(
+            values.images.map(async (image) => {
+              const fileKey = `evaluation/${Date.now()}-${image.name}`;
+              await Storage.put(fileKey, image, {
+                contentType: image.type,
+              });
+              return fileKey;
+            })
+          );
+
+          console.log(images);
         }}
       >
         {({
@@ -146,31 +164,38 @@ const EvaluationForm = ({ box }: { box?: BoxProps }) => {
             />
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
                 marginBottom: "1em",
+                display: "flex",
+                //column
+                flexDirection: "column",
               }}
             >
-              <Grid container spacing={2}>
-                {values.images.length > 0 &&
-                  Array.from(values.images).map((image, index) => {
-                    const url = URL.createObjectURL(image);
+              <Box>
+                <Grid container spacing={2}>
+                  {values.images.slice(0, 4).map((image, index) => {
+                    const imageUrl = URL.createObjectURL(image);
                     return (
                       <Grid item xs={3} key={index}>
-                        <ImageComponent id={image.name} fileUrl={url} />
+                        <ImageComponent fileUrl={imageUrl} id={image.name} />
                         <Button
+                          fullWidth
                           sx={{ marginTop: "1em" }}
                           variant="contained"
                           color="error"
+                          onClick={() => {
+                            setFieldValue(
+                              "images",
+                              values.images.filter((_, i) => i !== index)
+                            );
+                          }}
                         >
                           Poista
                         </Button>
                       </Grid>
                     );
                   })}
-              </Grid>
+                </Grid>
+              </Box>
               <input
                 accept="image/*"
                 style={{ display: "none" }}
@@ -179,8 +204,10 @@ const EvaluationForm = ({ box }: { box?: BoxProps }) => {
                 type="file"
                 name="images"
                 onChange={(e) => {
-                  if (e.currentTarget.files)
-                    setFieldValue("images", e.currentTarget.files);
+                  if (e.currentTarget.files) {
+                    const files = Array.from(e.currentTarget.files);
+                    setFieldValue("images", files);
+                  }
                 }}
               />
               <label htmlFor="contained-button-file">
@@ -192,6 +219,11 @@ const EvaluationForm = ({ box }: { box?: BoxProps }) => {
                   Upload
                 </Button>
               </label>
+              {errors.images && (
+                <Typography variant="caption" color="error">
+                  {errors.images as string}
+                </Typography>
+              )}
             </Box>
             <Button
               variant="contained"
