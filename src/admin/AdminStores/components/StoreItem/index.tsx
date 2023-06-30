@@ -71,7 +71,7 @@ const StoreItem = (props: LazyStore) => {
               sx={{
                 marginLeft: "auto",
                 color: "success.main",
-                display: settings.isConfirmed ? "block" : "none",
+                display: settings.isConfirmed?.status ? "block" : "none",
               }}
             />
           </Tooltip>
@@ -85,8 +85,8 @@ const StoreItem = (props: LazyStore) => {
             variant="contained"
             color="success"
             onClick={handleConfirm}
-            disabled={!!settings.isConfirmed}
-            sx={{ display: settings.isConfirmed ? "none" : "block" }}
+            disabled={!!settings.isConfirmed?.status}
+            sx={{ display: settings.isConfirmed?.status ? "none" : "block" }}
           >
             Vahvista
           </Button>

@@ -83,12 +83,19 @@ type Side {
   button: SideButton
 }
 
+type StoreSettingsValidation {
+  status: Boolean
+  message: String
+  from: AWSDateTime
+  to: AWSDateTime
+}
+
 type StoreSettings {
-  isPaid: Boolean
-  isHidden: Boolean
-  isConfirmed: Boolean
-  isPremium: Boolean
-  isPromoted: Boolean
+  isPaid: StoreSettingsValidation
+  isHidden: StoreSettingsValidation
+  isConfirmed: StoreSettingsValidation
+  isPremium: StoreSettingsValidation
+  isPromoted: StoreSettingsValidation
 }
 
 type Ads @model @auth(rules: [

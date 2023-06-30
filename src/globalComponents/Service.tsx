@@ -35,6 +35,10 @@ const services = [
     name: "Verhoilu ja varjostimet",
     to: "/verhoilu-ja-varjostimet",
   },
+  {
+    name: "Arvioinnit",
+    to: "/evaluation",
+  },
 ];
 
 const Services = (props: BoxProps) => {

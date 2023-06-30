@@ -8,6 +8,7 @@ import Signin from "../pages/Siginin";
 import NotFound from "../globalComponents/NotFound";
 import AdminStores from "../admin/AdminStores";
 import Categories from "../admin/Categories";
+import Evaluation from "../pages/Evaluation";
 import { useAppSelector } from "../app/hooks";
 
 interface ProtectedRouteProps {
@@ -104,6 +105,7 @@ export const Navigation = () => {
           </ProtectedRouteAdmin>
         }
       />
+      <Route path="/evaluation" element={<Evaluation />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

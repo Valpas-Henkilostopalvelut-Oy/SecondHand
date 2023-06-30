@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Categories } from "../../models";
+import { Categories, type LazyCategories } from "../../models";
 import { DataStore } from "aws-amplify";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { Auth } from "aws-amplify";
@@ -16,7 +16,7 @@ interface initialStateProps {
   isLoading: boolean;
   isError: boolean;
   error: string | null | undefined;
-  data: CategoriesProps[] | [];
+  data: LazyCategories[] | [];
 }
 
 const initialState: initialStateProps = {
@@ -86,7 +86,7 @@ const categories = createSlice({
       })
       .addCase(
         fetchCategories.fulfilled,
-        (state, action: PayloadAction<CategoriesProps[]>) => {
+        (state, action: PayloadAction<any>) => {
           state.isLoading = false;
           state.isError = false;
           state.error = null;
@@ -103,7 +103,7 @@ const categories = createSlice({
         state.isError = false;
         state.error = null;
       })
-      .addCase(addCategory.fulfilled, (state, action) => {
+      .addCase(addCategory.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = false;
         state.error = null;

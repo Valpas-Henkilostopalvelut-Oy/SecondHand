@@ -125,7 +125,9 @@ export const confirmStoreAsync = createAsyncThunk(
     if (!store) throw new Error("Store not found");
     const updatedStore = await DataStore.save(
       Store.copyOf(store, (updated) => {
-        updated.settings.isConfirmed = true;
+        updated.settings.isConfirmed = {
+          status: true,
+        };
       })
     );
     return getFixedStore(updatedStore);
@@ -146,7 +148,9 @@ export const unconfirmStoreAsync = createAsyncThunk(
     if (!store) throw new Error("Store not found");
     const updatedStore = await DataStore.save(
       Store.copyOf(store, (updated) => {
-        updated.settings.isConfirmed = false;
+        updated.settings.isConfirmed = {
+          status: false,
+        };
       })
     );
 
@@ -202,7 +206,7 @@ export const fetchStores = createAsyncThunk(
     const stores = await DataStore.query(Store);
     const filteredStores = stores
       .map((store) => getFixedStore(store))
-      .filter((store) => store.settings.isConfirmed);
+      .filter((store) => store.settings.isConfirmed?.status);
     return filteredStores;
   }
 );
@@ -217,9 +221,8 @@ export const fetchStoreFilter = createAsyncThunk(
     // Apply search by confirmed
     const searchedStoresByConfirmed = filteredStores.filter(
       (store) =>
-        store.settings.isConfirmed === isConfirmed ||
-        store.settings.isConfirmed === null ||
-        store.settings.isConfirmed === undefined
+        !!store.settings.isConfirmed?.status === isConfirmed ||
+        isConfirmed === null
     );
 
     // Apply search filter based on the category

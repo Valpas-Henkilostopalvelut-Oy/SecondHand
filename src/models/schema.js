@@ -858,41 +858,84 @@ export const schema = {
                 }
             }
         },
+        "StoreSettingsValidation": {
+            "name": "StoreSettingsValidation",
+            "fields": {
+                "status": {
+                    "name": "status",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "message": {
+                    "name": "message",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "from": {
+                    "name": "from",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "to": {
+                    "name": "to",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
         "StoreSettings": {
             "name": "StoreSettings",
             "fields": {
                 "isPaid": {
                     "name": "isPaid",
                     "isArray": false,
-                    "type": "Boolean",
+                    "type": {
+                        "nonModel": "StoreSettingsValidation"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
                 "isHidden": {
                     "name": "isHidden",
                     "isArray": false,
-                    "type": "Boolean",
+                    "type": {
+                        "nonModel": "StoreSettingsValidation"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
                 "isConfirmed": {
                     "name": "isConfirmed",
                     "isArray": false,
-                    "type": "Boolean",
+                    "type": {
+                        "nonModel": "StoreSettingsValidation"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
                 "isPremium": {
                     "name": "isPremium",
                     "isArray": false,
-                    "type": "Boolean",
+                    "type": {
+                        "nonModel": "StoreSettingsValidation"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
                 "isPromoted": {
                     "name": "isPromoted",
                     "isArray": false,
-                    "type": "Boolean",
+                    "type": {
+                        "nonModel": "StoreSettingsValidation"
+                    },
                     "isRequired": false,
                     "attributes": []
                 }
@@ -900,5 +943,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "94add30f1b6521ba7b67d57f410234b7"
+    "version": "82acc0fc2fded345f12fcde2b242e50f"
 };

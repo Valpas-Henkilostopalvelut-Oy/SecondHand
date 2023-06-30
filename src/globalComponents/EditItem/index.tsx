@@ -10,10 +10,7 @@ import {
 } from "@mui/material";
 import Basic from "./components/Basic";
 import type { EditItemProps } from "./types";
-import {
-  unconfirmStoreAsync,
-  updateStoreAsync,
-} from "../../app/reducer/stores";
+import { unconfirmStoreAsync } from "../../app/reducer/stores";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import EditContact from "./components/EditContact";
 import EditCategorie from "./components/EditCategorie";
@@ -22,7 +19,10 @@ import EditSocialMedia from "./components/EditSocialMedia";
 import EditType from "./components/EditType";
 import EditLogo from "./components/EditLogo";
 import EditImages from "./components/EditImages";
+import EditIframe from "./components/EditIframe";
+import EditDriveto from "./components/EditDriveto";
 import { fetchStore } from "../../services/restFunctions";
+import EditSettings from "./components/EditSettings";
 
 const EditItem = (props: EditItemProps) => {
   const { isAdmin } = useAppSelector((state) => state.user);
@@ -59,6 +59,9 @@ const EditItem = (props: EditItemProps) => {
           <EditType {...store} setStore={setStore} isAdmin={isAdmin} />
           <Location {...store} setStore={setStore} isAdmin={isAdmin} />
           <EditSocialMedia {...store} setStore={setStore} />
+          <EditIframe {...store} setStore={setStore} isAdmin={isAdmin} />
+          <EditDriveto {...store} setStore={setStore} isAdmin={isAdmin} />
+          <EditSettings {...store} setStore={setStore} isAdmin={isAdmin} />
         </Grid>
       </DialogContent>
       <DialogActions>

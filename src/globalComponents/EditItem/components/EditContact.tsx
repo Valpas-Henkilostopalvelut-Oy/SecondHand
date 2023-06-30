@@ -17,8 +17,11 @@ const EditContact = (props: EditItemState) => {
       updateStoreAsync({
         id: props.id,
         isAdmin,
-        name,
-        value,
+        name: "contact",
+        value: {
+          ...contact,
+          [name]: value,
+        },
       })
     );
   };

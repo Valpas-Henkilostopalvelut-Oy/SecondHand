@@ -27,13 +27,15 @@ const Location = (props: EditItemState) => {
   const handleUpdate = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    console.log("handleUpdate", name, value);
     dispatch(
       updateStoreAsync({
         id: props.id,
         isAdmin,
-        name,
-        value,
+        name: "location",
+        value: {
+          ...location,
+          [name]: value,
+        },
       })
     );
   };
@@ -64,23 +66,22 @@ const Location = (props: EditItemState) => {
           },
         };
       });
+
+      dispatch(
+        updateStoreAsync({
+          id: props.id,
+          isAdmin,
+          name: "location",
+          value: {
+            ...location,
+            admin_name: newValue,
+          },
+        })
+      );
     }
   };
 
-  const handleChangeCity = (
-    e: any,
-    newValue: {
-      city: string;
-      lat: string;
-      lng: string;
-      country: string;
-      iso2: string;
-      admin_name: string;
-      capital: string;
-      population: string;
-      population_proper: string;
-    } | null
-  ) => {
+  const handleChangeCity = (e: any, newValue: any) => {
     if (newValue) {
       setStore((prev) => {
         if (!prev) return;
@@ -92,6 +93,18 @@ const Location = (props: EditItemState) => {
           },
         };
       });
+
+      dispatch(
+        updateStoreAsync({
+          id: props.id,
+          isAdmin,
+          name: "location",
+          value: {
+            ...location,
+            ...newValue,
+          },
+        })
+      );
     }
   };
 

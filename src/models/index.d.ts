@@ -190,20 +190,38 @@ export declare type Side = LazyLoading extends LazyLoadingDisabled ? EagerSide :
 
 export declare const Side: (new (init: ModelInit<Side>) => Side)
 
+type EagerStoreSettingsValidation = {
+  readonly status?: boolean | null;
+  readonly message?: string | null;
+  readonly from?: string | null;
+  readonly to?: string | null;
+}
+
+type LazyStoreSettingsValidation = {
+  readonly status?: boolean | null;
+  readonly message?: string | null;
+  readonly from?: string | null;
+  readonly to?: string | null;
+}
+
+export declare type StoreSettingsValidation = LazyLoading extends LazyLoadingDisabled ? EagerStoreSettingsValidation : LazyStoreSettingsValidation
+
+export declare const StoreSettingsValidation: (new (init: ModelInit<StoreSettingsValidation>) => StoreSettingsValidation)
+
 type EagerStoreSettings = {
-  readonly isPaid?: boolean | null;
-  readonly isHidden?: boolean | null;
-  readonly isConfirmed?: boolean | null;
-  readonly isPremium?: boolean | null;
-  readonly isPromoted?: boolean | null;
+  readonly isPaid?: StoreSettingsValidation | null;
+  readonly isHidden?: StoreSettingsValidation | null;
+  readonly isConfirmed?: StoreSettingsValidation | null;
+  readonly isPremium?: StoreSettingsValidation | null;
+  readonly isPromoted?: StoreSettingsValidation | null;
 }
 
 type LazyStoreSettings = {
-  readonly isPaid?: boolean | null;
-  readonly isHidden?: boolean | null;
-  readonly isConfirmed?: boolean | null;
-  readonly isPremium?: boolean | null;
-  readonly isPromoted?: boolean | null;
+  readonly isPaid?: StoreSettingsValidation | null;
+  readonly isHidden?: StoreSettingsValidation | null;
+  readonly isConfirmed?: StoreSettingsValidation | null;
+  readonly isPremium?: StoreSettingsValidation | null;
+  readonly isPromoted?: StoreSettingsValidation | null;
 }
 
 export declare type StoreSettings = LazyLoading extends LazyLoadingDisabled ? EagerStoreSettings : LazyStoreSettings

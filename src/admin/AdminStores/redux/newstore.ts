@@ -95,7 +95,11 @@ export const createNewStoreAsync = createAsyncThunk(
     } = newStore;
     const store = new Store({
       usernameID: username,
-      settings: { isConfirmed: isAdmin },
+      settings: {
+        isConfirmed: {
+          status: isAdmin,
+        },
+      },
       name,
       description,
       categories,
