@@ -55,9 +55,6 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
                                     "read"
                                 ]
                             },
@@ -69,10 +66,10 @@ export const schema = {
                                     "admin"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -167,9 +164,6 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
                                     "read"
                                 ]
                             },
@@ -181,10 +175,10 @@ export const schema = {
                                     "admin"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -202,10 +196,10 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "usernameID": {
-                    "name": "usernameID",
+                "username": {
+                    "name": "username",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -260,17 +254,8 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
                                 "provider": "userPools",
-                                "ownerField": "usernameID",
+                                "ownerField": "username",
                                 "allow": "owner",
                                 "identityClaim": "cognito:username",
                                 "operations": [
@@ -288,10 +273,10 @@ export const schema = {
                                     "admin"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -309,10 +294,10 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "usernameID": {
-                    "name": "usernameID",
+                "username": {
+                    "name": "username",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -465,15 +450,12 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
                                     "read"
                                 ]
                             },
                             {
                                 "provider": "userPools",
-                                "ownerField": "usernameID",
+                                "ownerField": "username",
                                 "allow": "owner",
                                 "identityClaim": "cognito:username",
                                 "operations": [
@@ -491,10 +473,142 @@ export const schema = {
                                     "admin"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Evaluation": {
+            "name": "Evaluation",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "username": {
+                    "name": "username",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "AWSEmail",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "phone": {
+                    "name": "phone",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "description": {
+                    "name": "description",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "category": {
+                    "name": "category",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "images": {
+                    "name": "images",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": false
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Evaluations",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create"
+                                ]
+                            },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "username",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -943,5 +1057,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.3",
-    "version": "82acc0fc2fded345f12fcde2b242e50f"
+    "version": "edc21be22998cabd691ef53340b0d6e2"
 };

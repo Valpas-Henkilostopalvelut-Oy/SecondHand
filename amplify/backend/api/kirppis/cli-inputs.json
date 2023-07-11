@@ -4,15 +4,15 @@
     "apiName": "kirppis",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 30,
-      "apiKeyExpirationDate": "2023-07-05T15:06:01.211Z",
-      "keyDescription": "testkey"
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authkirppis516e92a5"
     },
     "additionalAuthTypes": [
       {
-        "mode": "AMAZON_COGNITO_USER_POOLS",
-        "cognitoUserPoolId": "authkirppis516e92a5"
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2024-06-29T13:09:29.925Z",
+        "keyDescription": "Public data"
       },
       {
         "mode": "AWS_IAM"
