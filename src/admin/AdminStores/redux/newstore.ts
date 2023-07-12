@@ -81,7 +81,7 @@ export const createNewStoreAsync = createAsyncThunk(
     const onUploadImages = await Promise.all(
       files.map((file) => onUploadImage(file))
     );
-    const onUploadLogo = await onUploadImage(logo as ImageTypes);
+    //const onUploadLogo = await onUploadImage(logo as ImageTypes);
 
     const {
       name,
@@ -109,7 +109,7 @@ export const createNewStoreAsync = createAsyncThunk(
       imgs: onUploadImages,
       social,
       type,
-      logo: onUploadLogo.key,
+      logo: null, //onUploadLogo.key,
     });
 
     const storeToAdd = {
@@ -122,7 +122,7 @@ export const createNewStoreAsync = createAsyncThunk(
       contact: store.contact,
       location: store.location,
       imgs: store.imgs,
-      isConfirmed: store.settings.isConfirmed,
+      settings: store.settings,
       social: store.social,
       type: store.type,
     };
