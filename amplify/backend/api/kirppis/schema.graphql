@@ -19,10 +19,11 @@ type Location {
   iframe: String
 }
 
-type Categories @model
+type Categories
+  @model
   @auth(
     rules: [
-      { allow: public, operations: [read] },
+      { allow: public, operations: [read] }
       { allow: groups, groups: ["admin"] }
     ]
   ) {
@@ -98,10 +99,14 @@ type StoreSettings {
   isPromoted: StoreSettingsValidation
 }
 
-type Ads @model @auth(rules: [
-  { allow: public, operations: [read] },
-  { allow: groups, groups: ["admin"] }
-]) {
+type Ads
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: groups, groups: ["admin"] }
+    ]
+  ) {
   id: ID!
   firm: String!
   site: String
@@ -115,7 +120,7 @@ type User
   @model
   @auth(
     rules: [
-      { allow: owner, ownerField: "username" },
+      { allow: public, operations: [read, create] }
       { allow: groups, groups: ["admin"] }
     ]
   ) {
@@ -130,8 +135,7 @@ type Store
   @model
   @auth(
     rules: [
-      { allow: public, operations: [read] },
-      { allow: owner, ownerField: "username" },
+      { allow: public, operations: [read, create, update] }
       { allow: groups, groups: ["admin"] }
     ]
   ) {
@@ -153,11 +157,14 @@ type Store
   logo: String
 }
 
-type Evaluation @model @auth(rules: [
-  { allow: public, operations: [create] },
-  { allow: owner, ownerField: "username" },
-  { allow: groups, groups: ["admin"] }
-]) {
+type Evaluation
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [create] }
+      { allow: groups, groups: ["admin"] }
+    ]
+  ) {
   id: ID!
   username: ID
   name: String!
@@ -167,5 +174,4 @@ type Evaluation @model @auth(rules: [
   category: String!
   type: String!
   images: [String]!
-  isConfirmed: Boolean
 }

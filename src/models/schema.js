@@ -254,15 +254,10 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "provider": "userPools",
-                                "ownerField": "username",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
+                                "allow": "public",
                                 "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
+                                    "read",
+                                    "create"
                                 ]
                             },
                             {
@@ -450,19 +445,9 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "read"
-                                ]
-                            },
-                            {
-                                "provider": "userPools",
-                                "ownerField": "username",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
+                                    "read",
                                     "create",
-                                    "update",
-                                    "delete",
-                                    "read"
+                                    "update"
                                 ]
                             },
                             {
@@ -583,18 +568,6 @@ export const schema = {
                                 "allow": "public",
                                 "operations": [
                                     "create"
-                                ]
-                            },
-                            {
-                                "provider": "userPools",
-                                "ownerField": "username",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
                                 ]
                             },
                             {
