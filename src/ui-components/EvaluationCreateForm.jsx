@@ -19,7 +19,7 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { User } from "../models";
+import { Evaluation } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 function ArrayField({
@@ -180,7 +180,7 @@ function ArrayField({
     </React.Fragment>
   );
 }
-export default function UserCreateForm(props) {
+export default function EvaluationCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -193,30 +193,48 @@ export default function UserCreateForm(props) {
   } = props;
   const initialValues = {
     username: "",
+    name: "",
     email: "",
-    stores: [],
-    role: "",
+    phone: "",
+    description: "",
+    category: "",
+    type: "",
+    images: [],
   };
   const [username, setUsername] = React.useState(initialValues.username);
+  const [name, setName] = React.useState(initialValues.name);
   const [email, setEmail] = React.useState(initialValues.email);
-  const [stores, setStores] = React.useState(initialValues.stores);
-  const [role, setRole] = React.useState(initialValues.role);
+  const [phone, setPhone] = React.useState(initialValues.phone);
+  const [description, setDescription] = React.useState(
+    initialValues.description
+  );
+  const [category, setCategory] = React.useState(initialValues.category);
+  const [type, setType] = React.useState(initialValues.type);
+  const [images, setImages] = React.useState(initialValues.images);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUsername(initialValues.username);
+    setName(initialValues.name);
     setEmail(initialValues.email);
-    setStores(initialValues.stores);
-    setCurrentStoresValue("");
-    setRole(initialValues.role);
+    setPhone(initialValues.phone);
+    setDescription(initialValues.description);
+    setCategory(initialValues.category);
+    setType(initialValues.type);
+    setImages(initialValues.images);
+    setCurrentImagesValue("");
     setErrors({});
   };
-  const [currentStoresValue, setCurrentStoresValue] = React.useState("");
-  const storesRef = React.createRef();
+  const [currentImagesValue, setCurrentImagesValue] = React.useState("");
+  const imagesRef = React.createRef();
   const validations = {
-    username: [{ type: "Required" }],
-    email: [{ type: "Email" }],
-    stores: [],
-    role: [],
+    username: [],
+    name: [{ type: "Required" }],
+    email: [{ type: "Required" }, { type: "Email" }],
+    phone: [{ type: "Required" }],
+    description: [{ type: "Required" }],
+    category: [{ type: "Required" }],
+    type: [{ type: "Required" }],
+    images: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -245,9 +263,13 @@ export default function UserCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           username,
+          name,
           email,
-          stores,
-          role,
+          phone,
+          description,
+          category,
+          type,
+          images,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -277,7 +299,7 @@ export default function UserCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new User(modelFields));
+          await DataStore.save(new Evaluation(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -290,12 +312,12 @@ export default function UserCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "UserCreateForm")}
+      {...getOverrideProps(overrides, "EvaluationCreateForm")}
       {...rest}
     >
       <TextField
         label="Username"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={username}
         onChange={(e) => {
@@ -303,9 +325,13 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               username: value,
+              name,
               email,
-              stores,
-              role,
+              phone,
+              description,
+              category,
+              type,
+              images,
             };
             const result = onChange(modelFields);
             value = result?.username ?? value;
@@ -321,8 +347,39 @@ export default function UserCreateForm(props) {
         {...getOverrideProps(overrides, "username")}
       ></TextField>
       <TextField
+        label="Name"
+        isRequired={true}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username,
+              name: value,
+              email,
+              phone,
+              description,
+              category,
+              type,
+              images,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
         label="Email"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={email}
         onChange={(e) => {
@@ -330,9 +387,13 @@ export default function UserCreateForm(props) {
           if (onChange) {
             const modelFields = {
               username,
+              name,
               email: value,
-              stores,
-              role,
+              phone,
+              description,
+              category,
+              type,
+              images,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -347,78 +408,179 @@ export default function UserCreateForm(props) {
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
       ></TextField>
+      <TextField
+        label="Phone"
+        isRequired={true}
+        isReadOnly={false}
+        value={phone}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username,
+              name,
+              email,
+              phone: value,
+              description,
+              category,
+              type,
+              images,
+            };
+            const result = onChange(modelFields);
+            value = result?.phone ?? value;
+          }
+          if (errors.phone?.hasError) {
+            runValidationTasks("phone", value);
+          }
+          setPhone(value);
+        }}
+        onBlur={() => runValidationTasks("phone", phone)}
+        errorMessage={errors.phone?.errorMessage}
+        hasError={errors.phone?.hasError}
+        {...getOverrideProps(overrides, "phone")}
+      ></TextField>
+      <TextField
+        label="Description"
+        isRequired={true}
+        isReadOnly={false}
+        value={description}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username,
+              name,
+              email,
+              phone,
+              description: value,
+              category,
+              type,
+              images,
+            };
+            const result = onChange(modelFields);
+            value = result?.description ?? value;
+          }
+          if (errors.description?.hasError) {
+            runValidationTasks("description", value);
+          }
+          setDescription(value);
+        }}
+        onBlur={() => runValidationTasks("description", description)}
+        errorMessage={errors.description?.errorMessage}
+        hasError={errors.description?.hasError}
+        {...getOverrideProps(overrides, "description")}
+      ></TextField>
+      <TextField
+        label="Category"
+        isRequired={true}
+        isReadOnly={false}
+        value={category}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username,
+              name,
+              email,
+              phone,
+              description,
+              category: value,
+              type,
+              images,
+            };
+            const result = onChange(modelFields);
+            value = result?.category ?? value;
+          }
+          if (errors.category?.hasError) {
+            runValidationTasks("category", value);
+          }
+          setCategory(value);
+        }}
+        onBlur={() => runValidationTasks("category", category)}
+        errorMessage={errors.category?.errorMessage}
+        hasError={errors.category?.hasError}
+        {...getOverrideProps(overrides, "category")}
+      ></TextField>
+      <TextField
+        label="Type"
+        isRequired={true}
+        isReadOnly={false}
+        value={type}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username,
+              name,
+              email,
+              phone,
+              description,
+              category,
+              type: value,
+              images,
+            };
+            const result = onChange(modelFields);
+            value = result?.type ?? value;
+          }
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
+          }
+          setType(value);
+        }}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
+      ></TextField>
       <ArrayField
         onChange={async (items) => {
           let values = items;
           if (onChange) {
             const modelFields = {
               username,
+              name,
               email,
-              stores: values,
-              role,
+              phone,
+              description,
+              category,
+              type,
+              images: values,
             };
             const result = onChange(modelFields);
-            values = result?.stores ?? values;
+            values = result?.images ?? values;
           }
-          setStores(values);
-          setCurrentStoresValue("");
+          setImages(values);
+          setCurrentImagesValue("");
         }}
-        currentFieldValue={currentStoresValue}
-        label={"Stores"}
-        items={stores}
-        hasError={errors?.stores?.hasError}
-        errorMessage={errors?.stores?.errorMessage}
-        setFieldValue={setCurrentStoresValue}
-        inputFieldRef={storesRef}
+        currentFieldValue={currentImagesValue}
+        label={"Images"}
+        items={images}
+        hasError={errors?.images?.hasError}
+        errorMessage={errors?.images?.errorMessage}
+        setFieldValue={setCurrentImagesValue}
+        inputFieldRef={imagesRef}
         defaultFieldValue={""}
       >
         <TextField
-          label="Stores"
+          label="Images"
           isRequired={false}
           isReadOnly={false}
-          value={currentStoresValue}
+          value={currentImagesValue}
           onChange={(e) => {
             let { value } = e.target;
-            if (errors.stores?.hasError) {
-              runValidationTasks("stores", value);
+            if (errors.images?.hasError) {
+              runValidationTasks("images", value);
             }
-            setCurrentStoresValue(value);
+            setCurrentImagesValue(value);
           }}
-          onBlur={() => runValidationTasks("stores", currentStoresValue)}
-          errorMessage={errors.stores?.errorMessage}
-          hasError={errors.stores?.hasError}
-          ref={storesRef}
+          onBlur={() => runValidationTasks("images", currentImagesValue)}
+          errorMessage={errors.images?.errorMessage}
+          hasError={errors.images?.hasError}
+          ref={imagesRef}
           labelHidden={true}
-          {...getOverrideProps(overrides, "stores")}
+          {...getOverrideProps(overrides, "images")}
         ></TextField>
       </ArrayField>
-      <TextField
-        label="Role"
-        isRequired={false}
-        isReadOnly={false}
-        value={role}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              username,
-              email,
-              stores,
-              role: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.role ?? value;
-          }
-          if (errors.role?.hasError) {
-            runValidationTasks("role", value);
-          }
-          setRole(value);
-        }}
-        onBlur={() => runValidationTasks("role", role)}
-        errorMessage={errors.role?.errorMessage}
-        hasError={errors.role?.hasError}
-        {...getOverrideProps(overrides, "role")}
-      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

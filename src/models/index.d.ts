@@ -302,7 +302,7 @@ type EagerUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly usernameID: string;
+  readonly username: string;
   readonly email?: string | null;
   readonly stores?: (string | null)[] | null;
   readonly role?: string | null;
@@ -316,7 +316,7 @@ type LazyUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly usernameID: string;
+  readonly username: string;
   readonly email?: string | null;
   readonly stores?: (string | null)[] | null;
   readonly role?: string | null;
@@ -336,7 +336,7 @@ type EagerStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly usernameID: string;
+  readonly username: string;
   readonly type?: string | null;
   readonly name?: string | null;
   readonly description?: string | null;
@@ -361,7 +361,7 @@ type LazyStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly usernameID: string;
+  readonly username: string;
   readonly type?: string | null;
   readonly name?: string | null;
   readonly description?: string | null;
@@ -384,4 +384,46 @@ export declare type Store = LazyLoading extends LazyLoadingDisabled ? EagerStore
 
 export declare const Store: (new (init: ModelInit<Store>) => Store) & {
   copyOf(source: Store, mutator: (draft: MutableModel<Store>) => MutableModel<Store> | void): Store;
+}
+
+type EagerEvaluation = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Evaluation, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly username?: string | null;
+  readonly name: string;
+  readonly email: string;
+  readonly phone: string;
+  readonly description: string;
+  readonly category: string;
+  readonly type: string;
+  readonly images: (string | null)[];
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyEvaluation = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Evaluation, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly username?: string | null;
+  readonly name: string;
+  readonly email: string;
+  readonly phone: string;
+  readonly description: string;
+  readonly category: string;
+  readonly type: string;
+  readonly images: (string | null)[];
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Evaluation = LazyLoading extends LazyLoadingDisabled ? EagerEvaluation : LazyEvaluation
+
+export declare const Evaluation: (new (init: ModelInit<Evaluation>) => Evaluation) & {
+  copyOf(source: Evaluation, mutator: (draft: MutableModel<Evaluation>) => MutableModel<Evaluation> | void): Evaluation;
 }
