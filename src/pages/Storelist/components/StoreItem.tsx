@@ -81,6 +81,8 @@ const StoreItem = (props: LazyStore) => {
   const handleClick = () => setOpen(!open);
   const theme = useTheme();
 
+  //accordion open up
+
   return (
     <Box
       sx={{
@@ -91,6 +93,7 @@ const StoreItem = (props: LazyStore) => {
     >
       <Accordion
         expanded={open}
+        elevation={0}
         onChange={handleClick}
         TransitionProps={{ unmountOnExit: true }}
       >

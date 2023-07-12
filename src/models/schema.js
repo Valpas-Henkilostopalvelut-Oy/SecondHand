@@ -479,13 +479,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "username": {
-                    "name": "username",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -535,6 +528,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": false
+                },
+                "isConfirmed": {
+                    "name": "isConfirmed",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -1029,6 +1029,6 @@ export const schema = {
             }
         }
     },
-    "codegenVersion": "3.4.3",
-    "version": "edc21be22998cabd691ef53340b0d6e2"
+    "codegenVersion": "3.4.4",
+    "version": "f1eafc2fbc62cc98868881db041ff484"
 };

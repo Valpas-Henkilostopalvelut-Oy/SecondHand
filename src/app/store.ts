@@ -6,6 +6,7 @@ import stores from "./reducer/stores";
 import categories from "./reducer/categories";
 import user from "./reducer/user";
 import ads from "./reducer/ads";
+import evaluation from "./reducer/evaluation";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     categories,
     user,
     ads,
+    evaluation,
   },
 });
 

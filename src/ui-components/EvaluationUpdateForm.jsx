@@ -14,6 +14,7 @@ import {
   Grid,
   Icon,
   ScrollView,
+  SwitchField,
   Text,
   TextField,
   useTheme,
@@ -193,7 +194,6 @@ export default function EvaluationUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    username: "",
     name: "",
     email: "",
     phone: "",
@@ -201,8 +201,8 @@ export default function EvaluationUpdateForm(props) {
     category: "",
     type: "",
     images: [],
+    isConfirmed: false,
   };
-  const [username, setUsername] = React.useState(initialValues.username);
   const [name, setName] = React.useState(initialValues.name);
   const [email, setEmail] = React.useState(initialValues.email);
   const [phone, setPhone] = React.useState(initialValues.phone);
@@ -212,12 +212,14 @@ export default function EvaluationUpdateForm(props) {
   const [category, setCategory] = React.useState(initialValues.category);
   const [type, setType] = React.useState(initialValues.type);
   const [images, setImages] = React.useState(initialValues.images);
+  const [isConfirmed, setIsConfirmed] = React.useState(
+    initialValues.isConfirmed
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = evaluationRecord
       ? { ...initialValues, ...evaluationRecord }
       : initialValues;
-    setUsername(cleanValues.username);
     setName(cleanValues.name);
     setEmail(cleanValues.email);
     setPhone(cleanValues.phone);
@@ -226,6 +228,7 @@ export default function EvaluationUpdateForm(props) {
     setType(cleanValues.type);
     setImages(cleanValues.images ?? []);
     setCurrentImagesValue("");
+    setIsConfirmed(cleanValues.isConfirmed);
     setErrors({});
   };
   const [evaluationRecord, setEvaluationRecord] =
@@ -243,7 +246,6 @@ export default function EvaluationUpdateForm(props) {
   const [currentImagesValue, setCurrentImagesValue] = React.useState("");
   const imagesRef = React.createRef();
   const validations = {
-    username: [],
     name: [{ type: "Required" }],
     email: [{ type: "Required" }, { type: "Email" }],
     phone: [{ type: "Required" }],
@@ -251,6 +253,7 @@ export default function EvaluationUpdateForm(props) {
     category: [{ type: "Required" }],
     type: [{ type: "Required" }],
     images: [],
+    isConfirmed: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -278,7 +281,6 @@ export default function EvaluationUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          username,
           name,
           email,
           phone,
@@ -286,6 +288,7 @@ export default function EvaluationUpdateForm(props) {
           category,
           type,
           images,
+          isConfirmed,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -333,37 +336,6 @@ export default function EvaluationUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Username"
-        isRequired={false}
-        isReadOnly={false}
-        value={username}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              username: value,
-              name,
-              email,
-              phone,
-              description,
-              category,
-              type,
-              images,
-            };
-            const result = onChange(modelFields);
-            value = result?.username ?? value;
-          }
-          if (errors.username?.hasError) {
-            runValidationTasks("username", value);
-          }
-          setUsername(value);
-        }}
-        onBlur={() => runValidationTasks("username", username)}
-        errorMessage={errors.username?.errorMessage}
-        hasError={errors.username?.hasError}
-        {...getOverrideProps(overrides, "username")}
-      ></TextField>
-      <TextField
         label="Name"
         isRequired={true}
         isReadOnly={false}
@@ -372,7 +344,6 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
               name: value,
               email,
               phone,
@@ -380,6 +351,7 @@ export default function EvaluationUpdateForm(props) {
               category,
               type,
               images,
+              isConfirmed,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -403,7 +375,6 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
               name,
               email: value,
               phone,
@@ -411,6 +382,7 @@ export default function EvaluationUpdateForm(props) {
               category,
               type,
               images,
+              isConfirmed,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -434,7 +406,6 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
               name,
               email,
               phone: value,
@@ -442,6 +413,7 @@ export default function EvaluationUpdateForm(props) {
               category,
               type,
               images,
+              isConfirmed,
             };
             const result = onChange(modelFields);
             value = result?.phone ?? value;
@@ -465,7 +437,6 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
               name,
               email,
               phone,
@@ -473,6 +444,7 @@ export default function EvaluationUpdateForm(props) {
               category,
               type,
               images,
+              isConfirmed,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -496,7 +468,6 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
               name,
               email,
               phone,
@@ -504,6 +475,7 @@ export default function EvaluationUpdateForm(props) {
               category: value,
               type,
               images,
+              isConfirmed,
             };
             const result = onChange(modelFields);
             value = result?.category ?? value;
@@ -527,7 +499,6 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
               name,
               email,
               phone,
@@ -535,6 +506,7 @@ export default function EvaluationUpdateForm(props) {
               category,
               type: value,
               images,
+              isConfirmed,
             };
             const result = onChange(modelFields);
             value = result?.type ?? value;
@@ -554,7 +526,6 @@ export default function EvaluationUpdateForm(props) {
           let values = items;
           if (onChange) {
             const modelFields = {
-              username,
               name,
               email,
               phone,
@@ -562,6 +533,7 @@ export default function EvaluationUpdateForm(props) {
               category,
               type,
               images: values,
+              isConfirmed,
             };
             const result = onChange(modelFields);
             values = result?.images ?? values;
@@ -598,6 +570,37 @@ export default function EvaluationUpdateForm(props) {
           {...getOverrideProps(overrides, "images")}
         ></TextField>
       </ArrayField>
+      <SwitchField
+        label="Is confirmed"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isConfirmed}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              name,
+              email,
+              phone,
+              description,
+              category,
+              type,
+              images,
+              isConfirmed: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.isConfirmed ?? value;
+          }
+          if (errors.isConfirmed?.hasError) {
+            runValidationTasks("isConfirmed", value);
+          }
+          setIsConfirmed(value);
+        }}
+        onBlur={() => runValidationTasks("isConfirmed", isConfirmed)}
+        errorMessage={errors.isConfirmed?.errorMessage}
+        hasError={errors.isConfirmed?.hasError}
+        {...getOverrideProps(overrides, "isConfirmed")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

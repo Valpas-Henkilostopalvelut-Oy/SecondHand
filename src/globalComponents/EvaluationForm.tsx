@@ -13,16 +13,6 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import ImageComponent from "./ImageComponent";
 import { Storage } from "aws-amplify";
 
-interface EvaluationFormProps {
-  name: string;
-  email: string;
-  phone: string;
-  categoria: string;
-  type: string;
-  description: string;
-  images: File[];
-}
-
 const validationSchema = yup.object({
   name: yup.string().required("Nimi on pakollinen"),
   email: yup
@@ -46,7 +36,7 @@ const validationSchema = yup.object({
 
 const EvaluationForm = ({ box }: { box?: BoxProps }) => {
   const { isAdmin } = useAppSelector((state) => state.user);
-  
+
   const dispatch = useAppDispatch();
 
   return (

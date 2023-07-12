@@ -166,7 +166,6 @@ type Evaluation
     ]
   ) {
   id: ID!
-  username: ID
   name: String!
   email: AWSEmail!
   phone: String!
@@ -174,4 +173,5 @@ type Evaluation
   category: String!
   type: String!
   images: [String]!
+  isConfirmed: Boolean
 }

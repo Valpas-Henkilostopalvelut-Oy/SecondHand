@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 export declare type ValidationResponse = {
     hasError: boolean;
@@ -13,7 +13,6 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type EvaluationCreateFormInputValues = {
-    username?: string;
     name?: string;
     email?: string;
     phone?: string;
@@ -21,9 +20,9 @@ export declare type EvaluationCreateFormInputValues = {
     category?: string;
     type?: string;
     images?: string[];
+    isConfirmed?: boolean;
 };
 export declare type EvaluationCreateFormValidationValues = {
-    username?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phone?: ValidationFunction<string>;
@@ -31,11 +30,11 @@ export declare type EvaluationCreateFormValidationValues = {
     category?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
     images?: ValidationFunction<string>;
+    isConfirmed?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EvaluationCreateFormOverridesProps = {
     EvaluationCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    username?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phone?: PrimitiveOverrideProps<TextFieldProps>;
@@ -43,6 +42,7 @@ export declare type EvaluationCreateFormOverridesProps = {
     category?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<TextFieldProps>;
     images?: PrimitiveOverrideProps<TextFieldProps>;
+    isConfirmed?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type EvaluationCreateFormProps = React.PropsWithChildren<{
     overrides?: EvaluationCreateFormOverridesProps | undefined | null;
