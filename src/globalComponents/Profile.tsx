@@ -20,6 +20,10 @@ const links = [
     title: "Mainokset",
     path: "/ads",
   },
+  {
+    title: "Arviot",
+    path: "/evaluationadmin",
+  },
 ];
 
 const Profile = (props: BoxProps) => {

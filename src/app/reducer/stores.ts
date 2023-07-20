@@ -204,10 +204,18 @@ export const fetchStores = createAsyncThunk(
   "adminStores/fetchStores",
   async () => {
     const stores = await DataStore.query(Store);
-    const filteredStores = stores
-      .map((store) => getFixedStore(store))
-      .filter((store) => store.settings.isConfirmed?.status);
-    return filteredStores;
+    const fixedStores = stores.map((store) => getFixedStore(store));
+    const filteredStores = fixedStores.filter(
+      (store) => store.settings.isConfirmed?.status
+    );
+    const sortedStores = filteredStores.sort((a, b) => {
+      if (a.name && b.name) {
+        return a.name.localeCompare(b.name);
+      }
+      return 0;
+    });
+
+    return sortedStores;
   }
 );
 
@@ -217,9 +225,15 @@ export const fetchStoreFilter = createAsyncThunk(
     const { type, title, area, city, category, isConfirmed } = filter;
     const stores = await DataStore.query(Store);
     const filteredStores = stores.map((store) => getFixedStore(store));
+    const sortedStores = filteredStores.sort((a, b) => {
+      if (a.name && b.name) {
+        return a.name.localeCompare(b.name);
+      }
+      return 0;
+    });
 
     // Apply search by confirmed
-    const searchedStoresByConfirmed = filteredStores.filter(
+    const searchedStoresByConfirmed = sortedStores.filter(
       (store) =>
         !!store.settings.isConfirmed?.status === isConfirmed ||
         isConfirmed === null

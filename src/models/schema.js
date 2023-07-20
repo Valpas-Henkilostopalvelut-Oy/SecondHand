@@ -479,11 +479,11 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "username": {
-                    "name": "username",
+                "evaluationNum": {
+                    "name": "evaluationNum",
                     "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
+                    "type": "Int",
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
@@ -535,6 +535,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": false
+                },
+                "isConfirmed": {
+                    "name": "isConfirmed",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -1029,6 +1036,6 @@ export const schema = {
             }
         }
     },
-    "codegenVersion": "3.4.3",
-    "version": "edc21be22998cabd691ef53340b0d6e2"
+    "codegenVersion": "3.4.4",
+    "version": "8da208b67204e5b4d9c08c3afa52d086"
 };

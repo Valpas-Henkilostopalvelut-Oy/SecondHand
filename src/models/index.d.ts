@@ -392,7 +392,7 @@ type EagerEvaluation = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly username?: string | null;
+  readonly evaluationNum: number;
   readonly name: string;
   readonly email: string;
   readonly phone: string;
@@ -400,6 +400,7 @@ type EagerEvaluation = {
   readonly category: string;
   readonly type: string;
   readonly images: (string | null)[];
+  readonly isConfirmed?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -410,7 +411,7 @@ type LazyEvaluation = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly username?: string | null;
+  readonly evaluationNum: number;
   readonly name: string;
   readonly email: string;
   readonly phone: string;
@@ -418,6 +419,7 @@ type LazyEvaluation = {
   readonly category: string;
   readonly type: string;
   readonly images: (string | null)[];
+  readonly isConfirmed?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { Evaluation } from "../models";
 export declare type ValidationResponse = {
@@ -14,7 +14,7 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type EvaluationUpdateFormInputValues = {
-    username?: string;
+    evaluationNum?: number;
     name?: string;
     email?: string;
     phone?: string;
@@ -22,9 +22,10 @@ export declare type EvaluationUpdateFormInputValues = {
     category?: string;
     type?: string;
     images?: string[];
+    isConfirmed?: boolean;
 };
 export declare type EvaluationUpdateFormValidationValues = {
-    username?: ValidationFunction<string>;
+    evaluationNum?: ValidationFunction<number>;
     name?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phone?: ValidationFunction<string>;
@@ -32,11 +33,12 @@ export declare type EvaluationUpdateFormValidationValues = {
     category?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
     images?: ValidationFunction<string>;
+    isConfirmed?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EvaluationUpdateFormOverridesProps = {
     EvaluationUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    username?: PrimitiveOverrideProps<TextFieldProps>;
+    evaluationNum?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phone?: PrimitiveOverrideProps<TextFieldProps>;
@@ -44,6 +46,7 @@ export declare type EvaluationUpdateFormOverridesProps = {
     category?: PrimitiveOverrideProps<TextFieldProps>;
     type?: PrimitiveOverrideProps<TextFieldProps>;
     images?: PrimitiveOverrideProps<TextFieldProps>;
+    isConfirmed?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type EvaluationUpdateFormProps = React.PropsWithChildren<{
     overrides?: EvaluationUpdateFormOverridesProps | undefined | null;
