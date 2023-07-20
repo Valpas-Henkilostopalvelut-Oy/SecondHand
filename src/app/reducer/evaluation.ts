@@ -65,6 +65,7 @@ export const addEvaluation = createAsyncThunk(
     const imgs = await uploadImage(images);
     //generete evaluation number 8 numbers
     const evaluationNum = Math.floor(10000000 + Math.random() * 90000000);
+    console.log(evaluationNum);
     const newEvaluation = await DataStore.save(
       new Evaluation({
         evaluationNum,
