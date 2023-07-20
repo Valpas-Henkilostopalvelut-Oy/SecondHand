@@ -162,10 +162,11 @@ type Evaluation
   @auth(
     rules: [
       { allow: public, operations: [create] }
-      { allow: groups, groups: ["admin"] }
+      { allow: groups, groups: ["admin"], provider: userPools }
     ]
   ) {
   id: ID!
+  evaluationNum: Int!
   name: String!
   email: AWSEmail!
   phone: String!

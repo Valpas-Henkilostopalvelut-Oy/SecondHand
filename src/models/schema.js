@@ -479,6 +479,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "evaluationNum": {
+                    "name": "evaluationNum",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -1030,5 +1037,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "f1eafc2fbc62cc98868881db041ff484"
+    "version": "8da208b67204e5b4d9c08c3afa52d086"
 };

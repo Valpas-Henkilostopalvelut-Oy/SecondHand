@@ -48,6 +48,7 @@ const Services = (props: BoxProps) => {
     setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
   const location = useLocation();
+  const sorterdServices = services.sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <Box {...props}>
@@ -77,7 +78,7 @@ const Services = (props: BoxProps) => {
           horizontal: "center",
         }}
       >
-        {services.map((service: Service) => (
+        {sorterdServices.map((service: Service) => (
           <MenuItem
             key={service.name}
             onClick={handleClose}

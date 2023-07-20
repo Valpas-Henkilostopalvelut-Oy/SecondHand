@@ -217,10 +217,12 @@ const StoreItem = (props: LazyStore) => {
                   <b>Sijainti</b>
                 </Typography>
                 <Typography>
-                  {location?.address ? location?.address + ", " : ""}
+                  {location?.address ? location?.address : ""}
+                </Typography>
+                <Typography>
+                  {location?.zip}{location?.zip ? ", " : ""}
                   {location?.city}
                 </Typography>
-                <Typography>{location?.zip}</Typography>
                 <Typography>{location?.admin_name}</Typography>
                 <Link href={location?.driveto || "#"} underline="hover">
                   ajo-ohjeet

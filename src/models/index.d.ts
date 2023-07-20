@@ -392,6 +392,7 @@ type EagerEvaluation = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly evaluationNum: number;
   readonly name: string;
   readonly email: string;
   readonly phone: string;
@@ -410,6 +411,7 @@ type LazyEvaluation = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly evaluationNum: number;
   readonly name: string;
   readonly email: string;
   readonly phone: string;

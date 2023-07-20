@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   type BoxProps,
@@ -6,12 +6,29 @@ import {
   Button,
   Grid,
   Typography,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { addEvaluation } from "../app/reducer/evaluation";
 import ImageComponent from "./ImageComponent";
 import { Storage } from "aws-amplify";
+
+const SuccessAlert = ({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) => (
+  <Snackbar open={open} autoHideDuration={6000} onClose={onClose}>
+    <Alert onClose={onClose} severity="success" sx={{ width: "100%" }}>
+      Arviointi lähetetty onnistuneesti
+    </Alert>
+  </Snackbar>
+);
 
 const validationSchema = yup.object({
   name: yup.string().required("Nimi on pakollinen"),
@@ -35,9 +52,9 @@ const validationSchema = yup.object({
 });
 
 const EvaluationForm = ({ box }: { box?: BoxProps }) => {
-  const { isAdmin } = useAppSelector((state) => state.user);
-
   const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
 
   return (
     <Box {...box}>
@@ -52,19 +69,14 @@ const EvaluationForm = ({ box }: { box?: BoxProps }) => {
           images: [] as File[],
         }}
         validationSchema={validationSchema}
-        onSubmit={async (values, { setSubmitting }) => {
-          //upload images to Storage in folder "evaluation"
-          const images = await Promise.all(
-            values.images.map(async (image) => {
-              const fileKey = `evaluation/${Date.now()}-${image.name}`;
-              await Storage.put(fileKey, image, {
-                contentType: image.type,
-              });
-              return fileKey;
-            })
-          );
-
-          console.log(images);
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          dispatch(addEvaluation(values)).then((action) => {
+            if (addEvaluation.fulfilled.match(action)) {
+              setOpen(true);
+              setSubmitting(false);
+              resetForm();
+            }
+          });
         }}
       >
         {({
@@ -227,6 +239,7 @@ const EvaluationForm = ({ box }: { box?: BoxProps }) => {
           </Box>
         )}
       </Formik>
+      <SuccessAlert open={open} onClose={handleClose} />
     </Box>
   );
 };

@@ -9,6 +9,7 @@ import NotFound from "../globalComponents/NotFound";
 import AdminStores from "../admin/AdminStores";
 import Categories from "../admin/Categories";
 import Evaluation from "../pages/Evaluation";
+import EvaluationAdmin from "../admin/Evaluation";
 import { useAppSelector } from "../app/hooks";
 
 interface ProtectedRouteProps {
@@ -61,6 +62,7 @@ export const Navigation = () => {
       <Route path="/" element={<Home />} />
       <Route path="/stores" element={<StorelistWithLoading />} />
       <Route path="/stores/:category" element={<StorelistWithLoading />} />
+      <Route path="/evaluation" element={<Evaluation />} />
       <Route
         path="/ads"
         element={
@@ -105,7 +107,18 @@ export const Navigation = () => {
           </ProtectedRouteAdmin>
         }
       />
-      <Route path="/evaluation" element={<Evaluation />} />
+      <Route
+        path="/evaluationadmin"
+        element={
+          <ProtectedRouteAdmin
+            isAuth={isAuth}
+            isAdmin={isAdmin}
+            redirectPath="/signin"
+          >
+            <EvaluationAdmin />
+          </ProtectedRouteAdmin>
+        }
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

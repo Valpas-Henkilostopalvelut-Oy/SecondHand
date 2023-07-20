@@ -194,6 +194,7 @@ export default function EvaluationUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    evaluationNum: "",
     name: "",
     email: "",
     phone: "",
@@ -203,6 +204,9 @@ export default function EvaluationUpdateForm(props) {
     images: [],
     isConfirmed: false,
   };
+  const [evaluationNum, setEvaluationNum] = React.useState(
+    initialValues.evaluationNum
+  );
   const [name, setName] = React.useState(initialValues.name);
   const [email, setEmail] = React.useState(initialValues.email);
   const [phone, setPhone] = React.useState(initialValues.phone);
@@ -220,6 +224,7 @@ export default function EvaluationUpdateForm(props) {
     const cleanValues = evaluationRecord
       ? { ...initialValues, ...evaluationRecord }
       : initialValues;
+    setEvaluationNum(cleanValues.evaluationNum);
     setName(cleanValues.name);
     setEmail(cleanValues.email);
     setPhone(cleanValues.phone);
@@ -246,6 +251,7 @@ export default function EvaluationUpdateForm(props) {
   const [currentImagesValue, setCurrentImagesValue] = React.useState("");
   const imagesRef = React.createRef();
   const validations = {
+    evaluationNum: [{ type: "Required" }],
     name: [{ type: "Required" }],
     email: [{ type: "Required" }, { type: "Email" }],
     phone: [{ type: "Required" }],
@@ -281,6 +287,7 @@ export default function EvaluationUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          evaluationNum,
           name,
           email,
           phone,
@@ -336,6 +343,42 @@ export default function EvaluationUpdateForm(props) {
       {...rest}
     >
       <TextField
+        label="Evaluation num"
+        isRequired={true}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={evaluationNum}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              evaluationNum: value,
+              name,
+              email,
+              phone,
+              description,
+              category,
+              type,
+              images,
+              isConfirmed,
+            };
+            const result = onChange(modelFields);
+            value = result?.evaluationNum ?? value;
+          }
+          if (errors.evaluationNum?.hasError) {
+            runValidationTasks("evaluationNum", value);
+          }
+          setEvaluationNum(value);
+        }}
+        onBlur={() => runValidationTasks("evaluationNum", evaluationNum)}
+        errorMessage={errors.evaluationNum?.errorMessage}
+        hasError={errors.evaluationNum?.hasError}
+        {...getOverrideProps(overrides, "evaluationNum")}
+      ></TextField>
+      <TextField
         label="Name"
         isRequired={true}
         isReadOnly={false}
@@ -344,6 +387,7 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              evaluationNum,
               name: value,
               email,
               phone,
@@ -375,6 +419,7 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              evaluationNum,
               name,
               email: value,
               phone,
@@ -406,6 +451,7 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              evaluationNum,
               name,
               email,
               phone: value,
@@ -437,6 +483,7 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              evaluationNum,
               name,
               email,
               phone,
@@ -468,6 +515,7 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              evaluationNum,
               name,
               email,
               phone,
@@ -499,6 +547,7 @@ export default function EvaluationUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              evaluationNum,
               name,
               email,
               phone,
@@ -526,6 +575,7 @@ export default function EvaluationUpdateForm(props) {
           let values = items;
           if (onChange) {
             const modelFields = {
+              evaluationNum,
               name,
               email,
               phone,
@@ -579,6 +629,7 @@ export default function EvaluationUpdateForm(props) {
           let value = e.target.checked;
           if (onChange) {
             const modelFields = {
+              evaluationNum,
               name,
               email,
               phone,

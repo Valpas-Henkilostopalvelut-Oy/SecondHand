@@ -209,6 +209,19 @@ const areas: area[] = [
     population: "54665",
     population_proper: "54665",
   },
+
+  /**Minors */
+  {
+    city: "Akaa",
+    lat: "61.1667",
+    lng: "23.8667",
+    country: "Finland",
+    iso2: "FI",
+    admin_name: "Pirkanmaa",
+    capital: "minor",
+    population: "16784",
+    population_proper: "16784",
+  },
   {
     city: "Kotka",
     lat: "60.4667",

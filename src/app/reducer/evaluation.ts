@@ -37,6 +37,9 @@ const uploadImage = async (imgs: File[]) => {
       const fileKey = `evaluation/${Date.now()}-${image.name}`;
       const { key } = await Storage.put(fileKey, image, {
         contentType: image.type,
+        progressCallback(progress) {
+          console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+        },
       });
       return key;
     })
@@ -45,14 +48,26 @@ const uploadImage = async (imgs: File[]) => {
   return images;
 };
 
+const deleteImage = async (imgs: (string | null)[]) => {
+  //delete images from Storage
+  await Promise.all(
+    imgs.map(async (image) => {
+      if (image) await Storage.remove(image);
+    })
+  );
+};
+
 export const addEvaluation = createAsyncThunk(
   "evaluation/addEvaluation",
   async (evaluation: EvaluationFormProps) => {
     const { name, email, phone, categoria, type, description, images } =
       evaluation;
     const imgs = await uploadImage(images);
+    //generete evaluation number 8 numbers
+    const evaluationNum = Math.floor(10000000 + Math.random() * 90000000);
     const newEvaluation = await DataStore.save(
       new Evaluation({
+        evaluationNum,
         name,
         email,
         phone,
@@ -63,6 +78,34 @@ export const addEvaluation = createAsyncThunk(
       })
     );
     return getFixedEval(newEvaluation);
+  }
+);
+
+export const confirmEvaluation = createAsyncThunk(
+  "evaluation/confirmEvaluation",
+  async ({ id, isAdmin }: { id: string; isAdmin: boolean }) => {
+    const evaluation = await DataStore.query(Evaluation, id);
+    if (!evaluation) throw new Error("Evaluation not found");
+    if (evaluation.isConfirmed) throw new Error("Evaluation already confirmed");
+    if (!isAdmin) throw new Error("You are not an admin");
+    const confirmedEvaluation = await DataStore.save(
+      Evaluation.copyOf(evaluation, (updated) => {
+        updated.isConfirmed = true;
+      })
+    );
+    return getFixedEval(confirmedEvaluation);
+  }
+);
+
+export const deleteEvaluation = createAsyncThunk(
+  "evaluation/deleteEvaluation",
+  async ({ id, isAdmin }: { id: string; isAdmin: boolean }) => {
+    const evaluation = await DataStore.query(Evaluation, id);
+    if (!evaluation) throw new Error("Evaluation not found");
+    if (!isAdmin) throw new Error("You are not an admin");
+    await DataStore.delete(Evaluation, id);
+    await deleteImage(evaluation.images);
+    return id;
   }
 );
 
@@ -101,6 +144,42 @@ const evaluationSlice = createSlice({
       }
     );
     builder.addCase(addEvaluation.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(confirmEvaluation.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      confirmEvaluation.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.data = state.data.map((evaluation) =>
+          evaluation.id === action.payload.id ? action.payload : evaluation
+        );
+      }
+    );
+    builder.addCase(confirmEvaluation.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(deleteEvaluation.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(
+      deleteEvaluation.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.data = state.data.filter(
+          (evaluation) => evaluation.id !== action.payload
+        );
+      }
+    );
+    builder.addCase(deleteEvaluation.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.error = action.error.message;
