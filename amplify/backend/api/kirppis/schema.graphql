@@ -1,15 +1,10 @@
-type Category {
-  id: String
-  name: String
-}
-
 type Location {
-  city: String
+  city: String!
   lat: String
   lng: String
   country: String
   iso2: String
-  admin_name: String
+  admin_name: String!
   capital: String
   population: String
   population_proper: String
@@ -19,27 +14,9 @@ type Location {
   iframe: String
 }
 
-type Categories
-  @model
-  @auth(
-    rules: [
-      { allow: public, operations: [read] }
-      { allow: groups, groups: ["admin"] }
-    ]
-  ) {
-  id: ID!
-  createdBy: String
-  name: String
-}
-
-type Image {
-  key: String
-  id: String
-}
-
 type Contact {
-  phone: String
-  email: AWSEmail
+  phone: String!
+  email: AWSEmail!
   website: AWSURL
 }
 
@@ -85,18 +62,58 @@ type Side {
 }
 
 type StoreSettingsValidation {
-  status: Boolean
+  status: Boolean!
   message: String
   from: AWSDateTime
   to: AWSDateTime
 }
 
+enum StoreSettingsType {
+  isPaid
+  isPremium
+  isPromoted
+}
+
 type StoreSettings {
-  isPaid: StoreSettingsValidation
   isHidden: StoreSettingsValidation
-  isConfirmed: StoreSettingsValidation
-  isPremium: StoreSettingsValidation
-  isPromoted: StoreSettingsValidation
+  isConfirmed: StoreSettingsValidation!
+}
+
+type Categories
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: groups, groups: ["admin"] }
+    ]
+  ) {
+  id: ID!
+  createdAt: AWSDateTime!
+  createdBy: String!
+  name: String!
+}
+
+type Notes
+  @model
+  @auth(rules: [{ allow: private }]) {
+  id: ID!
+  username: ID!
+  store: Store @belongsTo(fields: ["id"])
+  notes: String!
+}
+
+type Orders 
+  @model
+  @auth(rules: [{ allow: groups, groups: ["admin"] }]) {
+  id: ID!
+  username: ID!
+  store: Store @belongsTo(fields: ["id"])
+  type: StoreSettingsType!
+  status: String!
+  from: AWSDateTime!
+  to: AWSDateTime!
+  price: Float
+  message: String
 }
 
 type Ads
@@ -118,50 +135,47 @@ type Ads
 
 type User
   @model
-  @auth(
-    rules: [
-      { allow: public, operations: [read, create] }
-      { allow: groups, groups: ["admin"] }
-    ]
-  ) {
+  @auth(rules: [
+    { allow: public, operations: [read, create] }
+    { allow: groups, groups: ["admin"] }
+  ]) {
   id: ID!
   username: ID!
   email: AWSEmail
-  stores: [String]
+  stores: [Store!] @hasMany(fields: ["id"])
   role: String
 }
 
 type Store
   @model
-  @auth(
-    rules: [
-      { allow: public, operations: [read, create, update] }
-      { allow: groups, groups: ["admin"] }
-    ]
-  ) {
-  id: ID!
+  @auth(rules: [
+    { allow: public, operations: [read, create, update] }
+    { allow: groups, groups: ["admin"] }
+  ]) {
+  id: ID! @primaryKey
   username: ID!
-  type: String
-  name: String
+  type: String!
+  name: String!
   description: String
-  categories: [Category]
   clicked: String
   pricelist: [Priceitem]
   opentimes: [Opentime]
-  contact: Contact
-  location: Location
-  imgs: [Image]
-  social: Social!
-  isConfirmed: Boolean
+  contact: Contact!
+  location: Location!
+  imgs: [String!]
+  social: Social
   settings: StoreSettings!
   logo: String
+  categories: [Categories!] @hasMany(fields: ["id"])
+  notes: [Notes!] @hasMany(fields: ["id"])
+  orders: [Orders!] @hasMany(fields: ["id"])
 }
 
 type Evaluation
   @model
   @auth(
     rules: [
-      { allow: public, operations: [create] }
+      { allow: public, operations: [read, create, update] }
       { allow: groups, groups: ["admin"], provider: userPools }
     ]
   ) {

@@ -7,12 +7,15 @@ import reportWebVitals from "./reportWebVitals";
 import "@fontsource/source-sans-pro";
 import { BrowserRouter } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-import { BrowserTracing } from "@sentry/tracing";
+
+const sentry_dsn = process.env.REACT_APP_sentry_environment;
 
 Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
-  integrations: [new BrowserTracing()],
-  tracesSampleRate: 1.0,
+  dsn: sentry_dsn,
+  environment: process.env.NODE_ENV,
+  integrations: [new Sentry.Replay()],
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
 });
 
 const container = document.getElementById("root")!;

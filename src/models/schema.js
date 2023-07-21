@@ -300,14 +300,14 @@ export const schema = {
                     "name": "type",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "description": {
@@ -369,7 +369,7 @@ export const schema = {
                     "type": {
                         "nonModel": "Location"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "imgs": {
@@ -388,7 +388,7 @@ export const schema = {
                     "type": {
                         "nonModel": "Social"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "isConfirmed": {
@@ -404,7 +404,7 @@ export const schema = {
                     "type": {
                         "nonModel": "StoreSettings"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "logo": {
@@ -574,7 +574,9 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "create"
+                                    "read",
+                                    "create",
+                                    "update"
                                 ]
                             },
                             {
@@ -625,7 +627,7 @@ export const schema = {
                     "name": "city",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "lat": {
@@ -660,7 +662,7 @@ export const schema = {
                     "name": "admin_name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "capital": {
@@ -1037,5 +1039,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "8da208b67204e5b4d9c08c3afa52d086"
+    "version": "2663d9866b2adad1d694246952aa22e8"
 };

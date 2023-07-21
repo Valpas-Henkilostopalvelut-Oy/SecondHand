@@ -19,12 +19,12 @@ export declare type Category = LazyLoading extends LazyLoadingDisabled ? EagerCa
 export declare const Category: (new (init: ModelInit<Category>) => Category)
 
 type EagerLocation = {
-  readonly city?: string | null;
+  readonly city: string;
   readonly lat?: string | null;
   readonly lng?: string | null;
   readonly country?: string | null;
   readonly iso2?: string | null;
-  readonly admin_name?: string | null;
+  readonly admin_name: string;
   readonly capital?: string | null;
   readonly population?: string | null;
   readonly population_proper?: string | null;
@@ -35,12 +35,12 @@ type EagerLocation = {
 }
 
 type LazyLocation = {
-  readonly city?: string | null;
+  readonly city: string;
   readonly lat?: string | null;
   readonly lng?: string | null;
   readonly country?: string | null;
   readonly iso2?: string | null;
-  readonly admin_name?: string | null;
+  readonly admin_name: string;
   readonly capital?: string | null;
   readonly population?: string | null;
   readonly population_proper?: string | null;
@@ -337,19 +337,19 @@ type EagerStore = {
   };
   readonly id: string;
   readonly username: string;
-  readonly type?: string | null;
-  readonly name?: string | null;
+  readonly type: string;
+  readonly name: string;
   readonly description?: string | null;
   readonly categories?: (Category | null)[] | null;
   readonly clicked?: string | null;
   readonly pricelist?: (Priceitem | null)[] | null;
   readonly opentimes?: (Opentime | null)[] | null;
   readonly contact?: Contact | null;
-  readonly location?: Location | null;
+  readonly location: Location;
   readonly imgs?: (Image | null)[] | null;
-  readonly social: Social;
+  readonly social?: Social | null;
   readonly isConfirmed?: boolean | null;
-  readonly settings: StoreSettings;
+  readonly settings?: StoreSettings | null;
   readonly logo?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -362,19 +362,19 @@ type LazyStore = {
   };
   readonly id: string;
   readonly username: string;
-  readonly type?: string | null;
-  readonly name?: string | null;
+  readonly type: string;
+  readonly name: string;
   readonly description?: string | null;
   readonly categories?: (Category | null)[] | null;
   readonly clicked?: string | null;
   readonly pricelist?: (Priceitem | null)[] | null;
   readonly opentimes?: (Opentime | null)[] | null;
   readonly contact?: Contact | null;
-  readonly location?: Location | null;
+  readonly location: Location;
   readonly imgs?: (Image | null)[] | null;
-  readonly social: Social;
+  readonly social?: Social | null;
   readonly isConfirmed?: boolean | null;
-  readonly settings: StoreSettings;
+  readonly settings?: StoreSettings | null;
   readonly logo?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
