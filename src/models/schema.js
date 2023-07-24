@@ -10,15 +10,233 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdBy": {
                     "name": "createdBy",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
                     "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Categories",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-Store.categories",
+                        "fields": [
+                            "id"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Notes": {
+            "name": "Notes",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "username": {
+                    "name": "username",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "store": {
+                    "name": "store",
+                    "isArray": false,
+                    "type": {
+                        "model": "Store"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "id"
+                        ]
+                    }
+                },
+                "notes": {
+                    "name": "notes",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Notes",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Orders": {
+            "name": "Orders",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "username": {
+                    "name": "username",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "store": {
+                    "name": "store",
+                    "isArray": false,
+                    "type": {
+                        "model": "Store"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "id"
+                        ]
+                    }
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "StoreSettingsType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "status": {
+                    "name": "status",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "from": {
+                    "name": "from",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "to": {
+                    "name": "to",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "price": {
+                    "name": "price",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "message": {
+                    "name": "message",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -42,7 +260,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "Categories",
+            "pluralName": "Orders",
             "attributes": [
                 {
                     "type": "model",
@@ -52,12 +270,6 @@ export const schema = {
                     "type": "auth",
                     "properties": {
                         "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "read"
-                                ]
-                            },
                             {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
@@ -213,10 +425,18 @@ export const schema = {
                 "stores": {
                     "name": "stores",
                     "isArray": true,
-                    "type": "String",
-                    "isRequired": false,
+                    "type": {
+                        "model": "Store"
+                    },
+                    "isRequired": true,
                     "attributes": [],
-                    "isArrayNullable": true
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "id"
+                        ]
+                    }
                 },
                 "role": {
                     "name": "role",
@@ -317,16 +537,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "categories": {
-                    "name": "categories",
-                    "isArray": true,
-                    "type": {
-                        "nonModel": "Category"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
                 "clicked": {
                     "name": "clicked",
                     "isArray": false,
@@ -350,7 +560,7 @@ export const schema = {
                     "type": {
                         "nonModel": "Opentime"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true
                 },
@@ -360,7 +570,7 @@ export const schema = {
                     "type": {
                         "nonModel": "Contact"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "location": {
@@ -375,10 +585,8 @@ export const schema = {
                 "imgs": {
                     "name": "imgs",
                     "isArray": true,
-                    "type": {
-                        "nonModel": "Image"
-                    },
-                    "isRequired": false,
+                    "type": "String",
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true
                 },
@@ -391,20 +599,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "isConfirmed": {
-                    "name": "isConfirmed",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "settings": {
                     "name": "settings",
                     "isArray": false,
                     "type": {
                         "nonModel": "StoreSettings"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "logo": {
@@ -413,6 +614,54 @@ export const schema = {
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
+                },
+                "categories": {
+                    "name": "categories",
+                    "isArray": true,
+                    "type": {
+                        "model": "Categories"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "id"
+                        ]
+                    }
+                },
+                "notes": {
+                    "name": "notes",
+                    "isArray": true,
+                    "type": {
+                        "model": "Notes"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "store"
+                        ]
+                    }
+                },
+                "orders": {
+                    "name": "orders",
+                    "isArray": true,
+                    "type": {
+                        "model": "Orders"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "store"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -437,6 +686,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "gsi-User.stores",
+                        "fields": [
+                            "id"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -599,27 +857,17 @@ export const schema = {
             ]
         }
     },
-    "enums": {},
+    "enums": {
+        "StoreSettingsType": {
+            "name": "StoreSettingsType",
+            "values": [
+                "isPaid",
+                "isPremium",
+                "isPromoted"
+            ]
+        }
+    },
     "nonModels": {
-        "Category": {
-            "name": "Category",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
         "Location": {
             "name": "Location",
             "fields": {
@@ -716,25 +964,6 @@ export const schema = {
                 }
             }
         },
-        "Image": {
-            "name": "Image",
-            "fields": {
-                "key": {
-                    "name": "key",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
         "Contact": {
             "name": "Contact",
             "fields": {
@@ -742,14 +971,14 @@ export const schema = {
                     "name": "phone",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "email": {
                     "name": "email",
                     "isArray": false,
                     "type": "AWSEmail",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "website": {
@@ -961,7 +1190,7 @@ export const schema = {
                     "name": "status",
                     "isArray": false,
                     "type": "Boolean",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "message": {
@@ -990,15 +1219,6 @@ export const schema = {
         "StoreSettings": {
             "name": "StoreSettings",
             "fields": {
-                "isPaid": {
-                    "name": "isPaid",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "StoreSettingsValidation"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "isHidden": {
                     "name": "isHidden",
                     "isArray": false,
@@ -1014,30 +1234,12 @@ export const schema = {
                     "type": {
                         "nonModel": "StoreSettingsValidation"
                     },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "isPremium": {
-                    "name": "isPremium",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "StoreSettingsValidation"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "isPromoted": {
-                    "name": "isPromoted",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "StoreSettingsValidation"
-                    },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 }
             }
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "2663d9866b2adad1d694246952aa22e8"
+    "version": "4bb7dbb8c9728aaabf603552fab200ca"
 };

@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import type { LazyImage, LazyCategories, LazyStore } from "../../models";
+import type { LazyCategories, LazyStore } from "../../models";
 
 export interface StorelistProps {
   storelist: LazyStore[] | null | undefined;
@@ -7,7 +7,6 @@ export interface StorelistProps {
 
 export type ImgsTypes = {
   url: string | null;
-  identify: LazyImage | null;
 };
 
 export type SearchState = {

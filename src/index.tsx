@@ -7,8 +7,17 @@ import reportWebVitals from "./reportWebVitals";
 import "@fontsource/source-sans-pro";
 import { BrowserRouter } from "react-router-dom";
 import * as Sentry from "@sentry/react";
+import awsmobile from "./aws-exports";
+import { Amplify, AuthModeStrategyType } from "aws-amplify";
 
 const sentry_dsn = process.env.REACT_APP_sentry_environment;
+
+Amplify.configure({
+  ...awsmobile,
+  DataStore: {
+    authModeStrategyType: AuthModeStrategyType.MULTI_AUTH,
+  },
+});
 
 Sentry.init({
   dsn: sentry_dsn,

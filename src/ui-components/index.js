@@ -5,9 +5,5 @@
  **************************************************************************/
 
 export { default as studioTheme } from "./studioTheme";
-export { default as CategoriesCreateForm } from "./CategoriesCreateForm";
-export { default as CategoriesUpdateForm } from "./CategoriesUpdateForm";
-export { default as UserCreateForm } from "./UserCreateForm";
-export { default as UserUpdateForm } from "./UserUpdateForm";
 export { default as EvaluationCreateForm } from "./EvaluationCreateForm";
 export { default as EvaluationUpdateForm } from "./EvaluationUpdateForm";

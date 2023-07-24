@@ -123,13 +123,13 @@ const StoreItem = (props: LazyStore) => {
             <ReadMoteText text={description} />
           </CustomBox>
 
-          <CustomBox hidden={!categories || categories.length === 0}>
+          <CustomBox hidden={!categories}>
             <Typography variant="h6">
               <b>Kategoriat</b>
             </Typography>
-            {categories?.map((item) => (
-              <Typography key={item?.id}>{item?.name}</Typography>
-            ))}
+            <Typography>
+              {/*categories.toArray().then((res) => (res ? res.join(", ") : ""))*/}
+            </Typography>
           </CustomBox>
 
           <CustomBox hidden={!imgs || imgs.length === 0}>
@@ -139,8 +139,8 @@ const StoreItem = (props: LazyStore) => {
             <Grid container spacing={2}>
               <Grid item xs={6} sm={4}>
                 <ImageComponent
-                  fileKey={imgs && imgs[0]?.key}
-                  id={imgs && imgs[0]?.key}
+                  fileKey={imgs && imgs[0]}
+                  id={imgs && imgs[0]}
                   poping
                 />
               </Grid>
@@ -157,9 +157,9 @@ const StoreItem = (props: LazyStore) => {
                 >
                   {imgs?.slice(1).map((item) => (
                     <ImageComponent
-                      key={item?.id}
-                      fileKey={item?.key}
-                      id={item?.id}
+                      key={item}
+                      fileKey={item}
+                      id={item}
                       poping
                     />
                   ))}
@@ -220,7 +220,8 @@ const StoreItem = (props: LazyStore) => {
                   {location?.address ? location?.address : ""}
                 </Typography>
                 <Typography>
-                  {location?.zip}{location?.zip ? ", " : ""}
+                  {location?.zip}
+                  {location?.zip ? ", " : ""}
                   {location?.city}
                 </Typography>
                 <Typography>{location?.admin_name}</Typography>

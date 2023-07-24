@@ -149,17 +149,19 @@ type User
 type Store
   @model
   @auth(rules: [
-    { allow: public, operations: [read, create, update] }
-    { allow: groups, groups: ["admin"] }
+    { allow: public, operations: [read, create, update] },
+    { allow: groups, groups: ["admin"] },
+    
+    
   ]) {
-  id: ID! @primaryKey
+  id: ID! 
   username: ID!
   type: String!
   name: String!
   description: String
   clicked: String
   pricelist: [Priceitem]
-  opentimes: [Opentime]
+  opentimes: [Opentime!]
   contact: Contact!
   location: Location!
   imgs: [String!]
