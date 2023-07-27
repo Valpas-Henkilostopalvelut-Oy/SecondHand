@@ -25,7 +25,7 @@ const EditType = (props: EditItemState) => {
   const handleTypeChange = (e: any, newValues: StoreType | null) => {
     setValue(newValues);
 
-    setStore((prevState) => {
+    setStore((prevState: any) => {
       if (!prevState) return null;
       return {
         ...prevState,

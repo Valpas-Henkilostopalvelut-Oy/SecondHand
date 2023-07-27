@@ -32,12 +32,6 @@ interface ParameterProps extends EditItemState {
 
 const parameters: ParametersProps[] = [
   {
-    Name: "Maksettu",
-    Value: "isPaid",
-    Type: "boolean",
-    Hidden: false,
-  },
-  {
     Name: "Piilotettu",
     Value: "isHidden",
     Type: "boolean",
@@ -46,18 +40,6 @@ const parameters: ParametersProps[] = [
   {
     Name: "Vahvisettu",
     Value: "isConfirmed",
-    Type: "boolean",
-    Hidden: false,
-  },
-  {
-    Name: "Premium",
-    Value: "isPremium",
-    Type: "boolean",
-    Hidden: false,
-  },
-  {
-    Name: "Promoted",
-    Value: "isPromoted",
     Type: "boolean",
     Hidden: false,
   },

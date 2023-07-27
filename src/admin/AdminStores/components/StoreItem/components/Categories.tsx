@@ -11,11 +11,6 @@ const Categories = (props: LazyStore) => {
       <Typography>
         <b>Kategoriat</b>
       </Typography>
-
-      {categories?.map((category) => {
-        if (!category) return null;
-        return <Typography key={category?.id}>{category?.name}</Typography>;
-      })}
     </Box>
   );
 };

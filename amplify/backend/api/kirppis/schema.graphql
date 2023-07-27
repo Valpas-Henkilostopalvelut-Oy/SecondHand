@@ -68,12 +68,6 @@ type StoreSettingsValidation {
   to: AWSDateTime
 }
 
-enum StoreSettingsType {
-  isPaid
-  isPremium
-  isPromoted
-}
-
 type StoreSettings {
   isHidden: StoreSettingsValidation
   isConfirmed: StoreSettingsValidation!

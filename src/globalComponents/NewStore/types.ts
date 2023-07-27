@@ -1,14 +1,13 @@
-import type { FormikErrors, FormikHelpers, FormikTouched } from "formik";
+import type { FormikErrors, FormikTouched } from "formik";
 import type {
-  Store,
-  Category,
+  Categories,
   Location,
   Contact,
-  Image,
   Social,
   StoreSettings,
   Opentime,
-} from "../../../models";
+} from "../../models";
+import type { AsyncCollection } from "@aws-amplify/datastore";
 
 export interface ComponentProps {
   values: StoreFormProps;
@@ -29,10 +28,10 @@ interface StoreFormProps {
   type: string;
   name: string;
   description?: string | null;
-  categories?: (Category | null)[] | null;
+  categories?: AsyncCollection<Categories> | null;
   contact: Contact;
   location: Location;
-  imgs?: (Image | null)[] | null;
+  imgs?: File[] | null;
   social?: Social | null;
   settings?: StoreSettings | null;
   logo?: string | null;

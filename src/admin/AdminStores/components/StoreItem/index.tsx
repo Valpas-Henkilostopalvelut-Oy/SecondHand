@@ -132,7 +132,7 @@ const StoreDetails = (props: LazyStore) => {
         </Typography>
         <Typography>{description}</Typography>
       </CustomBox>
-      <CustomBox hidden={!categories || categories.length === 0}>
+      <CustomBox hidden={!categories}>
         <Categories {...props} />
       </CustomBox>
       <CustomBox hidden={!opentimes || opentimes.length === 0}>

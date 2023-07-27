@@ -2,7 +2,7 @@ import React from "react";
 import { TextField, Grid, Autocomplete } from "@mui/material";
 import { useAppSelector } from "../../../app/hooks";
 import type { EditItemState } from "../types";
-import type { LazyCategories, LazyCategory, LazyStore } from "../../../models";
+import type { LazyCategories } from "../../../models";
 import { useAppDispatch } from "../../../app/hooks";
 import { updateStoreAsync } from "../../../app/reducer/stores";
 
@@ -13,17 +13,9 @@ const EditCategorie = (props: EditItemState) => {
   const category = data.map(({ id, name }) => ({
     id,
     name,
-  })) as (LazyCategory | null)[];
+  })) as (LazyCategories | null)[];
 
-  const handleChange = (event: any, value: (LazyCategory | null)[]) => {
-    setStore((prevState) => {
-      if (!prevState) return null;
-      return {
-        ...prevState,
-        categories: value,
-      };
-    });
-
+  const handleChange = (event: any, value: (LazyCategories | null)[]) => {
     dispatch(
       updateStoreAsync({
         id: props.id,
@@ -41,7 +33,7 @@ const EditCategorie = (props: EditItemState) => {
       <Autocomplete
         multiple
         id="categori-select"
-        value={categories || []}
+        value={[]}
         options={category}
         isOptionEqualToValue={(option, value) => option?.id === value?.id}
         getOptionLabel={(option) => option?.name || ""}

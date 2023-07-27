@@ -10,7 +10,7 @@ const Images = (props: LazyStore) => {
     const getImagesUrl = async () => {
       const images = await Promise.all(
         imgs?.map(async (img) => {
-          const image = await Storage.get(img?.key ?? "");
+          const image = await Storage.get(img);
           return image;
         }) ?? []
       );

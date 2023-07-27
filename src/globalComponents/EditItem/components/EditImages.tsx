@@ -6,7 +6,7 @@ import {
   deleteImageAsync,
 } from "../../../app/reducer/stores";
 import Carousel from "react-material-ui-carousel";
-import type { LazyStore, LazyImage } from "../../../models";
+import type { LazyStore } from "../../../models";
 import ImageComponent from "../../ImageComponent";
 
 const ImageItem = ({
@@ -15,22 +15,20 @@ const ImageItem = ({
   isAdmin,
 }: {
   storeId: string;
-  img?: LazyImage | null;
+  img?: string | null;
   isAdmin?: boolean | null;
 }) => {
   const dispatch = useAppDispatch();
 
   if (!img) return null;
-  const { id, key } = img;
-  if (!key) return null;
 
   const handleDelete = () => {
-    dispatch(deleteImageAsync({ id: storeId, key, isAdmin }));
+    dispatch(deleteImageAsync({ id: storeId, key: img, isAdmin }));
   };
 
   return (
     <Box>
-      <ImageComponent id={id} fileKey={key} />
+      <ImageComponent id={img} fileKey={img} />
       <Button
         variant="outlined"
         onClick={handleDelete}
@@ -66,7 +64,7 @@ const EditImages = ({ imgs, id }: LazyStore) => {
         <Typography variant="h6">Images</Typography>
         <Carousel autoPlay={false} animation="slide" navButtonsAlwaysVisible>
           {imgs?.map((img) => (
-            <ImageItem key={img?.id} storeId={id} img={img} isAdmin={isAdmin} />
+            <ImageItem key={img} storeId={id} img={img} isAdmin={isAdmin} />
           ))}
         </Carousel>
         <Button variant="outlined" component="label">
