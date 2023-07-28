@@ -8,9 +8,10 @@ const StoreSettingsType = {
   "IS_PROMOTED": "isPromoted"
 };
 
-const { Categories, Notes, Orders, Ads, User, Store, Evaluation, Location, Contact, Opentime, Priceitem, Sellplaces, Social, SideButton, Side, StoreSettingsValidation, StoreSettings } = initSchema(schema);
+const { Opentime, Categories, Notes, Orders, Ads, User, Store, Evaluation, Location, Contact, Sellplaces, Social, SideButton, Side, StoreSettingsValidation, StoreSettings } = initSchema(schema);
 
 export {
+  Opentime,
   Categories,
   Notes,
   Orders,
@@ -21,8 +22,6 @@ export {
   StoreSettingsType,
   Location,
   Contact,
-  Opentime,
-  Priceitem,
   Sellplaces,
   Social,
   SideButton,

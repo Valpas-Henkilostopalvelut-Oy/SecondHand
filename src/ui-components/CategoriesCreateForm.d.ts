@@ -13,16 +13,19 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type CategoriesCreateFormInputValues = {
+    createdAt?: string;
     createdBy?: string;
     name?: string;
 };
 export declare type CategoriesCreateFormValidationValues = {
+    createdAt?: ValidationFunction<string>;
     createdBy?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type CategoriesCreateFormOverridesProps = {
     CategoriesCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    createdAt?: PrimitiveOverrideProps<TextFieldProps>;
     createdBy?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;

@@ -8,10 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Categories } from "../models";
+import { Notes } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function CategoriesCreateForm(props) {
+export default function NotesCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -23,24 +23,20 @@ export default function CategoriesCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    createdAt: "",
-    createdBy: "",
-    name: "",
+    username: "",
+    notes: "",
   };
-  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
-  const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
-  const [name, setName] = React.useState(initialValues.name);
+  const [username, setUsername] = React.useState(initialValues.username);
+  const [notes, setNotes] = React.useState(initialValues.notes);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setCreatedAt(initialValues.createdAt);
-    setCreatedBy(initialValues.createdBy);
-    setName(initialValues.name);
+    setUsername(initialValues.username);
+    setNotes(initialValues.notes);
     setErrors({});
   };
   const validations = {
-    createdAt: [{ type: "Required" }],
-    createdBy: [{ type: "Required" }],
-    name: [{ type: "Required" }],
+    username: [{ type: "Required" }],
+    notes: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -59,23 +55,6 @@ export default function CategoriesCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
-  };
   return (
     <Grid
       as="form"
@@ -85,9 +64,8 @@ export default function CategoriesCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          createdAt,
-          createdBy,
-          name,
+          username,
+          notes,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -117,7 +95,7 @@ export default function CategoriesCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Categories(modelFields));
+          await DataStore.save(new Notes(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -130,88 +108,58 @@ export default function CategoriesCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "CategoriesCreateForm")}
+      {...getOverrideProps(overrides, "NotesCreateForm")}
       {...rest}
     >
       <TextField
-        label="Created at"
+        label="Username"
         isRequired={true}
         isReadOnly={false}
-        type="datetime-local"
-        value={createdAt && convertToLocal(new Date(createdAt))}
-        onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
-          if (onChange) {
-            const modelFields = {
-              createdAt: value,
-              createdBy,
-              name,
-            };
-            const result = onChange(modelFields);
-            value = result?.createdAt ?? value;
-          }
-          if (errors.createdAt?.hasError) {
-            runValidationTasks("createdAt", value);
-          }
-          setCreatedAt(value);
-        }}
-        onBlur={() => runValidationTasks("createdAt", createdAt)}
-        errorMessage={errors.createdAt?.errorMessage}
-        hasError={errors.createdAt?.hasError}
-        {...getOverrideProps(overrides, "createdAt")}
-      ></TextField>
-      <TextField
-        label="Created by"
-        isRequired={true}
-        isReadOnly={false}
-        value={createdBy}
+        value={username}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              createdAt,
-              createdBy: value,
-              name,
+              username: value,
+              notes,
             };
             const result = onChange(modelFields);
-            value = result?.createdBy ?? value;
+            value = result?.username ?? value;
           }
-          if (errors.createdBy?.hasError) {
-            runValidationTasks("createdBy", value);
+          if (errors.username?.hasError) {
+            runValidationTasks("username", value);
           }
-          setCreatedBy(value);
+          setUsername(value);
         }}
-        onBlur={() => runValidationTasks("createdBy", createdBy)}
-        errorMessage={errors.createdBy?.errorMessage}
-        hasError={errors.createdBy?.hasError}
-        {...getOverrideProps(overrides, "createdBy")}
+        onBlur={() => runValidationTasks("username", username)}
+        errorMessage={errors.username?.errorMessage}
+        hasError={errors.username?.hasError}
+        {...getOverrideProps(overrides, "username")}
       ></TextField>
       <TextField
-        label="Name"
+        label="Notes"
         isRequired={true}
         isReadOnly={false}
-        value={name}
+        value={notes}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              createdAt,
-              createdBy,
-              name: value,
+              username,
+              notes: value,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.notes ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.notes?.hasError) {
+            runValidationTasks("notes", value);
           }
-          setName(value);
+          setNotes(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("notes", notes)}
+        errorMessage={errors.notes?.errorMessage}
+        hasError={errors.notes?.hasError}
+        {...getOverrideProps(overrides, "notes")}
       ></TextField>
       <Flex
         justifyContent="space-between"

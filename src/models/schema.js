@@ -1,5 +1,120 @@
 export const schema = {
     "models": {
+        "Opentime": {
+            "name": "Opentime",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "day": {
+                    "name": "day",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "start": {
+                    "name": "start",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "end": {
+                    "name": "end",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "isClosed": {
+                    "name": "isClosed",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "store": {
+                    "name": "store",
+                    "isArray": false,
+                    "type": {
+                        "model": "Store"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "storeOpentimesId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "storeOpentimesId": {
+                    "name": "storeOpentimesId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "Opentimes",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "read",
+                                    "create",
+                                    "update"
+                                ]
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "Categories": {
             "name": "Categories",
             "fields": {
@@ -38,6 +153,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "storeCategoriesId": {
+                    "name": "storeCategoriesId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -52,7 +174,7 @@ export const schema = {
                     "properties": {
                         "name": "gsi-Store.categories",
                         "fields": [
-                            "id"
+                            "storeCategoriesId"
                         ]
                     }
                 },
@@ -113,7 +235,7 @@ export const schema = {
                     "association": {
                         "connectionType": "BELONGS_TO",
                         "targetNames": [
-                            "id"
+                            "storeNotesId"
                         ]
                     }
                 },
@@ -139,6 +261,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "storeNotesId": {
+                    "name": "storeNotesId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -194,7 +323,7 @@ export const schema = {
                     "association": {
                         "connectionType": "BELONGS_TO",
                         "targetNames": [
-                            "id"
+                            "storeOrdersId"
                         ]
                     }
                 },
@@ -257,6 +386,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
+                },
+                "storeOrdersId": {
+                    "name": "storeOrdersId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -428,7 +564,7 @@ export const schema = {
                     "type": {
                         "model": "Store"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
@@ -537,32 +673,21 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "clicked": {
-                    "name": "clicked",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "pricelist": {
-                    "name": "pricelist",
-                    "isArray": true,
-                    "type": {
-                        "nonModel": "Priceitem"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
                 "opentimes": {
                     "name": "opentimes",
                     "isArray": true,
                     "type": {
-                        "nonModel": "Opentime"
+                        "model": "Opentime"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "storeOpentimesId"
+                        ]
+                    }
                 },
                 "contact": {
                     "name": "contact",
@@ -621,13 +746,13 @@ export const schema = {
                     "type": {
                         "model": "Categories"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "id"
+                            "storeCategoriesId"
                         ]
                     }
                 },
@@ -637,13 +762,13 @@ export const schema = {
                     "type": {
                         "model": "Notes"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "store"
+                            "storeNotesId"
                         ]
                     }
                 },
@@ -653,13 +778,13 @@ export const schema = {
                     "type": {
                         "model": "Orders"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "store"
+                            "storeOrdersId"
                         ]
                     }
                 },
@@ -990,72 +1115,6 @@ export const schema = {
                 }
             }
         },
-        "Opentime": {
-            "name": "Opentime",
-            "fields": {
-                "day": {
-                    "name": "day",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "start": {
-                    "name": "start",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "end": {
-                    "name": "end",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "isClosed": {
-                    "name": "isClosed",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
-        "Priceitem": {
-            "name": "Priceitem",
-            "fields": {
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "price": {
-                    "name": "price",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "Int",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
         "Sellplaces": {
             "name": "Sellplaces",
             "fields": {
@@ -1228,6 +1287,15 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "isDone": {
+                    "name": "isDone",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "StoreSettingsValidation"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "isConfirmed": {
                     "name": "isConfirmed",
                     "isArray": false,
@@ -1241,5 +1309,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "4bb7dbb8c9728aaabf603552fab200ca"
+    "version": "60cf3a5c2bc9940feaca64bd22964c5f"
 };

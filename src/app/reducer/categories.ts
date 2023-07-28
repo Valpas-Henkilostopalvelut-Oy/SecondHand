@@ -47,11 +47,11 @@ export const fetchCategories = createAsyncThunk(
 export const addCategory = createAsyncThunk(
   "categories/addCategory",
   async (category: string) => {
-    const user = await Auth.currentAuthenticatedUser();
     const newCategory = await DataStore.save(
       new Categories({
         name: category,
-        createdBy: user.username,
+        createdAt: new Date().toISOString(),
+        createdBy: (await Auth.currentAuthenticatedUser()).username,
       })
     );
     const { id, name, createdAt, createdBy, updatedAt } = newCategory;

@@ -6,15 +6,21 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Categories } from "../models";
+import { Opentime } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function CategoriesUpdateForm(props) {
+export default function OpentimeUpdateForm(props) {
   const {
     id: idProp,
-    categories: categoriesModelProp,
+    opentime: opentimeModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -24,39 +30,42 @@ export default function CategoriesUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    createdAt: "",
-    createdBy: "",
-    name: "",
+    day: "",
+    start: "",
+    end: "",
+    isClosed: false,
   };
-  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
-  const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
-  const [name, setName] = React.useState(initialValues.name);
+  const [day, setDay] = React.useState(initialValues.day);
+  const [start, setStart] = React.useState(initialValues.start);
+  const [end, setEnd] = React.useState(initialValues.end);
+  const [isClosed, setIsClosed] = React.useState(initialValues.isClosed);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = categoriesRecord
-      ? { ...initialValues, ...categoriesRecord }
+    const cleanValues = opentimeRecord
+      ? { ...initialValues, ...opentimeRecord }
       : initialValues;
-    setCreatedAt(cleanValues.createdAt);
-    setCreatedBy(cleanValues.createdBy);
-    setName(cleanValues.name);
+    setDay(cleanValues.day);
+    setStart(cleanValues.start);
+    setEnd(cleanValues.end);
+    setIsClosed(cleanValues.isClosed);
     setErrors({});
   };
-  const [categoriesRecord, setCategoriesRecord] =
-    React.useState(categoriesModelProp);
+  const [opentimeRecord, setOpentimeRecord] = React.useState(opentimeModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
-        ? await DataStore.query(Categories, idProp)
-        : categoriesModelProp;
-      setCategoriesRecord(record);
+        ? await DataStore.query(Opentime, idProp)
+        : opentimeModelProp;
+      setOpentimeRecord(record);
     };
     queryData();
-  }, [idProp, categoriesModelProp]);
-  React.useEffect(resetStateValues, [categoriesRecord]);
+  }, [idProp, opentimeModelProp]);
+  React.useEffect(resetStateValues, [opentimeRecord]);
   const validations = {
-    createdAt: [{ type: "Required" }],
-    createdBy: [{ type: "Required" }],
-    name: [{ type: "Required" }],
+    day: [{ type: "Required" }],
+    start: [],
+    end: [],
+    isClosed: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -101,9 +110,10 @@ export default function CategoriesUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          createdAt,
-          createdBy,
-          name,
+          day,
+          start,
+          end,
+          isClosed,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -134,7 +144,7 @@ export default function CategoriesUpdateForm(props) {
             }
           });
           await DataStore.save(
-            Categories.copyOf(categoriesRecord, (updated) => {
+            Opentime.copyOf(opentimeRecord, (updated) => {
               Object.assign(updated, modelFields);
             })
           );
@@ -147,89 +157,125 @@ export default function CategoriesUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "CategoriesUpdateForm")}
+      {...getOverrideProps(overrides, "OpentimeUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Created at"
+        label="Day"
         isRequired={true}
         isReadOnly={false}
+        type="number"
+        step="any"
+        value={day}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              day: value,
+              start,
+              end,
+              isClosed,
+            };
+            const result = onChange(modelFields);
+            value = result?.day ?? value;
+          }
+          if (errors.day?.hasError) {
+            runValidationTasks("day", value);
+          }
+          setDay(value);
+        }}
+        onBlur={() => runValidationTasks("day", day)}
+        errorMessage={errors.day?.errorMessage}
+        hasError={errors.day?.hasError}
+        {...getOverrideProps(overrides, "day")}
+      ></TextField>
+      <TextField
+        label="Start"
+        isRequired={false}
+        isReadOnly={false}
         type="datetime-local"
-        value={createdAt && convertToLocal(new Date(createdAt))}
+        value={start && convertToLocal(new Date(start))}
         onChange={(e) => {
           let value =
             e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
-              createdAt: value,
-              createdBy,
-              name,
+              day,
+              start: value,
+              end,
+              isClosed,
             };
             const result = onChange(modelFields);
-            value = result?.createdAt ?? value;
+            value = result?.start ?? value;
           }
-          if (errors.createdAt?.hasError) {
-            runValidationTasks("createdAt", value);
+          if (errors.start?.hasError) {
+            runValidationTasks("start", value);
           }
-          setCreatedAt(value);
+          setStart(value);
         }}
-        onBlur={() => runValidationTasks("createdAt", createdAt)}
-        errorMessage={errors.createdAt?.errorMessage}
-        hasError={errors.createdAt?.hasError}
-        {...getOverrideProps(overrides, "createdAt")}
+        onBlur={() => runValidationTasks("start", start)}
+        errorMessage={errors.start?.errorMessage}
+        hasError={errors.start?.hasError}
+        {...getOverrideProps(overrides, "start")}
       ></TextField>
       <TextField
-        label="Created by"
-        isRequired={true}
+        label="End"
+        isRequired={false}
         isReadOnly={false}
-        value={createdBy}
+        type="datetime-local"
+        value={end && convertToLocal(new Date(end))}
         onChange={(e) => {
-          let { value } = e.target;
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
-              createdAt,
-              createdBy: value,
-              name,
+              day,
+              start,
+              end: value,
+              isClosed,
             };
             const result = onChange(modelFields);
-            value = result?.createdBy ?? value;
+            value = result?.end ?? value;
           }
-          if (errors.createdBy?.hasError) {
-            runValidationTasks("createdBy", value);
+          if (errors.end?.hasError) {
+            runValidationTasks("end", value);
           }
-          setCreatedBy(value);
+          setEnd(value);
         }}
-        onBlur={() => runValidationTasks("createdBy", createdBy)}
-        errorMessage={errors.createdBy?.errorMessage}
-        hasError={errors.createdBy?.hasError}
-        {...getOverrideProps(overrides, "createdBy")}
+        onBlur={() => runValidationTasks("end", end)}
+        errorMessage={errors.end?.errorMessage}
+        hasError={errors.end?.hasError}
+        {...getOverrideProps(overrides, "end")}
       ></TextField>
-      <TextField
-        label="Name"
-        isRequired={true}
-        isReadOnly={false}
-        value={name}
+      <SwitchField
+        label="Is closed"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isClosed}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = e.target.checked;
           if (onChange) {
             const modelFields = {
-              createdAt,
-              createdBy,
-              name: value,
+              day,
+              start,
+              end,
+              isClosed: value,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.isClosed ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.isClosed?.hasError) {
+            runValidationTasks("isClosed", value);
           }
-          setName(value);
+          setIsClosed(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
+        onBlur={() => runValidationTasks("isClosed", isClosed)}
+        errorMessage={errors.isClosed?.errorMessage}
+        hasError={errors.isClosed?.hasError}
+        {...getOverrideProps(overrides, "isClosed")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
@@ -241,7 +287,7 @@ export default function CategoriesUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || categoriesModelProp)}
+          isDisabled={!(idProp || opentimeModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -253,7 +299,7 @@ export default function CategoriesUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || categoriesModelProp) ||
+              !(idProp || opentimeModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

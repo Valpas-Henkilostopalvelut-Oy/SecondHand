@@ -60,42 +60,6 @@ export declare type Contact = LazyLoading extends LazyLoadingDisabled ? EagerCon
 
 export declare const Contact: (new (init: ModelInit<Contact>) => Contact)
 
-type EagerOpentime = {
-  readonly day?: string | null;
-  readonly start?: string | null;
-  readonly end?: string | null;
-  readonly id?: string | null;
-  readonly isClosed?: boolean | null;
-}
-
-type LazyOpentime = {
-  readonly day?: string | null;
-  readonly start?: string | null;
-  readonly end?: string | null;
-  readonly id?: string | null;
-  readonly isClosed?: boolean | null;
-}
-
-export declare type Opentime = LazyLoading extends LazyLoadingDisabled ? EagerOpentime : LazyOpentime
-
-export declare const Opentime: (new (init: ModelInit<Opentime>) => Opentime)
-
-type EagerPriceitem = {
-  readonly name?: string | null;
-  readonly price?: number | null;
-  readonly id?: number | null;
-}
-
-type LazyPriceitem = {
-  readonly name?: string | null;
-  readonly price?: number | null;
-  readonly id?: number | null;
-}
-
-export declare type Priceitem = LazyLoading extends LazyLoadingDisabled ? EagerPriceitem : LazyPriceitem
-
-export declare const Priceitem: (new (init: ModelInit<Priceitem>) => Priceitem)
-
 type EagerSellplaces = {
   readonly all?: number | null;
   readonly free?: number | null;
@@ -186,17 +150,57 @@ export declare const StoreSettingsValidation: (new (init: ModelInit<StoreSetting
 
 type EagerStoreSettings = {
   readonly isHidden?: StoreSettingsValidation | null;
+  readonly isDone: StoreSettingsValidation;
   readonly isConfirmed: StoreSettingsValidation;
 }
 
 type LazyStoreSettings = {
   readonly isHidden?: StoreSettingsValidation | null;
+  readonly isDone: StoreSettingsValidation;
   readonly isConfirmed: StoreSettingsValidation;
 }
 
 export declare type StoreSettings = LazyLoading extends LazyLoadingDisabled ? EagerStoreSettings : LazyStoreSettings
 
 export declare const StoreSettings: (new (init: ModelInit<StoreSettings>) => StoreSettings)
+
+type EagerOpentime = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Opentime, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly day: number;
+  readonly start?: string | null;
+  readonly end?: string | null;
+  readonly isClosed?: boolean | null;
+  readonly store?: Store | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly storeOpentimesId?: string | null;
+}
+
+type LazyOpentime = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Opentime, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly day: number;
+  readonly start?: string | null;
+  readonly end?: string | null;
+  readonly isClosed?: boolean | null;
+  readonly store: AsyncItem<Store | undefined>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly storeOpentimesId?: string | null;
+}
+
+export declare type Opentime = LazyLoading extends LazyLoadingDisabled ? EagerOpentime : LazyOpentime
+
+export declare const Opentime: (new (init: ModelInit<Opentime>) => Opentime) & {
+  copyOf(source: Opentime, mutator: (draft: MutableModel<Opentime>) => MutableModel<Opentime> | void): Opentime;
+}
 
 type EagerCategories = {
   readonly [__modelMeta__]: {
@@ -208,6 +212,7 @@ type EagerCategories = {
   readonly createdBy: string;
   readonly name: string;
   readonly updatedAt?: string | null;
+  readonly storeCategoriesId?: string | null;
 }
 
 type LazyCategories = {
@@ -220,6 +225,7 @@ type LazyCategories = {
   readonly createdBy: string;
   readonly name: string;
   readonly updatedAt?: string | null;
+  readonly storeCategoriesId?: string | null;
 }
 
 export declare type Categories = LazyLoading extends LazyLoadingDisabled ? EagerCategories : LazyCategories
@@ -239,6 +245,7 @@ type EagerNotes = {
   readonly notes: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly storeNotesId?: string | null;
 }
 
 type LazyNotes = {
@@ -252,6 +259,7 @@ type LazyNotes = {
   readonly notes: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly storeNotesId?: string | null;
 }
 
 export declare type Notes = LazyLoading extends LazyLoadingDisabled ? EagerNotes : LazyNotes
@@ -276,6 +284,7 @@ type EagerOrders = {
   readonly message?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly storeOrdersId?: string | null;
 }
 
 type LazyOrders = {
@@ -294,6 +303,7 @@ type LazyOrders = {
   readonly message?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly storeOrdersId?: string | null;
 }
 
 export declare type Orders = LazyLoading extends LazyLoadingDisabled ? EagerOrders : LazyOrders
@@ -348,7 +358,7 @@ type EagerUser = {
   readonly id: string;
   readonly username: string;
   readonly email?: string | null;
-  readonly stores?: Store[] | null;
+  readonly stores?: (Store | null)[] | null;
   readonly role?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -384,18 +394,16 @@ type EagerStore = {
   readonly type: string;
   readonly name: string;
   readonly description?: string | null;
-  readonly clicked?: string | null;
-  readonly pricelist?: (Priceitem | null)[] | null;
-  readonly opentimes?: Opentime[] | null;
+  readonly opentimes?: (Opentime | null)[] | null;
   readonly contact: Contact;
   readonly location: Location;
   readonly imgs?: string[] | null;
   readonly social?: Social | null;
   readonly settings: StoreSettings;
   readonly logo?: string | null;
-  readonly categories?: Categories[] | null;
-  readonly notes?: Notes[] | null;
-  readonly orders?: Orders[] | null;
+  readonly categories?: (Categories | null)[] | null;
+  readonly notes?: (Notes | null)[] | null;
+  readonly orders?: (Orders | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -410,9 +418,7 @@ type LazyStore = {
   readonly type: string;
   readonly name: string;
   readonly description?: string | null;
-  readonly clicked?: string | null;
-  readonly pricelist?: (Priceitem | null)[] | null;
-  readonly opentimes?: Opentime[] | null;
+  readonly opentimes: AsyncCollection<Opentime>;
   readonly contact: Contact;
   readonly location: Location;
   readonly imgs?: string[] | null;

@@ -1,9 +1,8 @@
 import type {
-  LazyCategory,
+  LazyCategories,
   LazyOpentime,
   LazyContact,
   LazyLocation,
-  LazyImage,
   LazyStore,
   LazySocial,
 } from "../../models";
@@ -28,7 +27,7 @@ export interface NewStoreProps {
   name: string;
   description: string | null;
   social: LazySocial;
-  categories: LazyCategory[];
+  categories: LazyCategories[];
   openTimes: LazyOpentime[];
   contacts: LazyContact;
   location: LazyLocation;

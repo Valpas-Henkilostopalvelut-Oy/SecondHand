@@ -20,20 +20,6 @@ type Contact {
   website: AWSURL
 }
 
-type Opentime {
-  day: String
-  start: AWSDateTime
-  end: AWSDateTime
-  id: String
-  isClosed: Boolean
-}
-
-type Priceitem {
-  name: String
-  price: Float
-  id: Int
-}
-
 type Sellplaces {
   all: Int
   free: Int
@@ -70,7 +56,28 @@ type StoreSettingsValidation {
 
 type StoreSettings {
   isHidden: StoreSettingsValidation
+  isDone: StoreSettingsValidation!
   isConfirmed: StoreSettingsValidation!
+}
+
+enum StoreSettingsType {
+  isPaid
+  isPremium
+  isPromoted
+}
+
+type Opentime
+  @model @auth(rules: [
+    { allow: public, operations: [read, create, update]}
+    { allow: groups, groups: ["admin"] }
+    ])
+{
+  id: ID!
+  day: Int!
+  start: AWSDateTime
+  end: AWSDateTime
+  isClosed: Boolean
+  store: Store @belongsTo
 }
 
 type Categories
@@ -92,7 +99,7 @@ type Notes
   @auth(rules: [{ allow: private }]) {
   id: ID!
   username: ID!
-  store: Store @belongsTo(fields: ["id"])
+  store: Store @belongsTo
   notes: String!
 }
 
@@ -101,7 +108,7 @@ type Orders
   @auth(rules: [{ allow: groups, groups: ["admin"] }]) {
   id: ID!
   username: ID!
-  store: Store @belongsTo(fields: ["id"])
+  store: Store @belongsTo
   type: StoreSettingsType!
   status: String!
   from: AWSDateTime!
@@ -136,7 +143,7 @@ type User
   id: ID!
   username: ID!
   email: AWSEmail
-  stores: [Store!] @hasMany(fields: ["id"])
+  stores: [Store] @hasMany(fields: ["id"])
   role: String
 }
 
@@ -153,18 +160,16 @@ type Store
   type: String!
   name: String!
   description: String
-  clicked: String
-  pricelist: [Priceitem]
-  opentimes: [Opentime!]
+  opentimes: [Opentime] @hasMany
   contact: Contact!
   location: Location!
   imgs: [String!]
   social: Social
   settings: StoreSettings!
   logo: String
-  categories: [Categories!] @hasMany(fields: ["id"])
-  notes: [Notes!] @hasMany(fields: ["id"])
-  orders: [Orders!] @hasMany(fields: ["id"])
+  categories: [Categories] @hasMany
+  notes: [Notes] @hasMany
+  orders: [Orders] @hasMany
 }
 
 type Evaluation

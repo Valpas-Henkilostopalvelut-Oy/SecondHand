@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
-import NewStore from "./components/NewStore";
+import NewStore from "../../globalComponents/NewStore";
 import StoreItem from "./components/StoreItem";
 import { fetchStores } from "../../app/reducer/stores";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";

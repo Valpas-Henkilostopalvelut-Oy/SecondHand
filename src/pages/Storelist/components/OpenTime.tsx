@@ -41,40 +41,9 @@ const OpenTime = (props: any) => {
   const { times } = props;
 
   if (!times) return null;
-  const q = times.reduce((acc: OpentimesReducer[], item: LazyOpentime) => {
-    const { day, start, end, isClosed } = item;
+  return null;
 
-    const isAccEmpty = acc.length === 0;
-    const checkLatestAcc = acc[acc.length - 1];
-    const isSameTimeStart = checkLatestAcc?.start === start;
-    const isSameTimeEnd = checkLatestAcc?.end === end;
-    const findSameStartEnd = acc.find(
-      (item) => item.start === start && item.end === end
-    );
-
-    if (isAccEmpty) {
-      addValue();
-    } else if (isSameTimeStart && isSameTimeEnd) {
-      checkLatestAcc.day_last = day;
-      checkLatestAcc.end = end;
-    } else {
-      addValue();
-    }
-
-    function addValue() {
-      acc.push({
-        day_first: day,
-        day_last: day,
-        start,
-        end,
-        isClosed,
-      });
-    }
-
-    return acc;
-  }, []);
-
-  return q.map((item: OpentimesReducer, index: number) => {
+  return [].map((item: OpentimesReducer, index: number) => {
     const { start, end, isClosed } = item;
     if ((!start || !end) && !isClosed) return null;
     const s = start

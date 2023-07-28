@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { LazyCategory, LazyStore } from "../../models";
+import type { LazyStore } from "../../models";
 import { Store } from "../../models";
 import { DataStore, Storage } from "aws-amplify";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -57,7 +57,7 @@ export const uploadImageAsync = createAsyncThunk(
     });
     const updatedStore = await DataStore.save(
       Store.copyOf(store, (updated) => {
-        updated.imgs = [...(store.imgs || []), { key, id: fileId }];
+        updated.imgs = null;
       })
     );
     return getFixedStore(updatedStore);
@@ -81,7 +81,7 @@ export const deleteImageAsync = createAsyncThunk(
     await Storage.remove(key);
     const updatedStore = await DataStore.save(
       Store.copyOf(store, (updated) => {
-        updated.imgs = store.imgs?.filter((file) => file?.key !== key);
+        updated.imgs = store.imgs?.filter((img) => img !== key);
       })
     );
     return getFixedStore(updatedStore);
@@ -240,35 +240,25 @@ export const fetchStoreFilter = createAsyncThunk(
     );
 
     // Apply search filter based on the category
-    const searchedStoresByCategory = category
+    /*const searchedStoresByCategory = category
       ? searchedStoresByConfirmed.filter((store) =>
           category.every((category) =>
             store.categories?.map((c) => c?.name).includes(category)
           )
         )
-      : searchedStoresByConfirmed;
+      : searchedStoresByConfirmed;*/
 
     // Apply search filter based on the type
     const searchedStoresByType = type
-      ? searchedStoresByCategory.filter((store) => store.type === type)
-      : searchedStoresByCategory;
-
-    // Apply search filter based on the title
-    const searchedStoresByTitle = searchedStoresByType.filter(
-      (store) =>
-        store?.name?.toLowerCase().includes(title.toLowerCase()) ||
-        store?.description?.toLowerCase().includes(title.toLowerCase()) ||
-        store?.categories?.some((category) =>
-          category?.name?.toLowerCase().includes(title.toLowerCase())
-        )
-    );
+      ? searchedStoresByConfirmed.filter((store) => store.type === type)
+      : searchedStoresByConfirmed;
 
     // Apply search filter based on the type
     const searchedStoresByArea = area
-      ? searchedStoresByTitle.filter(
+      ? searchedStoresByType.filter(
           (store) => store.location?.admin_name === area
         )
-      : searchedStoresByTitle;
+      : searchedStoresByType;
 
     // Apply search filter based on the city
     const searchedStoresByCity = city

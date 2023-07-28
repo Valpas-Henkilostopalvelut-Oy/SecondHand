@@ -71,7 +71,6 @@ const StoreItem = (props: LazyStore) => {
     name,
     description,
     categories,
-    opentimes,
     contact,
     location,
     imgs,
@@ -80,6 +79,8 @@ const StoreItem = (props: LazyStore) => {
   } = props;
   const handleClick = () => setOpen(!open);
   const theme = useTheme();
+
+  const opentimes = async () => await props.opentimes?.toArray();
 
   //accordion open up
 
@@ -176,16 +177,11 @@ const StoreItem = (props: LazyStore) => {
 
           <CustomBox>
             <Grid container spacing={2}>
-              <Grid
-                item
-                xs={12}
-                sm={4}
-                hidden={!opentimes || opentimes.length === 0}
-              >
+              <Grid item xs={12} sm={4} hidden={!opentimes}>
                 <Typography variant="h6">
                   <b>Aukioloajat</b>
                 </Typography>
-                <OpenTime times={opentimes} />
+                {/** <OpenTime times={opentimes} /> */}
               </Grid>
 
               <Grid

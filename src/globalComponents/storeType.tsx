@@ -9,3 +9,5 @@ export const storeTypes: StoreType[] = [
   { id: "auctions", name: "Huutokaupat" },
   { id: "events", name: "Tapahtumat" },
 ];
+export const getStoreType = (id: string) =>
+  storeTypes.find((type) => type.id === id);

@@ -9,15 +9,14 @@ import {
 } from "@mui/material";
 import type { LazyOpentime, LazyStore } from "../../../../../models";
 
-const OpenTimes = (props: LazyStore) => {
-  const { opentimes } = props;
-  if (!opentimes) return null;
+const OpenTimes = (props?: LazyOpentime[] | null) => {
+  if (!props) return null;
 
   return (
     <TableContainer>
       <Table>
         <TableBody>
-          {opentimes.map((opentime) => {
+          {props.map((opentime) => {
             if (!opentime) return null;
             return <OneTimes key={opentime.id} {...opentime} />;
           })}

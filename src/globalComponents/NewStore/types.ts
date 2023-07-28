@@ -6,8 +6,8 @@ import type {
   Social,
   StoreSettings,
   Opentime,
+  Notes,
 } from "../../models";
-import type { AsyncCollection } from "@aws-amplify/datastore";
 
 export interface ComponentProps {
   values: StoreFormProps;
@@ -28,16 +28,16 @@ interface StoreFormProps {
   type: string;
   name: string;
   description?: string | null;
-  categories?: AsyncCollection<Categories> | null;
+  categories?: Categories[] | null;
   contact: Contact;
   location: Location;
   imgs?: File[] | null;
   social?: Social | null;
-  settings?: StoreSettings | null;
-  logo?: string | null;
-  opentimes?: (Opentime | null)[] | null;
-  notes?: string | null;
-  adminNotes?: string | null;
+  settings: StoreSettings;
+  logo?: File | null;
+  opentimes?: Opentime[] | null;
+  notes?: Notes[] | null;
+  note?: string | null;
 }
 
 export default StoreFormProps;
