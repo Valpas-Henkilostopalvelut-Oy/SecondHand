@@ -24,11 +24,12 @@ import type StoreFormProps from "./types";
 import { Add, Clear } from "@mui/icons-material";
 import LogoImage from "../LogoImage";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { storeTypes, getStoreType } from "../storeType";
+import { storeTypes } from "../storeType";
 import areas from "../Search/fi";
 import type { area } from "../Search/fi";
 import ImageComponent from "../ImageComponent";
-import { createNote, deleteNote } from "./services/storeLib";
+import { createNoDoneStore } from "./services/storeLib";
+import OpenTimes from "../OpenTimes";
 
 const uniqueAreas = (areas: area[]) =>
   areas
@@ -95,11 +96,15 @@ const NoteForm = ({
     setNote(e.target.value);
   const handleCreateNote = async () => {
     if (!note) return;
-    await createNote(note).then((res) => {
-      const newNotes = [...(values.notes || []), res];
-      setFieldValue("notes", newNotes);
-      setNote("");
-    });
+    const newNotes = [
+      ...(values.notes || []),
+      {
+        id: Math.random().toString(36).substr(2, 9),
+        notes: note,
+      },
+    ];
+    setFieldValue("notes", newNotes);
+    setNote("");
   };
   return (
     <Box display={"flex"}>
@@ -157,6 +162,17 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
     { setSubmitting, resetForm }: FormikHelpers<StoreFormProps>
   ) => {
     console.log(values);
+    setTimeout(() => {
+      setSubmitting(false);
+    }, 1000);
+  };
+
+  const onNoDoneStore = async (
+    values: StoreFormProps,
+    { setSubmitting, resetForm }: FormikHelpers<StoreFormProps>
+  ) => {
+    const newStore = await createNoDoneStore(values);
+    console.log(newStore);
     setTimeout(() => {
       setSubmitting(false);
     }, 1000);
@@ -399,7 +415,13 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                         values.location.admin_name
                       )}
                       getOptionLabel={(option) => option.city}
-                      onChange={(e, value) => setFieldValue("location", value)}
+                      onChange={(e, value) => {
+                        if (!value) return;
+                        setFieldValue("location", {
+                          ...values.location,
+                          city: value.city,
+                        });
+                      }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -509,16 +531,29 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                   <Grid item xs={12}>
                     <Typography variant="h6">Aukioloajat</Typography>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Typography variant="body2">
-                      Voit lisätä aukioloajat myös myöhemmin.
-                    </Typography>
-                    <Button
-                      variant="outlined"
-                      onClick={() => setFieldValue("opentimes", null)}
-                    >
-                      Poista aukioloajat
-                    </Button>
+                  <Grid item xs={12}>
+                    <OpenTimes
+                      opentimes={values.opentimes || []}
+                      onAdd={(opentime) => {
+                        const newOpenTimes = [
+                          ...(values.opentimes || []),
+                          opentime,
+                        ].sort((a, b) => {
+                          if (!a || !b) return 0;
+                          if (!a.day || !b.day ) return 0;
+                          if (a.day > b.day) return 1;
+                          if (a.day < b.day) return -1;
+                          return 0;
+                        });
+                        setFieldValue("opentimes", newOpenTimes);
+                      }}
+                      onDelete={(opentime) => {
+                        const newOpenTimes = values.opentimes?.filter(
+                          (ot) => ot.id !== opentime
+                        );
+                        setFieldValue("opentimes", newOpenTimes);
+                      }}
+                    />
                   </Grid>
                 </StoreBlock>
                 <StoreBlock container spacing={2}>
@@ -580,14 +615,19 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                   </Grid>
                   <Grid item xs={12}>
                     {values.notes?.map((note, index) => (
-                      <Box display={"flex"} key={index}>
+                      <Box
+                        display={"flex"}
+                        key={index}
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Typography variant="body2">{note.id}</Typography>
                         <Typography variant="body2">{note.notes}</Typography>
                         <IconButton
                           onClick={async () => {
                             const newNotes = values.notes?.filter(
                               (notes) => notes.id !== note.id
                             );
-                            await deleteNote(note.id);
                             setFieldValue("notes", newNotes);
                           }}
                         >
@@ -614,8 +654,7 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                 <Button
                   variant="outlined"
                   color="primary"
-                  type="submit"
-                  disabled={isSubmitting || !isValid}
+                  disabled={isSubmitting}
                   sx={{ mt: 2, ml: 2 }}
                 >
                   Tallenna ja jatka myöhemmin
