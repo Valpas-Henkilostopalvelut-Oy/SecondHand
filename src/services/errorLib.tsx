@@ -24,7 +24,7 @@ export const ErrorStore = () => {
         sx={{ width: "100%" }}
         variant="filled"
       >
-        {error}
+        Store: {error}
       </Alert>
     </Snackbar>
   );

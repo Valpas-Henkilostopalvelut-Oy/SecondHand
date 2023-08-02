@@ -5,9 +5,9 @@ import type {
   Contact,
   Social,
   StoreSettings,
-  Opentime,
   Notes,
-  Store,
+  Orders,
+  LazyStore,
 } from "../models";
 
 export interface ComponentProps {
@@ -37,7 +37,7 @@ export interface StoreFormProps {
   type: string;
   name: string;
   description?: string | null;
-  categories?: Categories[] | null;
+  categories?: Categories[];
   contact: Contact;
   location: Location;
   imgs?: File[] | null;
@@ -46,7 +46,6 @@ export interface StoreFormProps {
   logo?: File | null;
   opentimes?: OpenTimesProps[] | null;
   notes?: Notes[] | null;
-  note?: string | null;
 }
 
 export interface filterProps {
@@ -55,14 +54,12 @@ export interface filterProps {
   category: string[] | null | undefined;
   area: string | null;
   city: string | null;
-  isConfirmed: boolean | undefined | null;
+  isConfirmed: boolean;
 }
 
 export interface initialStateProps {
   isLoading: boolean;
   isError: boolean;
   error: string | null | undefined;
-  data: Store[] | [];
+  data: LazyStore[] | null;
 }
-
-export default StoreFormProps;

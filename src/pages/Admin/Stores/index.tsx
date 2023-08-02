@@ -18,7 +18,7 @@ const Stores = () => {
     <Box>
       <AdminSearch />
       <NewStore />
-      {data.map((kirppis) => (
+      {data?.map((kirppis) => (
         <StoreItem key={kirppis.id} {...kirppis} />
       ))}
       <ErrorStore />

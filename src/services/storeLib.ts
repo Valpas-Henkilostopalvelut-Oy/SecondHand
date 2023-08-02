@@ -1,66 +1,58 @@
 import { Store } from "../models";
-import { DataStore, Auth, Storage } from "aws-amplify";
-import type StoreFormProps from "../types/store";
-import type { filterProps } from "../types/store";
+import {
+  DataStore,
+  Auth,
+  Storage,
+  SortDirection,
+  Predicates,
+} from "aws-amplify";
+import type { filterProps, StoreFormProps } from "../types/store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createNote } from "./noteLib";
-import { createOpenTime } from "./openTimeLib";
-
-export const getFixedStore = (store: Store) => {
-  const { ...rest } = store;
-  return rest;
-};
-
-export const createStore = async ({
-  store,
-  isAdmin,
-}: {
-  store: StoreFormProps;
-  isAdmin: boolean;
-}) => {
-  try {
-    const user = await Auth.currentAuthenticatedUser();
-    const newStore = await DataStore.save(
-      new Store({
-        categories: store.categories ? store.categories : undefined,
-        username: user.username,
-        type: store.type,
-        name: store.name,
-        contact: store.contact,
-        location: store.location,
-        settings: {
-          ...store.settings,
-          isConfirmed: { status: isAdmin },
-        },
-      })
-    );
-
-    const notesPromises = (store.notes || []).map((note) =>
-      createNote(note.notes, newStore)
-    );
-    const opentimesPromises = (store.opentimes || []).map((openTime) =>
-      createOpenTime(openTime, newStore)
-    );
-
-    await Promise.all(notesPromises);
-    await Promise.all(opentimesPromises);
-    return newStore;
-  } catch (error: any) {
-    throw new Error(error);
-  }
-};
+import { createOpenTimeAsync } from "./openTimeLib";
+import type { AppDispatch } from "../app/store";
 
 export const createStoreAsync = createAsyncThunk(
   "adminStores/createStore",
   async ({
     store,
     isAdmin = false,
+    dispatch,
   }: {
     store: StoreFormProps;
     isAdmin?: boolean;
+    dispatch: AppDispatch;
   }) => {
-    const newStore = await createStore({ store, isAdmin });
-    return getFixedStore(newStore);
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      const newStore = await DataStore.save(
+        new Store({
+          categories: store.categories,
+          username: user.username,
+          type: store.type,
+          name: store.name,
+          contact: store.contact,
+          location: store.location,
+          settings: {
+            ...store.settings,
+            isConfirmed: { status: isAdmin },
+          },
+        })
+      );
+
+      const notesPromises = (store.notes || []).map((note) =>
+        createNote(note.notes, newStore)
+      );
+      const opentimesPromises = (store.opentimes || []).map((openTime) =>
+        dispatch(createOpenTimeAsync({ openTime, store: newStore }))
+      );
+
+      await Promise.all(notesPromises);
+      await Promise.all(opentimesPromises);
+      return newStore;
+    } catch (error: any) {
+      throw new Error(error);
+    }
   }
 );
 
@@ -102,26 +94,18 @@ export const updateStoreAsync = createAsyncThunk(
         updated[name] = value;
       })
     );
-    return getFixedStore(updatedStore);
+    return updatedStore;
   }
 );
 
 export const fetchStores = createAsyncThunk(
   "adminStores/fetchStores",
   async () => {
-    const stores = await DataStore.query(Store);
-    const fixedStores = stores.map((store) => getFixedStore(store));
-    const filteredStores = fixedStores.filter(
-      (store) => store.settings.isConfirmed?.status
-    );
-    const sortedStores = filteredStores.sort((a, b) => {
-      if (a.name && b.name) {
-        return a.name.localeCompare(b.name);
-      }
-      return 0;
+    const stores = await DataStore.query(Store, Predicates.ALL, {
+      sort: (s) => s.name(SortDirection.ASCENDING),
     });
 
-    return sortedStores;
+    return stores;
   }
 );
 
@@ -129,49 +113,19 @@ export const fetchStoreFilter = createAsyncThunk(
   "adminStores/fetchStoreFilter",
   async (filter: filterProps) => {
     const { type, title, area, city, category, isConfirmed } = filter;
-    const stores = await DataStore.query(Store);
-    const filteredStores = stores.map((store) => getFixedStore(store));
-    const sortedStores = filteredStores.sort((a, b) => {
-      if (a.name && b.name) {
-        return a.name.localeCompare(b.name);
+    const stores = await DataStore.query(
+      Store,
+      (s) =>
+        s.settings.isConfirmed.status.eq(isConfirmed) &&
+        s.type.eq(type || "") &&
+        s.location?.admin_name.eq(area || "") &&
+        s.location?.city.eq(city || ""),
+      {
+        sort: (s) => s.name(SortDirection.ASCENDING),
       }
-      return 0;
-    });
-
-    // Apply search by confirmed
-    const searchedStoresByConfirmed = sortedStores.filter(
-      (store) =>
-        !!store.settings.isConfirmed?.status === isConfirmed ||
-        isConfirmed === null
     );
 
-    // Apply search filter based on the category
-    /*const searchedStoresByCategory = category
-      ? searchedStoresByConfirmed.filter((store) =>
-          category.every((category) =>
-            store.categories?.map((c) => c?.name).includes(category)
-          )
-        )
-      : searchedStoresByConfirmed;*/
-
-    // Apply search filter based on the type
-    const searchedStoresByType = type
-      ? searchedStoresByConfirmed.filter((store) => store.type === type)
-      : searchedStoresByConfirmed;
-
-    // Apply search filter based on the type
-    const searchedStoresByArea = area
-      ? searchedStoresByType.filter(
-          (store) => store.location?.admin_name === area
-        )
-      : searchedStoresByType;
-
-    // Apply search filter based on the city
-    const searchedStoresByCity = city
-      ? searchedStoresByArea.filter((store) => store.location?.city === city)
-      : searchedStoresByArea;
-
-    return searchedStoresByCity;
+    return stores;
   }
 );
 
@@ -194,7 +148,7 @@ export const confirmStoreAsync = createAsyncThunk(
         };
       })
     );
-    return getFixedStore(updatedStore);
+    return updatedStore;
   }
 );
 
@@ -218,7 +172,7 @@ export const unconfirmStoreAsync = createAsyncThunk(
       })
     );
 
-    return getFixedStore(updatedStore);
+    return updatedStore;
   }
 );
 
@@ -251,7 +205,7 @@ export const uploadImageAsync = createAsyncThunk(
         updated.imgs = null;
       })
     );
-    return getFixedStore(updatedStore);
+    return updatedStore;
   }
 );
 
@@ -275,7 +229,7 @@ export const deleteImageAsync = createAsyncThunk(
         updated.imgs = store.imgs?.filter((img) => img !== key);
       })
     );
-    return getFixedStore(updatedStore);
+    return updatedStore;
   }
 );
 
@@ -298,6 +252,6 @@ export const updateLogoAsync = createAsyncThunk(
         updated.logo = logo;
       })
     );
-    return getFixedStore(updatedStore);
+    return updatedStore;
   }
 );

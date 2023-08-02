@@ -13,20 +13,21 @@ import {
   deleteImageAsync,
   createStoreAsync,
 } from "../../services/storeLib";
+import type { LazyStore } from "../../models";
 
 const initialState: initialStateProps = {
   isLoading: false,
   isError: false,
   error: null,
-  data: [],
+  data: null,
 };
 
 const stores = createSlice({
   name: "adminStores",
   initialState,
   reducers: {
-    updateData: (state, action: PayloadAction<any>): void => {
-      state.data = [...state.data, action.payload];
+    updateData: (state, action: PayloadAction<LazyStore>): void => {
+      state.data = [action.payload];
     },
     clearError: (state) => {
       state.isError = false;
@@ -39,16 +40,12 @@ const stores = createSlice({
       state.isError = false;
       state.error = null;
     });
-    builder.addCase(
-      createStoreAsync.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.error = null;
-        state.data = [...state.data, action.payload];
-        console.log("action.payload", action.payload);
-      }
-    );
+    builder.addCase(createStoreAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data = [action.payload];
+    });
     builder.addCase(createStoreAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -60,15 +57,12 @@ const stores = createSlice({
       state.isError = false;
       state.error = null;
     });
-    builder.addCase(
-      fetchStores.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.error = null;
-        state.data = action.payload;
-      }
-    );
+    builder.addCase(fetchStores.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data = action.payload;
+    });
     builder.addCase(fetchStores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -80,13 +74,10 @@ const stores = createSlice({
       state.isError = false;
       state.error = null;
     });
-    builder.addCase(
-      fetchStoreFilter.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.data = action.payload;
-      }
-    );
+    builder.addCase(fetchStoreFilter.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
     builder.addCase(fetchStoreFilter.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -98,17 +89,12 @@ const stores = createSlice({
       state.isError = false;
       state.error = null;
     });
-    builder.addCase(
-      confirmStoreAsync.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.error = null;
-        state.data = state.data?.filter(
-          (store) => store.id !== action.payload.id
-        );
-      }
-    );
+    builder.addCase(confirmStoreAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data?.filter((store) => store.id !== action.payload.id);
+    });
     builder.addCase(confirmStoreAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -120,15 +106,12 @@ const stores = createSlice({
       state.isError = false;
       state.error = null;
     });
-    builder.addCase(
-      deleteStoreAsync.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.error = null;
-        state.data = state.data?.filter((store) => store.id !== action.payload);
-      }
-    );
+    builder.addCase(deleteStoreAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data?.filter((store) => store.id !== action.payload);
+    });
     builder.addCase(deleteStoreAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -139,17 +122,14 @@ const stores = createSlice({
       state.isError = false;
       state.error = null;
     });
-    builder.addCase(
-      updateStoreAsync.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.error = null;
-        state.data = state.data?.map((store) =>
-          store.id === action.payload.id ? action.payload : store
-        );
-      }
-    );
+    builder.addCase(updateStoreAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data?.map((store) =>
+        store.id === action.payload.id ? action.payload : store
+      );
+    });
     builder.addCase(updateStoreAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -161,17 +141,12 @@ const stores = createSlice({
       state.isError = false;
       state.error = null;
     });
-    builder.addCase(
-      unconfirmStoreAsync.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.error = null;
-        state.data = state.data?.filter(
-          (store) => store.id !== action.payload.id
-        );
-      }
-    );
+    builder.addCase(unconfirmStoreAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data?.filter((store) => store.id !== action.payload.id);
+    });
     builder.addCase(unconfirmStoreAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -187,7 +162,7 @@ const stores = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.error = null;
-      state.data = state.data?.map((store) =>
+      state.data?.map((store) =>
         store.id === action.payload.id ? action.payload : store
       );
     });
@@ -206,7 +181,7 @@ const stores = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.error = null;
-      state.data = state.data?.map((store) =>
+      state.data?.map((store) =>
         store.id === action.payload.id ? action.payload : store
       );
     });
@@ -225,7 +200,7 @@ const stores = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.error = null;
-      state.data = state.data?.map((store) =>
+      state.data?.map((store) =>
         store.id === action.payload.id ? action.payload : store
       );
     });

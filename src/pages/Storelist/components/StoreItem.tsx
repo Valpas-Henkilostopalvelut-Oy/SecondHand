@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import type { LazyStore } from "../../../models";
+import type { BoxProps, GridProps } from "@mui/material";
 import {
   AccordionDetails,
   AccordionSummary,
@@ -13,8 +14,6 @@ import {
 } from "@mui/material";
 import CustomBox from "./CustomBox";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import type { LazyStore } from "../../../models";
-import OpenTime from "./OpenTime";
 import SocialMedia from "./SocialMedia";
 import CustomIframe from "./CustomIframe";
 import ImageComponent from "../../../globalComponents/ImageComponent";
@@ -25,11 +24,21 @@ import Carousel from "react-material-ui-carousel";
 //https://www.n3xtlevel.fi/ to www.n3xtlevel.fi
 const removeHttps = (url: string) => url.replace(/(^\w+:|^)\/\//, "");
 
-const SummaryMobile = (props: LazyStore) => {
-  const { logo, name } = props;
+const SummaryMobile = ({
+  grid,
+  store,
+}: {
+  grid?: GridProps;
+  store: LazyStore;
+}) => {
+  const { logo, name } = store;
   const theme = useTheme();
   return (
-    <Grid container sx={{ [theme.breakpoints.up("sm")]: { display: "none" } }}>
+    <Grid
+      container
+      {...grid}
+      sx={{ [theme.breakpoints.up("sm")]: { display: "none" } }}
+    >
       <Grid item xs={12} sm={4}>
         <LogoImage isPaid={true} skey={logo} />
       </Grid>
@@ -42,12 +51,19 @@ const SummaryMobile = (props: LazyStore) => {
   );
 };
 
-const SummaryDesktop = (props: LazyStore) => {
-  const { logo, name } = props;
+const SummaryDesktop = ({
+  grid,
+  store,
+}: {
+  grid?: GridProps;
+  store: LazyStore;
+}) => {
+  const { logo, name } = store;
   const theme = useTheme();
   return (
     <Grid
       container
+      {...grid}
       sx={{
         [theme.breakpoints.down("sm")]: { display: "none" },
         alignItems: "center",
@@ -65,27 +81,19 @@ const SummaryDesktop = (props: LazyStore) => {
   );
 };
 
-const StoreItem = (props: LazyStore) => {
+const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
   const [open, setOpen] = useState(false);
-  const {
-    name,
-    description,
-    categories,
-    contact,
-    location,
-    imgs,
-    social,
-    logo,
-  } = props;
+  const { description, categories, contact, location, imgs, social } = store;
   const handleClick = () => setOpen(!open);
   const theme = useTheme();
 
-  const opentimes = async () => await props.opentimes?.toArray();
+  const opentimes = async () => await store.opentimes?.toArray();
 
   //accordion open up
 
   return (
     <Box
+      {...box}
       sx={{
         border: "1px solid #ccc",
         borderRadius: "4px",
@@ -109,8 +117,8 @@ const StoreItem = (props: LazyStore) => {
             [theme.breakpoints.down("sm")]: { padding: "0px" },
           }}
         >
-          <SummaryMobile {...props} />
-          <SummaryDesktop {...props} />
+          <SummaryMobile store={store} />
+          <SummaryDesktop store={store} />
         </AccordionSummary>
         <AccordionDetails
           sx={{

@@ -4,18 +4,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { Auth, DataStore } from "aws-amplify";
-
-interface userState {
-  isAuth: boolean;
-  isAdmin: boolean;
-  isLoading: boolean;
-  isEmailVerified: boolean;
-  isError: boolean;
-  isConfirming: boolean;
-  userID: string | null;
-  userEmail: string | null;
-  error: string | null | undefined;
-}
+import type { userState } from "../../types/user";
 
 const initialState: userState = {
   isAuth: false,

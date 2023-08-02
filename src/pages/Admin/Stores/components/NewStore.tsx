@@ -20,16 +20,16 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Formik, type FormikHelpers } from "formik";
 import * as yup from "yup";
-import type StoreFormProps from "../../../../types/store";
 import { Add, Clear } from "@mui/icons-material";
 import LogoImage from "../../../../globalComponents/LogoImage";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
-import { storeTypes } from "../../../../globalComponents/storeType";
+import { storeTypes } from "../../../../services/storeType";
 import areas from "../../../../globalComponents/Search/fi";
 import type { area } from "../../../../globalComponents/Search/fi";
 import ImageComponent from "../../../../globalComponents/ImageComponent";
 import OpenTimes from "../../../../globalComponents/OpenTimes";
 import { createStoreAsync } from "../../../../services/storeLib";
+import type { StoreFormProps } from "../../../../types/store";
 
 const uniqueAreas = (areas: area[]) =>
   areas
@@ -164,12 +164,14 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
     { setSubmitting, resetForm }: FormikHelpers<StoreFormProps>
   ) => {
     console.log(values);
-    dispatch(createStoreAsync({ store: values, isAdmin })).then((action) => {
-      if (createStoreAsync.fulfilled.match(action)) {
-        resetForm();
+    dispatch(createStoreAsync({ store: values, isAdmin, dispatch })).then(
+      (action) => {
+        if (createStoreAsync.fulfilled.match(action)) {
+          resetForm();
+        }
+        setSubmitting(false);
       }
-      setSubmitting(false);
-    })
+    );
   };
 
   return (
