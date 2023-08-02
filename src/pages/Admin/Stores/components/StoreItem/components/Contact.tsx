@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Box } from "@mui/material";
-import type { LazyStore } from "../../../../../models";
+import type { LazyStore } from "../../../../../../models";
 
 const Contact = (props: LazyStore) => {
   const { contact } = props;

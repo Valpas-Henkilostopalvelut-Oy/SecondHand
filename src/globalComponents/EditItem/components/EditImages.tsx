@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
-import {
-  uploadImageAsync,
-  deleteImageAsync,
-} from "../../../app/reducer/stores";
+import { uploadImageAsync, deleteImageAsync } from "../../../services/storeLib";
 import Carousel from "react-material-ui-carousel";
 import type { LazyStore } from "../../../models";
 import ImageComponent from "../../ImageComponent";

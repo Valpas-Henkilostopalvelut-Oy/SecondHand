@@ -4,7 +4,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { Typography, Box, IconButton } from "@mui/material";
-import type { LazySocial } from "../../../../../models";
+import type { LazySocial } from "../../../../../../models";
 
 const checkUrl = (url: string) => {
   if (url.includes("http://") || url.includes("https://")) {

@@ -20,16 +20,16 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Formik, type FormikHelpers } from "formik";
 import * as yup from "yup";
-import type StoreFormProps from "./types";
+import type StoreFormProps from "../../../../types/store";
 import { Add, Clear } from "@mui/icons-material";
-import LogoImage from "../LogoImage";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { storeTypes } from "../storeType";
-import areas from "../Search/fi";
-import type { area } from "../Search/fi";
-import ImageComponent from "../ImageComponent";
-import { createNoDoneStore } from "./services/storeLib";
-import OpenTimes from "../OpenTimes";
+import LogoImage from "../../../../globalComponents/LogoImage";
+import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
+import { storeTypes } from "../../../../globalComponents/storeType";
+import areas from "../../../../globalComponents/Search/fi";
+import type { area } from "../../../../globalComponents/Search/fi";
+import ImageComponent from "../../../../globalComponents/ImageComponent";
+import OpenTimes from "../../../../globalComponents/OpenTimes";
+import { createStoreAsync } from "../../../../services/storeLib";
 
 const uniqueAreas = (areas: area[]) =>
   areas
@@ -136,13 +136,15 @@ const NoteForm = ({
 
 const NewStore = ({ box }: { box?: BoxProps }) => {
   const categories = useAppSelector((state) => state.categories.data);
+  const dispatch = useAppDispatch();
+  const isAdmin = useAppSelector((state) => state.user.isAdmin);
   const initialValues: StoreFormProps = {
     settings: {
       isConfirmed: {
         status: false,
       },
       isDone: {
-        status: false,
+        status: true,
       },
     },
     type: "",
@@ -162,20 +164,12 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
     { setSubmitting, resetForm }: FormikHelpers<StoreFormProps>
   ) => {
     console.log(values);
-    setTimeout(() => {
+    dispatch(createStoreAsync({ store: values, isAdmin })).then((action) => {
+      if (createStoreAsync.fulfilled.match(action)) {
+        resetForm();
+      }
       setSubmitting(false);
-    }, 1000);
-  };
-
-  const onNoDoneStore = async (
-    values: StoreFormProps,
-    { setSubmitting, resetForm }: FormikHelpers<StoreFormProps>
-  ) => {
-    const newStore = await createNoDoneStore(values);
-    console.log(newStore);
-    setTimeout(() => {
-      setSubmitting(false);
-    }, 1000);
+    })
   };
 
   return (
@@ -538,13 +532,7 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                         const newOpenTimes = [
                           ...(values.opentimes || []),
                           opentime,
-                        ].sort((a, b) => {
-                          if (!a || !b) return 0;
-                          if (!a.day || !b.day ) return 0;
-                          if (a.day > b.day) return 1;
-                          if (a.day < b.day) return -1;
-                          return 0;
-                        });
+                        ].sort((a, b) => a.day - b.day);
                         setFieldValue("opentimes", newOpenTimes);
                       }}
                       onDelete={(opentime) => {
@@ -647,17 +635,8 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                   type="submit"
                   disabled={isSubmitting || !isValid}
                   sx={{ mt: 2 }}
-                  onClick={() => setFieldValue("settings.isDone.status", true)}
                 >
                   Tallenna
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  disabled={isSubmitting}
-                  sx={{ mt: 2, ml: 2 }}
-                >
-                  Tallenna ja jatka myöhemmin
                 </Button>
               </Box>
             )}

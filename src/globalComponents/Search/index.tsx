@@ -12,7 +12,7 @@ import {
 import areas from "./fi";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchStoreFilter } from "../../app/reducer/stores";
+import { fetchStoreFilter } from "../../services/storeLib";
 import { type StoreType, storeTypes } from "../storeType";
 
 interface SearchValues {

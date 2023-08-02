@@ -7,7 +7,7 @@ import {
   TableCell,
   TableRow,
 } from "@mui/material";
-import type { LazyOpentime, LazyStore } from "../../../../../models";
+import type { LazyOpentime, LazyStore } from "../../../../../../models";
 
 const OpenTimes = (props?: LazyOpentime[] | null) => {
   if (!props) return null;

@@ -30,21 +30,14 @@ import getCurrentDay, { getDays } from "./days";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Delete, Add } from "@mui/icons-material";
-
-interface OpenTimesProps {
-  id?: string;
-  day: number | null;
-  start: string | null;
-  end: string | null;
-  isClosed: boolean;
-}
+import type { OpenTimesProps } from "../../types/store";
 
 const OpenTimeItem = ({
   openTime,
   tablerow,
   onDelete,
 }: {
-  openTime: Opentime;
+  openTime: OpenTimesProps;
   tablerow?: TableRowProps;
   onDelete?: (id: string) => void;
 }) => {
@@ -68,7 +61,7 @@ const OpenTimeItem = ({
       <TableCell>
         <IconButton
           onClick={() => {
-            if (onDelete) onDelete(openTime.id);
+            if (onDelete && openTime.id) onDelete(openTime.id);
           }}
         >
           <Delete />
@@ -85,12 +78,12 @@ const AddOpenTime = ({
 }: {
   accordion?: AccordionProps;
   onAdd?: (opentime: OpenTimesProps) => void;
-  opentimes: Opentime[];
+  opentimes: OpenTimesProps[];
 }) => {
   const days = getDays("fi", true);
   const formik = useFormik({
     initialValues: {
-      day: null,
+      day: 0,
       start: null,
       end: null,
       isClosed: false,
@@ -199,7 +192,7 @@ const OpenTimes = ({
   onDelete,
 }: {
   box?: BoxProps;
-  opentimes: Opentime[];
+  opentimes: OpenTimesProps[];
   onAdd?: (opentime: OpenTimesProps) => void;
   onDelete?: (id: string) => void;
   isInNew?: boolean;

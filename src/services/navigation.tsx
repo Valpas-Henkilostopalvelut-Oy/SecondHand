@@ -1,15 +1,15 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "../pages/Home";
-import Ads from "../admin/Ads";
+import Ads from "../pages/Admin/Ads";
 import StorelistWithLoading from "../pages/Storelist";
 import Signup from "../pages/Signup";
 import Signin from "../pages/Siginin";
 import NotFound from "../globalComponents/NotFound";
-import AdminStores from "../admin/AdminStores";
-import Categories from "../admin/Categories";
+import AdminStores from "../pages/Admin/Stores";
+import Categories from "../pages/Admin/Categories";
 import Evaluation from "../pages/Evaluation";
-import EvaluationAdmin from "../admin/Evaluation";
+import EvaluationAdmin from "../pages/Admin/Evaluation";
 import { useAppSelector } from "../app/hooks";
 
 interface ProtectedRouteProps {

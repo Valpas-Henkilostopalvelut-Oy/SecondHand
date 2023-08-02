@@ -7,7 +7,8 @@ import type {
   StoreSettings,
   Opentime,
   Notes,
-} from "../../models";
+  Store,
+} from "../models";
 
 export interface ComponentProps {
   values: StoreFormProps;
@@ -24,7 +25,15 @@ export interface ComponentProps {
   isSubmitting: boolean;
 }
 
-interface StoreFormProps {
+export interface OpenTimesProps {
+  id?: string;
+  day: number;
+  start: string | null;
+  end: string | null;
+  isClosed: boolean;
+}
+
+export interface StoreFormProps {
   type: string;
   name: string;
   description?: string | null;
@@ -35,9 +44,25 @@ interface StoreFormProps {
   social?: Social | null;
   settings: StoreSettings;
   logo?: File | null;
-  opentimes?: Opentime[] | null;
+  opentimes?: OpenTimesProps[] | null;
   notes?: Notes[] | null;
   note?: string | null;
+}
+
+export interface filterProps {
+  title: string;
+  type: string | null | undefined;
+  category: string[] | null | undefined;
+  area: string | null;
+  city: string | null;
+  isConfirmed: boolean | undefined | null;
+}
+
+export interface initialStateProps {
+  isLoading: boolean;
+  isError: boolean;
+  error: string | null | undefined;
+  data: Store[] | [];
 }
 
 export default StoreFormProps;

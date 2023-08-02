@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField, Grid, Autocomplete } from "@mui/material";
 import areas from "./fi.js";
 import { useAppDispatch } from "../../../app/hooks";
-import { updateStoreAsync } from "../../../app/reducer/stores";
+import { updateStoreAsync } from "../../../services/storeLib";
 import type { EditItemState } from "../types.js";
 
 const Location = (props: EditItemState) => {

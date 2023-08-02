@@ -4,7 +4,7 @@ import { Search } from "../../globalComponents/Search";
 import type { LazyStore } from "../../models";
 import StoreItem from "./components/StoreItem";
 import { useParams } from "react-router-dom";
-import { fetchStoreFilter, fetchStores } from "../../app/reducer/stores";
+import { fetchStoreFilter, fetchStores } from "../../services/storeLib";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import LoadingComponent from "../../globalComponents/LoadingComponent";
 

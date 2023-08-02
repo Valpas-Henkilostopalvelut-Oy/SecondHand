@@ -12,9 +12,9 @@ import {
   IconButton,
   TableHead,
 } from "@mui/material";
-import { addCategory, deleteCategory } from "../../app/reducer/categories";
-import type { CategoriesProps } from "../../app/reducer/categories";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { addCategory, deleteCategory } from "../../../app/reducer/categories";
+import type { CategoriesProps } from "../../../app/reducer/categories";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import loadingCategories from "./loadingCategories";
 import { Formik } from "formik";
 import * as yup from "yup";

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { getAuth, loadDataStore } from "../app/reducer/user";
 import { fetchCategories } from "../app/reducer/categories";
 import { fetchAds } from "../app/reducer/ads";
-import { fetchStores } from "../app/reducer/stores";
+import { fetchStores } from "./storeLib"; 
 
 const loadingApp = (Component: () => JSX.Element) => () => {
   const [isEmpty, setIsEmpty] = useState(true);

@@ -1,8 +1,8 @@
 /* eslint-disable react/display-name */
 import React, { useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
-import { fetchCategories } from "../../app/reducer/categories";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { fetchCategories } from "../../../app/reducer/categories";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 const loadingCategories = (Component: () => JSX.Element) => () => {
   const { isLoading } = useAppSelector((state) => state.categories);

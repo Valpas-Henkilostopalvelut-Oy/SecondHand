@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { LazyStore } from "../../../../../models";
+import type { LazyStore } from "../../../../../../models";
 import { Grid, Box } from "@mui/material";
 import { Storage } from "aws-amplify";
 

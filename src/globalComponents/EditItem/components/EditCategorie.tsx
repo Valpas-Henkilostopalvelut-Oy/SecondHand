@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../app/hooks";
 import type { EditItemState } from "../types";
 import type { LazyCategories } from "../../../models";
 import { useAppDispatch } from "../../../app/hooks";
-import { updateStoreAsync } from "../../../app/reducer/stores";
+import { updateStoreAsync } from "../../../services/storeLib";
 
 const EditCategorie = (props: EditItemState) => {
   const dispatch = useAppDispatch();

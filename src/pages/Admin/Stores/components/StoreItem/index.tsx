@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { LazyStore } from "../../../../models";
+import type { LazyStore } from "../../../../../models";
 import {
   Typography,
   Box,
@@ -17,15 +17,15 @@ import Images from "./components/Images";
 import StoreIframe from "./components/StoreIframe";
 import Contact from "./components/Contact";
 import Location from "./components/Location";
-import EditItem from "../../../../globalComponents/EditItem";
+import EditItem from "../../../../../globalComponents/EditItem";
 import SocialMedia from "./components/SocialMedia";
 import {
   deleteStoreAsync,
   confirmStoreAsync,
-} from "../../../../app/reducer/stores";
-import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+} from "../../../../../services/storeLib";
+import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
-import LogoImage from "../../../../globalComponents/LogoImage";
+import LogoImage from "../../../../../globalComponents/LogoImage";
 
 const StoreItem = (props: LazyStore) => {
   const { settings, name } = props;

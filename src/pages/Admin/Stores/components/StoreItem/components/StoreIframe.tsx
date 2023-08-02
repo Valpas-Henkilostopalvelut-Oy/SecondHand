@@ -1,5 +1,5 @@
 import React from "react";
-import type { LazyStore } from "../../../../../models";
+import type { LazyStore } from "../../../../../../models";
 import { Typography, Box, styled } from "@mui/material";
 
 const CustomIframe = styled("iframe")(({ theme }) => ({

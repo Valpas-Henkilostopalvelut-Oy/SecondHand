@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Box } from "@mui/material";
-import type { LazyStore } from "../../../../../models";
+import type { LazyStore } from "../../../../../../models";
 
 const Location = (props: LazyStore) => {
   const { location } = props;

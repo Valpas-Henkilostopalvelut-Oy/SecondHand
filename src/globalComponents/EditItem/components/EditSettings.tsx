@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import type { LazyStoreSettings } from "../../../models";
 import type { EditItemState } from "../types";
-import { updateStoreAsync } from "../../../app/reducer/stores";
+import { updateStoreAsync } from "../../../services/storeLib";
 import { useAppDispatch } from "../../../app/hooks";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";

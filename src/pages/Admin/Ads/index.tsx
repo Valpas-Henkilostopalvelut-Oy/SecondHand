@@ -9,13 +9,13 @@ import {
   Button,
   type BoxProps,
 } from "@mui/material";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import type { Ad, Side, AdButton } from "../../types/ad";
-import { fetchAds, removeAd, hiddenAd } from "../../app/reducer/ads";
-import ImageComponent from "../../globalComponents/ImageComponent";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import type { Ad, Side, AdButton } from "../../../types/ad";
+import { fetchAds, removeAd, hiddenAd } from "../../../app/reducer/ads";
+import ImageComponent from "../../../globalComponents/ImageComponent";
 import { Storage } from "aws-amplify";
-import AdForm from "../../globalComponents/AdForm";
-import LoadingComponent from "../../globalComponents/LoadingComponent";
+import AdForm from "../../../globalComponents/AdForm";
+import LoadingComponent from "../../../globalComponents/LoadingComponent";
 
 const loadImage = async (key: string) => {
   const url = await Storage.get(key);

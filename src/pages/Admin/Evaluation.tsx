@@ -13,17 +13,17 @@ import {
   AccordionDetails,
   AccordionActions,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   fetchEvaluation,
   confirmEvaluation,
   deleteEvaluation,
-} from "../app/reducer/evaluation";
-import ImageComponent from "../globalComponents/ImageComponent";
-import type { LazyEvaluation } from "../models";
+} from "../../app/reducer/evaluation";
+import ImageComponent from "../../globalComponents/ImageComponent";
+import type { LazyEvaluation } from "../../models";
 import type { BoxProps } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import EmailForm from "../globalComponents/EmailForm";
+import EmailForm from "../../globalComponents/EmailForm";
 
 const Evaluation = ({
   item,
