@@ -20,6 +20,7 @@ export declare type OrdersCreateFormInputValues = {
     to?: string;
     price?: number;
     message?: string;
+    storeID?: string;
 };
 export declare type OrdersCreateFormValidationValues = {
     username?: ValidationFunction<string>;
@@ -29,6 +30,7 @@ export declare type OrdersCreateFormValidationValues = {
     to?: ValidationFunction<string>;
     price?: ValidationFunction<number>;
     message?: ValidationFunction<string>;
+    storeID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type OrdersCreateFormOverridesProps = {
@@ -40,6 +42,7 @@ export declare type OrdersCreateFormOverridesProps = {
     to?: PrimitiveOverrideProps<TextFieldProps>;
     price?: PrimitiveOverrideProps<TextFieldProps>;
     message?: PrimitiveOverrideProps<TextFieldProps>;
+    storeID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OrdersCreateFormProps = React.PropsWithChildren<{
     overrides?: OrdersCreateFormOverridesProps | undefined | null;

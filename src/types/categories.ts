@@ -1,8 +1,8 @@
-import type { LazyOpentime } from "../models";
+import type { LazyCategories } from "../models";
 
 export interface initialStateProps {
-  opentimes: LazyOpentime[] | null;
   isLoading: boolean;
   isError: boolean;
   error: string | null | undefined;
+  data: LazyCategories[] | null;
 }

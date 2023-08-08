@@ -25,22 +25,18 @@ export default function UserCreateForm(props) {
   const initialValues = {
     username: "",
     email: "",
-    role: "",
   };
   const [username, setUsername] = React.useState(initialValues.username);
   const [email, setEmail] = React.useState(initialValues.email);
-  const [role, setRole] = React.useState(initialValues.role);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUsername(initialValues.username);
     setEmail(initialValues.email);
-    setRole(initialValues.role);
     setErrors({});
   };
   const validations = {
     username: [{ type: "Required" }],
     email: [{ type: "Email" }],
-    role: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -70,7 +66,6 @@ export default function UserCreateForm(props) {
         let modelFields = {
           username,
           email,
-          role,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -127,7 +122,6 @@ export default function UserCreateForm(props) {
             const modelFields = {
               username: value,
               email,
-              role,
             };
             const result = onChange(modelFields);
             value = result?.username ?? value;
@@ -153,7 +147,6 @@ export default function UserCreateForm(props) {
             const modelFields = {
               username,
               email: value,
-              role,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -167,32 +160,6 @@ export default function UserCreateForm(props) {
         errorMessage={errors.email?.errorMessage}
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
-      ></TextField>
-      <TextField
-        label="Role"
-        isRequired={false}
-        isReadOnly={false}
-        value={role}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              username,
-              email,
-              role: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.role ?? value;
-          }
-          if (errors.role?.hasError) {
-            runValidationTasks("role", value);
-          }
-          setRole(value);
-        }}
-        onBlur={() => runValidationTasks("role", role)}
-        errorMessage={errors.role?.errorMessage}
-        hasError={errors.role?.hasError}
-        {...getOverrideProps(overrides, "role")}
       ></TextField>
       <Flex
         justifyContent="space-between"

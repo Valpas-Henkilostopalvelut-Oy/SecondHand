@@ -1,4 +1,4 @@
-import { Store } from "../models";
+import { Store, LazyStore } from "../models";
 import {
   DataStore,
   Auth,
@@ -27,8 +27,7 @@ export const createStoreAsync = createAsyncThunk(
       const user = await Auth.currentAuthenticatedUser();
       const newStore = await DataStore.save(
         new Store({
-          categories: store.categories,
-          username: user.username,
+          userID: user.username,
           type: store.type,
           name: store.name,
           contact: store.contact,
@@ -44,7 +43,13 @@ export const createStoreAsync = createAsyncThunk(
         createNote(note.notes, newStore)
       );
       const opentimesPromises = (store.opentimes || []).map((openTime) =>
-        dispatch(createOpenTimeAsync({ openTime, store: newStore }))
+        dispatch(
+          createOpenTimeAsync({
+            openTime,
+            store: newStore,
+            userId: user.username,
+          })
+        )
       );
 
       await Promise.all(notesPromises);

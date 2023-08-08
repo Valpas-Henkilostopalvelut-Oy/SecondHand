@@ -21,6 +21,7 @@ export declare type OrdersUpdateFormInputValues = {
     to?: string;
     price?: number;
     message?: string;
+    storeID?: string;
 };
 export declare type OrdersUpdateFormValidationValues = {
     username?: ValidationFunction<string>;
@@ -30,6 +31,7 @@ export declare type OrdersUpdateFormValidationValues = {
     to?: ValidationFunction<string>;
     price?: ValidationFunction<number>;
     message?: ValidationFunction<string>;
+    storeID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type OrdersUpdateFormOverridesProps = {
@@ -41,6 +43,7 @@ export declare type OrdersUpdateFormOverridesProps = {
     to?: PrimitiveOverrideProps<TextFieldProps>;
     price?: PrimitiveOverrideProps<TextFieldProps>;
     message?: PrimitiveOverrideProps<TextFieldProps>;
+    storeID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OrdersUpdateFormProps = React.PropsWithChildren<{
     overrides?: OrdersUpdateFormOverridesProps | undefined | null;

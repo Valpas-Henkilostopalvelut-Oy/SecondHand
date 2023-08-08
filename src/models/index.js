@@ -8,7 +8,14 @@ const StoreSettingsType = {
   "IS_PROMOTED": "isPromoted"
 };
 
-const { Opentime, Categories, Notes, Orders, Ads, User, Store, Evaluation, Location, Contact, Sellplaces, Social, SideButton, Side, StoreSettingsValidation, StoreSettings } = initSchema(schema);
+const OpentimesType = {
+  "DEFAULT": "default",
+  "CUSTOM": "custom",
+  "HOLIDAY": "holiday",
+  "SHORT": "short"
+};
+
+const { Opentime, Categories, Notes, Orders, Ads, User, Store, Evaluation, StoreCategories, Location, Contact, Sellplaces, Social, SideButton, Side, StoreSettingsValidation, StoreSettings } = initSchema(schema);
 
 export {
   Opentime,
@@ -19,7 +26,9 @@ export {
   User,
   Store,
   Evaluation,
+  StoreCategories,
   StoreSettingsType,
+  OpentimesType,
   Location,
   Contact,
   Sellplaces,

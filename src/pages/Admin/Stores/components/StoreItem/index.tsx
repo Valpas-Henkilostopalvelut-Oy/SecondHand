@@ -109,7 +109,6 @@ const StoreDetails = (props: LazyStore) => {
   const { description, categories, imgs, location, contact, social, logo } =
     props;
   const iframe = location?.iframe;
-  const opentimes = async () => await props.opentimes?.toArray();
 
   return (
     <Box>
@@ -128,13 +127,13 @@ const StoreDetails = (props: LazyStore) => {
       <CustomBox hidden={!categories}>
         <Categories {...props} />
       </CustomBox>
-      <CustomBox hidden={!opentimes || opentimes.length === 0}>
+      <CustomBox>
         <Typography>
           <b>Aukioloajat</b>
         </Typography>
         {/** <OpenTime {...opentimes} /> */}
       </CustomBox>
-      <CustomBox hidden={!opentimes}>
+      <CustomBox>
         <Typography>
           <b>Yhteystiedot</b>
         </Typography>

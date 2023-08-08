@@ -8,7 +8,7 @@ export const createNote = async (note: string, store: Store) => {
     new Notes({
       notes: note,
       username: user.username,
-      storeNotesId: store.id,
+      storeID: store.id,
     })
   );
   return newNote;

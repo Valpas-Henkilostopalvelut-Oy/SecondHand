@@ -26,9 +26,11 @@ export default function NotesUpdateForm(props) {
   const initialValues = {
     username: "",
     notes: "",
+    storeID: "",
   };
   const [username, setUsername] = React.useState(initialValues.username);
   const [notes, setNotes] = React.useState(initialValues.notes);
+  const [storeID, setStoreID] = React.useState(initialValues.storeID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = notesRecord
@@ -36,6 +38,7 @@ export default function NotesUpdateForm(props) {
       : initialValues;
     setUsername(cleanValues.username);
     setNotes(cleanValues.notes);
+    setStoreID(cleanValues.storeID);
     setErrors({});
   };
   const [notesRecord, setNotesRecord] = React.useState(notesModelProp);
@@ -52,6 +55,7 @@ export default function NotesUpdateForm(props) {
   const validations = {
     username: [{ type: "Required" }],
     notes: [{ type: "Required" }],
+    storeID: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -81,6 +85,7 @@ export default function NotesUpdateForm(props) {
         let modelFields = {
           username,
           notes,
+          storeID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -138,6 +143,7 @@ export default function NotesUpdateForm(props) {
             const modelFields = {
               username: value,
               notes,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.username ?? value;
@@ -163,6 +169,7 @@ export default function NotesUpdateForm(props) {
             const modelFields = {
               username,
               notes: value,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.notes ?? value;
@@ -176,6 +183,32 @@ export default function NotesUpdateForm(props) {
         errorMessage={errors.notes?.errorMessage}
         hasError={errors.notes?.hasError}
         {...getOverrideProps(overrides, "notes")}
+      ></TextField>
+      <TextField
+        label="Store id"
+        isRequired={true}
+        isReadOnly={false}
+        value={storeID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username,
+              notes,
+              storeID: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.storeID ?? value;
+          }
+          if (errors.storeID?.hasError) {
+            runValidationTasks("storeID", value);
+          }
+          setStoreID(value);
+        }}
+        onBlur={() => runValidationTasks("storeID", storeID)}
+        errorMessage={errors.storeID?.errorMessage}
+        hasError={errors.storeID?.hasError}
+        {...getOverrideProps(overrides, "storeID")}
       ></TextField>
       <Flex
         justifyContent="space-between"

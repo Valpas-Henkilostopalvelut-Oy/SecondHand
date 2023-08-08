@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { Opentime } from "../models";
 export declare type ValidationResponse = {
@@ -18,12 +18,18 @@ export declare type OpentimeUpdateFormInputValues = {
     start?: string;
     end?: string;
     isClosed?: boolean;
+    type?: string;
+    createdBy?: string;
+    storeID?: string;
 };
 export declare type OpentimeUpdateFormValidationValues = {
     day?: ValidationFunction<number>;
     start?: ValidationFunction<string>;
     end?: ValidationFunction<string>;
     isClosed?: ValidationFunction<boolean>;
+    type?: ValidationFunction<string>;
+    createdBy?: ValidationFunction<string>;
+    storeID?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type OpentimeUpdateFormOverridesProps = {
@@ -32,6 +38,9 @@ export declare type OpentimeUpdateFormOverridesProps = {
     start?: PrimitiveOverrideProps<TextFieldProps>;
     end?: PrimitiveOverrideProps<TextFieldProps>;
     isClosed?: PrimitiveOverrideProps<SwitchFieldProps>;
+    type?: PrimitiveOverrideProps<SelectFieldProps>;
+    createdBy?: PrimitiveOverrideProps<TextFieldProps>;
+    storeID?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OpentimeUpdateFormProps = React.PropsWithChildren<{
     overrides?: OpentimeUpdateFormOverridesProps | undefined | null;

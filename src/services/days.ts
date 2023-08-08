@@ -19,7 +19,7 @@ const daysFi = [
 ];
 const daysFiShort = ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"];
 
-const getCurrentDay = (lang: string, day: number, short: boolean) => {
+export const getCurrentDay = (lang: string, day: number, short: boolean) => {
   const days = lang === "fi" ? daysFi : daysEng;
   const daysShort = lang === "fi" ? daysFiShort : daysEngShort;
   if (short) {

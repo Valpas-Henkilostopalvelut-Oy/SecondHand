@@ -25,8 +25,7 @@ import type {
 import { TimeField, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import fi from "date-fns/locale/fi";
-import type { Opentime } from "../../models";
-import getCurrentDay, { getDays } from "./days";
+import getCurrentDay, { getDays } from "../../services/days";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Delete, Add } from "@mui/icons-material";

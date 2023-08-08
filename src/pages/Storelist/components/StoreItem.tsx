@@ -83,11 +83,9 @@ const SummaryDesktop = ({
 
 const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
   const [open, setOpen] = useState(false);
-  const { description, categories, contact, location, imgs, social } = store;
+  const { description, contact, location, imgs, social } = store;
   const handleClick = () => setOpen(!open);
   const theme = useTheme();
-
-  const opentimes = async () => await store.opentimes?.toArray();
 
   //accordion open up
 
@@ -132,13 +130,11 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
             <ReadMoteText text={description} />
           </CustomBox>
 
-          <CustomBox hidden={!categories}>
+          <CustomBox hidden={true}>
             <Typography variant="h6">
               <b>Kategoriat</b>
             </Typography>
-            <Typography>
-              {/*categories.toArray().then((res) => (res ? res.join(", ") : ""))*/}
-            </Typography>
+            <Typography>Cats</Typography>
           </CustomBox>
 
           <CustomBox hidden={!imgs || imgs.length === 0}>
@@ -185,7 +181,7 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
 
           <CustomBox>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={4} hidden={!opentimes}>
+              <Grid item xs={12} sm={4} hidden={true}>
                 <Typography variant="h6">
                   <b>Aukioloajat</b>
                 </Typography>

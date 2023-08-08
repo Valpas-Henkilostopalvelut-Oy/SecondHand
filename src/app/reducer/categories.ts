@@ -1,73 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Categories, type LazyCategories } from "../../models";
-import { DataStore } from "aws-amplify";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { Auth } from "aws-amplify";
-
-export interface CategoriesProps {
-  id: string;
-  createdBy?: string | null;
-  name?: string | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
-}
-
-interface initialStateProps {
-  isLoading: boolean;
-  isError: boolean;
-  error: string | null | undefined;
-  data: LazyCategories[] | [];
-}
+import { createSlice } from "@reduxjs/toolkit";
+import type { initialStateProps } from "../../types/categories";
+import {
+  fetchCategories,
+  addCategory,
+  deleteCategory,
+} from "../../services/categoriesLib";
 
 const initialState: initialStateProps = {
   isLoading: false,
   isError: false,
   error: null,
-  data: [],
+  data: null,
 };
-
-export const fetchCategories = createAsyncThunk(
-  "categories/fetchCategories",
-  async () => {
-    const categories = await DataStore.query(Categories);
-    const filteredCategories: CategoriesProps[] = categories.map(
-      (category) => ({
-        id: category.id,
-        createdBy: category.createdBy,
-        name: category.name,
-        createdAt: category.createdAt,
-        updatedAt: category.updatedAt,
-      })
-    );
-
-    return filteredCategories;
-  }
-);
-
-export const addCategory = createAsyncThunk(
-  "categories/addCategory",
-  async (category: string) => {
-    const newCategory = await DataStore.save(
-      new Categories({
-        name: category,
-        createdAt: new Date().toISOString(),
-        createdBy: (await Auth.currentAuthenticatedUser()).username,
-      })
-    );
-    const { id, name, createdAt, createdBy, updatedAt } = newCategory;
-    return { id, name, createdAt, createdBy, updatedAt };
-  }
-);
-
-export const deleteCategory = createAsyncThunk(
-  "categories/deleteCategory",
-  async (id: string) => {
-    const categoryToDelete = await DataStore.query(Categories, id);
-    if (!categoryToDelete) throw new Error("Category not found");
-    await DataStore.delete(categoryToDelete);
-    return categoryToDelete.id;
-  }
-);
 
 const categories = createSlice({
   name: "categories",
@@ -78,60 +22,48 @@ const categories = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchCategories.pending, (state) => {
-        state.isLoading = true;
-        state.isError = false;
-        state.error = null;
-      })
-      .addCase(
-        fetchCategories.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          state.isLoading = false;
-          state.isError = false;
-          state.error = null;
-          state.data = action.payload;
-        }
-      )
-      .addCase(fetchCategories.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.error = action.error.message;
-      })
-      .addCase(addCategory.pending, (state) => {
-        state.isLoading = true;
-        state.isError = false;
-        state.error = null;
-      })
-      .addCase(addCategory.fulfilled, (state, action: PayloadAction<any>) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.error = null;
-        state.data = [...state.data, action.payload];
-      })
-      .addCase(addCategory.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.error = action.error.message;
-      })
-      .addCase(deleteCategory.pending, (state) => {
-        state.isLoading = true;
-        state.isError = false;
-        state.error = null;
-      })
-      .addCase(deleteCategory.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.error = null;
-        state.data = state.data?.filter(
-          (category) => category.id !== action.payload
-        );
-      })
-      .addCase(deleteCategory.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.error = action.error.message;
-      });
+    builder.addCase(fetchCategories.pending, (state) => {
+      state.isLoading = true;
+      state.isError = false;
+      state.error = null;
+    });
+    builder.addCase(fetchCategories.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data = action.payload;
+    });
+    builder.addCase(fetchCategories.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(addCategory.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data = (state.data || []).concat(action.payload);
+    });
+    builder.addCase(addCategory.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(deleteCategory.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.data = (state.data || []).filter(
+        (category) => category.id !== action.payload
+      );
+    });
+    builder.addCase(deleteCategory.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
   },
 });
 

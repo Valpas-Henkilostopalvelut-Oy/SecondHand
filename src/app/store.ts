@@ -18,6 +18,11 @@ export const store = configureStore({
     evaluation,
     opentimes,
   },
+  middleware(getDefaultMiddleware) {
+    return getDefaultMiddleware({
+      serializableCheck: false,
+    });
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

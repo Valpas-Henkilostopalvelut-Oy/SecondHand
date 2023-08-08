@@ -12,13 +12,13 @@ import {
   IconButton,
   TableHead,
 } from "@mui/material";
-import { addCategory, deleteCategory } from "../../../app/reducer/categories";
-import type { CategoriesProps } from "../../../app/reducer/categories";
+import { addCategory, deleteCategory } from "../../../services/categoriesLib";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import loadingCategories from "./loadingCategories";
 import { Formik } from "formik";
 import * as yup from "yup";
 import DeleteIcon from "@mui/icons-material/Delete";
+import type { LazyCategories } from "../../../models";
 
 interface FormValues {
   name: string;
@@ -70,7 +70,7 @@ const CategoryForm = () => {
   );
 };
 
-const CategoryItem = (props: CategoriesProps) => {
+const CategoryItem = (props: LazyCategories) => {
   const { name, createdAt, id } = props;
   const dispatch = useAppDispatch();
   const handleDelete = () => {

@@ -11,6 +11,7 @@ import Categories from "../pages/Admin/Categories";
 import Evaluation from "../pages/Evaluation";
 import EvaluationAdmin from "../pages/Admin/Evaluation";
 import Admin from "../pages/Admin";
+import Opentimes from "../pages/Admin/Opentimes";
 import { useAppSelector } from "../app/hooks";
 
 interface ProtectedRouteProps {
@@ -131,6 +132,14 @@ export const Navigation = () => {
         element={
           <ProtectedRoute isAuth={isAuth} redirectPath="/signin">
             <Ads />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/opentimes"
+        element={
+          <ProtectedRoute isAuth={isAuth} redirectPath="/signin">
+            <Opentimes />
           </ProtectedRoute>
         }
       />

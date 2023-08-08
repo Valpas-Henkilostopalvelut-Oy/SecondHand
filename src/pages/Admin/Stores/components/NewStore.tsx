@@ -163,7 +163,6 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
     values: StoreFormProps,
     { setSubmitting, resetForm }: FormikHelpers<StoreFormProps>
   ) => {
-    console.log(values);
     dispatch(createStoreAsync({ store: values, isAdmin, dispatch })).then(
       (action) => {
         if (createStoreAsync.fulfilled.match(action)) {
@@ -321,7 +320,7 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                   <Grid item xs={12} sm={6}>
                     <Autocomplete
                       multiple
-                      options={categories}
+                      options={categories || []}
                       getOptionLabel={(option) => option.name}
                       onChange={(e, value) => {
                         console.log(value);

@@ -10,6 +10,7 @@ import {
   Button,
   Flex,
   Grid,
+  SelectField,
   SwitchField,
   TextField,
 } from "@aws-amplify/ui-react";
@@ -34,11 +35,17 @@ export default function OpentimeUpdateForm(props) {
     start: "",
     end: "",
     isClosed: false,
+    type: "",
+    createdBy: "",
+    storeID: "",
   };
   const [day, setDay] = React.useState(initialValues.day);
   const [start, setStart] = React.useState(initialValues.start);
   const [end, setEnd] = React.useState(initialValues.end);
   const [isClosed, setIsClosed] = React.useState(initialValues.isClosed);
+  const [type, setType] = React.useState(initialValues.type);
+  const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
+  const [storeID, setStoreID] = React.useState(initialValues.storeID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = opentimeRecord
@@ -48,6 +55,9 @@ export default function OpentimeUpdateForm(props) {
     setStart(cleanValues.start);
     setEnd(cleanValues.end);
     setIsClosed(cleanValues.isClosed);
+    setType(cleanValues.type);
+    setCreatedBy(cleanValues.createdBy);
+    setStoreID(cleanValues.storeID);
     setErrors({});
   };
   const [opentimeRecord, setOpentimeRecord] = React.useState(opentimeModelProp);
@@ -66,6 +76,9 @@ export default function OpentimeUpdateForm(props) {
     start: [],
     end: [],
     isClosed: [],
+    type: [{ type: "Required" }],
+    createdBy: [{ type: "Required" }],
+    storeID: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -114,6 +127,9 @@ export default function OpentimeUpdateForm(props) {
           start,
           end,
           isClosed,
+          type,
+          createdBy,
+          storeID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -177,6 +193,9 @@ export default function OpentimeUpdateForm(props) {
               start,
               end,
               isClosed,
+              type,
+              createdBy,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.day ?? value;
@@ -206,6 +225,9 @@ export default function OpentimeUpdateForm(props) {
               start: value,
               end,
               isClosed,
+              type,
+              createdBy,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.start ?? value;
@@ -235,6 +257,9 @@ export default function OpentimeUpdateForm(props) {
               start,
               end: value,
               isClosed,
+              type,
+              createdBy,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.end ?? value;
@@ -262,6 +287,9 @@ export default function OpentimeUpdateForm(props) {
               start,
               end,
               isClosed: value,
+              type,
+              createdBy,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.isClosed ?? value;
@@ -276,6 +304,117 @@ export default function OpentimeUpdateForm(props) {
         hasError={errors.isClosed?.hasError}
         {...getOverrideProps(overrides, "isClosed")}
       ></SwitchField>
+      <SelectField
+        label="Type"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={type}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              day,
+              start,
+              end,
+              isClosed,
+              type: value,
+              createdBy,
+              storeID,
+            };
+            const result = onChange(modelFields);
+            value = result?.type ?? value;
+          }
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
+          }
+          setType(value);
+        }}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
+      >
+        <option
+          children="Default"
+          value="default"
+          {...getOverrideProps(overrides, "typeoption0")}
+        ></option>
+        <option
+          children="Custom"
+          value="custom"
+          {...getOverrideProps(overrides, "typeoption1")}
+        ></option>
+        <option
+          children="Holiday"
+          value="holiday"
+          {...getOverrideProps(overrides, "typeoption2")}
+        ></option>
+        <option
+          children="Short"
+          value="short"
+          {...getOverrideProps(overrides, "typeoption3")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Created by"
+        isRequired={true}
+        isReadOnly={false}
+        value={createdBy}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              day,
+              start,
+              end,
+              isClosed,
+              type,
+              createdBy: value,
+              storeID,
+            };
+            const result = onChange(modelFields);
+            value = result?.createdBy ?? value;
+          }
+          if (errors.createdBy?.hasError) {
+            runValidationTasks("createdBy", value);
+          }
+          setCreatedBy(value);
+        }}
+        onBlur={() => runValidationTasks("createdBy", createdBy)}
+        errorMessage={errors.createdBy?.errorMessage}
+        hasError={errors.createdBy?.hasError}
+        {...getOverrideProps(overrides, "createdBy")}
+      ></TextField>
+      <TextField
+        label="Store id"
+        isRequired={true}
+        isReadOnly={false}
+        value={storeID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              day,
+              start,
+              end,
+              isClosed,
+              type,
+              createdBy,
+              storeID: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.storeID ?? value;
+          }
+          if (errors.storeID?.hasError) {
+            runValidationTasks("storeID", value);
+          }
+          setStoreID(value);
+        }}
+        onBlur={() => runValidationTasks("storeID", storeID)}
+        errorMessage={errors.storeID?.errorMessage}
+        hasError={errors.storeID?.hasError}
+        {...getOverrideProps(overrides, "storeID")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

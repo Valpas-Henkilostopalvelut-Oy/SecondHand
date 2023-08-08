@@ -38,20 +38,28 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "store": {
-                    "name": "store",
+                "type": {
+                    "name": "type",
                     "isArray": false,
                     "type": {
-                        "model": "Store"
+                        "enum": "OpentimesType"
                     },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "storeOpentimesId"
-                        ]
-                    }
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdBy": {
+                    "name": "createdBy",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "storeID": {
+                    "name": "storeID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -68,13 +76,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "storeOpentimesId": {
-                    "name": "storeOpentimesId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -85,16 +86,24 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStore",
+                        "fields": [
+                            "storeID"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "read",
-                                    "create",
-                                    "update"
-                                ]
+                                    "read"
+                                ],
+                                "provider": "apiKey"
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -103,6 +112,18 @@ export const schema = {
                                 "groups": [
                                     "admin"
                                 ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -146,6 +167,22 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "stores": {
+                    "name": "stores",
+                    "isArray": true,
+                    "type": {
+                        "model": "StoreCategories"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "categories"
+                        ]
+                    }
+                },
                 "updatedAt": {
                     "name": "updatedAt",
                     "isArray": false,
@@ -153,13 +190,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "storeCategoriesId": {
-                    "name": "storeCategoriesId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -170,15 +200,6 @@ export const schema = {
                     "properties": {}
                 },
                 {
-                    "type": "key",
-                    "properties": {
-                        "name": "gsi-Store.categories",
-                        "fields": [
-                            "storeCategoriesId"
-                        ]
-                    }
-                },
-                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -186,7 +207,8 @@ export const schema = {
                                 "allow": "public",
                                 "operations": [
                                     "read"
-                                ]
+                                ],
+                                "provider": "apiKey"
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -224,25 +246,17 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "store": {
-                    "name": "store",
-                    "isArray": false,
-                    "type": {
-                        "model": "Store"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "storeNotesId"
-                        ]
-                    }
-                },
                 "notes": {
                     "name": "notes",
                     "isArray": false,
                     "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "storeID": {
+                    "name": "storeID",
+                    "isArray": false,
+                    "type": "ID",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -261,13 +275,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "storeNotesId": {
-                    "name": "storeNotesId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -278,11 +285,37 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStore",
+                        "fields": [
+                            "storeID"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
                             {
-                                "allow": "private",
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -311,21 +344,6 @@ export const schema = {
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
-                },
-                "store": {
-                    "name": "store",
-                    "isArray": false,
-                    "type": {
-                        "model": "Store"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetNames": [
-                            "storeOrdersId"
-                        ]
-                    }
                 },
                 "type": {
                     "name": "type",
@@ -371,6 +389,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "storeID": {
+                    "name": "storeID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -386,13 +411,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "storeOrdersId": {
-                    "name": "storeOrdersId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -401,6 +419,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStore",
+                        "fields": [
+                            "storeID"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -513,7 +540,8 @@ export const schema = {
                                 "allow": "public",
                                 "operations": [
                                     "read"
-                                ]
+                                ],
+                                "provider": "apiKey"
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -558,8 +586,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "stores": {
-                    "name": "stores",
+                "Stores": {
+                    "name": "Stores",
                     "isArray": true,
                     "type": {
                         "model": "Store"
@@ -570,16 +598,9 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "id"
+                            "userID"
                         ]
                     }
-                },
-                "role": {
-                    "name": "role",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -610,19 +631,24 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
-                                "operations": [
-                                    "read",
-                                    "create"
-                                ]
-                            },
-                            {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
                                 "groups": [
                                     "admin"
                                 ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -640,13 +666,6 @@ export const schema = {
             "fields": {
                 "id": {
                     "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "username": {
-                    "name": "username",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
@@ -672,22 +691,6 @@ export const schema = {
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
-                },
-                "opentimes": {
-                    "name": "opentimes",
-                    "isArray": true,
-                    "type": {
-                        "model": "Opentime"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": [
-                            "storeOpentimesId"
-                        ]
-                    }
                 },
                 "contact": {
                     "name": "contact",
@@ -740,11 +743,18 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "userID": {
+                    "name": "userID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "categories": {
                     "name": "categories",
                     "isArray": true,
                     "type": {
-                        "model": "Categories"
+                        "model": "StoreCategories"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -752,7 +762,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "storeCategoriesId"
+                            "store"
                         ]
                     }
                 },
@@ -768,7 +778,23 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "storeNotesId"
+                            "storeID"
+                        ]
+                    }
+                },
+                "opentime": {
+                    "name": "opentime",
+                    "isArray": true,
+                    "type": {
+                        "model": "Opentime"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "storeID"
                         ]
                     }
                 },
@@ -784,7 +810,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "storeOrdersId"
+                            "storeID"
                         ]
                     }
                 },
@@ -815,9 +841,9 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "gsi-User.stores",
+                        "name": "byUser",
                         "fields": [
-                            "id"
+                            "userID"
                         ]
                     }
                 },
@@ -828,10 +854,9 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "read",
-                                    "create",
-                                    "update"
-                                ]
+                                    "read"
+                                ],
+                                "provider": "apiKey"
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -840,6 +865,18 @@ export const schema = {
                                 "groups": [
                                     "admin"
                                 ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -957,10 +994,9 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "read",
-                                    "create",
-                                    "update"
-                                ]
+                                    "create"
+                                ],
+                                "provider": "apiKey"
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -980,6 +1016,104 @@ export const schema = {
                     }
                 }
             ]
+        },
+        "StoreCategories": {
+            "name": "StoreCategories",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "categoriesId": {
+                    "name": "categoriesId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "storeId": {
+                    "name": "storeId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "categories": {
+                    "name": "categories",
+                    "isArray": false,
+                    "type": {
+                        "model": "Categories"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "categoriesId"
+                        ]
+                    }
+                },
+                "store": {
+                    "name": "store",
+                    "isArray": false,
+                    "type": {
+                        "model": "Store"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "storeId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "StoreCategories",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byCategories",
+                        "fields": [
+                            "categoriesId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStore",
+                        "fields": [
+                            "storeId"
+                        ]
+                    }
+                }
+            ]
         }
     },
     "enums": {
@@ -989,6 +1123,15 @@ export const schema = {
                 "isPaid",
                 "isPremium",
                 "isPromoted"
+            ]
+        },
+        "OpentimesType": {
+            "name": "OpentimesType",
+            "values": [
+                "default",
+                "custom",
+                "holiday",
+                "short"
             ]
         }
     },
@@ -1309,5 +1452,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "60cf3a5c2bc9940feaca64bd22964c5f"
+    "version": "13927d4390e8be1ad68ff978048fbe07"
 };

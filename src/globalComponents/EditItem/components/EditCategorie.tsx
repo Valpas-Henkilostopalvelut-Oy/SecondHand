@@ -8,9 +8,9 @@ import { updateStoreAsync } from "../../../services/storeLib";
 
 const EditCategorie = (props: EditItemState) => {
   const dispatch = useAppDispatch();
-  const { categories, setStore, isAdmin } = props;
+  const { isAdmin } = props;
   const { data } = useAppSelector((state) => state.categories);
-  const category = data.map(({ id, name }) => ({
+  const category = data?.map(({ id, name }) => ({
     id,
     name,
   })) as (LazyCategories | null)[];

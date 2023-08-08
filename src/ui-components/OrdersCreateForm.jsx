@@ -36,6 +36,7 @@ export default function OrdersCreateForm(props) {
     to: "",
     price: "",
     message: "",
+    storeID: "",
   };
   const [username, setUsername] = React.useState(initialValues.username);
   const [type, setType] = React.useState(initialValues.type);
@@ -44,6 +45,7 @@ export default function OrdersCreateForm(props) {
   const [to, setTo] = React.useState(initialValues.to);
   const [price, setPrice] = React.useState(initialValues.price);
   const [message, setMessage] = React.useState(initialValues.message);
+  const [storeID, setStoreID] = React.useState(initialValues.storeID);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setUsername(initialValues.username);
@@ -53,6 +55,7 @@ export default function OrdersCreateForm(props) {
     setTo(initialValues.to);
     setPrice(initialValues.price);
     setMessage(initialValues.message);
+    setStoreID(initialValues.storeID);
     setErrors({});
   };
   const validations = {
@@ -63,6 +66,7 @@ export default function OrdersCreateForm(props) {
     to: [{ type: "Required" }],
     price: [],
     message: [],
+    storeID: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -114,6 +118,7 @@ export default function OrdersCreateForm(props) {
           to,
           price,
           message,
+          storeID,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -175,6 +180,7 @@ export default function OrdersCreateForm(props) {
               to,
               price,
               message,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.username ?? value;
@@ -205,6 +211,7 @@ export default function OrdersCreateForm(props) {
               to,
               price,
               message,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.type ?? value;
@@ -251,6 +258,7 @@ export default function OrdersCreateForm(props) {
               to,
               price,
               message,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.status ?? value;
@@ -283,6 +291,7 @@ export default function OrdersCreateForm(props) {
               to,
               price,
               message,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.from ?? value;
@@ -315,6 +324,7 @@ export default function OrdersCreateForm(props) {
               to: value,
               price,
               message,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.to ?? value;
@@ -349,6 +359,7 @@ export default function OrdersCreateForm(props) {
               to,
               price: value,
               message,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.price ?? value;
@@ -379,6 +390,7 @@ export default function OrdersCreateForm(props) {
               to,
               price,
               message: value,
+              storeID,
             };
             const result = onChange(modelFields);
             value = result?.message ?? value;
@@ -392,6 +404,37 @@ export default function OrdersCreateForm(props) {
         errorMessage={errors.message?.errorMessage}
         hasError={errors.message?.hasError}
         {...getOverrideProps(overrides, "message")}
+      ></TextField>
+      <TextField
+        label="Store id"
+        isRequired={true}
+        isReadOnly={false}
+        value={storeID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              username,
+              type,
+              status,
+              from,
+              to,
+              price,
+              message,
+              storeID: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.storeID ?? value;
+          }
+          if (errors.storeID?.hasError) {
+            runValidationTasks("storeID", value);
+          }
+          setStoreID(value);
+        }}
+        onBlur={() => runValidationTasks("storeID", storeID)}
+        errorMessage={errors.storeID?.errorMessage}
+        hasError={errors.storeID?.hasError}
+        {...getOverrideProps(overrides, "storeID")}
       ></TextField>
       <Flex
         justifyContent="space-between"
