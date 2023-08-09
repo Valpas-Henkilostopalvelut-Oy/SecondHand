@@ -18,7 +18,6 @@ export const createOpenTimeAsync = createAsyncThunk(
     if (!openTime.start || !openTime.end) {
       throw new Error("Please fill in all fields");
     }
-
     const start = new Date(openTime.start).toISOString();
     const end = new Date(openTime.end).toISOString();
     const newOpenTime = await DataStore.save(

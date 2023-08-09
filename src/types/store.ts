@@ -1,12 +1,11 @@
 import type { FormikErrors, FormikTouched } from "formik";
 import type {
-  Categories,
+  LazyCategories,
   Location,
   Contact,
   Social,
   StoreSettings,
   Notes,
-  Orders,
   LazyStore,
 } from "../models";
 
@@ -37,7 +36,7 @@ export interface StoreFormProps {
   type: string;
   name: string;
   description?: string | null;
-  categories?: Categories[];
+  categories?: LazyCategories[];
   contact: Contact;
   location: Location;
   imgs?: File[] | null;

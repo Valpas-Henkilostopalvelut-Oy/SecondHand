@@ -8,17 +8,14 @@ import "@fontsource/source-sans-pro";
 import { BrowserRouter } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import awsmobile from "./aws-exports";
-import { Amplify, AuthModeStrategyType } from "aws-amplify";
+import { Amplify } from "aws-amplify";
 
 const sentry_dsn = process.env.REACT_APP_sentry_environment;
 
-Amplify.configure({
-  ...awsmobile,
-  DataStore: {
-    authModeStrategyType: AuthModeStrategyType.MULTI_AUTH,
-  },
-});
+// disable datastore warnings
+Amplify.configure(awsmobile);
 
+// Sentry init
 Sentry.init({
   dsn: sentry_dsn,
   environment: process.env.NODE_ENV,

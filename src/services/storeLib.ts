@@ -1,4 +1,5 @@
-import { Store, LazyStore } from "../models";
+import { Store, StoreCategories } from "../models";
+import type { LazyCategories, LazyStore } from "../models";
 import {
   DataStore,
   Auth,
@@ -10,7 +11,10 @@ import type { filterProps, StoreFormProps } from "../types/store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createNote } from "./noteLib";
 import { createOpenTimeAsync } from "./openTimeLib";
-import type { AppDispatch } from "../app/store";
+
+const addCategories = async (categories: LazyCategories, store: LazyStore) => {
+  await DataStore.save(new StoreCategories({ categories, store }));
+};
 
 export const createStoreAsync = createAsyncThunk(
   "adminStores/createStore",
@@ -21,7 +25,7 @@ export const createStoreAsync = createAsyncThunk(
   }: {
     store: StoreFormProps;
     isAdmin?: boolean;
-    dispatch: AppDispatch;
+    dispatch: any;
   }) => {
     try {
       const user = await Auth.currentAuthenticatedUser();
@@ -52,8 +56,13 @@ export const createStoreAsync = createAsyncThunk(
         )
       );
 
+      const categoriesPromises = (store.categories || []).map((category) =>
+        addCategories(category, newStore)
+      );
+
       await Promise.all(notesPromises);
       await Promise.all(opentimesPromises);
+      await Promise.all(categoriesPromises);
       return newStore;
     } catch (error: any) {
       throw new Error(error);
