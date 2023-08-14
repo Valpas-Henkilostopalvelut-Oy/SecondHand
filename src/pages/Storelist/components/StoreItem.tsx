@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import type { LazyStore } from "../../../models";
+import React, { useEffect, useState } from "react";
+import type { LazyOpentime, LazyStore } from "../../../models";
 import type { BoxProps, GridProps } from "@mui/material";
 import {
   AccordionDetails,
@@ -20,6 +20,8 @@ import ImageComponent from "../../../globalComponents/ImageComponent";
 import LogoImage from "../../../globalComponents/LogoImage";
 import ReadMoteText from "../../../globalComponents/ReadMoreText";
 import Carousel from "react-material-ui-carousel";
+import { opentimesToStore } from "../../../services/openTimeLib";
+import OpenTime from "./OpenTime";
 
 //https://www.n3xtlevel.fi/ to www.n3xtlevel.fi
 const removeHttps = (url: string) => url.replace(/(^\w+:|^)\/\//, "");
@@ -86,6 +88,15 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
   const { description, contact, location, imgs, social } = store;
   const handleClick = () => setOpen(!open);
   const theme = useTheme();
+  const [opentimes, setOpentimes] = useState<LazyOpentime[] | null>(null);
+  useEffect(() => {
+    const opentimes = async () => {
+      const opentimes = await opentimesToStore(store);
+      setOpentimes(opentimes);
+    };
+
+    opentimes();
+  }, []);
 
   //accordion open up
 
@@ -185,7 +196,7 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
                 <Typography variant="h6">
                   <b>Aukioloajat</b>
                 </Typography>
-                {/** <OpenTime times={opentimes} /> */}
+                <OpenTime times={opentimes} />
               </Grid>
 
               <Grid

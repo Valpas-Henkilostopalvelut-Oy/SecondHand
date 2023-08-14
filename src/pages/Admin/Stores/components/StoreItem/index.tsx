@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import type { LazyStore } from "../../../../../models";
+import React, { useEffect, useState } from "react";
+import type { LazyOpentime, LazyStore } from "../../../../../models";
 import {
   Typography,
   Box,
@@ -10,7 +10,7 @@ import {
   Button,
   Tooltip,
 } from "@mui/material";
-import OpenTime from "./components/Opentime";
+import OpenTimes from "./components/Opentime";
 import CustomBox from "./components/CustomBox";
 import Categories from "./components/Categories";
 import Images from "./components/Images";
@@ -26,9 +26,10 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import LogoImage from "../../../../../globalComponents/LogoImage";
+import { opentimesToStore } from "../../../../../services/openTimeLib";
 
 const StoreItem = (props: LazyStore) => {
-  const { settings, name } = props;
+  const { settings, name, notes } = props;
   const isAdmin = useAppSelector((state) => state.user.isAdmin);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -49,7 +50,10 @@ const StoreItem = (props: LazyStore) => {
         isAdmin: isAdmin,
       })
     );
-  const handleLog = () => console.log(props);
+
+  const handleLog = () => {
+    console.log("opentimes");
+  };
   return (
     <Box sx={{ marginBottom: "1em" }}>
       <Accordion
@@ -106,9 +110,17 @@ const StoreItem = (props: LazyStore) => {
 };
 
 const StoreDetails = (props: LazyStore) => {
-  const { description, categories, imgs, location, contact, social, logo } =
-    props;
+  const { description, categories, imgs, location, social, logo } = props;
   const iframe = location?.iframe;
+  const [opentimes, setOpentimes] = useState<LazyOpentime[] | null>(null);
+  useEffect(() => {
+    const opentimes = async () => {
+      const opentimes = await opentimesToStore(props);
+      setOpentimes(opentimes);
+    };
+
+    opentimes();
+  }, []);
 
   return (
     <Box>
@@ -131,7 +143,7 @@ const StoreDetails = (props: LazyStore) => {
         <Typography>
           <b>Aukioloajat</b>
         </Typography>
-        {/** <OpenTime {...opentimes} /> */}
+        <OpenTimes opentimes={opentimes} />
       </CustomBox>
       <CustomBox>
         <Typography>

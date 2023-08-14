@@ -1,3 +1,5 @@
+import { OpentimesType } from "../models";
+
 const daysEng = [
   "Monday",
   "Tuesday",
@@ -35,6 +37,12 @@ export const getDays = (lang: string, short: boolean) => {
     return daysShort;
   }
   return days;
+};
+
+export const getOpenTimeType = () => {
+  //make array from OpentimesType enum
+  const enumValues = Object.values(OpentimesType);
+  return enumValues.filter((value) => typeof value === "string");
 };
 
 export default getCurrentDay;

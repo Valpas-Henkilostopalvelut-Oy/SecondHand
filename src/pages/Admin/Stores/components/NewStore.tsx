@@ -530,10 +530,9 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                     <OpenTimes
                       opentimes={values.opentimes || []}
                       onAdd={(opentime) => {
-                        const newOpenTimes = [
-                          ...(values.opentimes || []),
-                          opentime,
-                        ].sort((a, b) => a.day - b.day);
+                        const newOpenTimes = (values.opentimes || [])
+                          .filter((ot) => ot.day !== opentime.day)
+                          .concat(opentime);
                         setFieldValue("opentimes", newOpenTimes);
                       }}
                       onDelete={(opentime) => {

@@ -70,14 +70,14 @@ const OpenTimeItem = ({
   );
 };
 
-const AddOpenTime = ({
+export const AddOpenTime = ({
   accordion,
   onAdd,
-  opentimes,
+  children,
 }: {
   accordion?: AccordionProps;
   onAdd?: (opentime: OpenTimesProps) => void;
-  opentimes: OpenTimesProps[];
+  children?: JSX.Element;
 }) => {
   const days = getDays("fi", true);
   const formik = useFormik({
@@ -88,14 +88,7 @@ const AddOpenTime = ({
       isClosed: false,
     },
     onSubmit: (values) => {
-      if (onAdd) {
-        const findedDay = !opentimes.find(
-          (opentime) => opentime.day === values.day
-        );
-        if (findedDay) {
-          onAdd(values);
-        }
-      }
+      if (onAdd) onAdd(values);
     },
     validationSchema: yup.object({
       day: yup.number().required("Päivä on pakollinen"),
@@ -109,6 +102,9 @@ const AddOpenTime = ({
       <AccordionSummary>Uusi aukioloaika</AccordionSummary>
       <AccordionDetails>
         <Grid container spacing={2}>
+          <Grid item xs={12} hidden={!children}>
+            {children}
+          </Grid>
           <Grid item xs={12} sm={2.5}>
             <Autocomplete
               options={days}
@@ -202,7 +198,7 @@ const OpenTimes = ({
         <TableBody>
           <TableRow>
             <TableCell colSpan={5}>
-              <AddOpenTime onAdd={onAdd} opentimes={opentimes} />
+              <AddOpenTime onAdd={onAdd} />
             </TableCell>
           </TableRow>
           {opentimes

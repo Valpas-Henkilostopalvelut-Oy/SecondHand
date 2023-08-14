@@ -3,6 +3,7 @@ import type { initialStateProps } from "../../types/opentimes";
 import {
   createOpenTimeAsync,
   fetchOpenTimesAsync,
+  deleteOpenTimeAsync,
 } from "../../services/openTimeLib";
 
 const initialState: initialStateProps = {
@@ -21,7 +22,7 @@ const opentimes = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.error = null;
-      state.opentimes?.push(action.payload);
+      state.opentimes = (state.opentimes || []).concat(action.payload);
     });
     builder.addCase(createOpenTimeAsync.rejected, (state, action) => {
       state.isLoading = false;
@@ -36,6 +37,20 @@ const opentimes = createSlice({
       state.opentimes = action.payload;
     });
     builder.addCase(fetchOpenTimesAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(deleteOpenTimeAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.error = null;
+      state.opentimes = (state.opentimes || []).filter(
+        (opentime) => opentime.id !== action.payload.id
+      );
+    });
+    builder.addCase(deleteOpenTimeAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.error = action.error.message;

@@ -51,7 +51,6 @@ export const createStoreAsync = createAsyncThunk(
           createOpenTimeAsync({
             openTime,
             store: newStore,
-            userId: user.username,
           })
         )
       );
@@ -117,9 +116,9 @@ export const fetchStores = createAsyncThunk(
   async () => {
     const stores = await DataStore.query(Store, Predicates.ALL, {
       sort: (s) => s.name(SortDirection.ASCENDING),
-    });
+    })
 
-    return stores;
+    return stores.filter((store) => store.settings.isConfirmed.status === true);
   }
 );
 

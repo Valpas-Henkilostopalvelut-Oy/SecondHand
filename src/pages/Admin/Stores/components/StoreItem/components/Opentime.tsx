@@ -6,20 +6,43 @@ import {
   TableBody,
   TableCell,
   TableRow,
+  TableHead,
 } from "@mui/material";
-import type { LazyOpentime, LazyStore } from "../../../../../../models";
+import type { LazyOpentime } from "../../../../../../models";
+import { getCurrentDay } from "../../../../../../services/days";
 
-const OpenTimes = (props?: LazyOpentime[] | null) => {
-  if (!props) return null;
+const OpenTimes = ({ opentimes }: { opentimes: LazyOpentime[] | null }) => {
+  if (!opentimes) return null;
+
+  const defaultdays = opentimes
+    .filter((opentime) => opentime.type === "default")
+    .sort((a, b) => a.day - b.day);
+  const customdays = opentimes
+    .filter((opentime) => opentime.type !== "default")
+    .sort((a, b) => a.day - b.day);
 
   return (
     <TableContainer>
       <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell colSpan={4}>
+              <Typography variant="h6">Default days</Typography>
+            </TableCell>
+          </TableRow>
+          {defaultdays.map((opentime) => (
+            <OneTimes key={opentime.id} {...opentime} />
+          ))}
+        </TableHead>
         <TableBody>
-          {props.map((opentime) => {
-            if (!opentime) return null;
-            return <OneTimes key={opentime.id} {...opentime} />;
-          })}
+          <TableRow>
+            <TableCell colSpan={4}>
+              <Typography variant="h6">Custom days</Typography>
+            </TableCell>
+          </TableRow>
+          {customdays.map((opentime) => (
+            <OneTimes key={opentime.id} {...opentime} />
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
@@ -27,8 +50,9 @@ const OpenTimes = (props?: LazyOpentime[] | null) => {
 };
 
 const OneTimes = (props: LazyOpentime) => {
-  const { day, start, end, isClosed } = props;
+  const { start, end, isClosed, type } = props;
   if ((!start || !end) && !isClosed) return null;
+  const day = getCurrentDay("fi", props.day, true);
 
   const o = new Date(start || "");
   const c = new Date(end || "");
@@ -62,6 +86,7 @@ const OneTimes = (props: LazyOpentime) => {
           {closetime}
         </Typography>
       </TableCell>
+      <TableCell>{type}</TableCell>
     </TableRow>
   );
 };
