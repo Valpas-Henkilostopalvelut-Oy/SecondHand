@@ -1,61 +1,95 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import type { LazyOpentime } from "../../../models";
-import { getCurrentDay, getDays } from "../../../services/days";
+import { getCurrentDay } from "../../../services/days";
+
+interface SortedTimes {
+  day_first: number;
+  day_last: number;
+  start?: string | null;
+  end?: string | null;
+  isClosed?: boolean | null;
+}
+
+interface OpenTimeReducer {
+  type: string; //default or custom
+  days: SortedTimes[];
+}
+
+const getSortedTimes = ({ times }: { times: LazyOpentime[] }) =>
+  times.reduce((acc: OpenTimeReducer[], item: LazyOpentime, index) => {
+    const { day, start, end, isClosed, type } = item;
+
+    // Find or create an entry in the accumulator array for the current type
+    const typeEntryIndex = acc.findIndex((entry) => entry.type === type);
+    if (typeEntryIndex === -1) {
+      acc.push({
+        type,
+        days: [{ day_first: day, day_last: day, start, end, isClosed }],
+      });
+    } else {
+      const typeEntry = acc[typeEntryIndex];
+      const prevOpentime = index > 0 ? times[index - 1] : null;
+
+      if (
+        prevOpentime &&
+        prevOpentime.type === type &&
+        prevOpentime.start === start &&
+        prevOpentime.end === end &&
+        !isClosed
+      ) {
+        // Update day_last if start and end times are the same as the previous day
+        typeEntry.days[typeEntry.days.length - 1].day_last = day;
+      } else if (isClosed) {
+        // Group closed days
+        if (typeEntry.days[typeEntry.days.length - 1].isClosed) {
+          typeEntry.days[typeEntry.days.length - 1].day_last = day;
+        } else {
+          typeEntry.days.push({ day_first: day, day_last: day, isClosed });
+        }
+      } else {
+        const dayEntryIndex = typeEntry.days.findIndex(
+          (entry) => entry.day_first === day
+        );
+        if (dayEntryIndex === -1) {
+          typeEntry.days.push({
+            day_first: day,
+            day_last: day,
+            start,
+            end,
+            isClosed,
+          });
+        } else {
+          typeEntry.days[dayEntryIndex].start = start;
+          typeEntry.days[dayEntryIndex].end = end;
+          typeEntry.days[dayEntryIndex].isClosed = isClosed;
+        }
+      }
+    }
+
+    return acc;
+  }, []);
 
 const OpenTime = ({ times }: { times: LazyOpentime[] | null }) => {
   if (!times) return null;
 
-  // Sort the array by day and type
-  times.sort((a, b) => {
-    if (a.day !== b.day) {
-      return a.day - b.day;
-    }
-    return a.type.localeCompare(b.type);
-  });
+  const sortedTimes = getSortedTimes({ times });
 
-  // Group the sorted array by day and type
-  const groupedOpentimes: Record<string, LazyOpentime[]> = {};
+  console.log(sortedTimes);
 
-  times.forEach((opentime) => {
-    const key = `${opentime.day}-${opentime.type}`;
-    if (!groupedOpentimes[key]) {
-      groupedOpentimes[key] = [];
-    }
-    groupedOpentimes[key].push(opentime);
-  });
-
-  // Format the grouped data
-  const formattedOpentimes: string[] = [];
-
-  for (const key in groupedOpentimes) {
-    const opentimesGroup = groupedOpentimes[key];
-    const days = opentimesGroup[0].day === 0 ? "sat-sun" : "mo-fri";
-    const type =
-      opentimesGroup[0].type.charAt(0).toUpperCase() +
-      opentimesGroup[0].type.slice(1);
-
-    let timings = "";
-    for (const opentime of opentimesGroup) {
-      const timeRange = `${opentime.start?.slice(11, 16)}-${opentime.end?.slice(
-        11,
-        16
-      )}`;
-      if (timings === "") {
-        timings = timeRange;
-      } else {
-        timings += `, ${timeRange}`;
-      }
-    }
-
-    const formattedGroup = `${days}: ${type}: ${timings}`;
-    formattedOpentimes.push(formattedGroup);
-  }
-
-  console.log(formattedOpentimes);
-
-  if (!times) return null;
-  return null;
+  return (
+    <Box>
+      <Typography variant="h6">Default days</Typography>
+      {times.map((opentime) => (
+        <Typography key={opentime.id}>
+          {getCurrentDay("fi", opentime.day, true)}:{" "}
+          {opentime.isClosed
+            ? "Suljettu"
+            : `${opentime.start} - ${opentime.end}`}
+        </Typography>
+      ))}
+    </Box>
+  );
 };
 
 export default OpenTime;

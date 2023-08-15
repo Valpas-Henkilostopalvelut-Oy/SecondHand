@@ -192,7 +192,7 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
 
           <CustomBox>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={4} hidden={true}>
+              <Grid item xs={12} sm={4} hidden={!opentimes}>
                 <Typography variant="h6">
                   <b>Aukioloajat</b>
                 </Typography>

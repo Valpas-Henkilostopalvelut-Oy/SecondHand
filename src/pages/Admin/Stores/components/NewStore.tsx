@@ -53,13 +53,17 @@ const addHttpsToUrlOrGetSrc = (url: string) => {
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     return "https://" + url;
   }
-  if (url.includes("src=")) {
-    const srcMatch = url.match(/src\s*=\s*"(.*?)"/i);
+  return url;
+};
+
+const getUrlFromSrc = (src: string) => {
+  if (src.includes("src=")) {
+    const srcMatch = src.match(/src\s*=\s*"(.*?)"/i);
     if (srcMatch && srcMatch[1]) {
       return srcMatch[1];
     }
   }
-  return url;
+  return src;
 };
 
 const StoreBlock = styled(Grid)(({ theme }) => ({
@@ -304,7 +308,12 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                       label="Kotisivu"
                       name="contact.website"
                       value={values.contact.website || ""}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setFieldValue(
+                          "contact.website",
+                          addHttpsToUrlOrGetSrc(e.target.value)
+                        );
+                      }}
                       onBlur={handleBlur}
                       fullWidth
                     />
@@ -382,10 +391,7 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                       options={uniqueAreas(areas)}
                       getOptionLabel={(option) => option}
                       onChange={(e, value) =>
-                        setFieldValue(
-                          "location.admin_name",
-                          value as string | null
-                        )
+                        setFieldValue("location.admin_name", value)
                       }
                       renderInput={(params) => (
                         <TextField
@@ -459,7 +465,7 @@ const NewStore = ({ box }: { box?: BoxProps }) => {
                       value={values.location.iframe || ""}
                       onChange={(e) => {
                         const { value } = e.target;
-                        const iframe = addHttpsToUrlOrGetSrc(value);
+                        const iframe = getUrlFromSrc(value);
                         setFieldValue("location.iframe", iframe);
                       }}
                       helperText="Tänne voit laita linkin Google Mapsiin."
