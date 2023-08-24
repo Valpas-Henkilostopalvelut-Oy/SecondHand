@@ -45,4 +45,14 @@ export const getOpenTimeType = () => {
   return enumValues.filter((value) => typeof value === "string");
 };
 
+export const isInCurrentWeek = (day: Date) => {
+  const today = new Date();
+  const currentWeekStart = new Date(today);
+  currentWeekStart.setDate(today.getDate() - today.getDay()); // Start of the week is Sunday
+  const currentWeekEnd = new Date(currentWeekStart);
+  currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // End of the week is Saturday
+
+  return day >= currentWeekStart && day <= currentWeekEnd;
+};
+
 export default getCurrentDay;

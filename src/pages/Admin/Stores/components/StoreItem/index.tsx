@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import type { LazyOpentime, LazyStore } from "../../../../../models";
+import type {
+  LazyOpentime,
+  LazyStore,
+  LazyCategories,
+} from "../../../../../models";
+import { Categories } from "../../../../../models";
 import {
   Typography,
   Box,
@@ -12,7 +17,7 @@ import {
 } from "@mui/material";
 import OpenTimes from "./components/Opentime";
 import CustomBox from "./components/CustomBox";
-import Categories from "./components/Categories";
+import Category from "./components/Categories";
 import Images from "./components/Images";
 import StoreIframe from "./components/StoreIframe";
 import Contact from "./components/Contact";
@@ -27,9 +32,10 @@ import { useAppDispatch, useAppSelector } from "../../../../../app/hooks";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import LogoImage from "../../../../../globalComponents/LogoImage";
 import { opentimesToStore } from "../../../../../services/openTimeLib";
+import { fetchCategoriesByStore } from "../../../../../services/categoriesLib";
 
 const StoreItem = (props: LazyStore) => {
-  const { settings, name, notes } = props;
+  const { settings, name } = props;
   const isAdmin = useAppSelector((state) => state.user.isAdmin);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -52,7 +58,7 @@ const StoreItem = (props: LazyStore) => {
     );
 
   const handleLog = () => {
-    console.log("opentimes");
+    console.log(props);
   };
   return (
     <Box sx={{ marginBottom: "1em" }}>
@@ -110,9 +116,10 @@ const StoreItem = (props: LazyStore) => {
 };
 
 const StoreDetails = (props: LazyStore) => {
-  const { description, categories, imgs, location, social, logo } = props;
+  const { description, imgs, location, social, logo } = props;
   const iframe = location?.iframe;
   const [opentimes, setOpentimes] = useState<LazyOpentime[] | null>(null);
+  const [categories, setCategories] = useState<LazyCategories[] | null>(null);
   useEffect(() => {
     const opentimes = async () => {
       const opentimes = await opentimesToStore(props);
@@ -120,6 +127,15 @@ const StoreDetails = (props: LazyStore) => {
     };
 
     opentimes();
+  }, []);
+
+  useEffect(() => {
+    const categories = async () => {
+      const categories = await fetchCategoriesByStore(props.id);
+      setCategories(categories);
+    };
+
+    categories();
   }, []);
 
   return (
@@ -136,10 +152,13 @@ const StoreDetails = (props: LazyStore) => {
         </Typography>
         <Typography>{description}</Typography>
       </CustomBox>
-      <CustomBox hidden={!categories}>
-        <Categories {...props} />
+      <CustomBox hidden={!categories || categories.length === 0}>
+        <Typography>
+          <b>Kategoriat</b>
+        </Typography>
+        <Category categories={categories} />
       </CustomBox>
-      <CustomBox>
+      <CustomBox hidden={!opentimes || opentimes.length === 0}>
         <Typography>
           <b>Aukioloajat</b>
         </Typography>

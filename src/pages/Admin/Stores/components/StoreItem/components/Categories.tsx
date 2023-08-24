@@ -1,25 +1,17 @@
 import React from "react";
-import type { LazyStore } from "../../../../../../models";
-import { Categories as Cats } from "../../../../../../models";
-import { DataStore } from "aws-amplify";
+import type { LazyCategories } from "../../../../../../models";
 import { Typography, Box } from "@mui/material";
 
-const getCategories = async (store: LazyStore) => {
-  const categories = await DataStore.query(Cats, (c) =>
-    c.stores.store.id.eq(store.id)
-  );
-  return categories;
-};
+const Category = ({ categories }: { categories: LazyCategories[] | null }) => {
+  if (!categories) return null;
 
-const Categories = (props: LazyStore) => {
   return (
     <Box>
-      <Typography>
-        <b>Kategoriat</b>
-      </Typography>
-      <Typography>cats</Typography>
+      {categories.map((category) => (
+        <Typography key={category.id}>{category.name}</Typography>
+      ))}
     </Box>
   );
 };
 
-export default Categories;
+export default Category;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { LazyOpentime, LazyStore } from "../../../models";
+import type { LazyCategories, LazyOpentime, LazyStore } from "../../../models";
 import type { BoxProps, GridProps } from "@mui/material";
 import {
   AccordionDetails,
@@ -22,6 +22,7 @@ import ReadMoteText from "../../../globalComponents/ReadMoreText";
 import Carousel from "react-material-ui-carousel";
 import { opentimesToStore } from "../../../services/openTimeLib";
 import OpenTime from "./OpenTime";
+import { fetchCategoriesByStore } from "../../../services/categoriesLib";
 
 //https://www.n3xtlevel.fi/ to www.n3xtlevel.fi
 const removeHttps = (url: string) => url.replace(/(^\w+:|^)\/\//, "");
@@ -89,6 +90,8 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
   const handleClick = () => setOpen(!open);
   const theme = useTheme();
   const [opentimes, setOpentimes] = useState<LazyOpentime[] | null>(null);
+  const [categories, setCategories] = useState<LazyCategories[] | null>(null);
+
   useEffect(() => {
     const opentimes = async () => {
       const opentimes = await opentimesToStore(store);
@@ -97,6 +100,18 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
 
     opentimes();
   }, []);
+
+  useEffect(() => {
+    const categories = async () => {
+      setCategories(await fetchCategoriesByStore(store.id));
+    };
+
+    categories();
+  }, []);
+
+  const handleLog = () => {
+    console.log("opentimes", store);
+  };
 
   //accordion open up
 
@@ -125,6 +140,7 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
             borderRadius: "0px",
             [theme.breakpoints.down("sm")]: { padding: "0px" },
           }}
+          onClick={handleLog}
         >
           <SummaryMobile store={store} />
           <SummaryDesktop store={store} />
@@ -141,11 +157,13 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
             <ReadMoteText text={description} />
           </CustomBox>
 
-          <CustomBox hidden={true}>
+          <CustomBox hidden={!categories || categories.length === 0}>
             <Typography variant="h6">
               <b>Kategoriat</b>
             </Typography>
-            <Typography>Cats</Typography>
+            {categories?.map((item) => (
+              <Typography key={item.id}>{item.name}</Typography>
+            ))}
           </CustomBox>
 
           <CustomBox hidden={!imgs || imgs.length === 0}>

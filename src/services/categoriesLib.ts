@@ -1,6 +1,40 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Auth, DataStore, Predicates, SortDirection } from "aws-amplify";
-import { Categories } from "../models";
+import { Auth, DataStore } from "aws-amplify";
+import { Categories, Store, StoreCategories } from "../models";
+
+export const deleteCategoryFromStore = async (
+  storeID: string,
+  categoryID: string
+) => {
+  const storeCategory = await DataStore.query(
+    StoreCategories,
+    (sc) => sc.categories.id.eq(categoryID) && sc.store.id.eq(storeID)
+  );
+  if (!storeCategory) throw new Error("Category not found");
+  await DataStore.delete(storeCategory);
+};
+
+export const addCategoryToStore = async (
+  storeID: string,
+  categoryID: string
+) => {
+  const category = await DataStore.query(Categories, categoryID);
+  if (!category) throw new Error("Category not found");
+  const store = await DataStore.query(Store, storeID);
+  if (!store) throw new Error("Store not found");
+
+  await DataStore.save(
+    new StoreCategories({
+      categories: category,
+      store: store,
+    })
+  );
+};
+
+export const fetchCategoriesByStore = async (storeID: string) =>
+  await DataStore.query(Categories, (c) => c.stores.storeId.eq(storeID), {
+    sort: (s) => s.name("ASCENDING"),
+  });
 
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",

@@ -8,6 +8,7 @@ import type {
   Notes,
   LazyStore,
 } from "../models";
+import type { OpenTimesProps } from "./opentimes";
 
 export interface ComponentProps {
   values: StoreFormProps;
@@ -22,14 +23,6 @@ export interface ComponentProps {
   touched: FormikTouched<StoreFormProps>;
   isValid: boolean;
   isSubmitting: boolean;
-}
-
-export interface OpenTimesProps {
-  id?: string;
-  day: number;
-  start: string | null;
-  end: string | null;
-  isClosed: boolean;
 }
 
 export interface StoreFormProps {

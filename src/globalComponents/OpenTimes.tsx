@@ -25,11 +25,11 @@ import type {
 import { TimeField, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import fi from "date-fns/locale/fi";
-import getCurrentDay, { getDays } from "../../services/days";
+import getCurrentDay, { getDays } from "../services/days";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Delete, Add } from "@mui/icons-material";
-import type { OpenTimesProps } from "../../types/store";
+import type { OpenTimesProps } from "../types/opentimes";
 
 const OpenTimeItem = ({
   openTime,

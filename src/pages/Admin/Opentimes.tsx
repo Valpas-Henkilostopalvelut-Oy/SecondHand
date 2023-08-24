@@ -12,21 +12,35 @@ import {
   TableRow,
   TableCell,
   IconButton,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
-import type { BoxProps } from "@mui/material";
+import type { AccordionProps, BoxProps } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import type { LazyStore, LazyOpentime } from "../../models";
 import { OpentimesType } from "../../models";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { getDays, getCurrentDay, getOpenTimeType } from "../../services/days";
+import { getCurrentDay, getDays } from "../../services/days";
 import {
   fetchOpenTimesAsync,
   deleteOpenTimeAsync,
   createOpenTimeAsync,
+  getSortedByTypes,
+  getSorted,
 } from "../../services/openTimeLib";
 import { Clear } from "@mui/icons-material";
-import { AddOpenTime } from "../../globalComponents/OpenTimes";
+import type { SortedTimes } from "../../types/opentimes";
+import {
+  TimeField,
+  LocalizationProvider,
+  MobileDatePicker,
+} from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import fi from "date-fns/locale/fi";
 
 const StoreSelect = ({
   box,
@@ -61,26 +75,166 @@ const StoreSelect = ({
   );
 };
 
-const OpentimeItem = ({
+const OpenTimeForm = ({
   box,
-  item,
+  store,
+  accordion,
 }: {
   box?: BoxProps;
-  item: LazyOpentime;
+  store: LazyStore | null;
+  accordion?: AccordionProps;
 }) => {
-  const type = item.type;
-  const dispatch = useAppDispatch();
-  const day = getCurrentDay("fi", item.day, true);
+  const days = getDays("fi", true);
+  const formik = useFormik({
+    initialValues: {
+      store: store?.id || "",
+      type: OpentimesType.CUSTOM,
+      day: 0,
+      date: null,
+      start: null,
+      end: null,
+      isClosed: false,
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
+  return (
+    <Box {...box}>
+      <Accordion {...accordion}>
+        <AccordionSummary>Uusi aukioloaika</AccordionSummary>
+        <AccordionDetails>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Autocomplete
+                options={Object.values(OpentimesType)}
+                value={formik.values.type}
+                onChange={(event, newValue) => {
+                  if (!newValue) return;
+                  formik.setFieldValue("type", newValue);
+                }}
+                onBlur={formik.handleBlur}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Tyyppi"
+                    variant="outlined"
+                    error={formik.touched.type && Boolean(formik.errors.type)}
+                    helperText={formik.touched.type && formik.errors.type}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Autocomplete
+                options={days}
+                value={days[formik.values.day]}
+                onChange={(event, newValue) => {
+                  if (!newValue) return;
+                  formik.setFieldValue("day", days.indexOf(newValue));
+                }}
+                onBlur={formik.handleBlur}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Päivä"
+                    variant="outlined"
+                    error={formik.touched.day && Boolean(formik.errors.day)}
+                    helperText={formik.touched.day && formik.errors.day}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                adapterLocale={fi}
+              >
+                <MobileDatePicker
+                  label="Päivämäärä"
+                  value={formik.values.start}
+                  onChange={(value) => formik.setFieldValue("start", value)}
+                />
+              </LocalizationProvider>
+              {formik.values.isClosed ||
+                formik.values.type === OpentimesType.DEFAULT ||
+                (formik.errors.start && formik.touched.start && (
+                  <Typography color="red">{formik.errors.start}</Typography>
+                ))}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                adapterLocale={fi}
+              >
+                <TimeField
+                  label="Avataan"
+                  value={formik.values.start}
+                  onChange={(value) => formik.setFieldValue("start", value)}
+                  disabled={formik.values.isClosed}
+                />
+              </LocalizationProvider>
+              {formik.errors.start &&
+                formik.touched.end &&
+                !formik.values.isClosed && (
+                  <Typography color="red">{formik.errors.start}</Typography>
+                )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                adapterLocale={fi}
+              >
+                <TimeField
+                  label="Suljetaan"
+                  value={formik.values.end}
+                  onChange={(value) => formik.setFieldValue("end", value)}
+                  disabled={formik.values.isClosed}
+                />
+              </LocalizationProvider>
+              {formik.errors.end &&
+                formik.touched.end &&
+                !formik.values.isClosed && (
+                  <Typography color="red">{formik.errors.end}</Typography>
+                )}
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={formik.values.isClosed}
+                    onChange={(event) => {
+                      formik.setFieldValue("isClosed", event.target.checked);
+                    }}
+                  />
+                }
+                label="Suljettu"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button variant="contained" onClick={formik.submitForm}>
+                Tallenna
+              </Button>
+            </Grid>
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
+  );
+};
+
+const OpentimeItem = ({ item }: { box?: BoxProps; item: SortedTimes }) => {
+  const day = getCurrentDay("fi", item.day_first, true);
   const start = new Date(item.start || "").toLocaleTimeString("fi");
   const end = new Date(item.end || "").toLocaleTimeString("fi");
   const isClosed = item?.isClosed ? "Suljettu" : `${start} - ${end}`;
   const handleDelete = () => {
-    dispatch(deleteOpenTimeAsync(item.id));
+    console.log(item);
   };
 
   return (
     <TableRow>
-      <TableCell>{type}</TableCell>
       <TableCell>{day}</TableCell>
       <TableCell>{isClosed}</TableCell>
       <TableCell>
@@ -92,10 +246,38 @@ const OpentimeItem = ({
   );
 };
 
+const OpentTimeTypeTable = ({
+  box,
+  type,
+  days,
+}: {
+  box?: BoxProps;
+  type: string;
+  days: SortedTimes[];
+}) => (
+  <Box {...box}>
+    <Typography variant="h6">
+      {type === OpentimesType.DEFAULT ? "Aukioloajat" : "Poikkeusaukioloajat"}
+    </Typography>
+    <TableContainer>
+      <Table>
+        <TableBody>
+          {days?.map((item) => (
+            <OpentimeItem key={item.day_first} item={item} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </Box>
+);
+
 const Opentimes = ({ box }: { box?: BoxProps }) => {
   const [store, setStore] = useState<LazyStore | null>(null);
-  const [type, setType] = useState<OpentimesType | null>(OpentimesType.CUSTOM);
   const { opentimes } = useAppSelector((state) => state.opentimes);
+  const sorted = getSortedByTypes({
+    times: opentimes || [],
+    func: getSorted,
+  });
   const dispatch = useAppDispatch();
 
   const getOpentimes = () => {
@@ -123,42 +305,17 @@ const Opentimes = ({ box }: { box?: BoxProps }) => {
           Tallenna
         </Button>
       </Box>
-      <AddOpenTime
-        onAdd={(opentime) => {
-          if (!store) return null;
-          if (
-            opentimes?.find(
-              (item) => item.day === opentime.day && item.type === type
-            )
-          )
-            return null;
-          dispatch(
-            createOpenTimeAsync({
-              openTime: opentime,
-              store: store,
-              type: type || OpentimesType.CUSTOM,
-            })
-          );
-        }}
-      >
-        <Autocomplete
-          options={getOpenTimeType()}
-          renderInput={(params) => <TextField {...params} />}
-          onChange={(event, value) => setType(value)}
-          value={type}
-        />
-      </AddOpenTime>
-      <TableContainer>
-        <Table>
-          <TableBody>
-            {store &&
-              opentimes?.map((item) => {
-                if (item.storeID !== store.id) return null;
-                return <OpentimeItem key={item.id} item={item} />;
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+
+      <OpenTimeForm box={{ mb: 2 }} store={store} />
+
+      {store &&
+        sorted?.map((item) => (
+          <OpentTimeTypeTable
+            key={item.type}
+            type={item.type}
+            days={item.days}
+          />
+        ))}
     </Box>
   );
 };

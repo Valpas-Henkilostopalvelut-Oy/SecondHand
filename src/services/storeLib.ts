@@ -12,8 +12,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createNote } from "./noteLib";
 import { createOpenTimeAsync } from "./openTimeLib";
 
-const addCategories = async (categories: LazyCategories, store: LazyStore) => {
-  await DataStore.save(new StoreCategories({ categories, store }));
+const uploadImage = async (file: File, storeName: string) => {
+  // Generate random id for the file
+  const id = Math.random().toString(36).substring(2);
+  const fileName = `${storeName}/${id}.${file.name.split(".").pop()}}`;
+  // Upload images to store folder
+  const { key } = await Storage.put(`${fileName}`, file, {
+    contentType: "image/png",
+    progressCallback(progress) {
+      console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+    },
+  });
+  return key;
 };
 
 export const createStoreAsync = createAsyncThunk(
@@ -28,6 +38,13 @@ export const createStoreAsync = createAsyncThunk(
     dispatch: any;
   }) => {
     try {
+      const logo = store.logo
+        ? await uploadImage(store.logo, store.name)
+        : null;
+
+      const imgs = await Promise.all(
+        (store.imgs || []).map((img) => uploadImage(img, store.name))
+      );
       const user = await Auth.currentAuthenticatedUser();
       const newStore = await DataStore.save(
         new Store({
@@ -40,6 +57,10 @@ export const createStoreAsync = createAsyncThunk(
             ...store.settings,
             isConfirmed: { status: isAdmin },
           },
+          description: store.description,
+          imgs: imgs,
+          logo: logo,
+          social: store.social,
         })
       );
 
@@ -55,8 +76,11 @@ export const createStoreAsync = createAsyncThunk(
         )
       );
 
-      const categoriesPromises = (store.categories || []).map((category) =>
-        addCategories(category, newStore)
+      const categoriesPromises = (store.categories || []).map(
+        async (category) =>
+          await DataStore.save(
+            new StoreCategories({ categories: category, store: newStore })
+          )
       );
 
       await Promise.all(notesPromises);
@@ -116,7 +140,7 @@ export const fetchStores = createAsyncThunk(
   async () => {
     const stores = await DataStore.query(Store, Predicates.ALL, {
       sort: (s) => s.name(SortDirection.ASCENDING),
-    })
+    });
 
     return stores.filter((store) => store.settings.isConfirmed.status === true);
   }
