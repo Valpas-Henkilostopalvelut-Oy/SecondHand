@@ -20,7 +20,10 @@ import ImageComponent from "../../../globalComponents/ImageComponent";
 import LogoImage from "../../../globalComponents/LogoImage";
 import ReadMoteText from "../../../globalComponents/ReadMoreText";
 import Carousel from "react-material-ui-carousel";
-import { opentimesToStore } from "../../../services/openTimeLib";
+import {
+  getTodayClosed,
+  opentimesToStore,
+} from "../../../services/openTimeLib";
 import OpenTime from "./OpenTime";
 import { fetchCategoriesByStore } from "../../../services/categoriesLib";
 
@@ -36,6 +39,17 @@ const SummaryMobile = ({
 }) => {
   const { logo, name } = store;
   const theme = useTheme();
+
+  const [todayClosed, setTodayClosed] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const todayClosed = async () => {
+      const closed = await getTodayClosed(store.id);
+      setTodayClosed(closed);
+    };
+    todayClosed();
+  }, []);
+
   return (
     <Grid
       container
@@ -63,6 +77,16 @@ const SummaryDesktop = ({
 }) => {
   const { logo, name } = store;
   const theme = useTheme();
+  const [todayClosed, setTodayClosed] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const todayClosed = async () => {
+      const closed = await getTodayClosed(store.id);
+      setTodayClosed(closed);
+    };
+    todayClosed();
+  }, []);
+
   return (
     <Grid
       container
@@ -94,7 +118,7 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
 
   useEffect(() => {
     const opentimes = async () => {
-      const opentimes = await opentimesToStore(store);
+      const opentimes = await opentimesToStore(store.id);
       setOpentimes(opentimes);
     };
 
@@ -108,12 +132,6 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
 
     categories();
   }, []);
-
-  const handleLog = () => {
-    console.log("opentimes", store);
-  };
-
-  //accordion open up
 
   return (
     <Box
@@ -140,7 +158,6 @@ const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
             borderRadius: "0px",
             [theme.breakpoints.down("sm")]: { padding: "0px" },
           }}
-          onClick={handleLog}
         >
           <SummaryMobile store={store} />
           <SummaryDesktop store={store} />

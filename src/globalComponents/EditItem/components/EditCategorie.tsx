@@ -4,7 +4,6 @@ import {
   Grid,
   Autocomplete,
   Box,
-  Button,
   List,
   ListItemText,
   IconButton,
@@ -12,7 +11,6 @@ import {
 } from "@mui/material";
 import { useAppSelector } from "../../../app/hooks";
 import type { EditItemState } from "../types";
-import { useAppDispatch } from "../../../app/hooks";
 import {
   deleteCategoryFromStore,
   addCategoryToStore,
@@ -36,7 +34,7 @@ const EditCategorie = (props: EditItemState) => {
     };
 
     fetchCategories();
-  }, [data]);
+  }, []);
 
   const handleAdd = async () => {
     if (category) {

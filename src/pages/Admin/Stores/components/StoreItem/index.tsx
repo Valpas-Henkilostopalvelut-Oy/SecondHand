@@ -122,7 +122,7 @@ const StoreDetails = (props: LazyStore) => {
   const [categories, setCategories] = useState<LazyCategories[] | null>(null);
   useEffect(() => {
     const opentimes = async () => {
-      const opentimes = await opentimesToStore(props);
+      const opentimes = await opentimesToStore(props.id);
       setOpentimes(opentimes);
     };
 

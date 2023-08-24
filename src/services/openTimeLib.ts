@@ -10,6 +10,35 @@ import type { LazyStore, LazyOpentime } from "../models";
 import { OpentimesType } from "../models";
 import { Auth, SortDirection } from "aws-amplify";
 
+// Return true if store is open
+export const getTodayClosed = async (storeID: string) => {
+  const date = new Date();
+  const currentDay = date.getDay();
+
+  const times = await DataStore.query(Opentime, (o) => o.storeID.eq(storeID));
+
+  if (!times || times.length === 0) {
+    return null;
+  }
+
+  const isOpenToday = times.some((entry) => {
+    if (entry.isClosed || entry.type === "holiday") {
+      return false; // Store is closed for this entry
+    }
+
+    if (entry.type === "default") {
+      return entry.day === currentDay;
+    }
+
+    // For custom days, you'll need to compare the date with the start and end times
+    const entryStart = new Date(entry.start || "");
+    const entryEnd = new Date(entry.end || "");
+    return entryStart <= date && date <= entryEnd && entry.day === currentDay;
+  });
+
+  return isOpenToday;
+};
+
 export const getSortedByTypes = ({
   times,
   func,
@@ -114,8 +143,8 @@ export const getSortedByDays = ({
   }
 };
 
-export const opentimesToStore = async (store: Store) =>
-  await DataStore.query(Opentime, (o) => o.storeID.eq(store.id), {
+export const opentimesToStore = async (storeID: string) =>
+  await DataStore.query(Opentime, (o) => o.storeID.eq(storeID), {
     sort: (s) => s.day(SortDirection.ASCENDING),
   });
 

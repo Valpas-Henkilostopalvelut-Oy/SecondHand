@@ -24,6 +24,10 @@ const links = [
     title: "Arviot",
     path: "/admin/evaluation",
   },
+  {
+    title: "Aukioloajat",
+    path: "/admin/opentimes",
+  }
 ];
 
 const Profile = (props: BoxProps) => {
