@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch } from "../app/hooks";
 import { addEvaluation } from "../app/reducer/evaluation";
 import ImageComponent from "./ImageComponent";
-import { Storage } from "aws-amplify";
+import { sentEmail } from "../services/emailSend";
 
 const SuccessAlert = ({
   open,
@@ -72,9 +72,17 @@ const EvaluationForm = ({ box }: { box?: BoxProps }) => {
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           dispatch(addEvaluation(values)).then((action) => {
             if (addEvaluation.fulfilled.match(action)) {
+              const {
+                payload: { evaluationNum, email, name },
+              } = action;
               setOpen(true);
               setSubmitting(false);
               resetForm();
+              sentEmail({
+                email: email,
+                subject: `Arviointi ${evaluationNum}, ${name}`,
+                message: `Arviointi ${evaluationNum}, ${name} on lähetetty onnistuneesti, kiitos!`,
+              });
             }
           });
         }}

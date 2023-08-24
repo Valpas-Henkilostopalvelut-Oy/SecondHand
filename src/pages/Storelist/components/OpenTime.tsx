@@ -1,115 +1,94 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import type { OpentimesReducer } from "../types";
 import type { LazyOpentime } from "../../../models";
+import { getCurrentDay, isInCurrentWeek } from "../../../services/days";
+import type { BoxProps } from "@mui/material";
+import type { SortedTimes } from "../../../types/opentimes";
+import {
+  getSortedByTypes,
+  getSortedByDays,
+} from "../../../services/openTimeLib";
 
-const OpenTime = (props: any) => {
-  const d = [
-    {
-      day: "Maanantai",
-      s: "Ma",
-    },
-    {
-      day: "Tiistai",
-      s: "Ti",
-    },
-    {
-      day: "Keskiviikko",
-      s: "Ke",
-    },
+const OpentTime = ({
+  box,
+  item,
+  type = "default",
+}: {
+  box: BoxProps;
+  item: SortedTimes;
+  type?: string;
+}) => {
+  const { day_first, day_last, isClosed, start, end } = item;
+  const fday = getCurrentDay("fi", day_first, true);
+  const lday = getCurrentDay("fi", day_last, true);
+  const oDateS = new Date(start || "").toDateString();
+  const oDateE = new Date(end || "").toDateString();
+  const dStart = new Date(start || "").toLocaleTimeString("fi-FI", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const dEnd = new Date(end || "").toLocaleTimeString("fi-FI", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
-    {
-      day: "Torstai",
-      s: "To",
-    },
-
-    {
-      day: "Perjantai",
-
-      s: "Pe",
-    },
-    {
-      day: "Lauantai",
-      s: "La",
-    },
-    {
-      day: "Sunnuntai",
-      s: "Su",
-    },
-  ];
-
-  const { times } = props;
-
-  if (!times) return null;
-  const q = times.reduce((acc: OpentimesReducer[], item: LazyOpentime) => {
-    const { day, start, end, isClosed } = item;
-
-    const isAccEmpty = acc.length === 0;
-    const checkLatestAcc = acc[acc.length - 1];
-    const isSameTimeStart = checkLatestAcc?.start === start;
-    const isSameTimeEnd = checkLatestAcc?.end === end;
-    const findSameStartEnd = acc.find(
-      (item) => item.start === start && item.end === end
-    );
-
-    if (isAccEmpty) {
-      addValue();
-    } else if (isSameTimeStart && isSameTimeEnd) {
-      checkLatestAcc.day_last = day;
-      checkLatestAcc.end = end;
-    } else {
-      addValue();
-    }
-
-    function addValue() {
-      acc.push({
-        day_first: day,
-        day_last: day,
-        start,
-        end,
-        isClosed,
-      });
-    }
-
-    return acc;
-  }, []);
-
-  return q.map((item: OpentimesReducer, index: number) => {
-    const { start, end, isClosed } = item;
-    if ((!start || !end) && !isClosed) return null;
-    const s = start
-      ? new Date(item.start || "").toLocaleTimeString("fi-FI", {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      : null;
-    const e = end
-      ? new Date(item?.end || "").toLocaleTimeString("fi-FI", {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      : null;
-
-    const { day_first, day_last } = item;
-    const dl = d.find((item) => item.day === day_last);
-    const df = d.find((item) => item.day === day_first);
-
-    const w = dl === df ? dl?.s : `${df?.s} - ${dl?.s}`;
-    if (isClosed)
-      return (
-        <Box key={index}>
-          <Typography>{w}: Suljettu</Typography>
-        </Box>
-      );
-
+  if (type !== "default") {
     return (
-      <Box key={index}>
+      <Box {...box}>
         <Typography>
-          {w}: {s} - {e}
+          {isClosed
+            ? fday === lday
+              ? `${fday}: Suljettu`
+              : `${fday} - ${lday}: Suljettu`
+            : fday === lday && oDateS === oDateE
+            ? `${oDateS}: ${dStart} - ${dEnd}`
+            : `${oDateS} - ${oDateE}: ${dStart} - ${dEnd}`}
         </Typography>
       </Box>
     );
-  });
+  }
+
+  return (
+    <Box {...box}>
+      {isClosed ? (
+        <Typography>
+          {fday === lday ? `${fday}: Suljettu` : `${fday} - ${lday}: Suljettu`}
+        </Typography>
+      ) : (
+        <Typography>
+          {fday === lday
+            ? `${fday}: ${dStart} - ${dEnd}`
+            : `${fday} - ${lday}: ${dStart} - ${dEnd}`}
+        </Typography>
+      )}
+    </Box>
+  );
+};
+
+const OpenTime = ({ times }: { times: LazyOpentime[] | null }) => {
+  if (!times) return null;
+
+  const sortedTimes = getSortedByTypes({ times, func: getSortedByDays });
+
+  console.log("sortedTimes", sortedTimes);
+
+  return (
+    <Box>
+      {sortedTimes.map((opentime) => (
+        <Box key={opentime.type}>
+          <Typography key={opentime.type}>{opentime.type}</Typography>
+          {opentime.days.map((item) => (
+            <OpentTime
+              key={item.day_first}
+              box={{ ml: 2 }}
+              item={item}
+              type={opentime.type}
+            />
+          ))}
+        </Box>
+      ))}
+    </Box>
+  );
 };
 
 export default OpenTime;

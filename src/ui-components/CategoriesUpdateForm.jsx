@@ -24,9 +24,11 @@ export default function CategoriesUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    createdAt: "",
     createdBy: "",
     name: "",
   };
+  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
   const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
   const [name, setName] = React.useState(initialValues.name);
   const [errors, setErrors] = React.useState({});
@@ -34,6 +36,7 @@ export default function CategoriesUpdateForm(props) {
     const cleanValues = categoriesRecord
       ? { ...initialValues, ...categoriesRecord }
       : initialValues;
+    setCreatedAt(cleanValues.createdAt);
     setCreatedBy(cleanValues.createdBy);
     setName(cleanValues.name);
     setErrors({});
@@ -51,8 +54,9 @@ export default function CategoriesUpdateForm(props) {
   }, [idProp, categoriesModelProp]);
   React.useEffect(resetStateValues, [categoriesRecord]);
   const validations = {
-    createdBy: [],
-    name: [],
+    createdAt: [{ type: "Required" }],
+    createdBy: [{ type: "Required" }],
+    name: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -71,6 +75,23 @@ export default function CategoriesUpdateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
+  const convertToLocal = (date) => {
+    const df = new Intl.DateTimeFormat("default", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      calendar: "iso8601",
+      numberingSystem: "latn",
+      hourCycle: "h23",
+    });
+    const parts = df.formatToParts(date).reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+  };
   return (
     <Grid
       as="form"
@@ -80,6 +101,7 @@ export default function CategoriesUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          createdAt,
           createdBy,
           name,
         };
@@ -129,14 +151,43 @@ export default function CategoriesUpdateForm(props) {
       {...rest}
     >
       <TextField
+        label="Created at"
+        isRequired={true}
+        isReadOnly={false}
+        type="datetime-local"
+        value={createdAt && convertToLocal(new Date(createdAt))}
+        onChange={(e) => {
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          if (onChange) {
+            const modelFields = {
+              createdAt: value,
+              createdBy,
+              name,
+            };
+            const result = onChange(modelFields);
+            value = result?.createdAt ?? value;
+          }
+          if (errors.createdAt?.hasError) {
+            runValidationTasks("createdAt", value);
+          }
+          setCreatedAt(value);
+        }}
+        onBlur={() => runValidationTasks("createdAt", createdAt)}
+        errorMessage={errors.createdAt?.errorMessage}
+        hasError={errors.createdAt?.hasError}
+        {...getOverrideProps(overrides, "createdAt")}
+      ></TextField>
+      <TextField
         label="Created by"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={createdBy}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              createdAt,
               createdBy: value,
               name,
             };
@@ -155,13 +206,14 @@ export default function CategoriesUpdateForm(props) {
       ></TextField>
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              createdAt,
               createdBy,
               name: value,
             };

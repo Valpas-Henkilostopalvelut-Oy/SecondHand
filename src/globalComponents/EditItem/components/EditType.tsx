@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Autocomplete, TextField, Grid } from "@mui/material";
 import type { EditItemState } from "../types";
 import { useAppDispatch } from "../../../app/hooks";
-import { updateStoreAsync } from "../../../app/reducer/stores";
+import { updateStoreAsync } from "../../../services/storeLib";
 
 interface StoreType {
   id: string;
@@ -25,7 +25,7 @@ const EditType = (props: EditItemState) => {
   const handleTypeChange = (e: any, newValues: StoreType | null) => {
     setValue(newValues);
 
-    setStore((prevState) => {
+    setStore((prevState: any) => {
       if (!prevState) return null;
       return {
         ...prevState,

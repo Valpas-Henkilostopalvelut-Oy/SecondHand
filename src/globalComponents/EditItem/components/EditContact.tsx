@@ -2,7 +2,7 @@ import React from "react";
 import { TextField, Grid } from "@mui/material";
 import type { EditItemState } from "../types";
 import { useAppDispatch } from "../../../app/hooks";
-import { updateStoreAsync } from "../../../app/reducer/stores";
+import { updateStoreAsync } from "../../../services/storeLib";
 
 const EditContact = (props: EditItemState) => {
   const dispatch = useAppDispatch();

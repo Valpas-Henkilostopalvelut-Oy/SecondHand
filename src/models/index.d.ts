@@ -1,30 +1,27 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
-
-
-type EagerCategory = {
-  readonly id?: string | null;
-  readonly name?: string | null;
+export enum StoreSettingsType {
+  IS_PAID = "isPaid",
+  IS_PREMIUM = "isPremium",
+  IS_PROMOTED = "isPromoted"
 }
 
-type LazyCategory = {
-  readonly id?: string | null;
-  readonly name?: string | null;
+export enum OpentimesType {
+  DEFAULT = "default",
+  CUSTOM = "custom",
+  HOLIDAY = "holiday",
+  SHORT = "short"
 }
-
-export declare type Category = LazyLoading extends LazyLoadingDisabled ? EagerCategory : LazyCategory
-
-export declare const Category: (new (init: ModelInit<Category>) => Category)
 
 type EagerLocation = {
-  readonly city?: string | null;
+  readonly city: string;
   readonly lat?: string | null;
   readonly lng?: string | null;
   readonly country?: string | null;
   readonly iso2?: string | null;
-  readonly admin_name?: string | null;
+  readonly admin_name: string;
   readonly capital?: string | null;
   readonly population?: string | null;
   readonly population_proper?: string | null;
@@ -35,12 +32,12 @@ type EagerLocation = {
 }
 
 type LazyLocation = {
-  readonly city?: string | null;
+  readonly city: string;
   readonly lat?: string | null;
   readonly lng?: string | null;
   readonly country?: string | null;
   readonly iso2?: string | null;
-  readonly admin_name?: string | null;
+  readonly admin_name: string;
   readonly capital?: string | null;
   readonly population?: string | null;
   readonly population_proper?: string | null;
@@ -54,71 +51,21 @@ export declare type Location = LazyLoading extends LazyLoadingDisabled ? EagerLo
 
 export declare const Location: (new (init: ModelInit<Location>) => Location)
 
-type EagerImage = {
-  readonly key?: string | null;
-  readonly id?: string | null;
-}
-
-type LazyImage = {
-  readonly key?: string | null;
-  readonly id?: string | null;
-}
-
-export declare type Image = LazyLoading extends LazyLoadingDisabled ? EagerImage : LazyImage
-
-export declare const Image: (new (init: ModelInit<Image>) => Image)
-
 type EagerContact = {
-  readonly phone?: string | null;
-  readonly email?: string | null;
+  readonly phone: string;
+  readonly email: string;
   readonly website?: string | null;
 }
 
 type LazyContact = {
-  readonly phone?: string | null;
-  readonly email?: string | null;
+  readonly phone: string;
+  readonly email: string;
   readonly website?: string | null;
 }
 
 export declare type Contact = LazyLoading extends LazyLoadingDisabled ? EagerContact : LazyContact
 
 export declare const Contact: (new (init: ModelInit<Contact>) => Contact)
-
-type EagerOpentime = {
-  readonly day?: string | null;
-  readonly start?: string | null;
-  readonly end?: string | null;
-  readonly id?: string | null;
-  readonly isClosed?: boolean | null;
-}
-
-type LazyOpentime = {
-  readonly day?: string | null;
-  readonly start?: string | null;
-  readonly end?: string | null;
-  readonly id?: string | null;
-  readonly isClosed?: boolean | null;
-}
-
-export declare type Opentime = LazyLoading extends LazyLoadingDisabled ? EagerOpentime : LazyOpentime
-
-export declare const Opentime: (new (init: ModelInit<Opentime>) => Opentime)
-
-type EagerPriceitem = {
-  readonly name?: string | null;
-  readonly price?: number | null;
-  readonly id?: number | null;
-}
-
-type LazyPriceitem = {
-  readonly name?: string | null;
-  readonly price?: number | null;
-  readonly id?: number | null;
-}
-
-export declare type Priceitem = LazyLoading extends LazyLoadingDisabled ? EagerPriceitem : LazyPriceitem
-
-export declare const Priceitem: (new (init: ModelInit<Priceitem>) => Priceitem)
 
 type EagerSellplaces = {
   readonly all?: number | null;
@@ -191,14 +138,14 @@ export declare type Side = LazyLoading extends LazyLoadingDisabled ? EagerSide :
 export declare const Side: (new (init: ModelInit<Side>) => Side)
 
 type EagerStoreSettingsValidation = {
-  readonly status?: boolean | null;
+  readonly status: boolean;
   readonly message?: string | null;
   readonly from?: string | null;
   readonly to?: string | null;
 }
 
 type LazyStoreSettingsValidation = {
-  readonly status?: boolean | null;
+  readonly status: boolean;
   readonly message?: string | null;
   readonly from?: string | null;
   readonly to?: string | null;
@@ -209,46 +156,84 @@ export declare type StoreSettingsValidation = LazyLoading extends LazyLoadingDis
 export declare const StoreSettingsValidation: (new (init: ModelInit<StoreSettingsValidation>) => StoreSettingsValidation)
 
 type EagerStoreSettings = {
-  readonly isPaid?: StoreSettingsValidation | null;
   readonly isHidden?: StoreSettingsValidation | null;
-  readonly isConfirmed?: StoreSettingsValidation | null;
-  readonly isPremium?: StoreSettingsValidation | null;
-  readonly isPromoted?: StoreSettingsValidation | null;
+  readonly isDone: StoreSettingsValidation;
+  readonly isConfirmed: StoreSettingsValidation;
 }
 
 type LazyStoreSettings = {
-  readonly isPaid?: StoreSettingsValidation | null;
   readonly isHidden?: StoreSettingsValidation | null;
-  readonly isConfirmed?: StoreSettingsValidation | null;
-  readonly isPremium?: StoreSettingsValidation | null;
-  readonly isPromoted?: StoreSettingsValidation | null;
+  readonly isDone: StoreSettingsValidation;
+  readonly isConfirmed: StoreSettingsValidation;
 }
 
 export declare type StoreSettings = LazyLoading extends LazyLoadingDisabled ? EagerStoreSettings : LazyStoreSettings
 
 export declare const StoreSettings: (new (init: ModelInit<StoreSettings>) => StoreSettings)
 
-type EagerCategories = {
+type EagerOpentime = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Categories, 'id'>;
+    identifier: ManagedIdentifier<Opentime, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly createdBy?: string | null;
-  readonly name?: string | null;
+  readonly day: number;
+  readonly start?: string | null;
+  readonly end?: string | null;
+  readonly isClosed?: boolean | null;
+  readonly type: OpentimesType | keyof typeof OpentimesType;
+  readonly createdBy: string;
+  readonly storeID: string;
   readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyOpentime = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Opentime, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly day: number;
+  readonly start?: string | null;
+  readonly end?: string | null;
+  readonly isClosed?: boolean | null;
+  readonly type: OpentimesType | keyof typeof OpentimesType;
+  readonly createdBy: string;
+  readonly storeID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Opentime = LazyLoading extends LazyLoadingDisabled ? EagerOpentime : LazyOpentime
+
+export declare const Opentime: (new (init: ModelInit<Opentime>) => Opentime) & {
+  copyOf(source: Opentime, mutator: (draft: MutableModel<Opentime>) => MutableModel<Opentime> | void): Opentime;
+}
+
+type EagerCategories = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Categories, 'id'>;
+    readOnlyFields: 'updatedAt';
+  };
+  readonly id: string;
+  readonly createdAt: string;
+  readonly createdBy: string;
+  readonly name: string;
+  readonly stores?: (StoreCategories | null)[] | null;
   readonly updatedAt?: string | null;
 }
 
 type LazyCategories = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Categories, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
-  readonly createdBy?: string | null;
-  readonly name?: string | null;
-  readonly createdAt?: string | null;
+  readonly createdAt: string;
+  readonly createdBy: string;
+  readonly name: string;
+  readonly stores: AsyncCollection<StoreCategories>;
   readonly updatedAt?: string | null;
 }
 
@@ -256,6 +241,80 @@ export declare type Categories = LazyLoading extends LazyLoadingDisabled ? Eager
 
 export declare const Categories: (new (init: ModelInit<Categories>) => Categories) & {
   copyOf(source: Categories, mutator: (draft: MutableModel<Categories>) => MutableModel<Categories> | void): Categories;
+}
+
+type EagerNotes = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Notes, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly username: string;
+  readonly notes: string;
+  readonly storeID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyNotes = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Notes, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly username: string;
+  readonly notes: string;
+  readonly storeID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Notes = LazyLoading extends LazyLoadingDisabled ? EagerNotes : LazyNotes
+
+export declare const Notes: (new (init: ModelInit<Notes>) => Notes) & {
+  copyOf(source: Notes, mutator: (draft: MutableModel<Notes>) => MutableModel<Notes> | void): Notes;
+}
+
+type EagerOrders = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Orders, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly username: string;
+  readonly type: StoreSettingsType | keyof typeof StoreSettingsType;
+  readonly status: string;
+  readonly from: string;
+  readonly to: string;
+  readonly price?: number | null;
+  readonly message?: string | null;
+  readonly storeID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyOrders = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Orders, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly username: string;
+  readonly type: StoreSettingsType | keyof typeof StoreSettingsType;
+  readonly status: string;
+  readonly from: string;
+  readonly to: string;
+  readonly price?: number | null;
+  readonly message?: string | null;
+  readonly storeID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Orders = LazyLoading extends LazyLoadingDisabled ? EagerOrders : LazyOrders
+
+export declare const Orders: (new (init: ModelInit<Orders>) => Orders) & {
+  copyOf(source: Orders, mutator: (draft: MutableModel<Orders>) => MutableModel<Orders> | void): Orders;
 }
 
 type EagerAds = {
@@ -304,8 +363,7 @@ type EagerUser = {
   readonly id: string;
   readonly username: string;
   readonly email?: string | null;
-  readonly stores?: (string | null)[] | null;
-  readonly role?: string | null;
+  readonly Stores?: (Store | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -318,8 +376,7 @@ type LazyUser = {
   readonly id: string;
   readonly username: string;
   readonly email?: string | null;
-  readonly stores?: (string | null)[] | null;
-  readonly role?: string | null;
+  readonly Stores: AsyncCollection<Store>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -336,21 +393,20 @@ type EagerStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly username: string;
-  readonly type?: string | null;
-  readonly name?: string | null;
+  readonly type: string;
+  readonly name: string;
   readonly description?: string | null;
-  readonly categories?: (Category | null)[] | null;
-  readonly clicked?: string | null;
-  readonly pricelist?: (Priceitem | null)[] | null;
-  readonly opentimes?: (Opentime | null)[] | null;
-  readonly contact?: Contact | null;
-  readonly location?: Location | null;
-  readonly imgs?: (Image | null)[] | null;
-  readonly social: Social;
-  readonly isConfirmed?: boolean | null;
+  readonly contact: Contact;
+  readonly location: Location;
+  readonly imgs?: string[] | null;
+  readonly social?: Social | null;
   readonly settings: StoreSettings;
   readonly logo?: string | null;
+  readonly userID: string;
+  readonly categories?: (StoreCategories | null)[] | null;
+  readonly notes?: (Notes | null)[] | null;
+  readonly opentime?: (Opentime | null)[] | null;
+  readonly orders?: (Orders | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -361,21 +417,20 @@ type LazyStore = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly username: string;
-  readonly type?: string | null;
-  readonly name?: string | null;
+  readonly type: string;
+  readonly name: string;
   readonly description?: string | null;
-  readonly categories?: (Category | null)[] | null;
-  readonly clicked?: string | null;
-  readonly pricelist?: (Priceitem | null)[] | null;
-  readonly opentimes?: (Opentime | null)[] | null;
-  readonly contact?: Contact | null;
-  readonly location?: Location | null;
-  readonly imgs?: (Image | null)[] | null;
-  readonly social: Social;
-  readonly isConfirmed?: boolean | null;
+  readonly contact: Contact;
+  readonly location: Location;
+  readonly imgs?: string[] | null;
+  readonly social?: Social | null;
   readonly settings: StoreSettings;
   readonly logo?: string | null;
+  readonly userID: string;
+  readonly categories: AsyncCollection<StoreCategories>;
+  readonly notes: AsyncCollection<Notes>;
+  readonly opentime: AsyncCollection<Opentime>;
+  readonly orders: AsyncCollection<Orders>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -428,4 +483,38 @@ export declare type Evaluation = LazyLoading extends LazyLoadingDisabled ? Eager
 
 export declare const Evaluation: (new (init: ModelInit<Evaluation>) => Evaluation) & {
   copyOf(source: Evaluation, mutator: (draft: MutableModel<Evaluation>) => MutableModel<Evaluation> | void): Evaluation;
+}
+
+type EagerStoreCategories = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<StoreCategories, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly categoriesId?: string | null;
+  readonly storeId?: string | null;
+  readonly categories: Categories;
+  readonly store: Store;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyStoreCategories = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<StoreCategories, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly categoriesId?: string | null;
+  readonly storeId?: string | null;
+  readonly categories: AsyncItem<Categories>;
+  readonly store: AsyncItem<Store>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type StoreCategories = LazyLoading extends LazyLoadingDisabled ? EagerStoreCategories : LazyStoreCategories
+
+export declare const StoreCategories: (new (init: ModelInit<StoreCategories>) => StoreCategories) & {
+  copyOf(source: StoreCategories, mutator: (draft: MutableModel<StoreCategories>) => MutableModel<StoreCategories> | void): StoreCategories;
 }

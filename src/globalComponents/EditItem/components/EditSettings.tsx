@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import type { LazyStoreSettings } from "../../../models";
 import type { EditItemState } from "../types";
-import { updateStoreAsync } from "../../../app/reducer/stores";
+import { updateStoreAsync } from "../../../services/storeLib";
 import { useAppDispatch } from "../../../app/hooks";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -32,12 +32,6 @@ interface ParameterProps extends EditItemState {
 
 const parameters: ParametersProps[] = [
   {
-    Name: "Maksettu",
-    Value: "isPaid",
-    Type: "boolean",
-    Hidden: false,
-  },
-  {
     Name: "Piilotettu",
     Value: "isHidden",
     Type: "boolean",
@@ -46,18 +40,6 @@ const parameters: ParametersProps[] = [
   {
     Name: "Vahvisettu",
     Value: "isConfirmed",
-    Type: "boolean",
-    Hidden: false,
-  },
-  {
-    Name: "Premium",
-    Value: "isPremium",
-    Type: "boolean",
-    Hidden: false,
-  },
-  {
-    Name: "Promoted",
-    Value: "isPromoted",
     Type: "boolean",
     Hidden: false,
   },

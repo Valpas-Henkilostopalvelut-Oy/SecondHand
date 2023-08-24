@@ -1,5 +1,141 @@
 export const schema = {
     "models": {
+        "Opentime": {
+            "name": "Opentime",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "day": {
+                    "name": "day",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "start": {
+                    "name": "start",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "end": {
+                    "name": "end",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "isClosed": {
+                    "name": "isClosed",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "OpentimesType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdBy": {
+                    "name": "createdBy",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "storeID": {
+                    "name": "storeID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Opentimes",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStore",
+                        "fields": [
+                            "storeID"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "read"
+                                ],
+                                "provider": "apiKey"
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "Categories": {
             "name": "Categories",
             "fields": {
@@ -10,27 +146,42 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdBy": {
                     "name": "createdBy",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
+                "stores": {
+                    "name": "stores",
+                    "isArray": true,
+                    "type": {
+                        "model": "StoreCategories"
+                    },
                     "isRequired": false,
                     "attributes": [],
-                    "isReadOnly": true
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "categories"
+                        ]
+                    }
                 },
                 "updatedAt": {
                     "name": "updatedAt",
@@ -56,8 +207,232 @@ export const schema = {
                                 "allow": "public",
                                 "operations": [
                                     "read"
+                                ],
+                                "provider": "apiKey"
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Notes": {
+            "name": "Notes",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "username": {
+                    "name": "username",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "notes": {
+                    "name": "notes",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "storeID": {
+                    "name": "storeID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Notes",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStore",
+                        "fields": [
+                            "storeID"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
                                 ]
                             },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Orders": {
+            "name": "Orders",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "username": {
+                    "name": "username",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "StoreSettingsType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "status": {
+                    "name": "status",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "from": {
+                    "name": "from",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "to": {
+                    "name": "to",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "price": {
+                    "name": "price",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "message": {
+                    "name": "message",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "storeID": {
+                    "name": "storeID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Orders",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStore",
+                        "fields": [
+                            "storeID"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
                             {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
@@ -165,7 +540,8 @@ export const schema = {
                                 "allow": "public",
                                 "operations": [
                                     "read"
-                                ]
+                                ],
+                                "provider": "apiKey"
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -210,20 +586,21 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "stores": {
-                    "name": "stores",
+                "Stores": {
+                    "name": "Stores",
                     "isArray": true,
-                    "type": "String",
+                    "type": {
+                        "model": "Store"
+                    },
                     "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true
-                },
-                "role": {
-                    "name": "role",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "userID"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -254,19 +631,24 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
-                                "operations": [
-                                    "read",
-                                    "create"
-                                ]
-                            },
-                            {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
                                 "groups": [
                                     "admin"
                                 ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -289,25 +671,18 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "username": {
-                    "name": "username",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "type": {
                     "name": "type",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "description": {
@@ -317,50 +692,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "categories": {
-                    "name": "categories",
-                    "isArray": true,
-                    "type": {
-                        "nonModel": "Category"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
-                "clicked": {
-                    "name": "clicked",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "pricelist": {
-                    "name": "pricelist",
-                    "isArray": true,
-                    "type": {
-                        "nonModel": "Priceitem"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
-                "opentimes": {
-                    "name": "opentimes",
-                    "isArray": true,
-                    "type": {
-                        "nonModel": "Opentime"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
                 "contact": {
                     "name": "contact",
                     "isArray": false,
                     "type": {
                         "nonModel": "Contact"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "location": {
@@ -369,16 +707,14 @@ export const schema = {
                     "type": {
                         "nonModel": "Location"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "imgs": {
                     "name": "imgs",
                     "isArray": true,
-                    "type": {
-                        "nonModel": "Image"
-                    },
-                    "isRequired": false,
+                    "type": "String",
+                    "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true
                 },
@@ -388,13 +724,6 @@ export const schema = {
                     "type": {
                         "nonModel": "Social"
                     },
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "isConfirmed": {
-                    "name": "isConfirmed",
-                    "isArray": false,
-                    "type": "Boolean",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -413,6 +742,77 @@ export const schema = {
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
+                },
+                "userID": {
+                    "name": "userID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "categories": {
+                    "name": "categories",
+                    "isArray": true,
+                    "type": {
+                        "model": "StoreCategories"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "store"
+                        ]
+                    }
+                },
+                "notes": {
+                    "name": "notes",
+                    "isArray": true,
+                    "type": {
+                        "model": "Notes"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "storeID"
+                        ]
+                    }
+                },
+                "opentime": {
+                    "name": "opentime",
+                    "isArray": true,
+                    "type": {
+                        "model": "Opentime"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "storeID"
+                        ]
+                    }
+                },
+                "orders": {
+                    "name": "orders",
+                    "isArray": true,
+                    "type": {
+                        "model": "Orders"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "storeID"
+                        ]
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -439,16 +839,24 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "userID"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "read",
-                                    "create",
-                                    "update"
-                                ]
+                                    "read"
+                                ],
+                                "provider": "apiKey"
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -457,6 +865,18 @@ export const schema = {
                                 "groups": [
                                     "admin"
                                 ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -575,7 +995,8 @@ export const schema = {
                                 "allow": "public",
                                 "operations": [
                                     "create"
-                                ]
+                                ],
+                                "provider": "apiKey"
                             },
                             {
                                 "groupClaim": "cognito:groups",
@@ -595,29 +1016,126 @@ export const schema = {
                     }
                 }
             ]
-        }
-    },
-    "enums": {},
-    "nonModels": {
-        "Category": {
-            "name": "Category",
+        },
+        "StoreCategories": {
+            "name": "StoreCategories",
             "fields": {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "categoriesId": {
+                    "name": "categoriesId",
+                    "isArray": false,
+                    "type": "ID",
                     "isRequired": false,
                     "attributes": []
                 },
-                "name": {
-                    "name": "name",
+                "storeId": {
+                    "name": "storeId",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": false,
                     "attributes": []
+                },
+                "categories": {
+                    "name": "categories",
+                    "isArray": false,
+                    "type": {
+                        "model": "Categories"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "categoriesId"
+                        ]
+                    }
+                },
+                "store": {
+                    "name": "store",
+                    "isArray": false,
+                    "type": {
+                        "model": "Store"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "storeId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
-            }
+            },
+            "syncable": true,
+            "pluralName": "StoreCategories",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byCategories",
+                        "fields": [
+                            "categoriesId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStore",
+                        "fields": [
+                            "storeId"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
+    "enums": {
+        "StoreSettingsType": {
+            "name": "StoreSettingsType",
+            "values": [
+                "isPaid",
+                "isPremium",
+                "isPromoted"
+            ]
         },
+        "OpentimesType": {
+            "name": "OpentimesType",
+            "values": [
+                "default",
+                "custom",
+                "holiday",
+                "short"
+            ]
+        }
+    },
+    "nonModels": {
         "Location": {
             "name": "Location",
             "fields": {
@@ -625,7 +1143,7 @@ export const schema = {
                     "name": "city",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "lat": {
@@ -660,7 +1178,7 @@ export const schema = {
                     "name": "admin_name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "capital": {
@@ -714,25 +1232,6 @@ export const schema = {
                 }
             }
         },
-        "Image": {
-            "name": "Image",
-            "fields": {
-                "key": {
-                    "name": "key",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
         "Contact": {
             "name": "Contact",
             "fields": {
@@ -740,86 +1239,20 @@ export const schema = {
                     "name": "phone",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "email": {
                     "name": "email",
                     "isArray": false,
                     "type": "AWSEmail",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "website": {
                     "name": "website",
                     "isArray": false,
                     "type": "AWSURL",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
-        "Opentime": {
-            "name": "Opentime",
-            "fields": {
-                "day": {
-                    "name": "day",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "start": {
-                    "name": "start",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "end": {
-                    "name": "end",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "isClosed": {
-                    "name": "isClosed",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
-        "Priceitem": {
-            "name": "Priceitem",
-            "fields": {
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "price": {
-                    "name": "price",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "Int",
                     "isRequired": false,
                     "attributes": []
                 }
@@ -959,7 +1392,7 @@ export const schema = {
                     "name": "status",
                     "isArray": false,
                     "type": "Boolean",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "message": {
@@ -988,15 +1421,6 @@ export const schema = {
         "StoreSettings": {
             "name": "StoreSettings",
             "fields": {
-                "isPaid": {
-                    "name": "isPaid",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "StoreSettingsValidation"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "isHidden": {
                     "name": "isHidden",
                     "isArray": false,
@@ -1006,36 +1430,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "isDone": {
+                    "name": "isDone",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "StoreSettingsValidation"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "isConfirmed": {
                     "name": "isConfirmed",
                     "isArray": false,
                     "type": {
                         "nonModel": "StoreSettingsValidation"
                     },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "isPremium": {
-                    "name": "isPremium",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "StoreSettingsValidation"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "isPromoted": {
-                    "name": "isPromoted",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "StoreSettingsValidation"
-                    },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 }
             }
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "8da208b67204e5b4d9c08c3afa52d086"
+    "version": "13927d4390e8be1ad68ff978048fbe07"
 };

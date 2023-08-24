@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Basic from "./components/Basic";
 import type { EditItemProps } from "./types";
-import { unconfirmStoreAsync } from "../../app/reducer/stores";
+import { unconfirmStoreAsync } from "../../services/storeLib";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import EditContact from "./components/EditContact";
 import EditCategorie from "./components/EditCategorie";

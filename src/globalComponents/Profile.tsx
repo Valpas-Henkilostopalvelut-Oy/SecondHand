@@ -9,20 +9,20 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const links = [
   {
-    title: "Hallinta",
-    path: "/admin",
+    title: "Paikat",
+    path: "/admin/stores",
   },
   {
     title: "Kategoriat",
-    path: "/categories",
+    path: "/admin/categories",
   },
   {
     title: "Mainokset",
-    path: "/ads",
+    path: "/admin/ads",
   },
   {
     title: "Arviot",
-    path: "/evaluationadmin",
+    path: "/admin/evaluation",
   },
 ];
 

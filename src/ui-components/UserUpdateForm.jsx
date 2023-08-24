@@ -6,180 +6,11 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Badge,
-  Button,
-  Divider,
-  Flex,
-  Grid,
-  Icon,
-  ScrollView,
-  Text,
-  TextField,
-  useTheme,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { User } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-function ArrayField({
-  items = [],
-  onChange,
-  label,
-  inputFieldRef,
-  children,
-  hasError,
-  setFieldValue,
-  currentFieldValue,
-  defaultFieldValue,
-  lengthLimit,
-  getBadgeText,
-  errorMessage,
-}) {
-  const labelElement = <Text>{label}</Text>;
-  const {
-    tokens: {
-      components: {
-        fieldmessages: { error: errorStyles },
-      },
-    },
-  } = useTheme();
-  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
-  const [isEditing, setIsEditing] = React.useState();
-  React.useEffect(() => {
-    if (isEditing) {
-      inputFieldRef?.current?.focus();
-    }
-  }, [isEditing]);
-  const removeItem = async (removeIndex) => {
-    const newItems = items.filter((value, index) => index !== removeIndex);
-    await onChange(newItems);
-    setSelectedBadgeIndex(undefined);
-  };
-  const addItem = async () => {
-    if (
-      currentFieldValue !== undefined &&
-      currentFieldValue !== null &&
-      currentFieldValue !== "" &&
-      !hasError
-    ) {
-      const newItems = [...items];
-      if (selectedBadgeIndex !== undefined) {
-        newItems[selectedBadgeIndex] = currentFieldValue;
-        setSelectedBadgeIndex(undefined);
-      } else {
-        newItems.push(currentFieldValue);
-      }
-      await onChange(newItems);
-      setIsEditing(false);
-    }
-  };
-  const arraySection = (
-    <React.Fragment>
-      {!!items?.length && (
-        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
-          {items.map((value, index) => {
-            return (
-              <Badge
-                key={index}
-                style={{
-                  cursor: "pointer",
-                  alignItems: "center",
-                  marginRight: 3,
-                  marginTop: 3,
-                  backgroundColor:
-                    index === selectedBadgeIndex ? "#B8CEF9" : "",
-                }}
-                onClick={() => {
-                  setSelectedBadgeIndex(index);
-                  setFieldValue(items[index]);
-                  setIsEditing(true);
-                }}
-              >
-                {getBadgeText ? getBadgeText(value) : value.toString()}
-                <Icon
-                  style={{
-                    cursor: "pointer",
-                    paddingLeft: 3,
-                    width: 20,
-                    height: 20,
-                  }}
-                  viewBox={{ width: 20, height: 20 }}
-                  paths={[
-                    {
-                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
-                      stroke: "black",
-                    },
-                  ]}
-                  ariaLabel="button"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    removeItem(index);
-                  }}
-                />
-              </Badge>
-            );
-          })}
-        </ScrollView>
-      )}
-      <Divider orientation="horizontal" marginTop={5} />
-    </React.Fragment>
-  );
-  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
-    return (
-      <React.Fragment>
-        {labelElement}
-        {arraySection}
-      </React.Fragment>
-    );
-  }
-  return (
-    <React.Fragment>
-      {labelElement}
-      {isEditing && children}
-      {!isEditing ? (
-        <>
-          <Button
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          >
-            Add item
-          </Button>
-          {errorMessage && hasError && (
-            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
-              {errorMessage}
-            </Text>
-          )}
-        </>
-      ) : (
-        <Flex justifyContent="flex-end">
-          {(currentFieldValue || isEditing) && (
-            <Button
-              children="Cancel"
-              type="button"
-              size="small"
-              onClick={() => {
-                setFieldValue(defaultFieldValue);
-                setIsEditing(false);
-                setSelectedBadgeIndex(undefined);
-              }}
-            ></Button>
-          )}
-          <Button
-            size="small"
-            variation="link"
-            isDisabled={hasError}
-            onClick={addItem}
-          >
-            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
-          </Button>
-        </Flex>
-      )}
-      {arraySection}
-    </React.Fragment>
-  );
-}
 export default function UserUpdateForm(props) {
   const {
     id: idProp,
@@ -195,13 +26,9 @@ export default function UserUpdateForm(props) {
   const initialValues = {
     username: "",
     email: "",
-    stores: [],
-    role: "",
   };
   const [username, setUsername] = React.useState(initialValues.username);
   const [email, setEmail] = React.useState(initialValues.email);
-  const [stores, setStores] = React.useState(initialValues.stores);
-  const [role, setRole] = React.useState(initialValues.role);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = userRecord
@@ -209,9 +36,6 @@ export default function UserUpdateForm(props) {
       : initialValues;
     setUsername(cleanValues.username);
     setEmail(cleanValues.email);
-    setStores(cleanValues.stores ?? []);
-    setCurrentStoresValue("");
-    setRole(cleanValues.role);
     setErrors({});
   };
   const [userRecord, setUserRecord] = React.useState(userModelProp);
@@ -225,13 +49,9 @@ export default function UserUpdateForm(props) {
     queryData();
   }, [idProp, userModelProp]);
   React.useEffect(resetStateValues, [userRecord]);
-  const [currentStoresValue, setCurrentStoresValue] = React.useState("");
-  const storesRef = React.createRef();
   const validations = {
     username: [{ type: "Required" }],
     email: [{ type: "Email" }],
-    stores: [],
-    role: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -261,8 +81,6 @@ export default function UserUpdateForm(props) {
         let modelFields = {
           username,
           email,
-          stores,
-          role,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -320,8 +138,6 @@ export default function UserUpdateForm(props) {
             const modelFields = {
               username: value,
               email,
-              stores,
-              role,
             };
             const result = onChange(modelFields);
             value = result?.username ?? value;
@@ -347,8 +163,6 @@ export default function UserUpdateForm(props) {
             const modelFields = {
               username,
               email: value,
-              stores,
-              role,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -362,78 +176,6 @@ export default function UserUpdateForm(props) {
         errorMessage={errors.email?.errorMessage}
         hasError={errors.email?.hasError}
         {...getOverrideProps(overrides, "email")}
-      ></TextField>
-      <ArrayField
-        onChange={async (items) => {
-          let values = items;
-          if (onChange) {
-            const modelFields = {
-              username,
-              email,
-              stores: values,
-              role,
-            };
-            const result = onChange(modelFields);
-            values = result?.stores ?? values;
-          }
-          setStores(values);
-          setCurrentStoresValue("");
-        }}
-        currentFieldValue={currentStoresValue}
-        label={"Stores"}
-        items={stores}
-        hasError={errors?.stores?.hasError}
-        errorMessage={errors?.stores?.errorMessage}
-        setFieldValue={setCurrentStoresValue}
-        inputFieldRef={storesRef}
-        defaultFieldValue={""}
-      >
-        <TextField
-          label="Stores"
-          isRequired={false}
-          isReadOnly={false}
-          value={currentStoresValue}
-          onChange={(e) => {
-            let { value } = e.target;
-            if (errors.stores?.hasError) {
-              runValidationTasks("stores", value);
-            }
-            setCurrentStoresValue(value);
-          }}
-          onBlur={() => runValidationTasks("stores", currentStoresValue)}
-          errorMessage={errors.stores?.errorMessage}
-          hasError={errors.stores?.hasError}
-          ref={storesRef}
-          labelHidden={true}
-          {...getOverrideProps(overrides, "stores")}
-        ></TextField>
-      </ArrayField>
-      <TextField
-        label="Role"
-        isRequired={false}
-        isReadOnly={false}
-        value={role}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              username,
-              email,
-              stores,
-              role: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.role ?? value;
-          }
-          if (errors.role?.hasError) {
-            runValidationTasks("role", value);
-          }
-          setRole(value);
-        }}
-        onBlur={() => runValidationTasks("role", role)}
-        errorMessage={errors.role?.errorMessage}
-        hasError={errors.role?.hasError}
-        {...getOverrideProps(overrides, "role")}
       ></TextField>
       <Flex
         justifyContent="space-between"

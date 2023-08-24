@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import emailjs from "@emailjs/browser";
+import { sentEmail } from "../services/emailSend";
 
 const MessageAlert = ({
   open,
@@ -65,17 +65,7 @@ const EmailForm = ({
           initialValues={{ email: email, subject: "", message: "" }}
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
-            await emailjs
-              .send(
-                "service_2brblge",
-                "template_q6hsxru",
-                {
-                  email_to: values.email,
-                  subject: values.subject,
-                  message: values.message,
-                },
-                "4Ke526_1tUT3kwY7D"
-              )
+            await sentEmail(values)
               .then(() => {
                 setOpenAlert({
                   open: true,

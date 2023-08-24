@@ -1,14 +1,14 @@
 {
-  "dev": {
+  "develop": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-kirppis-dev-103036-authRole",
-      "UnauthRoleArn": "arn:aws:iam::988281547160:role/amplify-kirppis-dev-103036-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::988281547160:role/amplify-kirppis-dev-103036-authRole",
+      "AuthRoleName": "amplify-kirppis-develop-111431-authRole",
+      "UnauthRoleArn": "arn:aws:iam::988281547160:role/amplify-kirppis-develop-111431-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::988281547160:role/amplify-kirppis-develop-111431-authRole",
       "Region": "eu-west-1",
-      "DeploymentBucketName": "amplify-kirppis-dev-103036-deployment",
-      "UnauthRoleName": "amplify-kirppis-dev-103036-unauthRole",
-      "StackName": "amplify-kirppis-dev-103036",
-      "StackId": "arn:aws:cloudformation:eu-west-1:988281547160:stack/amplify-kirppis-dev-103036/d664f210-bf1d-11ed-940d-06eaf9970079",
+      "DeploymentBucketName": "amplify-kirppis-develop-111431-deployment",
+      "UnauthRoleName": "amplify-kirppis-develop-111431-unauthRole",
+      "StackName": "amplify-kirppis-develop-111431",
+      "StackId": "arn:aws:cloudformation:eu-west-1:988281547160:stack/amplify-kirppis-develop-111431/bf6ec910-35dc-11ee-affd-064c840dc743",
       "AmplifyAppId": "d1hqw9gu2csgf4"
     },
     "categories": {

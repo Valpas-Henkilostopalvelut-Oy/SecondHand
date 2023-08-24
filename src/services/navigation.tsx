@@ -1,15 +1,17 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "../pages/Home";
-import Ads from "../admin/Ads";
+import Ads from "../pages/Admin/Ads";
 import StorelistWithLoading from "../pages/Storelist";
 import Signup from "../pages/Signup";
 import Signin from "../pages/Siginin";
 import NotFound from "../globalComponents/NotFound";
-import AdminStores from "../admin/AdminStores";
-import Categories from "../admin/Categories";
+import AdminStores from "../pages/Admin/Stores";
+import Categories from "../pages/Admin/Categories";
 import Evaluation from "../pages/Evaluation";
-import EvaluationAdmin from "../admin/Evaluation";
+import EvaluationAdmin from "../pages/Admin/Evaluation";
+import Admin from "../pages/Admin";
+import Opentimes from "../pages/Admin/Opentimes";
 import { useAppSelector } from "../app/hooks";
 
 interface ProtectedRouteProps {
@@ -40,6 +42,8 @@ const ProtectedRouteAdmin = (props: ProtectedRouteAdminProps) => {
 
   if (!isAuth) {
     return <Navigate to={redirectPath} replace />;
+  } else if (!isAdmin) {
+    return <Navigate to="/" replace />;
   }
 
   return children;
@@ -64,14 +68,6 @@ export const Navigation = () => {
       <Route path="/stores/:category" element={<StorelistWithLoading />} />
       <Route path="/evaluation" element={<Evaluation />} />
       <Route
-        path="/ads"
-        element={
-          <ProtectedRoute isAuth={isAuth} redirectPath="/signin">
-            <Ads />
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path="/signup"
         element={
           <ProtectedRouteAlreadyAuth isAuth={isAuth} redirectPath="/">
@@ -90,13 +86,25 @@ export const Navigation = () => {
       <Route
         path="/admin"
         element={
+          <ProtectedRouteAdmin
+            isAuth={isAuth}
+            isAdmin={isAdmin}
+            redirectPath="/signin"
+          >
+            <Admin />
+          </ProtectedRouteAdmin>
+        }
+      />
+      <Route
+        path="/admin/stores"
+        element={
           <ProtectedRoute isAuth={isAuth} redirectPath="/signin">
             <AdminStores />
           </ProtectedRoute>
         }
       />
       <Route
-        path="/categories"
+        path="/admin/categories"
         element={
           <ProtectedRouteAdmin
             isAuth={isAuth}
@@ -108,7 +116,7 @@ export const Navigation = () => {
         }
       />
       <Route
-        path="/evaluationadmin"
+        path="/admin/evaluation"
         element={
           <ProtectedRouteAdmin
             isAuth={isAuth}
@@ -117,6 +125,22 @@ export const Navigation = () => {
           >
             <EvaluationAdmin />
           </ProtectedRouteAdmin>
+        }
+      />
+      <Route
+        path="/admin/ads"
+        element={
+          <ProtectedRoute isAuth={isAuth} redirectPath="/signin">
+            <Ads />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/opentimes"
+        element={
+          <ProtectedRoute isAuth={isAuth} redirectPath="/signin">
+            <Opentimes />
+          </ProtectedRoute>
         }
       />
       <Route path="*" element={<NotFound />} />

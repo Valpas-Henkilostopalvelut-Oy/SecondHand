@@ -1,15 +1,10 @@
-type Category {
-  id: String
-  name: String
-}
-
 type Location {
-  city: String
+  city: String!
   lat: String
   lng: String
   country: String
   iso2: String
-  admin_name: String
+  admin_name: String!
   capital: String
   population: String
   population_proper: String
@@ -19,42 +14,10 @@ type Location {
   iframe: String
 }
 
-type Categories
-  @model
-  @auth(
-    rules: [
-      { allow: public, operations: [read] }
-      { allow: groups, groups: ["admin"] }
-    ]
-  ) {
-  id: ID!
-  createdBy: String
-  name: String
-}
-
-type Image {
-  key: String
-  id: String
-}
-
 type Contact {
-  phone: String
-  email: AWSEmail
+  phone: String!
+  email: AWSEmail!
   website: AWSURL
-}
-
-type Opentime {
-  day: String
-  start: AWSDateTime
-  end: AWSDateTime
-  id: String
-  isClosed: Boolean
-}
-
-type Priceitem {
-  name: String
-  price: Float
-  id: Int
 }
 
 type Sellplaces {
@@ -85,28 +48,70 @@ type Side {
 }
 
 type StoreSettingsValidation {
-  status: Boolean
+  status: Boolean!
   message: String
   from: AWSDateTime
   to: AWSDateTime
 }
 
 type StoreSettings {
-  isPaid: StoreSettingsValidation
   isHidden: StoreSettingsValidation
-  isConfirmed: StoreSettingsValidation
-  isPremium: StoreSettingsValidation
-  isPromoted: StoreSettingsValidation
+  isDone: StoreSettingsValidation!
+  isConfirmed: StoreSettingsValidation!
 }
 
-type Ads
-  @model
-  @auth(
-    rules: [
-      { allow: public, operations: [read] }
-      { allow: groups, groups: ["admin"] }
-    ]
-  ) {
+enum StoreSettingsType {
+  isPaid
+  isPremium
+  isPromoted
+}
+
+enum OpentimesType {
+  default
+  custom
+  holiday
+  short
+}
+
+type Opentime @model @auth(rules: [{ allow: public, operations: [read], provider: apiKey }, {allow: groups, groups: ["admin"]}, {allow: owner}]) {
+  id: ID!
+  day: Int!
+  start: AWSDateTime
+  end: AWSDateTime
+  isClosed: Boolean
+  type: OpentimesType!
+  createdBy: String!
+  storeID: ID! @index(name: "byStore")
+}
+
+type Categories @model @auth(rules: [{ allow: public, operations: [read], provider: apiKey }, {allow: groups, groups: ["admin"]}]) {
+  id: ID!
+  createdAt: AWSDateTime!
+  createdBy: String!
+  name: String!
+  stores: [Store] @manyToMany(relationName: "StoreCategories")
+}
+
+type Notes @model @auth(rules: [{allow: groups, groups: ["admin"]}, {allow: owner}]) {
+  id: ID!
+  username: ID!
+  notes: String!
+  storeID: ID! @index(name: "byStore")
+}
+
+type Orders @model @auth(rules: [{allow: groups, groups: ["admin"]}]) {
+  id: ID!
+  username: ID!
+  type: StoreSettingsType!
+  status: String!
+  from: AWSDateTime!
+  to: AWSDateTime!
+  price: Float
+  message: String
+  storeID: ID! @index(name: "byStore")
+}
+
+type Ads @model @auth(rules: [{ allow: public, operations: [read], provider: apiKey }, {allow: groups, groups: ["admin"]}]) {
   id: ID!
   firm: String!
   site: String
@@ -116,55 +121,32 @@ type Ads
   isHidden: Boolean
 }
 
-type User
-  @model
-  @auth(
-    rules: [
-      { allow: public, operations: [read, create] }
-      { allow: groups, groups: ["admin"] }
-    ]
-  ) {
+type User @model @auth(rules: [{allow: groups, groups: ["admin"]}, {allow: owner}]) {
   id: ID!
   username: ID!
   email: AWSEmail
-  stores: [String]
-  role: String
+  Stores: [Store] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
-type Store
-  @model
-  @auth(
-    rules: [
-      { allow: public, operations: [read, create, update] }
-      { allow: groups, groups: ["admin"] }
-    ]
-  ) {
+type Store @model @auth(rules: [{ allow: public, operations: [read], provider: apiKey }, {allow: groups, groups: ["admin"]}, {allow: owner}]) {
   id: ID!
-  username: ID!
-  type: String
-  name: String
+  type: String!
+  name: String!
   description: String
-  categories: [Category]
-  clicked: String
-  pricelist: [Priceitem]
-  opentimes: [Opentime]
-  contact: Contact
-  location: Location
-  imgs: [Image]
-  social: Social!
-  isConfirmed: Boolean
+  contact: Contact!
+  location: Location!
+  imgs: [String!]
+  social: Social
   settings: StoreSettings!
   logo: String
+  userID: ID! @index(name: "byUser")
+  categories: [Categories] @manyToMany(relationName: "StoreCategories")
+  notes: [Notes] @hasMany(indexName: "byStore", fields: ["id"])
+  opentime: [Opentime] @hasMany(indexName: "byStore", fields: ["id"])
+  orders: [Orders] @hasMany(indexName: "byStore", fields: ["id"])
 }
 
-type Evaluation
-  @model
-  @auth(
-    rules: [
-      { allow: public, operations: [create] }
-      { allow: groups, groups: ["admin"], provider: userPools }
-    ]
-  ) {
+type Evaluation @model @auth(rules: [{ allow: public, operations: [create], provider: apiKey }, {allow: groups, groups: ["admin"], provider: userPools}]) {
   id: ID!
   evaluationNum: Int!
   name: String!

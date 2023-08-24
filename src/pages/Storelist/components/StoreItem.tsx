@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import type { LazyCategories, LazyOpentime, LazyStore } from "../../../models";
+import type { BoxProps, GridProps } from "@mui/material";
 import {
   AccordionDetails,
   AccordionSummary,
@@ -13,23 +14,34 @@ import {
 } from "@mui/material";
 import CustomBox from "./CustomBox";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import type { LazyStore } from "../../../models";
-import OpenTime from "./OpenTime";
 import SocialMedia from "./SocialMedia";
 import CustomIframe from "./CustomIframe";
 import ImageComponent from "../../../globalComponents/ImageComponent";
 import LogoImage from "../../../globalComponents/LogoImage";
 import ReadMoteText from "../../../globalComponents/ReadMoreText";
 import Carousel from "react-material-ui-carousel";
+import { opentimesToStore } from "../../../services/openTimeLib";
+import OpenTime from "./OpenTime";
+import { fetchCategoriesByStore } from "../../../services/categoriesLib";
 
 //https://www.n3xtlevel.fi/ to www.n3xtlevel.fi
 const removeHttps = (url: string) => url.replace(/(^\w+:|^)\/\//, "");
 
-const SummaryMobile = (props: LazyStore) => {
-  const { logo, name } = props;
+const SummaryMobile = ({
+  grid,
+  store,
+}: {
+  grid?: GridProps;
+  store: LazyStore;
+}) => {
+  const { logo, name } = store;
   const theme = useTheme();
   return (
-    <Grid container sx={{ [theme.breakpoints.up("sm")]: { display: "none" } }}>
+    <Grid
+      container
+      {...grid}
+      sx={{ [theme.breakpoints.up("sm")]: { display: "none" } }}
+    >
       <Grid item xs={12} sm={4}>
         <LogoImage isPaid={true} skey={logo} />
       </Grid>
@@ -42,12 +54,19 @@ const SummaryMobile = (props: LazyStore) => {
   );
 };
 
-const SummaryDesktop = (props: LazyStore) => {
-  const { logo, name } = props;
+const SummaryDesktop = ({
+  grid,
+  store,
+}: {
+  grid?: GridProps;
+  store: LazyStore;
+}) => {
+  const { logo, name } = store;
   const theme = useTheme();
   return (
     <Grid
       container
+      {...grid}
       sx={{
         [theme.breakpoints.down("sm")]: { display: "none" },
         alignItems: "center",
@@ -65,26 +84,40 @@ const SummaryDesktop = (props: LazyStore) => {
   );
 };
 
-const StoreItem = (props: LazyStore) => {
+const StoreItem = ({ box, store }: { box?: BoxProps; store: LazyStore }) => {
   const [open, setOpen] = useState(false);
-  const {
-    name,
-    description,
-    categories,
-    opentimes,
-    contact,
-    location,
-    imgs,
-    social,
-    logo,
-  } = props;
+  const { description, contact, location, imgs, social } = store;
   const handleClick = () => setOpen(!open);
   const theme = useTheme();
+  const [opentimes, setOpentimes] = useState<LazyOpentime[] | null>(null);
+  const [categories, setCategories] = useState<LazyCategories[] | null>(null);
+
+  useEffect(() => {
+    const opentimes = async () => {
+      const opentimes = await opentimesToStore(store);
+      setOpentimes(opentimes);
+    };
+
+    opentimes();
+  }, []);
+
+  useEffect(() => {
+    const categories = async () => {
+      setCategories(await fetchCategoriesByStore(store.id));
+    };
+
+    categories();
+  }, []);
+
+  const handleLog = () => {
+    console.log("opentimes", store);
+  };
 
   //accordion open up
 
   return (
     <Box
+      {...box}
       sx={{
         border: "1px solid #ccc",
         borderRadius: "4px",
@@ -107,9 +140,10 @@ const StoreItem = (props: LazyStore) => {
             borderRadius: "0px",
             [theme.breakpoints.down("sm")]: { padding: "0px" },
           }}
+          onClick={handleLog}
         >
-          <SummaryMobile {...props} />
-          <SummaryDesktop {...props} />
+          <SummaryMobile store={store} />
+          <SummaryDesktop store={store} />
         </AccordionSummary>
         <AccordionDetails
           sx={{
@@ -128,7 +162,7 @@ const StoreItem = (props: LazyStore) => {
               <b>Kategoriat</b>
             </Typography>
             {categories?.map((item) => (
-              <Typography key={item?.id}>{item?.name}</Typography>
+              <Typography key={item.id}>{item.name}</Typography>
             ))}
           </CustomBox>
 
@@ -139,8 +173,8 @@ const StoreItem = (props: LazyStore) => {
             <Grid container spacing={2}>
               <Grid item xs={6} sm={4}>
                 <ImageComponent
-                  fileKey={imgs && imgs[0]?.key}
-                  id={imgs && imgs[0]?.key}
+                  fileKey={imgs && imgs[0]}
+                  id={imgs && imgs[0]}
                   poping
                 />
               </Grid>
@@ -157,9 +191,9 @@ const StoreItem = (props: LazyStore) => {
                 >
                   {imgs?.slice(1).map((item) => (
                     <ImageComponent
-                      key={item?.id}
-                      fileKey={item?.key}
-                      id={item?.id}
+                      key={item}
+                      fileKey={item}
+                      id={item}
                       poping
                     />
                   ))}
@@ -176,12 +210,7 @@ const StoreItem = (props: LazyStore) => {
 
           <CustomBox>
             <Grid container spacing={2}>
-              <Grid
-                item
-                xs={12}
-                sm={4}
-                hidden={!opentimes || opentimes.length === 0}
-              >
+              <Grid item xs={12} sm={4} hidden={!opentimes}>
                 <Typography variant="h6">
                   <b>Aukioloajat</b>
                 </Typography>
@@ -220,7 +249,8 @@ const StoreItem = (props: LazyStore) => {
                   {location?.address ? location?.address : ""}
                 </Typography>
                 <Typography>
-                  {location?.zip}{location?.zip ? ", " : ""}
+                  {location?.zip}
+                  {location?.zip ? ", " : ""}
                   {location?.city}
                 </Typography>
                 <Typography>{location?.admin_name}</Typography>
