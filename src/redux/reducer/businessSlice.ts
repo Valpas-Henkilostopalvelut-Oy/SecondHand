@@ -7,14 +7,16 @@ import { businesses, businessesShort } from "../../testdata/businesses";
 export interface BusinessState {
   businessesShort: BusinessShort[] | null | undefined;
   businesses: Businesses[] | null | undefined;
-  isLoaded: boolean;
+  previouseBusinesses: Businesses | null | undefined;
+  isLoading: boolean;
 }
 
 // Define the initial state using that type
 export const initialState: BusinessState = {
   businesses: null,
   businessesShort: null,
-  isLoaded: false,
+  isLoading: false,
+  previouseBusinesses: null,
 };
 
 export const fetchBusinesses = createAsyncThunk(
@@ -31,13 +33,59 @@ export const fetchBusinessesShort = createAsyncThunk(
   }
 );
 
+export const openBusiness = createAsyncThunk(
+  "businesses/openBusiness",
+  async (id: string) => {
+    return businesses.find((business) => business.id === id);
+  }
+);
+
 export const businessSlice = createSlice({
   name: "businesses",
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state = initialState;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchBusinesses.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchBusinesses.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businesses = action.payload;
+      })
+      .addCase(fetchBusinesses.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(fetchBusinessesShort.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchBusinessesShort.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businessesShort = action.payload;
+      })
+      .addCase(fetchBusinessesShort.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(openBusiness.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(openBusiness.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.previouseBusinesses = action.payload!;
+      })
+      .addCase(openBusiness.rejected, (state) => {
+        state.isLoading = false;
+      });
+  },
 });
 
-export const {} = businessSlice.actions;
+export const { reset } = businessSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectBusinesses = (state: RootState) => state.businesses;

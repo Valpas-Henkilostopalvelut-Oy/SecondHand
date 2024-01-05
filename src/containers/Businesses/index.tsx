@@ -23,7 +23,7 @@ import { onUpdate, initialState, reset } from "../../redux/reducer/searchSlice";
 import { Formik } from "formik";
 import SearchIcon from "@mui/icons-material/Search";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { fetchBusinesses } from "../../redux/reducer/businessSlice";
+import { fetchBusinessesShort } from "../../redux/reducer/businessSlice";
 import { BusinessShort } from "../../types/businesses";
 
 export const categories = [
@@ -94,7 +94,7 @@ export const Businesses = (): JSX.Element => {
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   useEffect(() => {
-    dispatch(fetchBusinesses());
+    dispatch(fetchBusinessesShort());
   }, [dispatch]);
   return (
     <Box display={"flex"} {...(isMobile && { flexDirection: "column" })}>
