@@ -23,10 +23,8 @@ import { onUpdate, initialState, reset } from "../../redux/reducer/searchSlice";
 import { Formik } from "formik";
 import SearchIcon from "@mui/icons-material/Search";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import {
-  BusinessShort,
-  fetchBusinesses,
-} from "../../redux/reducer/businessSlice";
+import { fetchBusinesses } from "../../redux/reducer/businessSlice";
+import { BusinessShort } from "../../types/businesses";
 
 export const categories = [
   "Electronics",
@@ -92,7 +90,7 @@ const a11yProps = (index: number): Record<string, unknown> => {
 export const Businesses = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { businesses } = useAppSelector((state) => state.businesses);
+  const { businessesShort } = useAppSelector((state) => state.businesses);
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   useEffect(() => {
@@ -118,11 +116,12 @@ export const Businesses = (): JSX.Element => {
           </p>
         </div>
         <Grid container spacing={2}>
-          {businesses.map((business) => (
-            <Grid item xs={12} md={6} lg={4} xl={3} key={business.id}>
-              <BusinessCard {...business} />
-            </Grid>
-          ))}
+          {businessesShort &&
+            businessesShort.map((businessesShort) => (
+              <Grid item xs={12} md={6} lg={4} xl={3} key={businessesShort.id}>
+                <BusinessCard {...businessesShort} />
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </Box>

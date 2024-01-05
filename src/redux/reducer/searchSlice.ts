@@ -1,16 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { SearchState } from "../../types/search";
 
 // Define a type for the slice state
-export interface SearchState {
-  search: string;
-  openOn: number;
-  category: string | null;
-  subcategory: string | null;
-  region: string | null;
-  city: string | null;
-  orderBy: string | null;
-}
 
 // Define the initial state using that type
 export const initialState: SearchState = {
