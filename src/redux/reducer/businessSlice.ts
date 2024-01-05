@@ -33,6 +33,9 @@ export const businesses: BusinessShort[] = [
   },
 ];
 
+
+
+
 export interface BusinessShort {
   id: string;
   name: string;
@@ -57,6 +60,22 @@ export const fetchBusinesses = createAsyncThunk(
   "businesses/fetchBusinesses",
   async () => {
     return businesses;
+  }
+);
+
+export const fetchBusinessesByCategory = createAsyncThunk(
+  "businesses/fetchBusinessesByCategory",
+  async (category: string) => {
+    return businesses.filter((business) => business.category === category);
+  }
+);
+
+export const fetchBusinessesByQuery = createAsyncThunk(
+  "businesses/fetchBusinessesByQuery",
+  async (query: string) => {
+    return businesses.filter((business) =>
+      business.name.toLowerCase().includes(query.toLowerCase())
+    );
   }
 );
 

@@ -54,7 +54,7 @@ export const Homepage = (): JSX.Element => {
           <Formik
             initialValues={initialState}
             onSubmit={(values) => {
-              dispatch(onUpdate(values))
+              dispatch(onUpdate(values));
             }}
           >
             {({ handleChange, handleBlur, values, setFieldValue }) => (
