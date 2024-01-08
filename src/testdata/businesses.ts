@@ -5,30 +5,62 @@ export const businessesShort: BusinessShort[] = [
     id: "1",
     name: "Business One",
     description: "Description of Business One",
-    category: "Retail",
+    categories: ["Retail", "Food", "Services", "Health", "Electronics"],
     image: "https://picsum.photos/320/200?random=1",
+    type: {
+      id: "1",
+      name: "Antique Store",
+    },
+    openNow: true,
+    location: [
+      {
+        adminName: "Varsinais-Suomi",
+        city: "Turku",
+      },
+    ],
   },
   {
     id: "2",
     name: "Business Two",
     description: "Description of Business Two",
-    category: "Technology",
+    categories: ["Retail", "Clothing", "Food", "Services", "Health"],
     image: "https://picsum.photos/320/200?random=1",
+    type: {
+      id: "1",
+      name: "Antique Store",
+    },
+    openNow: true,
+    location: [
+      {
+        adminName: "Uusimaa",
+        city: "Helsinki",
+      },
+    ],
   },
   // ... repeat for more items
   {
     id: "9",
     name: "Business Nine",
     description: "Description of Business Nine",
-    category: "Food",
+    categories: ["Food", "Services", "Health", "Electronics"],
     image: "https://picsum.photos/320/200?random=1",
+    openNow: true,
+    type: {
+      id: "1",
+      name: "Flea Market",
+    },
   },
   {
     id: "10",
     name: "Business Ten",
     description: "Description of Business Ten",
-    category: "Food",
+    categories: ["Retail", "Food"],
     image: "https://picsum.photos/320/200?random=1",
+    openNow: true,
+    type: {
+      id: "1",
+      name: "Online Store",
+    },
   },
 ];
 
@@ -203,5 +235,9 @@ export const businesses: Businesses[] = [
     customersID: null,
     notes: null,
     version: 0,
+    type: {
+      id: "1",
+      name: "Business Type One",
+    }, // Add the 'businessType' property here
   },
 ];

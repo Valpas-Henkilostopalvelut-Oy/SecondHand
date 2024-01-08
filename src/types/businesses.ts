@@ -71,13 +71,23 @@ type Location {
 */
 
 import BaseType from "./basetype";
+import { BusinessType } from "./businessType";
+import { Categories } from "./categories";
 
 export interface BusinessShort {
   id: string;
   name: string;
-  description: string;
-  category: string;
+  openNow: boolean | null | undefined;
+  description: string | null | undefined;
+  type: BusinessType;
+  categories?: string[] | null;
+  location?: LocationShort[] | null;
   image: string;
+}
+
+interface LocationShort {
+  adminName: string | null | undefined;
+  city: string | null | undefined;
 }
 
 export interface Businesses extends BaseType {
@@ -92,6 +102,7 @@ export interface Businesses extends BaseType {
   notes: Notes[] | null | undefined;
   social: Social | null | undefined;
   locations: Location[] | null | undefined;
+  type: BusinessType | null | undefined;
   categories: Categories[] | null | undefined;
   orderID: string | null | undefined;
 }
@@ -99,13 +110,6 @@ export interface Businesses extends BaseType {
 interface Notes {
   id: string;
   note: string;
-}
-
-interface Categories {
-  id: string;
-  name: string;
-  description: string | null | undefined;
-  image: string | null | undefined;
 }
 
 export interface OpenHours {

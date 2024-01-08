@@ -1,16 +1,22 @@
-import { ThunkAction, Action, combineReducers } from "@reduxjs/toolkit";
-import { configureStore } from "@reduxjs/toolkit";
+import {
+  ThunkAction,
+  Action,
+  combineReducers,
+  configureStore,
+} from "@reduxjs/toolkit";
 
 import searchSlice from "./reducer/searchSlice";
 import businessSlice from "./reducer/businessSlice";
 
-const rootReducer = combineReducers({
+const business = combineReducers({
   search: searchSlice,
   businesses: businessSlice,
 });
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    business
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

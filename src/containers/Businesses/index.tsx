@@ -19,21 +19,28 @@ import {
   SwipeableDrawer,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { onUpdate, initialState, reset } from "../../redux/reducer/searchSlice";
+import { search, initialState, reset } from "../../redux/reducer/searchSlice";
 import { Formik } from "formik";
 import SearchIcon from "@mui/icons-material/Search";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { fetchBusinessesShort } from "../../redux/reducer/businessSlice";
 import { BusinessShort } from "../../types/businesses";
+import { Link } from "react-router-dom";
+import businessTypes from "../../testdata/businessType";
+import categories from "../../testdata/categories";
 
-export const categories = [
-  "Electronics",
-  "Clothing",
-  "Furniture",
-  "Books",
-  "Sports Equipment",
+export const regions = [
+  "Varsinais-Suomi",
+  "Satakunta",
+  "Kanta-Häme",
+  "Pirkanmaa",
+  "Päijät-Häme",
+  "Kymenlaakso",
+  "Etelä-Karjala",
+  "Uusimaa",
 ];
-export const regions = ["Helsinki", "Espoo", "Vantaa", "Tampere", "Turku"];
+
+export const city = ["Helsinki", "Espoo", "Vantaa", "Tampere", "Turku"];
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,7 +66,9 @@ const BusinessCard = (business: BusinessShort): JSX.Element => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Lue lisää</Button>
+        <Button size="small" component={Link} to={`/businesses/${business.id}`}>
+          Lue lisää
+        </Button>
       </CardActions>
     </Card>
   );
@@ -90,12 +99,16 @@ const a11yProps = (index: number): Record<string, unknown> => {
 export const Businesses = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const { businessesShort } = useAppSelector((state) => state.businesses);
+  const {
+    businesses: { businessesShort },
+    search: { searchQuery },
+  } = useAppSelector((state) => state.business);
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   useEffect(() => {
-    dispatch(fetchBusinessesShort());
-  }, [dispatch]);
+    dispatch(fetchBusinessesShort(searchQuery));
+  }, [dispatch, searchQuery]);
+
   return (
     <Box display={"flex"} {...(isMobile && { flexDirection: "column" })}>
       {!isMobile ? (
@@ -146,7 +159,7 @@ const SearchBlock = (): JSX.Element => {
     <Box width={"350px"} padding={"0px 20px"} borderRight={"1px solid #d7d7d7"}>
       <Tabs value={value} onChange={handleChange} aria-label="SearchBlock-tabs">
         <Tab label="Filterit" {...a11yProps(0)} />
-        <Tab label="Kategoriat" {...a11yProps(1)} />
+        <Tab label="Typpi" {...a11yProps(1)} />
         <Tab label="Alueet" {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0}>
@@ -158,139 +171,157 @@ const SearchBlock = (): JSX.Element => {
 
 const FilterTab = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const {
+    search: { searchQuery },
+  } = useAppSelector((state) => state.business);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(
+      search({
+        ...searchQuery,
+        [event.target.name]: event.target.value,
+      })
+    );
+  };
+
+  const setFieldValue = (name: string, value?: string | null) => {
+    dispatch(
+      search({
+        ...searchQuery,
+        [name]: value,
+      })
+    );
+  };
+
+  const handleReset = () => {
+    dispatch(reset());
+  };
 
   return (
-    <Formik
-      initialValues={initialState}
-      onSubmit={(values, { setSubmitting }) => {
-        dispatch(onUpdate(values));
-        setSubmitting(false);
-      }}
-      onReset={() => dispatch(reset())}
+    <Box
+      component="form"
+      display={"flex"}
+      gap={"23px"}
+      padding={"0px 10px"}
+      flexDirection={"column"}
     >
-      {({
-        handleChange,
-        handleBlur,
-        values,
-        setFieldValue,
-        handleSubmit,
-        handleReset,
-      }) => (
+      <Box>
+        <TextField
+          name="search"
+          type="text"
+          label="Hae"
+          onChange={handleChange}
+          value={searchQuery.search}
+          fullWidth
+          variant="standard"
+        />
+      </Box>
+      <Box>
+        <Typography variant="caption">Aukioloajat</Typography>
         <Box
-          component="form"
-          onSubmit={handleSubmit}
           display={"flex"}
-          gap={"23px"}
-          padding={"0px 10px"}
-          flexDirection={"column"}
+          flexWrap={"wrap"}
+          justifyContent={"space-between"}
+          paddingTop={"10px"}
         >
-          <Box>
-            <TextField
-              name="search"
-              type="text"
-              label="Hae"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.search}
-              fullWidth
-              variant="standard"
-            />
-          </Box>
-          <Box>
-            <Typography variant="caption">Aukioloajat</Typography>
-            <Box
-              display={"flex"}
-              flexWrap={"wrap"}
-              justifyContent={"space-between"}
-              paddingTop={"10px"}
-            >
-              <OpenOnButton variant="contained">Joka päivä</OpenOnButton>
-              <OpenOnButton variant="outlined">Auki nyt</OpenOnButton>
-              <OpenOnButton variant="outlined" disabled>
-                Valitse päivä
-              </OpenOnButton>
-              <OpenOnButton variant="outlined">Tämä vikkonloppu</OpenOnButton>
-            </Box>
-          </Box>
-          <Box>
-            <Autocomplete
-              disablePortal
-              id="Category-Autocomplete"
-              options={categories}
-              fullWidth
-              value={values.category}
-              onChange={(event, value) => setFieldValue("category", value)}
-              renderInput={(params) => (
-                <TextField {...params} label="Kategoria" variant="standard" />
-              )}
-            />
-          </Box>
-          <Box>
-            <Autocomplete
-              disablePortal
-              disabled={!values.category}
-              id="Subcategory-Autocomplete"
-              options={categories}
-              fullWidth
-              value={values.subcategory}
-              onChange={(event, value) => setFieldValue("subcategory", value)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Alakategoria"
-                  variant="standard"
-                />
-              )}
-            />
-          </Box>
-          <Box>
-            <Autocomplete
-              disablePortal
-              id="Area-Autocomplete"
-              options={regions}
-              value={values.region}
-              onChange={(event, value) => setFieldValue("region", value)}
-              renderInput={(params) => (
-                <TextField {...params} label="Alue" variant="standard" />
-              )}
-            />
-          </Box>
-          <Box>
-            <Autocomplete
-              disablePortal
-              id="OrderBy-Autocomplete"
-              options={["Uusimmat", "Halvimmat", "Kalleimmat", "Suosituimmat"]}
-              value={values.orderBy}
-              onChange={(event, value) => setFieldValue("orderBy", value)}
-              renderInput={(params) => (
-                <TextField {...params} label="Alue" variant="standard" />
-              )}
-            />
-          </Box>
-          <Box>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              startIcon={<SearchIcon />}
-            >
-              Etsi
-            </Button>
-          </Box>
-          <Box>
-            <Button
-              type="reset"
-              variant="outlined"
-              fullWidth
-              startIcon={<RestartAltIcon />}
-              onClick={handleReset}
-            >
-              Reset
-            </Button>
-          </Box>
+          <OpenOnButton variant="contained">Joka päivä</OpenOnButton>
+          <OpenOnButton variant="outlined">Auki nyt</OpenOnButton>
+          <OpenOnButton variant="outlined" disabled>
+            Valitse päivä
+          </OpenOnButton>
+          <OpenOnButton variant="outlined">Tämä vikkonloppu</OpenOnButton>
         </Box>
-      )}
-    </Formik>
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          id="Type-Autocomplete"
+          options={businessTypes}
+          fullWidth
+          value={searchQuery.type}
+          onChange={(event, value) =>
+            dispatch(search({ ...searchQuery, type: value }))
+          }
+          renderInput={(params) => (
+            <TextField {...params} label="Typpi" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          disabled={!searchQuery.type}
+          id="Category-Autocomplete"
+          options={categories}
+          value={searchQuery.category}
+          fullWidth
+          onChange={(event, value) =>
+            dispatch(search({ ...searchQuery, category: value }))
+          }
+          renderInput={(params) => (
+            <TextField {...params} label="Kategoria" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          id="Area-Autocomplete"
+          options={regions}
+          value={searchQuery.adminName}
+          onChange={(event, value) => setFieldValue("region", value)}
+          renderInput={(params) => (
+            <TextField {...params} label="Alue" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          disabled={!searchQuery.adminName}
+          id="City-Autocomplete"
+          options={city}
+          value={searchQuery.city}
+          onChange={(event, value) => setFieldValue("city", value)}
+          renderInput={(params) => (
+            <TextField {...params} label="Kaupunki" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          id="OrderBy-Autocomplete"
+          options={["Uusimmat", "Halvimmat", "Kalleimmat", "Suosituimmat"]}
+          value={searchQuery.orderBy}
+          onChange={(event, value) => setFieldValue("orderBy", value)}
+          renderInput={(params) => (
+            <TextField {...params} label="Järjestä" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          startIcon={<SearchIcon />}
+        >
+          Etsi
+        </Button>
+      </Box>
+      <Box>
+        <Button
+          type="reset"
+          variant="outlined"
+          fullWidth
+          startIcon={<RestartAltIcon />}
+          onClick={handleReset}
+        >
+          Reset
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
@@ -330,7 +361,7 @@ const SearchBlockMobile = (): JSX.Element => {
             aria-label="SearchBlock-tabs"
           >
             <Tab label="Filterit" {...a11yProps(0)} />
-            <Tab label="Kategoriat" {...a11yProps(1)} />
+            <Tab label="Typpi" {...a11yProps(1)} />
             <Tab label="Alueet" {...a11yProps(2)} />
           </Tabs>
           <TabPanel value={value} index={0}>
@@ -344,138 +375,150 @@ const SearchBlockMobile = (): JSX.Element => {
 
 const FilterTabMobile = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const {
+    search: { searchQuery },
+  } = useAppSelector((state) => state.business);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(
+      search({
+        ...searchQuery,
+        [event.target.name]: event.target.value,
+      })
+    );
+  };
+
+  const setFieldValue = (name: string, value?: string | null) => {
+    dispatch(
+      search({
+        ...searchQuery,
+        [name]: value,
+      })
+    );
+  };
+
+  const handleReset = () => {
+    dispatch(reset());
+  };
 
   return (
-    <Formik
-      initialValues={initialState}
-      onSubmit={(values, { setSubmitting }) => {
-        dispatch(onUpdate(values));
-        setSubmitting(false);
-      }}
-      onReset={() => dispatch(reset())}
+    <Box
+      display={"flex"}
+      gap={"25px"}
+      padding={"20px 10px"}
+      flexDirection={"column"}
     >
-      {({
-        handleChange,
-        handleBlur,
-        values,
-        setFieldValue,
-        handleSubmit,
-        handleReset,
-      }) => (
+      <Box>
+        <TextField
+          name="search"
+          type="text"
+          label="Hae"
+          onChange={handleChange}
+          value={searchQuery.search}
+          fullWidth
+          variant="standard"
+        />
+      </Box>
+      <Box>
+        <Typography variant="caption">Aukioloajat</Typography>
         <Box
-          component="form"
-          onSubmit={handleSubmit}
           display={"flex"}
-          gap={"25px"}
-          padding={"20px 10px"}
-          flexDirection={"column"}
+          flexWrap={"wrap"}
+          justifyContent={"space-between"}
+          paddingTop={"10px"}
         >
-          <Box>
-            <TextField
-              name="search"
-              type="text"
-              label="Hae"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.search}
-              fullWidth
-              variant="standard"
-            />
-          </Box>
-          <Box>
-            <Typography variant="caption">Aukioloajat</Typography>
-            <Box
-              display={"flex"}
-              flexWrap={"wrap"}
-              justifyContent={"space-between"}
-              paddingTop={"10px"}
-            >
-              <OpenOnButton variant="contained">Joka päivä</OpenOnButton>
-              <OpenOnButton variant="outlined">Auki nyt</OpenOnButton>
-              <OpenOnButton variant="outlined" disabled>
-                Valitse päivä
-              </OpenOnButton>
-              <OpenOnButton variant="outlined">Tämä vikkonloppu</OpenOnButton>
-            </Box>
-          </Box>
-          <Box>
-            <Autocomplete
-              disablePortal
-              id="Category-Autocomplete"
-              options={categories}
-              fullWidth
-              value={values.category}
-              onChange={(event, value) => setFieldValue("category", value)}
-              renderInput={(params) => (
-                <TextField {...params} label="Kategoria" variant="standard" />
-              )}
-            />
-          </Box>
-          <Box>
-            <Autocomplete
-              disablePortal
-              disabled={!values.category}
-              id="Subcategory-Autocomplete"
-              options={categories}
-              fullWidth
-              value={values.subcategory}
-              onChange={(event, value) => setFieldValue("subcategory", value)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Alakategoria"
-                  variant="standard"
-                />
-              )}
-            />
-          </Box>
-          <Box>
-            <Autocomplete
-              disablePortal
-              id="Area-Autocomplete"
-              options={regions}
-              value={values.region}
-              onChange={(event, value) => setFieldValue("region", value)}
-              renderInput={(params) => (
-                <TextField {...params} label="Alue" variant="standard" />
-              )}
-            />
-          </Box>
-          <Box>
-            <Autocomplete
-              disablePortal
-              id="OrderBy-Autocomplete"
-              options={["Uusimmat", "Halvimmat", "Kalleimmat", "Suosituimmat"]}
-              value={values.orderBy}
-              onChange={(event, value) => setFieldValue("orderBy", value)}
-              renderInput={(params) => (
-                <TextField {...params} label="Alue" variant="standard" />
-              )}
-            />
-          </Box>
-          <Box>
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              startIcon={<SearchIcon />}
-            >
-              Etsi
-            </Button>
-          </Box>
-          <Box>
-            <Button
-              type="reset"
-              variant="outlined"
-              fullWidth
-              startIcon={<RestartAltIcon />}
-              onClick={handleReset}
-            >
-              Reset
-            </Button>
-          </Box>
+          <OpenOnButton variant="contained">Joka päivä</OpenOnButton>
+          <OpenOnButton variant="outlined">Auki nyt</OpenOnButton>
+          <OpenOnButton variant="outlined" disabled>
+            Valitse päivä
+          </OpenOnButton>
+          <OpenOnButton variant="outlined">Tämä vikkonloppu</OpenOnButton>
         </Box>
-      )}
-    </Formik>
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          id="Type-Autocomplete"
+          options={businessTypes}
+          fullWidth
+          value={searchQuery.type}
+          onChange={(event, value) =>
+            dispatch(search({ ...searchQuery, type: value }))
+          }
+          renderInput={(params) => (
+            <TextField {...params} label="Typpi" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          disabled={!searchQuery.type}
+          id="Categories-Autocomplete"
+          options={categories}
+          fullWidth
+          value={searchQuery.category}
+          onChange={(event, value) =>
+            dispatch(search({ ...searchQuery, category: value }))
+          }
+          renderInput={(params) => (
+            <TextField {...params} label="Kategoria" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          id="Area-Autocomplete"
+          options={regions}
+          value={searchQuery.adminName}
+          onChange={(event, value) => setFieldValue("region", value)}
+          renderInput={(params) => (
+            <TextField {...params} label="Alue" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          disabled={!searchQuery.adminName}
+          id="City-Autocomplete"
+          options={city}
+          value={searchQuery.city}
+          onChange={(event, value) => setFieldValue("city", value)}
+          renderInput={(params) => (
+            <TextField {...params} label="Kaupunki" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          disablePortal
+          id="OrderBy-Autocomplete"
+          options={["Uusimmat", "Halvimmat", "Kalleimmat", "Suosituimmat"]}
+          value={searchQuery.orderBy}
+          onChange={(event, value) => setFieldValue("orderBy", value)}
+          renderInput={(params) => (
+            <TextField {...params} label="Järjestä" variant="standard" />
+          )}
+        />
+      </Box>
+      <Box>
+        <Button variant="contained" fullWidth startIcon={<SearchIcon />}>
+          Etsi
+        </Button>
+      </Box>
+      <Box>
+        <Button
+          type="reset"
+          variant="outlined"
+          fullWidth
+          startIcon={<RestartAltIcon />}
+          onClick={handleReset}
+        >
+          Reset
+        </Button>
+      </Box>
+    </Box>
   );
 };

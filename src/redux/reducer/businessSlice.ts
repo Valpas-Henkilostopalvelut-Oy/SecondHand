@@ -2,6 +2,8 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { BusinessShort, Businesses } from "../../types/businesses";
 import { businesses, businessesShort } from "../../testdata/businesses";
+import searchBusinesses from "../../utils/searchBusinesses";
+import { SearchQuery } from "../../types/search";
 
 // Define a type for the slice state
 export interface BusinessState {
@@ -9,6 +11,7 @@ export interface BusinessState {
   businesses: Businesses[] | null | undefined;
   previouseBusinesses: Businesses | null | undefined;
   isLoading: boolean;
+  error?: string;
 }
 
 // Define the initial state using that type
@@ -21,15 +24,15 @@ export const initialState: BusinessState = {
 
 export const fetchBusinesses = createAsyncThunk(
   "businesses/fetchBusinesses",
-  async () => {
-    return businesses;
-  }
+  async () => businesses
 );
 
 export const fetchBusinessesShort = createAsyncThunk(
   "businesses/fetchBusinessesShort",
-  async () => {
-    return businessesShort;
+  async (query: SearchQuery) => {
+    const result = searchBusinesses(query, businessesShort);
+    console.log("fetchBusinessesShort", result);
+    return result;
   }
 );
 
@@ -88,6 +91,6 @@ export const businessSlice = createSlice({
 export const { reset } = businessSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectBusinesses = (state: RootState) => state.businesses;
+export const selectBusinesses = (state: RootState) => state.business.businesses;
 
 export default businessSlice.reducer;

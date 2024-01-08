@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import React from "react";
 import {
   Container,
   Box,
@@ -12,9 +11,11 @@ import {
 } from "@mui/material";
 import img from "./homepage.jpg";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { onUpdate, initialState } from "../../redux/reducer/searchSlice";
-import { categories, regions } from "../Businesses";
+import { search } from "../../redux/reducer/searchSlice";
+import { regions } from "../Businesses";
 import { Link } from "react-router-dom";
+import businessTypes from "../../testdata/businessType";
+import { BusinessType } from "../../types/businessType";
 
 const HomeMainImage = styled(Box)(({ theme }) => ({
   backgroundImage: `url(${img})`,
@@ -40,6 +41,16 @@ const HomeContainer = styled(Container)(({ theme }) => ({
 
 export const Homepage = (): JSX.Element => {
   const dispatch = useAppDispatch();
+
+  const {
+    search: { searchQuery: values },
+  } = useAppSelector((state) => state.business);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    dispatch(search({ ...values, [name]: value }));
+  };
+
   return (
     <HomeMainImage>
       <HomeContainer>
@@ -51,71 +62,49 @@ export const Homepage = (): JSX.Element => {
           </HomeTypography>
         </Box>
         <HomeBox>
-          <Formik
-            initialValues={initialState}
-            onSubmit={(values) => {
-              dispatch(onUpdate(values));
-            }}
-          >
-            {({ handleChange, handleBlur, values, setFieldValue }) => (
-              <Form>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <TextField
-                      name="search"
-                      type="text"
-                      label="Hae"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.search}
-                      fullWidth
-                      variant="standard"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <Autocomplete
-                      disablePortal
-                      id="Category-Autocomplete"
-                      options={categories}
-                      fullWidth
-                      onChange={(event, value) => {
-                        setFieldValue("category", value);
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Kategoria"
-                          variant="standard"
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <Autocomplete
-                      disablePortal
-                      id="Area-Autocomplete"
-                      options={regions}
-                      onChange={(event, value) => {
-                        setFieldValue("region", value);
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Alue"
-                          variant="standard"
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <Button type="submit" variant="contained" fullWidth>
-                      Etsi
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Form>
-            )}
-          </Formik>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                name="search"
+                type="text"
+                label="Hae"
+                onChange={handleChange}
+                value={values.search}
+                fullWidth
+                variant="standard"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Autocomplete
+                disablePortal
+                id="Types-Autocomplete"
+                options={businessTypes}
+                fullWidth
+                onChange={(event, value) => {
+                  dispatch(search({ ...values, type: value }));
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Typpi" variant="standard" />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Autocomplete
+                disablePortal
+                id="Area-Autocomplete"
+                options={regions}
+                onChange={(event, value) => {
+                  dispatch(search({ ...values, adminName: value }));
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Alue" variant="standard" />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Link to="/businesses">Hae</Link>
+            </Grid>
+          </Grid>
         </HomeBox>
       </HomeContainer>
     </HomeMainImage>

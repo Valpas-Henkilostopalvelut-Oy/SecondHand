@@ -1,40 +1,52 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { SearchState } from "../../types/search";
+import { SearchQuery, SearchState } from "../../types/search";
 
 // Define a type for the slice state
 
 // Define the initial state using that type
 export const initialState: SearchState = {
-  search: "",
-  category: null,
-  region: null,
-  openOn: 0,
-  subcategory: null,
-  city: null,
-  orderBy: null,
+  result: null,
+  isSearching: false,
+  searchQuery: {
+    search: "",
+    openOn: 0,
+    type: null,
+    category: null,
+    city: null,
+    orderBy: null,
+    adminName: null,
+  },
+  sellectedRegion: null,
+  sellectedType: null
 };
 
 export const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
+    selectType: (state, action: PayloadAction<string>) => {
+      
+    },
+    search: (state, action: PayloadAction<SearchQuery>) => {
+      console.log("search", action.payload);
+      state.searchQuery = action.payload;
+    },
     setOpen: (state, action: PayloadAction<number>) => {
-      state.openOn = action.payload;
+      state.searchQuery.openOn = action.payload;
     },
     onUpdate: (state, action: PayloadAction<SearchState>) => {
-      console.log("onUpdate", action.payload);
-      state = { ...state, ...action.payload };
+      state.searchQuery = action.payload.searchQuery;
     },
     reset: (state) => {
-      state = initialState;
+      state.searchQuery = initialState.searchQuery;
     },
   },
 });
 
-export const { onUpdate, setOpen, reset } = searchSlice.actions;
+export const { onUpdate, setOpen, reset, search } = searchSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectSearch = (state: RootState) => state.search;
+export const selectSearch = (state: RootState) => state.business.search;
 
 export default searchSlice.reducer;

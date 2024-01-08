@@ -15,7 +15,7 @@
 
 interface BaseType {
   id: string;
-  createdAt: string | null | undefined;
+  createdAt?: string | null | undefined;
   lastModifiedAt?: string | null | undefined;
   isDeleted?: boolean;
   deletedAt?: string | null | undefined;
@@ -23,7 +23,7 @@ interface BaseType {
   lastModifiedBy?: string | null | undefined;
   deletedBy?: string | null | undefined;
   rowVersion?: string | null | undefined;
-  version: number;
+  version?: number;
 }
 
 export default BaseType;
