@@ -42,6 +42,13 @@ export const regions = [
 
 export const city = ["Helsinki", "Espoo", "Vantaa", "Tampere", "Turku"];
 
+const OpenOnButton = styled(Button)(({ theme }) => ({
+  // width 50% - 2px
+  width: "calc(50% - 2px)",
+  textTransform: "none",
+  marginBottom: "2px",
+}));
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -141,13 +148,6 @@ export const Businesses = (): JSX.Element => {
   );
 };
 
-const OpenOnButton = styled(Button)(({ theme }) => ({
-  // width 50% - 2px
-  width: "calc(50% - 2px)",
-  textTransform: "none",
-  marginBottom: "2px",
-}));
-
 const SearchBlock = (): JSX.Element => {
   const [value, setValue] = useState(0);
 
@@ -239,6 +239,7 @@ const FilterTab = (): JSX.Element => {
           options={businessTypes}
           fullWidth
           value={searchQuery.type}
+          getOptionLabel={(option) => option.name}
           onChange={(event, value) =>
             dispatch(search({ ...searchQuery, type: value }))
           }
@@ -252,6 +253,7 @@ const FilterTab = (): JSX.Element => {
           disablePortal
           disabled={!searchQuery.type}
           id="Category-Autocomplete"
+          getOptionLabel={(option) => option.name}
           options={categories}
           value={searchQuery.category}
           fullWidth
@@ -269,7 +271,7 @@ const FilterTab = (): JSX.Element => {
           id="Area-Autocomplete"
           options={regions}
           value={searchQuery.adminName}
-          onChange={(event, value) => setFieldValue("region", value)}
+          onChange={(event, value) => setFieldValue("adminName", value)}
           renderInput={(params) => (
             <TextField {...params} label="Alue" variant="standard" />
           )}
@@ -365,7 +367,15 @@ const SearchBlockMobile = (): JSX.Element => {
             <Tab label="Alueet" {...a11yProps(2)} />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <FilterTabMobile />
+            <FilterTabMobile handleClose={handleClose} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <RegionsSelect handleClose={handleClose} />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Box padding={"20px 0px"}>
+              <Typography variant="h5">Alueet</Typography>
+            </Box>
           </TabPanel>
         </Box>
       </SwipeableDrawer>
@@ -373,7 +383,23 @@ const SearchBlockMobile = (): JSX.Element => {
   );
 };
 
-const FilterTabMobile = (): JSX.Element => {
+const RegionsSelect = ({
+  handleClose,
+}: {
+  handleClose: () => void;
+}): JSX.Element => {
+  return (
+    <Box padding={"20px 0px"}>
+      <Typography variant="h5">Typpi</Typography>
+    </Box>
+  );
+};
+
+const FilterTabMobile = ({
+  handleClose,
+}: {
+  handleClose: () => void;
+}): JSX.Element => {
   const dispatch = useAppDispatch();
   const {
     search: { searchQuery },
@@ -381,20 +407,12 @@ const FilterTabMobile = (): JSX.Element => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
-      search({
-        ...searchQuery,
-        [event.target.name]: event.target.value,
-      })
+      search({ ...searchQuery, [event.target.name]: event.target.value })
     );
   };
 
   const setFieldValue = (name: string, value?: string | null) => {
-    dispatch(
-      search({
-        ...searchQuery,
-        [name]: value,
-      })
-    );
+    dispatch(search({ ...searchQuery, [name]: value }));
   };
 
   const handleReset = () => {
@@ -442,6 +460,7 @@ const FilterTabMobile = (): JSX.Element => {
           options={businessTypes}
           fullWidth
           value={searchQuery.type}
+          getOptionLabel={(option) => option.name}
           onChange={(event, value) =>
             dispatch(search({ ...searchQuery, type: value }))
           }
@@ -457,6 +476,7 @@ const FilterTabMobile = (): JSX.Element => {
           id="Categories-Autocomplete"
           options={categories}
           fullWidth
+          getOptionLabel={(option) => option.name}
           value={searchQuery.category}
           onChange={(event, value) =>
             dispatch(search({ ...searchQuery, category: value }))
@@ -472,7 +492,7 @@ const FilterTabMobile = (): JSX.Element => {
           id="Area-Autocomplete"
           options={regions}
           value={searchQuery.adminName}
-          onChange={(event, value) => setFieldValue("region", value)}
+          onChange={(event, value) => setFieldValue("adminName", value)}
           renderInput={(params) => (
             <TextField {...params} label="Alue" variant="standard" />
           )}
@@ -504,7 +524,12 @@ const FilterTabMobile = (): JSX.Element => {
         />
       </Box>
       <Box>
-        <Button variant="contained" fullWidth startIcon={<SearchIcon />}>
+        <Button
+          variant="contained"
+          fullWidth
+          startIcon={<SearchIcon />}
+          onClick={handleClose}
+        >
           Etsi
         </Button>
       </Box>

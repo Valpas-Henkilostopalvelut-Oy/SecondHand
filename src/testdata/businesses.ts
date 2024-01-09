@@ -46,7 +46,7 @@ export const businessesShort: BusinessShort[] = [
     image: "https://picsum.photos/320/200?random=1",
     openNow: true,
     type: {
-      id: "1",
+      id: "2",
       name: "Flea Market",
     },
   },
@@ -58,7 +58,7 @@ export const businessesShort: BusinessShort[] = [
     image: "https://picsum.photos/320/200?random=1",
     openNow: true,
     type: {
-      id: "1",
+      id: "11",
       name: "Online Store",
     },
   },

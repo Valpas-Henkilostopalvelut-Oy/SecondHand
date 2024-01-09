@@ -9,10 +9,12 @@ import {
   useTheme,
   useMediaQuery,
   Tabs,
+  Tab,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { openBusiness } from "../../redux/reducer/businessSlice";
+import { Businesses } from "../../types/businesses";
 
 const BusinessImage = styled("img")(({ theme }) => ({
   position: "relative",
@@ -23,6 +25,18 @@ const BusinessImage = styled("img")(({ theme }) => ({
   objectFit: "cover",
 }));
 
+const BusinessBox = styled(Box)(({ theme }) => ({
+  padding: "18px 30px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  gap: "15px",
+  borderRadius: "3px",
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: "0px 3px 3px 0px rgba(0,0,0,0.25)",
+}));
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -30,16 +44,17 @@ interface TabPanelProps {
 }
 
 const TabPanel = (props: TabPanelProps): JSX.Element => {
-  const { children, value, index, ...other } = props;
+  const { children, value, index } = props;
 
   return (
-    <Box
-      sx={{ display: value === index ? "block" : "none" }}
-      {...other}
-      padding={"20px 0px"}
+    <div
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      role="tabpanel"
+      aria-labelledby={`simple-tab-${index}`}
     >
-      {value === index && <Typography>{children}</Typography>}
-    </Box>
+      {value === index && <Box>{children}</Box>}
+    </div>
   );
 };
 
@@ -94,8 +109,6 @@ export const Business = (): JSX.Element => {
     );
   }
 
-  console.log(previouseBusinesses);
-
   return (
     <Box>
       <Grid container>
@@ -108,17 +121,48 @@ export const Business = (): JSX.Element => {
       <Container>
         <Box padding={"20px 0px"} gap={"20px"}>
           <Typography variant="h3">{previouseBusinesses.name}</Typography>
-          <Typography variant="body1">{previouseBusinesses.description}</Typography>
-          <Tabs>
-            <TabPanel value={0} index={0}>
-              Profili
+          <Typography variant="body1">
+            {previouseBusinesses.description}
+          </Typography>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="Business page"
+          >
+            <Tab label="Profili" {...a11yProps(0)} />
+            <Tab label="Reviews" {...a11yProps(1)} />
+          </Tabs>
+          <Box>
+            <TabPanel value={value} index={0}>
+              <BusinessProfile {...previouseBusinesses} />
             </TabPanel>
-            <TabPanel value={1} index={1}>
+            <TabPanel value={value} index={1}>
               *reviews*
             </TabPanel>
-          </Tabs>
+          </Box>
         </Box>
       </Container>
+    </Box>
+  );
+};
+
+const BusinessProfile = (
+  business: Businesses | null | undefined
+): JSX.Element => {
+  return (
+    <Box>
+      <BusinessBox>
+        <Typography variant="body1">Sijäintti</Typography>
+        {business?.locations &&
+          business.locations?.map((location) => {
+            return (
+              <Box key={location.name}>
+                <Typography variant="body1">{location.name}</Typography>
+                <Typography variant="body2">{location.address}</Typography>
+              </Box>
+            );
+          })}
+      </BusinessBox>
     </Box>
   );
 };

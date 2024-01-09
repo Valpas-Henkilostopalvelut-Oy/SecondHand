@@ -51,6 +51,11 @@ const businessTypes: BusinessType[] = [
     name: "Charity Shop",
     image: "https://picsum.photos/320/200?random=10",
   },
+  {
+    id: "11",
+    name: "Online Store",
+    image: "https://picsum.photos/320/200?random=11",
+  },
 ];
 
 export default businessTypes;
