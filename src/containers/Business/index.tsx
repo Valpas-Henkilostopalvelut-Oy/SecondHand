@@ -14,7 +14,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { openBusiness } from "../../redux/reducer/businessSlice";
-import { Businesses } from "../../types/businesses";
+import { Businesses } from "../../models";
 
 const BusinessImage = styled("img")(({ theme }) => ({
   position: "relative",
@@ -146,22 +146,11 @@ export const Business = (): JSX.Element => {
   );
 };
 
-const BusinessProfile = (
-  business: Businesses | null | undefined
-): JSX.Element => {
+const BusinessProfile = (business: Businesses): JSX.Element => {
   return (
     <Box>
       <BusinessBox>
         <Typography variant="body1">Sijäintti</Typography>
-        {business?.locations &&
-          business.locations?.map((location) => {
-            return (
-              <Box key={location.name}>
-                <Typography variant="body1">{location.name}</Typography>
-                <Typography variant="body2">{location.address}</Typography>
-              </Box>
-            );
-          })}
       </BusinessBox>
     </Box>
   );

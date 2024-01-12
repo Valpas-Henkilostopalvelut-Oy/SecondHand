@@ -70,52 +70,45 @@ type Location {
 }
 */
 
-import BaseType from "./basetype";
-import { BusinessType } from "./businessType";
-import { Categories } from "./categories";
+import { Businesses } from "../models";
+
+export interface BusinessState {
+  businesses: Businesses[] | null;
+  businessesShort: BusinessShort[] | null;
+  isLoading: boolean;
+  previouseBusinesses: Businesses | null;
+}
 
 export interface BusinessShort {
   id: string;
   name: string;
   openNow: boolean | null | undefined;
   description: string | null | undefined;
-  type: BusinessType;
+  typeId: string;
   categories?: string[] | null;
-  location?: LocationShort[] | null;
-  image: string;
+  image: string | null | undefined;
+  locationId: string;
 }
 
-interface LocationShort {
-  adminName: string | null | undefined;
-  city: string | null | undefined;
-}
-
-export interface Businesses extends BaseType {
-  customersID: string | null | undefined;
+export interface Business {
+  locationsID: string;
   name: string;
-  description: string | null | undefined;
-  websiteUrl: string | null | undefined;
-  logo: string | null | undefined;
-  images: string[] | null | undefined;
-  openHours: OpenHours | null | undefined;
-  contacts: Contact[] | null | undefined;
-  notes: Notes[] | null | undefined;
-  social: Social | null | undefined;
-  locations: Location[] | null | undefined;
-  type: BusinessType | null | undefined;
-  categories: Categories[] | null | undefined;
-  orderID: string | null | undefined;
-}
-
-interface Notes {
-  id: string;
-  note: string;
+  address: string;
+  description?: string | null;
+  websiteUrl?: string | null;
+  logo?: string | null;
+  image?: (string | null)[] | null;
+  openHours?: OpenHours | null;
+  contacts?: (Contact | null)[] | null;
+  social?: Social | null;
+  typesID: string;
+  citiesID: string;
 }
 
 export interface OpenHours {
   openNow: boolean;
-  period: Periods[];
-  specialDays: SpecialDay[];
+  period?: Periods[] | null;
+  specialDays?: SpecialDay[] | null;
 }
 
 export interface SpecialDay {
@@ -135,7 +128,7 @@ export interface Date {
 
 export interface TimeOfDay {
   day: number;
-  hour: number;
+  hours: number;
   minute: number;
   date: Date;
 }
@@ -152,15 +145,4 @@ export interface Social {
   instagram: string;
   youtube: string;
   tiktok: string;
-}
-
-export interface Location {
-  name: string;
-  driveto: string | null | undefined;
-  iframe: string | null | undefined;
-  zipcode: string;
-  address: string;
-  city: string;
-  adminName: string;
-  country: string;
 }

@@ -1,0 +1,35 @@
+{
+  "develop": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-kirppis-develop-111431-authRole",
+      "UnauthRoleArn": "arn:aws:iam::988281547160:role/amplify-kirppis-develop-111431-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::988281547160:role/amplify-kirppis-develop-111431-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-kirppis-develop-111431-deployment",
+      "UnauthRoleName": "amplify-kirppis-develop-111431-unauthRole",
+      "StackName": "amplify-kirppis-develop-111431",
+      "StackId": "arn:aws:cloudformation:eu-west-1:988281547160:stack/amplify-kirppis-develop-111431/bf6ec910-35dc-11ee-affd-064c840dc743",
+      "AmplifyAppId": "d1hqw9gu2csgf4"
+    },
+    "categories": {
+      "function": {
+        "kirppisc669f025": {},
+        "AdminQueriesbd20d68e": {
+          "deploymentBucketName": "amplify-kirppis-develop-111431-deployment",
+          "s3Key": "amplify-builds/AdminQueriesbd20d68e-6e4e45536f4d52707930-build.zip"
+        }
+      },
+      "auth": {
+        "kirppis9e209ebe9e209ebe": {},
+        "userPoolGroups": {}
+      },
+      "api": {
+        "AdminQueries": {},
+        "kirpis2": {}
+      },
+      "storage": {
+        "s3d5d3bb48": {}
+      }
+    }
+  }
+}

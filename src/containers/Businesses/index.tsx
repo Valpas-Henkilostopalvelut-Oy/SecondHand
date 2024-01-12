@@ -20,27 +20,11 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { search, initialState, reset } from "../../redux/reducer/searchSlice";
-import { Formik } from "formik";
 import SearchIcon from "@mui/icons-material/Search";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { fetchBusinessesShort } from "../../redux/reducer/businessSlice";
 import { BusinessShort } from "../../types/businesses";
 import { Link } from "react-router-dom";
-import businessTypes from "../../testdata/businessType";
-import categories from "../../testdata/categories";
-
-export const regions = [
-  "Varsinais-Suomi",
-  "Satakunta",
-  "Kanta-Häme",
-  "Pirkanmaa",
-  "Päijät-Häme",
-  "Kymenlaakso",
-  "Etelä-Karjala",
-  "Uusimaa",
-];
-
-export const city = ["Helsinki", "Espoo", "Vantaa", "Tampere", "Turku"];
 
 const OpenOnButton = styled(Button)(({ theme }) => ({
   // width 50% - 2px
@@ -56,12 +40,13 @@ interface TabPanelProps {
 }
 
 const BusinessCard = (business: BusinessShort): JSX.Element => {
+  console.log(business);
   return (
     <Card>
       <CardMedia
         component="img"
         height="140"
-        image={business.image}
+        image={business.image ?? "https://picsum.photos/140"}
         alt={business.name}
       />
       <CardContent>
@@ -172,8 +157,13 @@ const SearchBlock = (): JSX.Element => {
 const FilterTab = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const {
-    search: { searchQuery },
-  } = useAppSelector((state) => state.business);
+    business: {
+      search: { searchQuery },
+    },
+    typeSlice: { businessTypes },
+    categoriesSlice: { categories },
+    locationSlice: { cities, locations },
+  } = useAppSelector((state) => state);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -236,7 +226,7 @@ const FilterTab = (): JSX.Element => {
         <Autocomplete
           disablePortal
           id="Type-Autocomplete"
-          options={businessTypes}
+          options={businessTypes ?? []}
           fullWidth
           value={searchQuery.type}
           getOptionLabel={(option) => option.name}
@@ -254,7 +244,7 @@ const FilterTab = (): JSX.Element => {
           disabled={!searchQuery.type}
           id="Category-Autocomplete"
           getOptionLabel={(option) => option.name}
-          options={categories}
+          options={categories ?? []}
           value={searchQuery.category}
           fullWidth
           onChange={(event, value) =>
@@ -269,9 +259,10 @@ const FilterTab = (): JSX.Element => {
         <Autocomplete
           disablePortal
           id="Area-Autocomplete"
-          options={regions}
+          options={locations ?? []}
           value={searchQuery.adminName}
-          onChange={(event, value) => setFieldValue("adminName", value)}
+          getOptionLabel={(option) => option.adminName}
+          onChange={(event, value) => setFieldValue("adminName", value?.id)}
           renderInput={(params) => (
             <TextField {...params} label="Alue" variant="standard" />
           )}
@@ -282,9 +273,9 @@ const FilterTab = (): JSX.Element => {
           disablePortal
           disabled={!searchQuery.adminName}
           id="City-Autocomplete"
-          options={city}
+          options={cities ?? []}
           value={searchQuery.city}
-          onChange={(event, value) => setFieldValue("city", value)}
+          onChange={(event, value) => setFieldValue("city", value?.id)}
           renderInput={(params) => (
             <TextField {...params} label="Kaupunki" variant="standard" />
           )}
@@ -402,8 +393,13 @@ const FilterTabMobile = ({
 }): JSX.Element => {
   const dispatch = useAppDispatch();
   const {
-    search: { searchQuery },
-  } = useAppSelector((state) => state.business);
+    business: {
+      search: { searchQuery },
+    },
+    typeSlice: { businessTypes },
+    categoriesSlice: { categories },
+    locationSlice: { locations, cities },
+  } = useAppSelector((state) => state);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -457,7 +453,7 @@ const FilterTabMobile = ({
         <Autocomplete
           disablePortal
           id="Type-Autocomplete"
-          options={businessTypes}
+          options={businessTypes ?? []}
           fullWidth
           value={searchQuery.type}
           getOptionLabel={(option) => option.name}
@@ -474,7 +470,7 @@ const FilterTabMobile = ({
           disablePortal
           disabled={!searchQuery.type}
           id="Categories-Autocomplete"
-          options={categories}
+          options={categories ?? []}
           fullWidth
           getOptionLabel={(option) => option.name}
           value={searchQuery.category}
@@ -490,9 +486,10 @@ const FilterTabMobile = ({
         <Autocomplete
           disablePortal
           id="Area-Autocomplete"
-          options={regions}
+          options={locations ?? []}
           value={searchQuery.adminName}
-          onChange={(event, value) => setFieldValue("adminName", value)}
+          getOptionLabel={(option) => option.adminName}
+          onChange={(event, value) => setFieldValue("adminName", value?.id)}
           renderInput={(params) => (
             <TextField {...params} label="Alue" variant="standard" />
           )}
@@ -503,9 +500,10 @@ const FilterTabMobile = ({
           disablePortal
           disabled={!searchQuery.adminName}
           id="City-Autocomplete"
-          options={city}
+          options={cities ?? []}
           value={searchQuery.city}
-          onChange={(event, value) => setFieldValue("city", value)}
+          getOptionLabel={(option) => option.name}
+          onChange={(event, value) => setFieldValue("city", value?.id)}
           renderInput={(params) => (
             <TextField {...params} label="Kaupunki" variant="standard" />
           )}

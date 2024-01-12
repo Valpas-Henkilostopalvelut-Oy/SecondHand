@@ -7,6 +7,9 @@ import {
 
 import searchSlice from "./reducer/searchSlice";
 import businessSlice from "./reducer/businessSlice";
+import typeSlice from "./reducer/typeSlice";
+import categoriesSlice from "./reducer/categoriesSlice";
+import locationSlice from "./reducer/locationSlice";
 
 const business = combineReducers({
   search: searchSlice,
@@ -15,7 +18,10 @@ const business = combineReducers({
 
 export const store = configureStore({
   reducer: {
-    business
+    business,
+    typeSlice,
+    categoriesSlice,
+    locationSlice,
   },
 });
 

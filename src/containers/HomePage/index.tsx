@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Box,
@@ -12,9 +12,7 @@ import {
 import img from "./homepage.jpg";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { search } from "../../redux/reducer/searchSlice";
-import { regions } from "../Businesses";
 import { Link } from "react-router-dom";
-import businessTypes from "../../testdata/businessType";
 import { BusinessType } from "../../types/businessType";
 
 const HomeMainImage = styled(Box)(({ theme }) => ({
@@ -43,8 +41,12 @@ export const Homepage = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const {
-    search: { searchQuery: values },
-  } = useAppSelector((state) => state.business);
+    business: {
+      search: { searchQuery: values },
+    },
+    typeSlice: { businessTypes },
+    locationSlice: { locations },
+  } = useAppSelector((state) => state);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -78,7 +80,7 @@ export const Homepage = (): JSX.Element => {
               <Autocomplete
                 disablePortal
                 id="Types-Autocomplete"
-                options={businessTypes}
+                options={businessTypes ?? []}
                 fullWidth
                 onChange={(event, value) => {
                   dispatch(search({ ...values, type: value }));
@@ -92,7 +94,7 @@ export const Homepage = (): JSX.Element => {
               <Autocomplete
                 disablePortal
                 id="Area-Autocomplete"
-                options={regions}
+                options={locations ?? []}
                 onChange={(event, value) => {
                   dispatch(search({ ...values, adminName: value }));
                 }}

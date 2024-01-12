@@ -1,6 +1,8 @@
-import { BusinessShort, Businesses } from "../types/businesses";
-import { Categories } from "../types/categories";
+import { BusinessShort, Business } from "../types/businesses";
+import { Category } from "../types/categories";
 import { SearchQuery } from "../types/search";
+import { DataStore } from "aws-amplify/datastore";
+import { Locations } from "../models";
 
 function searchName(business: BusinessShort, search?: string): boolean {
   if (!search) {
@@ -19,30 +21,29 @@ function isOpenOn(business: BusinessShort, openOn?: number): boolean {
 
 function categoryIncluded(
   business: BusinessShort,
-  category?: Categories | null
+  category?: Category | null
 ): boolean {
   if (!category) {
     return true;
   }
-  return (business.categories ?? []).includes(category.id);
+  return (business.categories ?? []).includes(category?.name ?? "");
 }
 
-function regionIncluded(
+const isBuisnessInRegion = async (
   business: BusinessShort,
-  region?: string | null
-): boolean {
-  if (!region) {
+  regionId?: string | null
+) => {
+  if (!regionId) {
     return true;
   }
-  return (business.location ?? []).some((loc) => loc.adminName === region);
-}
-
-function cityIncluded(business: BusinessShort, city?: string | null): boolean {
-  if (!city) {
-    return true;
+  const locations = await DataStore.query(Locations, (l) =>
+    l.Businesses.locationsID.eq(business.id)
+  );
+  if (locations.length === 0) {
+    return false;
   }
-  return (business.location ?? []).some((loc) => loc.city === city);
-}
+  return true;
+};
 
 function searchBusinesses(
   query?: SearchQuery,
@@ -61,7 +62,7 @@ function searchBusinesses(
       }
 
       // Continue with other filters like 'type', 'category', 'region', 'city'
-      if (query?.type && business.type?.id !== query.type.id) {
+      if (query?.type && business.typeId !== query.type.id) {
         return false;
       }
 
@@ -69,11 +70,11 @@ function searchBusinesses(
         return false;
       }
 
-      if (!regionIncluded(business, query?.adminName)) {
+      if (query?.adminName && business.locationId !== query.adminName.id) {
         return false;
       }
 
-      if (!cityIncluded(business, query?.city)) {
+      if (query?.city && business.locationId !== query.city.id) {
         return false;
       }
 

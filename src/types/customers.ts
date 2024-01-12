@@ -18,7 +18,7 @@ enum CustomerRole {
 
 import BaseType from "./basetype";
 
-export interface Customers extends BaseType {
+export interface Customer {
   name: string;
   email: string;
   role: CustomerRole;

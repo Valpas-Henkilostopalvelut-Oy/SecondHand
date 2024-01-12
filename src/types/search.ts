@@ -1,15 +1,15 @@
-import { BusinessType } from "./businessType";
+import { Categories, Types, Locations, Cities } from "../models";
 import { BusinessShort } from "./businesses";
-import { Categories } from "./categories";
+
 
 export interface SearchQuery {
   search: string;
   openOn?: number;
-  type: BusinessType | null;
+  type: Types | null;
   category?: Categories | null;
-  adminName: string | null;
-  city?: string | null;
-  orderBy?: string | null;
+  adminName: Locations | null;
+  city: Cities | null;
+  orderBy: string | null;
 }
 export interface SearchState {
   sellectedRegion: string | null;

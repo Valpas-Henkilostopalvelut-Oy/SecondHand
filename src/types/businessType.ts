@@ -1,4 +1,5 @@
 import BaseType from "./basetype";
+import { LazyTypes } from "../models";
 
 export interface BusinessType extends BaseType {
   name: string;
@@ -7,6 +8,6 @@ export interface BusinessType extends BaseType {
 }
 
 export interface BusinessTypesState {
-  businessTypes: BusinessType[] | null;
+  businessTypes: LazyTypes[] | null;
   isLoading: boolean;
 }

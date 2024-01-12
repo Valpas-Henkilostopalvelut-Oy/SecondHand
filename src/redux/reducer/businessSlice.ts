@@ -1,18 +1,16 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { BusinessShort, Businesses } from "../../types/businesses";
-import { businesses, businessesShort } from "../../testdata/businesses";
+import {
+  BusinessState,
+  BusinessShort,
+  Business
+} from "../../types/businesses";
 import searchBusinesses from "../../utils/searchBusinesses";
 import { SearchQuery } from "../../types/search";
+import { DataStore } from "aws-amplify/datastore";
+import { Businesses } from "../../models";
 
 // Define a type for the slice state
-export interface BusinessState {
-  businessesShort: BusinessShort[] | null | undefined;
-  businesses: Businesses[] | null | undefined;
-  previouseBusinesses: Businesses | null | undefined;
-  isLoading: boolean;
-  error?: string;
-}
 
 // Define the initial state using that type
 export const initialState: BusinessState = {
@@ -24,13 +22,27 @@ export const initialState: BusinessState = {
 
 export const fetchBusinesses = createAsyncThunk(
   "businesses/fetchBusinesses",
-  async () => businesses
+  async () => {
+    const result = await DataStore.query(Businesses);
+    return result;
+  }
 );
 
 export const fetchBusinessesShort = createAsyncThunk(
   "businesses/fetchBusinessesShort",
   async (query: SearchQuery) => {
-    const result = searchBusinesses(query, businessesShort);
+    const resultShort: BusinessShort[] = (await DataStore.query(Businesses)).map(
+      (business) => ({
+        id: business.id,
+        name: business.name,
+        openNow: business.openHours?.openNow,
+        description: business.description,
+        typeId: business.typesID,
+        image: business.logo || "", // Add a default value for the image property
+        locationId: business.locationsID,
+      })
+    );
+    const result = searchBusinesses(query, resultShort);
     console.log("fetchBusinessesShort", result);
     return result;
   }
@@ -39,7 +51,17 @@ export const fetchBusinessesShort = createAsyncThunk(
 export const openBusiness = createAsyncThunk(
   "businesses/openBusiness",
   async (id: string) => {
-    return businesses.find((business) => business.id === id);
+    const result = await DataStore.query(Businesses, id);
+    return result;
+  }
+);
+
+export const createBusiness = createAsyncThunk(
+  "businesses/createBusiness",
+  async (business: Business) => {
+    const result = await DataStore.save(new Businesses(business));
+    console.log("createBusiness", result  )
+    return result;
   }
 );
 
@@ -80,9 +102,20 @@ export const businessSlice = createSlice({
       })
       .addCase(openBusiness.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.previouseBusinesses = action.payload!;
+        state.previouseBusinesses = action.payload ?? null;
       })
       .addCase(openBusiness.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(createBusiness.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createBusiness.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businesses = [...(state.businesses ?? []), action.payload];
+      })
+      .addCase(createBusiness.rejected, (state) => {
         state.isLoading = false;
       });
   },

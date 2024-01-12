@@ -1,0 +1,102 @@
+type Types @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  image: String
+  Businesses: [Businesses] @hasMany(indexName: "byTypes", fields: ["id"])
+}
+
+type Social {
+  facebook: String
+  twitter: String
+  instagram: String
+  tiktok: String
+}
+
+type Contacts {
+  name: String!
+  phone: String
+  email: String
+}
+
+type SpecialDay {
+  date: Date!
+}
+
+type Date {
+  year: Int!
+  month: Int!
+  day: Int!
+}
+
+type TimeOfDay {
+  day: Int!
+  hours: Int!
+  minute: Int!
+  date: Date!
+}
+
+type Periods {
+  open: TimeOfDay!
+  close: TimeOfDay!
+}
+
+type OpenHours {
+  openNow: Boolean!
+  period: [Periods]
+  specialDays: [SpecialDay]
+}
+
+type Locations @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Businesses: [Businesses] @hasMany(indexName: "byLocations", fields: ["id"])
+  Cities: [Cities] @hasMany(indexName: "byLocations", fields: ["id"])
+  adminName: String!
+  country: String!
+}
+
+type Cities @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  locationId: ID! @index(name: "byLocations")
+  name: String!
+  zipcode: String!
+  Businesses: [Businesses] @hasMany(indexName: "byCities", fields: ["id"])
+}
+
+type Notes @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  customersID: ID! @index(name: "byCustomers")
+  businessesID: ID! @index(name: "byBusinesses")
+  text: String!
+}
+
+type Customers @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Notes: [Notes] @hasMany(indexName: "byCustomers", fields: ["id"])
+}
+
+type Businesses @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Categoriess: [Categories] @manyToMany(relationName: "BusinessesCategories")
+  Notes: [Notes] @hasMany(indexName: "byBusinesses", fields: ["id"])
+  locationsID: ID! @index(name: "byLocations")
+  address: String!
+  name: String!
+  description: String
+  websiteUrl: String
+  logo: String
+  images: [String]
+  openHours: OpenHours
+  contacts: [Contacts]
+  social: Social
+  typesID: ID! @index(name: "byTypes")
+  citiesID: ID! @index(name: "byCities")
+}
+
+type Categories @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  description: String
+  image: String
+  Businesses: [Businesses] @manyToMany(relationName: "BusinessesCategories")
+}
+ 
