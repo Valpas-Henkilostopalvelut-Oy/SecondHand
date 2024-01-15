@@ -17,7 +17,12 @@ import {
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { useFormik } from "formik";
 import { BusinessType } from "../../types/businessType";
-import { createBusinessType } from "../../redux/reducer/typeSlice";
+import {
+  createBusinessType,
+  deleteBusinessType,
+} from "../../redux/reducer/typeSlice";
+import ImageUpload from "../../components/ImageUpload";
+import { uploadData } from "@aws-amplify/storage";
 
 const TypesCreateForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -33,6 +38,27 @@ const TypesCreateForm = (): JSX.Element => {
       dispatch(createBusinessType(values));
     },
   });
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (!file) return;
+
+    // Now you can upload the file using Amplify Storage
+    uploadFile(file);
+  };
+
+  const uploadFile = async (file: File) => {
+    // Save the file in public buisnesses folder
+    try {
+      const result = await uploadData({
+        key: `types/${file.name}`,
+        data: file,
+      });
+      console.log("File uploaded successfully", result);
+      formik.setFieldValue("image", (await result.result).key);
+    } catch (error) {
+      console.error("Error uploading file", error);
+    }
+  };
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -65,16 +91,7 @@ const TypesCreateForm = (): JSX.Element => {
         />
       </Box>
       <Box mb={2}>
-        <TextField
-          fullWidth
-          id="image"
-          name="image"
-          label="Image"
-          value={formik.values.image}
-          onChange={formik.handleChange}
-          error={formik.touched.image && Boolean(formik.errors.image)}
-          helperText={formik.touched.image && formik.errors.image}
-        />
+        <ImageUpload onFileChange={handleFileChange} />
       </Box>
       <Button color="primary" variant="contained" fullWidth type="submit">
         Create
@@ -95,6 +112,10 @@ export const AdminTypes = (): JSX.Element => {
   const {
     typeSlice: { businessTypes },
   } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const handleDelete = (id: string) => {
+    dispatch(deleteBusinessType(id));
+  };
 
   return (
     <StyledContainer>
@@ -109,6 +130,7 @@ export const AdminTypes = (): JSX.Element => {
             <TableRow>
               <TableCell>Type Name</TableCell>
               {/* Add more table headers if you have more attributes to display */}
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -119,6 +141,11 @@ export const AdminTypes = (): JSX.Element => {
                     {type.name}
                   </TableCell>
                   {/* Add more table cells if you have more attributes to display */}
+                  <TableCell>
+                    <Button onClick={() => handleDelete(type.id)}>
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

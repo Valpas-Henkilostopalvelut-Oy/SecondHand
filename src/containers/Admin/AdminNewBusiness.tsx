@@ -13,6 +13,8 @@ import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { createBusiness } from "../../redux/reducer/businessSlice";
 import { Business } from "../../types/businesses";
+import ImageUpload from "../../components/ImageUpload";
+import { uploadData } from "@aws-amplify/storage";
 
 export const BusinessCreateForm = () => {
   const {
@@ -37,6 +39,27 @@ export const BusinessCreateForm = () => {
       dispatch(createBusiness(values));
     },
   });
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (!file) return;
+
+    // Now you can upload the file using Amplify Storage
+    uploadFile(file);
+  };
+
+  const uploadFile = async (file: File) => {
+    // Save the file in public buisnesses folder
+    try {
+      const result = await uploadData({
+        key: `businesses/${file.name}`,
+        data: file,
+      });
+      console.log("File uploaded successfully", await result.result);
+      formik.setFieldValue("logo", (await result.result).key);
+    } catch (error) {
+      console.error("Error uploading file", error);
+    }
+  };
 
   return (
     <Container>
@@ -100,16 +123,7 @@ export const BusinessCreateForm = () => {
           />
         </Box>
         <Box mb={2}>
-          <TextField
-            fullWidth
-            id="logo"
-            name="logo"
-            label="Logo URL"
-            value={formik.values.logo ?? ""}
-            onChange={formik.handleChange}
-            error={formik.touched.logo && Boolean(formik.errors.logo)}
-            helperText={formik.touched.logo && formik.errors.logo}
-          />
+          <ImageUpload onFileChange={handleFileChange} />
         </Box>
         <Box mb={2}>
           <Autocomplete

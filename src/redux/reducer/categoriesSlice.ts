@@ -25,6 +25,14 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
+export const deleteCategory = createAsyncThunk(
+  "categories/deleteCategory",
+  async (id: string) => {
+    const result = await DataStore.delete(Categories, id);
+    return result;
+  }
+);
+
 const categoriesSlice = createSlice({
   name: "categories",
   initialState,
@@ -45,6 +53,14 @@ const categoriesSlice = createSlice({
       .addCase(createCategory.fulfilled, (state, action) => {
         state.isLoading = false;
         state.categories = [...(state.categories ?? []), action.payload];
+      })
+
+      .addCase(deleteCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.categories = action.payload;
       });
   },
 });

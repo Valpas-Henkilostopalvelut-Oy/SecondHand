@@ -42,6 +42,22 @@ export const fetchCities = createAsyncThunk(
   }
 );
 
+export const deleteLocation = createAsyncThunk(
+  "locations/deleteLocation",
+  async (id: string) => {
+    const result = await DataStore.delete(Locations, id);
+    return result;
+  }
+);
+
+export const deleteCity = createAsyncThunk(
+  "locations/deleteCity",
+  async (id: string) => {
+    const result = await DataStore.delete(Cities, id);
+    return result;
+  }
+);
+
 const locationsSlice = createSlice({
   name: "locations",
   initialState,
@@ -78,6 +94,22 @@ const locationsSlice = createSlice({
       .addCase(createCities.fulfilled, (state, action) => {
         state.isLoading = false;
         state.cities = [...(state.cities ?? []), action.payload];
+      })
+
+      .addCase(deleteLocation.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteLocation.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.locations = action.payload;
+      })
+
+      .addCase(deleteCity.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteCity.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.cities = action.payload;
       });
   },
 });

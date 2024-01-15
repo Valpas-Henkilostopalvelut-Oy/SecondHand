@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { openBusiness } from "../../redux/reducer/businessSlice";
 import { Businesses } from "../../models";
+import { getUrl } from "aws-amplify/storage";
 
 const BusinessImage = styled("img")(({ theme }) => ({
   position: "relative",
@@ -78,9 +79,25 @@ export const Business = (): JSX.Element => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const [image, setImage] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    if (previouseBusinesses !== undefined) {
+      if (
+        previouseBusinesses?.logo !== undefined &&
+        previouseBusinesses?.logo !== null
+      ) {
+        getUrl({
+          key: previouseBusinesses.logo,
+        })
+          .then((url) => setImage(url.url.toString()))
+          .catch((err) => console.log(err));
+      }
+    }
+  }, [previouseBusinesses]);
 
   useEffect(() => {
     dispatch(openBusiness(id as string));
+    console.log(previouseBusinesses);
   }, [dispatch, id]);
 
   if (previouseBusinesses === undefined) {
@@ -114,7 +131,7 @@ export const Business = (): JSX.Element => {
       <Grid container>
         <Grid item xs={12}>
           <Box position={"relative"} height={"100%"} width={"100%"}>
-            <BusinessImage src={previouseBusinesses.logo ?? ""} />
+            <BusinessImage src={image} alt={previouseBusinesses.name} />
           </Box>
         </Grid>
       </Grid>

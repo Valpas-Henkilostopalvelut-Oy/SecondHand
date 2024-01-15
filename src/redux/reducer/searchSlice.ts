@@ -29,7 +29,6 @@ export const searchSlice = createSlice({
       
     },
     search: (state, action: PayloadAction<SearchQuery>) => {
-      console.log("search", action.payload);
       state.searchQuery = action.payload;
     },
     setOpen: (state, action: PayloadAction<number>) => {

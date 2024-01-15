@@ -88,6 +88,7 @@ export interface BusinessShort {
   categories?: string[] | null;
   image: string | null | undefined;
   locationId: string;
+  cityId: string;
 }
 
 export interface Business {

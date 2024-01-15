@@ -25,6 +25,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { fetchBusinessesShort } from "../../redux/reducer/businessSlice";
 import { BusinessShort } from "../../types/businesses";
 import { Link } from "react-router-dom";
+import { getUrl } from "@aws-amplify/storage";
 
 const OpenOnButton = styled(Button)(({ theme }) => ({
   // width 50% - 2px
@@ -40,13 +41,23 @@ interface TabPanelProps {
 }
 
 const BusinessCard = (business: BusinessShort): JSX.Element => {
-  console.log(business);
+  const [image, setImage] = useState<string | null>(null);
+  useEffect(() => {
+    const handleGetImage = async () => {
+      if (business.image) {
+        getUrl({
+          key: business.image,
+        }).then((result) => setImage(result.url.toString()));
+      }
+    };
+    handleGetImage();
+  }, [business.image]);
   return (
     <Card>
       <CardMedia
         component="img"
         height="140"
-        image={business.image ?? "https://picsum.photos/140"}
+        image={image ?? "./placeholder.png"}
         alt={business.name}
       />
       <CardContent>
@@ -262,7 +273,9 @@ const FilterTab = (): JSX.Element => {
           options={locations ?? []}
           value={searchQuery.adminName}
           getOptionLabel={(option) => option.adminName}
-          onChange={(event, value) => setFieldValue("adminName", value?.id)}
+          onChange={(event, value) =>
+            dispatch(search({ ...searchQuery, adminName: value }))
+          }
           renderInput={(params) => (
             <TextField {...params} label="Alue" variant="standard" />
           )}
@@ -275,7 +288,10 @@ const FilterTab = (): JSX.Element => {
           id="City-Autocomplete"
           options={cities ?? []}
           value={searchQuery.city}
-          onChange={(event, value) => setFieldValue("city", value?.id)}
+          getOptionLabel={(option) => option.name}
+          onChange={(event, value) =>
+            dispatch(search({ ...searchQuery, city: value }))
+          }
           renderInput={(params) => (
             <TextField {...params} label="Kaupunki" variant="standard" />
           )}
@@ -489,7 +505,9 @@ const FilterTabMobile = ({
           options={locations ?? []}
           value={searchQuery.adminName}
           getOptionLabel={(option) => option.adminName}
-          onChange={(event, value) => setFieldValue("adminName", value?.id)}
+          onChange={(event, value) =>
+            dispatch(search({ ...searchQuery, adminName: value }))
+          }
           renderInput={(params) => (
             <TextField {...params} label="Alue" variant="standard" />
           )}
@@ -503,7 +521,9 @@ const FilterTabMobile = ({
           options={cities ?? []}
           value={searchQuery.city}
           getOptionLabel={(option) => option.name}
-          onChange={(event, value) => setFieldValue("city", value?.id)}
+          onChange={(event, value) =>
+            dispatch(search({ ...searchQuery, city: value }))
+          }
           renderInput={(params) => (
             <TextField {...params} label="Kaupunki" variant="standard" />
           )}

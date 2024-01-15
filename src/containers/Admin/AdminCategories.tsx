@@ -17,7 +17,12 @@ import {
 import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Category } from "../../types/categories";
-import { createCategory } from "../../redux/reducer/categoriesSlice";
+import {
+  createCategory,
+  deleteCategory,
+} from "../../redux/reducer/categoriesSlice";
+import ImageUpload from "../../components/ImageUpload";
+import { uploadData } from "@aws-amplify/storage";
 
 const CategoriesCreateForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -33,6 +38,27 @@ const CategoriesCreateForm = (): JSX.Element => {
       dispatch(createCategory(values));
     },
   });
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (!file) return;
+
+    // Now you can upload the file using Amplify Storage
+    uploadFile(file);
+  };
+
+  const uploadFile = async (file: File) => {
+    // Save the file in public buisnesses folder
+    try {
+      const result = await uploadData({
+        key: `categories/${file.name}`,
+        data: file,
+      });
+      console.log("File uploaded successfully", result);
+      formik.setFieldValue("image", (await result.result).key);
+    } catch (error) {
+      console.error("Error uploading file", error);
+    }
+  };
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -65,16 +91,7 @@ const CategoriesCreateForm = (): JSX.Element => {
         />
       </Box>
       <Box mb={2}>
-        <TextField
-          fullWidth
-          id="image"
-          name="image"
-          label="Image URL"
-          value={formik.values.image}
-          onChange={formik.handleChange}
-          error={formik.touched.image && Boolean(formik.errors.image)}
-          helperText={formik.touched.image && formik.errors.image}
-        />
+        <ImageUpload onFileChange={handleFileChange} />
       </Box>
       <Button color="primary" variant="contained" fullWidth type="submit">
         Submit

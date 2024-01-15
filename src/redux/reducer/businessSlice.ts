@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import {
-  BusinessState,
-  BusinessShort,
-  Business
-} from "../../types/businesses";
+import { BusinessState, BusinessShort, Business } from "../../types/businesses";
 import searchBusinesses from "../../utils/searchBusinesses";
 import { SearchQuery } from "../../types/search";
 import { DataStore } from "aws-amplify/datastore";
@@ -31,19 +27,19 @@ export const fetchBusinesses = createAsyncThunk(
 export const fetchBusinessesShort = createAsyncThunk(
   "businesses/fetchBusinessesShort",
   async (query: SearchQuery) => {
-    const resultShort: BusinessShort[] = (await DataStore.query(Businesses)).map(
-      (business) => ({
-        id: business.id,
-        name: business.name,
-        openNow: business.openHours?.openNow,
-        description: business.description,
-        typeId: business.typesID,
-        image: business.logo || "", // Add a default value for the image property
-        locationId: business.locationsID,
-      })
-    );
+    const resultShort: BusinessShort[] = (
+      await DataStore.query(Businesses)
+    ).map((business) => ({
+      id: business.id,
+      name: business.name,
+      openNow: business.openHours?.openNow,
+      description: business.description,
+      typeId: business.typesID,
+      image: business.logo || "", // Add a default value for the image property
+      locationId: business.locationsID,
+      cityId: business.citiesID,
+    }));
     const result = searchBusinesses(query, resultShort);
-    console.log("fetchBusinessesShort", result);
     return result;
   }
 );
@@ -60,7 +56,15 @@ export const createBusiness = createAsyncThunk(
   "businesses/createBusiness",
   async (business: Business) => {
     const result = await DataStore.save(new Businesses(business));
-    console.log("createBusiness", result  )
+    console.log("createBusiness", result);
+    return result;
+  }
+);
+
+export const deleteBusiness = createAsyncThunk(
+  "businesses/deleteBusiness",
+  async (id: string) => {
+    const result = await DataStore.delete(Businesses, id);
     return result;
   }
 );
@@ -116,6 +120,17 @@ export const businessSlice = createSlice({
         state.businesses = [...(state.businesses ?? []), action.payload];
       })
       .addCase(createBusiness.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(deleteBusiness.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteBusiness.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businesses = action.payload;
+      })
+      .addCase(deleteBusiness.rejected, (state) => {
         state.isLoading = false;
       });
   },

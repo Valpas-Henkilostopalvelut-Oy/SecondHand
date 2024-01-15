@@ -25,6 +25,14 @@ export const fetchBusinessTypes = createAsyncThunk(
   }
 );
 
+export const deleteBusinessType = createAsyncThunk(
+  "businessTypes/deleteBusinessType",
+  async (id: string) => {
+    const result = await DataStore.delete(Types, id);
+    return result;
+  }
+);
+
 const businessTypeSlice = createSlice({
   name: "businessTypes",
   initialState,
@@ -37,6 +45,31 @@ const businessTypeSlice = createSlice({
       .addCase(fetchBusinessTypes.fulfilled, (state, action) => {
         state.isLoading = false;
         state.businessTypes = action.payload;
+      })
+      .addCase(fetchBusinessTypes.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(createBusinessType.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createBusinessType.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businessTypes = [...(state.businessTypes ?? []), action.payload];
+      })
+      .addCase(createBusinessType.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(deleteBusinessType.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteBusinessType.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businessTypes = action.payload;
+      })
+      .addCase(deleteBusinessType.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

@@ -22,6 +22,8 @@ import { Location, City } from "../../types/locations";
 import {
   createLocation,
   createCities,
+  deleteCity,
+  deleteLocation,
 } from "../../redux/reducer/locationSlice";
 import { useFormik } from "formik";
 
@@ -217,6 +219,13 @@ export const AdminLocations = (): JSX.Element => {
   const {
     locationSlice: { locations, cities },
   } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const handleDeleteLocation = (id: string) => {
+    dispatch(deleteLocation(id));
+  };
+  const handleDeleteCity = (id: string) => {
+    dispatch(deleteCity(id));
+  };
 
   return (
     <StyledContainer>
@@ -230,9 +239,9 @@ export const AdminLocations = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Website URL</TableCell>
+              <TableCell>Country</TableCell>
               {/* Add more headers as needed based on your business attributes */}
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -240,6 +249,13 @@ export const AdminLocations = (): JSX.Element => {
               locations.map((location) => (
                 <TableRow key={location.id}>
                   <TableCell>{location.adminName}</TableCell>
+                  <TableCell>{location.country}</TableCell>
+                  {/* Add more cells as needed */}
+                  <TableCell>
+                    <Button onClick={() => handleDeleteLocation(location.id)}>
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -251,16 +267,21 @@ export const AdminLocations = (): JSX.Element => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Website URL</TableCell>
               {/* Add more headers as needed based on your business attributes */}
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {cities &&
               cities.map((city) => (
                 <TableRow key={city.id}>
-                  <TableCell>{city.name}</TableCell>
+                  <TableCell >{city.name}</TableCell>
+                  {/* Add more cells as needed */}
+                  <TableCell align="right">
+                    <Button onClick={() => handleDeleteCity(city.id)}>
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

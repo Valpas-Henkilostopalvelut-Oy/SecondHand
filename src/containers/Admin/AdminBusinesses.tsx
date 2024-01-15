@@ -11,9 +11,11 @@ import {
   TableCell,
   Paper,
   TableBody,
+  Button,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { deleteBusiness } from "../../redux/reducer/businessSlice";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(4),
@@ -25,11 +27,16 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 }));
 
 export const AdminBusinesses = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const {
     business: {
       businesses: { businesses },
     },
   } = useAppSelector((state) => state);
+
+  const handleDelete = (id: string) => {
+    dispatch(deleteBusiness(id));
+  };
 
   return (
     <StyledContainer>
@@ -46,6 +53,7 @@ export const AdminBusinesses = (): JSX.Element => {
               <TableCell>Description</TableCell>
               <TableCell>Website URL</TableCell>
               {/* Add more headers as needed based on your business attributes */}
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -56,6 +64,12 @@ export const AdminBusinesses = (): JSX.Element => {
                   <TableCell>{business.description}</TableCell>
                   <TableCell>{business.websiteUrl}</TableCell>
                   {/* Add more cells as needed */}
+                  <TableCell>
+                    <Link to={`/businesses/${business.id}`}>Open</Link>
+                    <Button onClick={() => handleDelete(business.id)}>
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

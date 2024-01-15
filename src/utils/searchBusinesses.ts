@@ -69,12 +69,11 @@ function searchBusinesses(
       if (!categoryIncluded(business, query?.category)) {
         return false;
       }
-
       if (query?.adminName && business.locationId !== query.adminName.id) {
         return false;
       }
 
-      if (query?.city && business.locationId !== query.city.id) {
+      if (query?.city && business.cityId !== query.city.id) {
         return false;
       }
 
