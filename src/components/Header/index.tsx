@@ -13,6 +13,7 @@ import {
   Typography,
   SwipeableDrawer,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -27,7 +28,7 @@ const HeaderNavButtons = styled(Box)(({ theme }) => ({
   gap: "10px",
 }));
 
-const NavigationButton = styled("a")(({ theme }) => ({
+const NavigationButton = styled(Link)(({ theme }) => ({
   textDecoration: "none",
   color: "black",
   "&:hover": {
@@ -63,13 +64,21 @@ export const Header = (): JSX.Element => {
             <Container>
               <HeaderBox>
                 <HeaderNavButtons>
-                  <NavigationButton>Etusivu</NavigationButton>
-                  <NavigationButton>Kirpputori</NavigationButton>
-                  <NavigationButton>Kaupat</NavigationButton>
-                  <NavigationButton>Galleriat</NavigationButton>
-                  <NavigationButton>Huutokaupat</NavigationButton>
-                  <NavigationButton>Tapahtumat</NavigationButton>
-                  <NavigationButton>Palveut</NavigationButton>
+                  <NavigationButton to="/">Etusivu</NavigationButton>
+                  <NavigationButton to="/businesses">
+                    Kirpputori
+                  </NavigationButton>
+                  <NavigationButton to="/businesses">Kaupat</NavigationButton>
+                  <NavigationButton to="/businesses">
+                    Galleriat
+                  </NavigationButton>
+                  <NavigationButton to="/businesses">
+                    Huutokaupat
+                  </NavigationButton>
+                  <NavigationButton to="/businesses">
+                    Tapahtumat
+                  </NavigationButton>
+                  <NavigationButton to="/businesses">Palveut</NavigationButton>
                 </HeaderNavButtons>
                 <IconButton onClick={handleAccountOpen}>
                   <AccountCircleIcon />
@@ -131,13 +140,13 @@ const NavigationDrawer = ({
         display={"flex"}
         flexDirection={"column"}
       >
-        <NavigationButton>Etusivu</NavigationButton>
-        <NavigationButton>Kirpputori</NavigationButton>
-        <NavigationButton>Kaupat</NavigationButton>
-        <NavigationButton>Galleriat</NavigationButton>
-        <NavigationButton>Huutokaupat</NavigationButton>
-        <NavigationButton>Tapahtumat</NavigationButton>
-        <NavigationButton>Palveut</NavigationButton>
+        <NavigationButton to="/">Etusivu</NavigationButton>
+        <NavigationButton to="/businesses">Kirpputori</NavigationButton>
+        <NavigationButton to="/businesses">Kaupat</NavigationButton>
+        <NavigationButton to="/businesses">Galleriat</NavigationButton>
+        <NavigationButton to="/businesses">Huutokaupat</NavigationButton>
+        <NavigationButton to="/businesses">Tapahtumat</NavigationButton>
+        <NavigationButton to="/businesses">Palveut</NavigationButton>
       </Box>
     </SwipeableDrawer>
   );
@@ -167,8 +176,9 @@ const AccountDrawer = ({
         display={"flex"}
         flexDirection={"column"}
       >
-        <NavigationButton>Kirjaudu</NavigationButton>
-        <NavigationButton>Rekisteröidy</NavigationButton>
+        <NavigationButton to="/login">Kirjaudu</NavigationButton>
+        <NavigationButton to="/register">Rekisteröidy</NavigationButton>
+        <NavigationButton to="/admin">Admin</NavigationButton>
       </Box>
     </SwipeableDrawer>
   );

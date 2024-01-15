@@ -19,13 +19,19 @@ import {
   SwipeableDrawer,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { search, initialState, reset } from "../../redux/reducer/searchSlice";
+import { search, reset } from "../../redux/reducer/searchSlice";
 import SearchIcon from "@mui/icons-material/Search";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { fetchBusinessesShort } from "../../redux/reducer/businessSlice";
+import {
+  fetchBusinessesShort,
+  fetchBusinessesShortByRegion,
+  fetchBusinessesShortByType,
+} from "../../redux/reducer/businessSlice";
 import { BusinessShort } from "../../types/businesses";
 import { Link } from "react-router-dom";
 import { getUrl } from "@aws-amplify/storage";
+import { Types, Locations } from "../../models";
+import placeholder from "../../assets/images/placeholder.png"
 
 const OpenOnButton = styled(Button)(({ theme }) => ({
   // width 50% - 2px
@@ -39,6 +45,86 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+
+const TypeCard = ({
+  type,
+  handleClose,
+}: {
+  type: Types;
+  handleClose?: () => void;
+}): JSX.Element => {
+  const [image, setImage] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const handleGetImage = async () => {
+      if (type.image) {
+        getUrl({
+          key: type.image,
+        }).then((result) => setImage(result.url.toString()));
+      }
+    };
+    handleGetImage();
+  }, [type.image]);
+  const handleFetchBusinessesShortByType = () => {
+    dispatch(fetchBusinessesShortByType(type.id)).then(() => {
+      if (handleClose) {
+        handleClose();
+      }
+    });
+  };
+  return (
+    <Card>
+      <CardMedia
+        component="img"
+        height="140"
+        image={image ?? placeholder}
+        alt={type.name}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {type.name}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={handleFetchBusinessesShortByType}>
+          Lue lisää
+        </Button>
+      </CardActions>
+    </Card>
+  );
+};
+
+const RegionCard = ({
+  location,
+  handleClose,
+}: {
+  location: Locations;
+  handleClose?: () => void;
+}): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const handleFetchBusinessesShortByLocation = () => {
+    dispatch(fetchBusinessesShortByRegion(location.id)).then(() => {
+      if (handleClose) {
+        handleClose();
+      }
+    });
+  };
+
+  return (
+    <Card>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {location.adminName}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={handleFetchBusinessesShortByLocation}>
+          Lue lisää
+        </Button>
+      </CardActions>
+    </Card>
+  );
+};
 
 const BusinessCard = (business: BusinessShort): JSX.Element => {
   const [image, setImage] = useState<string | null>(null);
@@ -57,7 +143,7 @@ const BusinessCard = (business: BusinessShort): JSX.Element => {
       <CardMedia
         component="img"
         height="140"
-        image={image ?? "./placeholder.png"}
+        image={image ?? placeholder}
         alt={business.name}
       />
       <CardContent>
@@ -124,11 +210,7 @@ export const Businesses = (): JSX.Element => {
       <Box padding={"0px 20px"}>
         <div className="showing-out-of-wrapper">
           <p className="div-12">
-            <span className="span">Showing </span>
-            <span className="text-wrapper-9">3</span>
-            <span className="span"> out of </span>
-            <span className="text-wrapper-9">300</span>
-            <span className="span"> results</span>
+            Näytetään {businessesShort?.length ?? 0} tulosta
           </p>
         </div>
         <Grid container spacing={2}>
@@ -160,6 +242,12 @@ const SearchBlock = (): JSX.Element => {
       </Tabs>
       <TabPanel value={value} index={0}>
         <FilterTab />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <TypeSelect />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <RegionSelect />
       </TabPanel>
     </Box>
   );
@@ -377,12 +465,10 @@ const SearchBlockMobile = (): JSX.Element => {
             <FilterTabMobile handleClose={handleClose} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <RegionsSelect handleClose={handleClose} />
+            <TypeSelect handleClose={handleClose} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <Box padding={"20px 0px"}>
-              <Typography variant="h5">Alueet</Typography>
-            </Box>
+            <RegionSelect handleClose={handleClose} />
           </TabPanel>
         </Box>
       </SwipeableDrawer>
@@ -390,14 +476,76 @@ const SearchBlockMobile = (): JSX.Element => {
   );
 };
 
-const RegionsSelect = ({
+const RegionSelect = ({
   handleClose,
 }: {
-  handleClose: () => void;
+  handleClose?: () => void;
 }): JSX.Element => {
+  const {
+    locationSlice: { locations },
+  } = useAppSelector((state) => state);
   return (
-    <Box padding={"20px 0px"}>
+    <Box padding={"20px 0px"} display={"flex"} flexDirection={"column"}>
+      <Typography variant="h5">Alueet</Typography>
+      <Box
+        display={"flex"}
+        padding={"10px 0px"}
+        flexDirection={"column"}
+        gap={"10px"}
+      >
+        {locations?.map((location) => (
+          <Box key={location.id}>
+            <RegionCard location={location} handleClose={handleClose} />
+          </Box>
+        ))}
+      </Box>
+      <Box>
+        <Button
+          variant="outlined"
+          fullWidth
+          startIcon={<RestartAltIcon />}
+          onClick={handleClose}
+        >
+          Reset
+        </Button>
+      </Box>
+    </Box>
+  );
+};
+
+const TypeSelect = ({
+  handleClose,
+}: {
+  handleClose?: () => void;
+}): JSX.Element => {
+  const {
+    typeSlice: { businessTypes },
+  } = useAppSelector((state) => state);
+  return (
+    <Box padding={"20px 0px"} display={"flex"} flexDirection={"column"}>
       <Typography variant="h5">Typpi</Typography>
+      <Box
+        display={"flex"}
+        padding={"10px 0px"}
+        flexDirection={"column"}
+        gap={"10px"}
+      >
+        {businessTypes?.map((type) => (
+          <Box key={type.id}>
+            <TypeCard type={type} handleClose={handleClose} />
+          </Box>
+        ))}
+      </Box>
+      <Box>
+        <Button
+          variant="outlined"
+          fullWidth
+          startIcon={<RestartAltIcon />}
+          onClick={handleClose}
+        >
+          Reset
+        </Button>
+      </Box>
     </Box>
   );
 };

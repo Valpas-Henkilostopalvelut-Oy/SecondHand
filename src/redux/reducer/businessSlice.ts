@@ -43,6 +43,47 @@ export const fetchBusinessesShort = createAsyncThunk(
     return result;
   }
 );
+export const fetchBusinessesShortByType = createAsyncThunk(
+  "businesses/fetchBusinessesShortByType",
+  async (typeId: string) => {
+    const result = await DataStore.query(
+      Businesses,
+      (c) => c.typesID.eq(typeId) // Filter by type
+    );
+    const resultShort: BusinessShort[] = result.map((business) => ({
+      id: business.id,
+      name: business.name,
+      openNow: business.openHours?.openNow,
+      description: business.description,
+      typeId: business.typesID,
+      image: business.logo || "", // Add a default value for the image property
+      locationId: business.locationsID,
+      cityId: business.citiesID,
+    }));
+    return resultShort;
+  }
+);
+
+export const fetchBusinessesShortByRegion = createAsyncThunk(
+  "businesses/fetchBusinessesShortByRegion",
+  async (regionId: string) => {
+    const result = await DataStore.query(
+      Businesses,
+      (c) => c.locationsID.eq(regionId) // Filter by type
+    );
+    const resultShort: BusinessShort[] = result.map((business) => ({
+      id: business.id,
+      name: business.name,
+      openNow: business.openHours?.openNow,
+      description: business.description,
+      typeId: business.typesID,
+      image: business.logo || "", // Add a default value for the image property
+      locationId: business.locationsID,
+      cityId: business.citiesID,
+    }));
+    return resultShort;
+  }
+);
 
 export const openBusiness = createAsyncThunk(
   "businesses/openBusiness",
@@ -98,6 +139,17 @@ export const businessSlice = createSlice({
         state.businessesShort = action.payload;
       })
       .addCase(fetchBusinessesShort.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(fetchBusinessesShortByType.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchBusinessesShortByType.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businessesShort = action.payload;
+      })
+      .addCase(fetchBusinessesShortByType.rejected, (state) => {
         state.isLoading = false;
       })
 

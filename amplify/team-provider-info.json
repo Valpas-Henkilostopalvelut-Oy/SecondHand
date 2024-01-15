@@ -17,7 +17,8 @@
         "AdminQueriesbd20d68e": {
           "deploymentBucketName": "amplify-kirppis-develop-111431-deployment",
           "s3Key": "amplify-builds/AdminQueriesbd20d68e-6e4e45536f4d52707930-build.zip"
-        }
+        },
+        "kirppis2053c745": {}
       },
       "auth": {
         "kirppis9e209ebe9e209ebe": {},

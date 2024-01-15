@@ -98,7 +98,7 @@ export interface Business {
   description?: string | null;
   websiteUrl?: string | null;
   logo?: string | null;
-  image?: (string | null)[] | null;
+  images?: (string | null)[] | null;
   openHours?: OpenHours | null;
   contacts?: (Contact | null)[] | null;
   social?: Social | null;
@@ -136,8 +136,8 @@ export interface TimeOfDay {
 
 export interface Contact {
   name: string;
-  phone: string | null | undefined;
-  email: string | null | undefined;
+  phone?: string | null | undefined;
+  email?: string | null | undefined;
 }
 
 export interface Social {

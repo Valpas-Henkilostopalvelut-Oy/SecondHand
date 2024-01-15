@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { SearchQuery, SearchState } from "../../types/search";
+import { LazyLocations, LazyTypes } from "../../models";
 
 // Define a type for the slice state
 
@@ -17,16 +18,17 @@ export const initialState: SearchState = {
     orderBy: null,
     adminName: null,
   },
-  sellectedRegion: null,
-  sellectedType: null
 };
 
 export const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
-    selectType: (state, action: PayloadAction<string>) => {
-      
+    selectRegion: (state, action: PayloadAction<LazyLocations>) => {
+      state.searchQuery.adminName = action.payload;
+    },
+    selectType: (state, action: PayloadAction<LazyTypes>) => {
+      state.searchQuery.type = action.payload;
     },
     search: (state, action: PayloadAction<SearchQuery>) => {
       state.searchQuery = action.payload;
@@ -43,7 +45,8 @@ export const searchSlice = createSlice({
   },
 });
 
-export const { onUpdate, setOpen, reset, search } = searchSlice.actions;
+export const { onUpdate, setOpen, reset, search, selectRegion, selectType } =
+  searchSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectSearch = (state: RootState) => state.business.search;

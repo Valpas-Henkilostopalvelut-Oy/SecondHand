@@ -31,6 +31,11 @@ export const BusinessCreateForm = () => {
     typesID: "",
     locationsID: "",
     citiesID: "",
+
+    openHours: null,
+    contacts: null,
+    social: null,
+    images: null,
   };
   const formik = useFormik({
     initialValues: initialValues,
@@ -63,115 +68,123 @@ export const BusinessCreateForm = () => {
 
   return (
     <Container>
-      <form onSubmit={formik.handleSubmit}>
-        {/* Create TextFields for simple fields */}
-        <Box mb={2}>
-          <TextField
-            fullWidth
-            id="name"
-            name="name"
-            label="Business Name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
-        </Box>
-        {/* Add other fields in a similar manner */}
-        {/* For complex fields like categories, notes, openHours, contacts, social, etc., 
+      <Box margin={"20px 0"}>
+        <form onSubmit={formik.handleSubmit}>
+          {/* Create TextFields for simple fields */}
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              id="name"
+              name="name"
+              label="Business Name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+            />
+          </Box>
+          {/* Add other fields in a similar manner */}
+          {/* For complex fields like categories, notes, openHours, contacts, social, etc., 
                 you might need custom components or more complex form controls. */}
-        <Box mb={2}>
-          <TextField
-            fullWidth
-            id="address"
-            name="address"
-            label="Address"
-            value={formik.values.address}
-            onChange={formik.handleChange}
-            error={formik.touched.address && Boolean(formik.errors.address)}
-            helperText={formik.touched.address && formik.errors.address}
-          />
-        </Box>
-        <Box mb={2}>
-          <TextField
-            fullWidth
-            id="description"
-            name="description"
-            label="Description"
-            multiline
-            rows={4}
-            value={formik.values.description ?? ""}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.description && Boolean(formik.errors.description)
-            }
-            helperText={formik.touched.description && formik.errors.description}
-          />
-        </Box>
-        <Box mb={2}>
-          <TextField
-            fullWidth
-            id="websiteUrl"
-            name="websiteUrl"
-            label="Website URL"
-            value={formik.values.websiteUrl ?? ""}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.websiteUrl && Boolean(formik.errors.websiteUrl)
-            }
-            helperText={formik.touched.websiteUrl && formik.errors.websiteUrl}
-          />
-        </Box>
-        <Box mb={2}>
-          <ImageUpload onFileChange={handleFileChange} />
-        </Box>
-        <Box mb={2}>
-          <Autocomplete
-            disablePortal
-            id="typesID"
-            options={businessTypes ?? []}
-            getOptionLabel={(option) => option.name}
-            onChange={(event, value) => {
-              formik.setFieldValue("typesID", value?.id);
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="Types ID" variant="standard" />
-            )}
-          />
-        </Box>
-        <Box mb={2}>
-          <Autocomplete
-            disablePortal
-            id="locationsID"
-            options={locations ?? []}
-            getOptionLabel={(option) => option.adminName}
-            onChange={(event, value) => {
-              formik.setFieldValue("locationsID", value?.id);
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="Locations ID" variant="standard" />
-            )}
-          />
-        </Box>
-        <Box mb={2}>
-          <Autocomplete
-            disablePortal
-            id="cityID"
-            options={cities ?? []}
-            getOptionLabel={(option) => option.name}
-            onChange={(event, value) => {
-              formik.setFieldValue("citiesID", value?.id);
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="City ID" variant="standard" />
-            )}
-          />
-        </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              id="address"
+              name="address"
+              label="Address"
+              value={formik.values.address}
+              onChange={formik.handleChange}
+              error={formik.touched.address && Boolean(formik.errors.address)}
+              helperText={formik.touched.address && formik.errors.address}
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              id="description"
+              name="description"
+              label="Description"
+              multiline
+              rows={4}
+              value={formik.values.description ?? ""}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.description && Boolean(formik.errors.description)
+              }
+              helperText={
+                formik.touched.description && formik.errors.description
+              }
+            />
+          </Box>
+          <Box mb={2}>
+            <TextField
+              fullWidth
+              id="websiteUrl"
+              name="websiteUrl"
+              label="Website URL"
+              value={formik.values.websiteUrl ?? ""}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.websiteUrl && Boolean(formik.errors.websiteUrl)
+              }
+              helperText={formik.touched.websiteUrl && formik.errors.websiteUrl}
+            />
+          </Box>
+          <Box mb={2}>
+            <ImageUpload onFileChange={handleFileChange} />
+          </Box>
+          <Box mb={2}>
+            <Autocomplete
+              disablePortal
+              id="typesID"
+              options={businessTypes ?? []}
+              getOptionLabel={(option) => option.name}
+              onChange={(event, value) => {
+                formik.setFieldValue("typesID", value?.id);
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Types ID" variant="standard" />
+              )}
+            />
+          </Box>
+          <Box mb={2}>
+            <Autocomplete
+              disablePortal
+              id="locationsID"
+              options={locations ?? []}
+              getOptionLabel={(option) => option.adminName}
+              onChange={(event, value) => {
+                formik.setFieldValue("locationsID", value?.id);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Locations ID"
+                  variant="standard"
+                />
+              )}
+            />
+          </Box>
+          <Box mb={2}>
+            <Autocomplete
+              disablePortal
+              id="cityID"
+              options={cities ?? []}
+              getOptionLabel={(option) => option.name}
+              onChange={(event, value) => {
+                formik.setFieldValue("citiesID", value?.id);
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="City ID" variant="standard" />
+              )}
+            />
+          </Box>
 
-        <Button color="primary" variant="contained" fullWidth type="submit">
-          Create Business
-        </Button>
-      </form>
+          <Button color="primary" variant="contained" fullWidth type="submit">
+            Create Business
+          </Button>
+        </form>
+      </Box>
     </Container>
   );
 };

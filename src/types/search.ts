@@ -12,8 +12,6 @@ export interface SearchQuery {
   orderBy: string | null;
 }
 export interface SearchState {
-  sellectedRegion: string | null;
-  sellectedType: string | null;
   searchQuery: SearchQuery;
   result: BusinessShort[] | null;
   isSearching: boolean;
