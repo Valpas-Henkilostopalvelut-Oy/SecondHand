@@ -9,6 +9,9 @@ import { store } from "./redux/store";
 import { Amplify } from "aws-amplify";
 import config from "./aws-exports";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+
 Amplify.configure(config);
 
 const root = ReactDOM.createRoot(
@@ -18,7 +21,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <LocalizationProvider dateAdapter={AdapterLuxon}>
+        <App />
+      </LocalizationProvider>
     </Provider>
   </React.StrictMode>
 );
