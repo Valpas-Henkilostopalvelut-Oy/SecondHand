@@ -125,6 +125,22 @@
           "resourceName": "AdminQueriesbd20d68e"
         }
       ]
+    },
+    "AMPLIFY_function_kirppis2053c745_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "kirppis2053c745"
+        }
+      ]
+    },
+    "AMPLIFY_function_kirppis2053c745_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "kirppis2053c745"
+        }
+      ]
     }
   },
   "storage": {

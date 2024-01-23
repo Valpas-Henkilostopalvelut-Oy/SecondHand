@@ -109,9 +109,8 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 }));
 
 export const AdminCategories = (): JSX.Element => {
-  const {
-    categoriesSlice: { categories },
-  } = useAppSelector((state) => state);
+  const { categories } = useAppSelector((state) => state.categoriesSlice);
+  const dispatch = useAppDispatch();
 
   return (
     <StyledContainer>
@@ -126,6 +125,7 @@ export const AdminCategories = (): JSX.Element => {
             <TableRow>
               <TableCell>Category Name</TableCell>
               {/* Add more table headers if you have more attributes to display */}
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -136,6 +136,13 @@ export const AdminCategories = (): JSX.Element => {
                     {category.name}
                   </TableCell>
                   {/* Add more table cells if you have more attributes to display */}
+                  <TableCell align="right">
+                    <Button
+                      onClick={() => dispatch(deleteCategory(category.id))}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

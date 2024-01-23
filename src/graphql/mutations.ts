@@ -99,7 +99,6 @@ export const createLocations = /* GraphQL */ `mutation CreateLocations(
       startedAt
       __typename
     }
-    city
     adminName
     country
     createdAt
@@ -130,7 +129,6 @@ export const updateLocations = /* GraphQL */ `mutation UpdateLocations(
       startedAt
       __typename
     }
-    city
     adminName
     country
     createdAt
@@ -161,7 +159,6 @@ export const deleteLocations = /* GraphQL */ `mutation DeleteLocations(
       startedAt
       __typename
     }
-    city
     adminName
     country
     createdAt
@@ -185,6 +182,11 @@ export const createCities = /* GraphQL */ `mutation CreateCities(
     locationId
     name
     zipcode
+    Businesses {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
     _version
@@ -206,6 +208,11 @@ export const updateCities = /* GraphQL */ `mutation UpdateCities(
     locationId
     name
     zipcode
+    Businesses {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
     _version
@@ -227,6 +234,11 @@ export const deleteCities = /* GraphQL */ `mutation DeleteCities(
     locationId
     name
     zipcode
+    Businesses {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
     _version
@@ -389,6 +401,8 @@ export const createBusinesses = /* GraphQL */ `mutation CreateBusinesses(
     }
     locationsID
     address
+    dirrection
+    iframe
     name
     description
     websiteUrl
@@ -412,6 +426,7 @@ export const createBusinesses = /* GraphQL */ `mutation CreateBusinesses(
       __typename
     }
     typesID
+    citiesID
     createdAt
     updatedAt
     _version
@@ -442,6 +457,8 @@ export const updateBusinesses = /* GraphQL */ `mutation UpdateBusinesses(
     }
     locationsID
     address
+    dirrection
+    iframe
     name
     description
     websiteUrl
@@ -465,6 +482,7 @@ export const updateBusinesses = /* GraphQL */ `mutation UpdateBusinesses(
       __typename
     }
     typesID
+    citiesID
     createdAt
     updatedAt
     _version
@@ -495,6 +513,8 @@ export const deleteBusinesses = /* GraphQL */ `mutation DeleteBusinesses(
     }
     locationsID
     address
+    dirrection
+    iframe
     name
     description
     websiteUrl
@@ -518,6 +538,7 @@ export const deleteBusinesses = /* GraphQL */ `mutation DeleteBusinesses(
       __typename
     }
     typesID
+    citiesID
     createdAt
     updatedAt
     _version
@@ -620,12 +641,15 @@ export const createBusinessesCategories = /* GraphQL */ `mutation CreateBusiness
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version
@@ -669,12 +693,15 @@ export const updateBusinessesCategories = /* GraphQL */ `mutation UpdateBusiness
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version
@@ -718,12 +745,15 @@ export const deleteBusinessesCategories = /* GraphQL */ `mutation DeleteBusiness
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version

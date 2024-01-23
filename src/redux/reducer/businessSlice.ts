@@ -3,7 +3,11 @@ import { RootState } from "../store";
 import { BusinessState, BusinessShort, Business } from "../../types/businesses";
 import searchBusinesses from "../../utils/searchBusinesses";
 import { SearchQuery } from "../../types/search";
-import { DataStore } from "aws-amplify/datastore";
+import {
+  DataStore,
+  PaginationInput,
+  SortDirection,
+} from "aws-amplify/datastore";
 import { Businesses } from "../../models";
 
 // Define a type for the slice state
@@ -19,7 +23,12 @@ export const initialState: BusinessState = {
 export const fetchBusinesses = createAsyncThunk(
   "businesses/fetchBusinesses",
   async () => {
-    const result = await DataStore.query(Businesses);
+    // Sort first newest to oldest
+    const result = await DataStore.query(Businesses, null, {
+      // Pagination
+      limit: 10,
+      sort: (c) => c.createdAt(SortDirection.ASCENDING),
+    });
     return result;
   }
 );
@@ -28,7 +37,10 @@ export const fetchBusinessesShort = createAsyncThunk(
   "businesses/fetchBusinessesShort",
   async (query: SearchQuery) => {
     const resultShort: BusinessShort[] = (
-      await DataStore.query(Businesses)
+      await DataStore.query(Businesses, null, {
+        // Pagination
+        sort: (c) => c.createdAt(SortDirection.DESCENDING),
+      })
     ).map((business) => ({
       id: business.id,
       name: business.name,
@@ -48,7 +60,11 @@ export const fetchBusinessesShortByType = createAsyncThunk(
   async (typeId: string) => {
     const result = await DataStore.query(
       Businesses,
-      (c) => c.typesID.eq(typeId) // Filter by type
+      (c) => c.typesID.eq(typeId), // Filter by type
+      {
+        // Pagination
+        sort: (c) => c.createdAt(SortDirection.DESCENDING),
+      }
     );
     const resultShort: BusinessShort[] = result.map((business) => ({
       id: business.id,
@@ -87,7 +103,8 @@ export const fetchBusinessesShortByRegion = createAsyncThunk(
 
 export const openBusiness = createAsyncThunk(
   "businesses/openBusiness",
-  async (id: string) => {
+  async (id?: string | null) => {
+    if (!id) return null;
     const result = await DataStore.query(Businesses, id);
     return result;
   }
@@ -106,7 +123,7 @@ export const deleteBusiness = createAsyncThunk(
   "businesses/deleteBusiness",
   async (id: string) => {
     const result = await DataStore.delete(Businesses, id);
-    return result;
+    return { id, result };
   }
 );
 
@@ -180,7 +197,9 @@ export const businessSlice = createSlice({
       })
       .addCase(deleteBusiness.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.businesses = action.payload;
+        state.businesses = (state.businesses ?? []).filter(
+          (business) => business.id !== action.payload.id
+        );
       })
       .addCase(deleteBusiness.rejected, (state) => {
         state.isLoading = false;

@@ -80,6 +80,8 @@ type Businesses @model @auth(rules: [{allow: public}]) {
   Notes: [Notes] @hasMany(indexName: "byBusinesses", fields: ["id"])
   locationsID: ID! @index(name: "byLocations")
   address: String!
+  dirrection: String
+  iframe: String
   name: String!
   description: String
   websiteUrl: String

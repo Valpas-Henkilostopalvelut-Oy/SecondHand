@@ -29,6 +29,36 @@ export const deleteBusinessType = createAsyncThunk(
   "businessTypes/deleteBusinessType",
   async (id: string) => {
     const result = await DataStore.delete(Types, id);
+    return { id, result };
+  }
+);
+
+export const updateBusinessType = createAsyncThunk(
+  "businessTypes/updateBusinessType",
+  async (type?: BusinessType | null) => {
+    if (!type) throw new Error("Type not found");
+    const toUpdate = await DataStore.query(Types, type?.id ?? "");
+    if (!toUpdate) throw new Error("Type not found");
+    const result = await DataStore.save(
+      Types.copyOf(toUpdate, (updated) => {
+        updated.name = type.name;
+      })
+    );
+    return result;
+  }
+);
+
+export const updateTypeImage = createAsyncThunk(
+  "businessTypes/updateTypeImage",
+  async ({ image, id }: { image?: string | null; id?: string | null }) => {
+    if (!id) throw new Error("Type not found");
+    const toUpdate = await DataStore.query(Types, id ?? "");
+    if (!toUpdate) throw new Error("Type not found");
+    const result = await DataStore.save(
+      Types.copyOf(toUpdate, (updated) => {
+        updated.image = image;
+      })
+    );
     return result;
   }
 );
@@ -66,9 +96,37 @@ const businessTypeSlice = createSlice({
       })
       .addCase(deleteBusinessType.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.businessTypes = action.payload;
+        state.businessTypes = (state.businessTypes ?? []).filter(
+          (type) => type.id !== action.payload.id
+        );
       })
       .addCase(deleteBusinessType.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(updateBusinessType.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateBusinessType.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businessTypes = (state.businessTypes ?? []).map((type) =>
+          type.id === action.payload.id ? action.payload : type
+        );
+      })
+      .addCase(updateBusinessType.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(updateTypeImage.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTypeImage.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businessTypes = (state.businessTypes ?? []).map((type) =>
+          type.id === action.payload.id ? action.payload : type
+        );
+      })
+      .addCase(updateTypeImage.rejected, (state) => {
         state.isLoading = false;
       });
   },

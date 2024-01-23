@@ -11,7 +11,6 @@ import {
   Tabs,
   Tab,
   Button,
-  Collapse,
   styled,
   Grid,
   useMediaQuery,
@@ -31,7 +30,11 @@ import { BusinessShort } from "../../types/businesses";
 import { Link } from "react-router-dom";
 import { getUrl } from "@aws-amplify/storage";
 import { Types, Locations } from "../../models";
-import placeholder from "../../assets/images/placeholder.png"
+import placeholder from "../../assets/images/placeholder.png";
+import {
+  trimStringToNChars,
+  trimStringToNWords,
+} from "../../utils/wordService";
 
 const OpenOnButton = styled(Button)(({ theme }) => ({
   // width 50% - 2px
@@ -142,17 +145,27 @@ const BusinessCard = (business: BusinessShort): JSX.Element => {
     <Card>
       <CardMedia
         component="img"
-        height="140"
+        height="180"
         image={image ?? placeholder}
         alt={business.name}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {business.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {business.description}
-        </Typography>
+        <Box mb={1}>
+          <Typography
+            gutterBottom
+            variant="h6"
+            textOverflow={"ellipsis"}
+            whiteSpace={"nowrap"}
+            overflow={"hidden"}
+          >
+            {business.name}
+          </Typography>
+        </Box>
+        <Box minHeight={"60px"}>
+          <Typography variant="body2" color="text.secondary">
+            {trimStringToNChars(business.description, 100)}
+          </Typography>
+        </Box>
       </CardContent>
       <CardActions>
         <Button size="small" component={Link} to={`/businesses/${business.id}`}>
@@ -255,14 +268,12 @@ const SearchBlock = (): JSX.Element => {
 
 const FilterTab = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const { cities, locations } = useAppSelector((state) => state.locationSlice);
   const {
-    business: {
-      search: { searchQuery },
-    },
-    typeSlice: { businessTypes },
-    categoriesSlice: { categories },
-    locationSlice: { cities, locations },
-  } = useAppSelector((state) => state);
+    search: { searchQuery },
+  } = useAppSelector((state) => state.business);
+  const { businessTypes } = useAppSelector((state) => state.typeSlice);
+  const { categories } = useAppSelector((state) => state.categoriesSlice);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -481,9 +492,7 @@ const RegionSelect = ({
 }: {
   handleClose?: () => void;
 }): JSX.Element => {
-  const {
-    locationSlice: { locations },
-  } = useAppSelector((state) => state);
+  const { locations } = useAppSelector((state) => state.locationSlice);
   return (
     <Box padding={"20px 0px"} display={"flex"} flexDirection={"column"}>
       <Typography variant="h5">Alueet</Typography>
@@ -518,9 +527,7 @@ const TypeSelect = ({
 }: {
   handleClose?: () => void;
 }): JSX.Element => {
-  const {
-    typeSlice: { businessTypes },
-  } = useAppSelector((state) => state);
+  const { businessTypes } = useAppSelector((state) => state.typeSlice);
   return (
     <Box padding={"20px 0px"} display={"flex"} flexDirection={"column"}>
       <Typography variant="h5">Typpi</Typography>
@@ -556,14 +563,12 @@ const FilterTabMobile = ({
   handleClose: () => void;
 }): JSX.Element => {
   const dispatch = useAppDispatch();
+  const { cities, locations } = useAppSelector((state) => state.locationSlice);
   const {
-    business: {
-      search: { searchQuery },
-    },
-    typeSlice: { businessTypes },
-    categoriesSlice: { categories },
-    locationSlice: { locations, cities },
-  } = useAppSelector((state) => state);
+    search: { searchQuery },
+  } = useAppSelector((state) => state.business);
+  const { businessTypes } = useAppSelector((state) => state.typeSlice);
+  const { categories } = useAppSelector((state) => state.categoriesSlice);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(

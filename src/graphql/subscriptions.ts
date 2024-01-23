@@ -87,7 +87,6 @@ export const onCreateLocations = /* GraphQL */ `subscription OnCreateLocations($
       startedAt
       __typename
     }
-    city
     adminName
     country
     createdAt
@@ -115,7 +114,6 @@ export const onUpdateLocations = /* GraphQL */ `subscription OnUpdateLocations($
       startedAt
       __typename
     }
-    city
     adminName
     country
     createdAt
@@ -143,7 +141,6 @@ export const onDeleteLocations = /* GraphQL */ `subscription OnDeleteLocations($
       startedAt
       __typename
     }
-    city
     adminName
     country
     createdAt
@@ -164,6 +161,11 @@ export const onCreateCities = /* GraphQL */ `subscription OnCreateCities($filter
     locationId
     name
     zipcode
+    Businesses {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
     _version
@@ -182,6 +184,11 @@ export const onUpdateCities = /* GraphQL */ `subscription OnUpdateCities($filter
     locationId
     name
     zipcode
+    Businesses {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
     _version
@@ -200,6 +207,11 @@ export const onDeleteCities = /* GraphQL */ `subscription OnDeleteCities($filter
     locationId
     name
     zipcode
+    Businesses {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
     _version
@@ -343,6 +355,8 @@ export const onCreateBusinesses = /* GraphQL */ `subscription OnCreateBusinesses
     }
     locationsID
     address
+    dirrection
+    iframe
     name
     description
     websiteUrl
@@ -366,6 +380,7 @@ export const onCreateBusinesses = /* GraphQL */ `subscription OnCreateBusinesses
       __typename
     }
     typesID
+    citiesID
     createdAt
     updatedAt
     _version
@@ -395,6 +410,8 @@ export const onUpdateBusinesses = /* GraphQL */ `subscription OnUpdateBusinesses
     }
     locationsID
     address
+    dirrection
+    iframe
     name
     description
     websiteUrl
@@ -418,6 +435,7 @@ export const onUpdateBusinesses = /* GraphQL */ `subscription OnUpdateBusinesses
       __typename
     }
     typesID
+    citiesID
     createdAt
     updatedAt
     _version
@@ -447,6 +465,8 @@ export const onDeleteBusinesses = /* GraphQL */ `subscription OnDeleteBusinesses
     }
     locationsID
     address
+    dirrection
+    iframe
     name
     description
     websiteUrl
@@ -470,6 +490,7 @@ export const onDeleteBusinesses = /* GraphQL */ `subscription OnDeleteBusinesses
       __typename
     }
     typesID
+    citiesID
     createdAt
     updatedAt
     _version
@@ -568,12 +589,15 @@ export const onCreateBusinessesCategories = /* GraphQL */ `subscription OnCreate
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version
@@ -616,12 +640,15 @@ export const onUpdateBusinessesCategories = /* GraphQL */ `subscription OnUpdate
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version
@@ -664,12 +691,15 @@ export const onDeleteBusinessesCategories = /* GraphQL */ `subscription OnDelete
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version

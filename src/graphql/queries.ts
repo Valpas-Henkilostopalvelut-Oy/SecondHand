@@ -92,7 +92,6 @@ export const getLocations = /* GraphQL */ `query GetLocations($id: ID!) {
       startedAt
       __typename
     }
-    city
     adminName
     country
     createdAt
@@ -115,7 +114,6 @@ export const listLocations = /* GraphQL */ `query ListLocations(
   listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      city
       adminName
       country
       createdAt
@@ -148,7 +146,6 @@ export const syncLocations = /* GraphQL */ `query SyncLocations(
   ) {
     items {
       id
-      city
       adminName
       country
       createdAt
@@ -173,6 +170,11 @@ export const getCities = /* GraphQL */ `query GetCities($id: ID!) {
     locationId
     name
     zipcode
+    Businesses {
+      nextToken
+      startedAt
+      __typename
+    }
     createdAt
     updatedAt
     _version
@@ -505,6 +507,8 @@ export const getBusinesses = /* GraphQL */ `query GetBusinesses($id: ID!) {
     }
     locationsID
     address
+    dirrection
+    iframe
     name
     description
     websiteUrl
@@ -528,6 +532,7 @@ export const getBusinesses = /* GraphQL */ `query GetBusinesses($id: ID!) {
       __typename
     }
     typesID
+    citiesID
     createdAt
     updatedAt
     _version
@@ -550,12 +555,15 @@ export const listBusinesses = /* GraphQL */ `query ListBusinesses(
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version
@@ -588,12 +596,15 @@ export const syncBusinesses = /* GraphQL */ `query SyncBusinesses(
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version
@@ -628,12 +639,15 @@ export const businessesByLocationsID = /* GraphQL */ `query BusinessesByLocation
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version
@@ -668,12 +682,15 @@ export const businessesByTypesID = /* GraphQL */ `query BusinessesByTypesID(
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version
@@ -689,6 +706,49 @@ export const businessesByTypesID = /* GraphQL */ `query BusinessesByTypesID(
 ` as GeneratedQuery<
   APITypes.BusinessesByTypesIDQueryVariables,
   APITypes.BusinessesByTypesIDQuery
+>;
+export const businessesByCitiesID = /* GraphQL */ `query BusinessesByCitiesID(
+  $citiesID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelBusinessesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  businessesByCitiesID(
+    citiesID: $citiesID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      locationsID
+      address
+      dirrection
+      iframe
+      name
+      description
+      websiteUrl
+      logo
+      images
+      typesID
+      citiesID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.BusinessesByCitiesIDQueryVariables,
+  APITypes.BusinessesByCitiesIDQuery
 >;
 export const getCategories = /* GraphQL */ `query GetCategories($id: ID!) {
   getCategories(id: $id) {
@@ -782,12 +842,15 @@ export const getBusinessesCategories = /* GraphQL */ `query GetBusinessesCategor
       id
       locationsID
       address
+      dirrection
+      iframe
       name
       description
       websiteUrl
       logo
       images
       typesID
+      citiesID
       createdAt
       updatedAt
       _version

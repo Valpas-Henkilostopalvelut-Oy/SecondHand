@@ -29,7 +29,7 @@ export const deleteCategory = createAsyncThunk(
   "categories/deleteCategory",
   async (id: string) => {
     const result = await DataStore.delete(Categories, id);
-    return result;
+    return { id, result };
   }
 );
 
@@ -60,7 +60,9 @@ const categoriesSlice = createSlice({
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.categories = action.payload;
+        state.categories = (state.categories ?? []).filter(
+          (category) => category.id !== action.payload.id
+        );
       });
   },
 });

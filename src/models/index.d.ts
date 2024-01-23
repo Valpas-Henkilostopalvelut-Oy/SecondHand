@@ -284,6 +284,8 @@ type EagerBusinesses = {
   readonly Notes?: (Notes | null)[] | null;
   readonly locationsID: string;
   readonly address: string;
+  readonly dirrection?: string | null;
+  readonly iframe?: string | null;
   readonly name: string;
   readonly description?: string | null;
   readonly websiteUrl?: string | null;
@@ -308,6 +310,8 @@ type LazyBusinesses = {
   readonly Notes: AsyncCollection<Notes>;
   readonly locationsID: string;
   readonly address: string;
+  readonly dirrection?: string | null;
+  readonly iframe?: string | null;
   readonly name: string;
   readonly description?: string | null;
   readonly websiteUrl?: string | null;

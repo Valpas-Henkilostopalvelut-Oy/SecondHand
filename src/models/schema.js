@@ -493,6 +493,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "dirrection": {
+                    "name": "dirrection",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "iframe": {
+                    "name": "iframe",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -1021,5 +1035,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "6fe1e8d6c2df0d5b05d376b63ec3dffe"
+    "version": "ee33ca5c1b6694bf47ec00a2b424084a"
 };

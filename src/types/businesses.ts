@@ -95,6 +95,8 @@ export interface Business {
   locationsID: string;
   name: string;
   address: string;
+  iframe?: string | null;
+  dirrection?: string | null;
   description?: string | null;
   websiteUrl?: string | null;
   logo?: string | null;
@@ -144,6 +146,5 @@ export interface Social {
   facebook: string;
   twitter: string;
   instagram: string;
-  youtube: string;
   tiktok: string;
 }

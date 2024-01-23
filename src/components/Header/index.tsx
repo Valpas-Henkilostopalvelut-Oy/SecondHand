@@ -29,11 +29,18 @@ const HeaderNavButtons = styled(Box)(({ theme }) => ({
 }));
 
 const NavigationButton = styled(Link)(({ theme }) => ({
+  alignItems: "center",
+  borderBottomStyle: "solid",
+  borderBottomWidth: "1px",
+  borderBottomColor: "#e5e5e5",
   textDecoration: "none",
-  color: "black",
+  display: "flex",
+  padding: "10px 15px",
+  color: "#000",
   "&:hover": {
-    color: "grey",
+    color: theme.palette.primary.main,
   },
+  transition: "color 0.2s ease-in-out",
 }));
 
 export const Header = (): JSX.Element => {

@@ -29,10 +29,8 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 export const AdminBusinesses = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const {
-    business: {
-      businesses: { businesses },
-    },
-  } = useAppSelector((state) => state);
+    businesses: { businesses },
+  } = useAppSelector((state) => state.business);
 
   const handleDelete = (id: string) => {
     dispatch(deleteBusiness(id));

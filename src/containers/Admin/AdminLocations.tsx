@@ -65,41 +65,11 @@ const HeaderBox = styled(Box)(({ theme }) => ({
 }));
 
 const LocationsCreateForm = (): JSX.Element => {
-  const dispatch = useAppDispatch();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const {
-    locationSlice: { locations },
-  } = useAppSelector((state) => state);
-
-  const initialValuesLocation: Location = {
-    adminName: "",
-    country: "",
-  };
-
-  const initialValuesCity: City = {
-    name: "",
-    zipcode: "",
-    locationId: "",
-  };
-
-  const formikLocation = useFormik({
-    initialValues: initialValuesLocation,
-    onSubmit: (values) => {
-      dispatch(createLocation(values));
-    },
-  });
-
-  const formikCity = useFormik({
-    initialValues: initialValuesCity,
-    onSubmit: (values) => {
-      dispatch(createCities(values));
-    },
-  });
 
   return (
     <StyledContainer>
@@ -111,8 +81,43 @@ const LocationsCreateForm = (): JSX.Element => {
         <Tab label="Location" {...a11yProps(0)} />
         <Tab label="City" {...a11yProps(1)} />
       </Tabs>
+      <LocationTab value={value} />
+      <CityTab value={value} />
+    </StyledContainer>
+  );
+};
 
-      <TabPanel value={value} index={0}>
+export const AdminLocations = (): JSX.Element => {
+  return (
+    <StyledContainer>
+      <HeaderBox>
+        <Typography variant="h2">Admin Locations</Typography>
+      </HeaderBox>
+      <LocationsCreateForm />
+    </StyledContainer>
+  );
+};
+
+const LocationTab = ({ value }: { value: number }): JSX.Element => {
+  const initialValuesLocation: Location = {
+    adminName: "",
+    country: "",
+  };
+  const dispatch = useAppDispatch();
+  const { locations } = useAppSelector((state) => state.locationSlice);
+  const formikLocation = useFormik({
+    initialValues: initialValuesLocation,
+    onSubmit: (values) => {
+      dispatch(createLocation(values));
+    },
+  });
+  const handleDeleteLocation = (id: string) => {
+    dispatch(deleteLocation(id));
+  };
+
+  return (
+    <TabPanel value={value} index={0}>
+      <Box mb={2}>
         <form onSubmit={formikLocation.handleSubmit}>
           <Box mb={2}>
             <TextField
@@ -122,14 +127,6 @@ const LocationsCreateForm = (): JSX.Element => {
               label="Admin Name"
               value={formikLocation.values.adminName}
               onChange={formikLocation.handleChange}
-              error={
-                formikLocation.touched.adminName &&
-                Boolean(formikLocation.errors.adminName)
-              }
-              helperText={
-                formikLocation.touched.adminName &&
-                formikLocation.errors.adminName
-              }
             />
           </Box>
           <Box mb={2}>
@@ -141,13 +138,6 @@ const LocationsCreateForm = (): JSX.Element => {
               multiline
               value={formikLocation.values.country}
               onChange={formikLocation.handleChange}
-              error={
-                formikLocation.touched.country &&
-                Boolean(formikLocation.errors.country)
-              }
-              helperText={
-                formikLocation.touched.country && formikLocation.errors.country
-              }
             />
           </Box>
           <Button
@@ -160,107 +150,108 @@ const LocationsCreateForm = (): JSX.Element => {
             Create
           </Button>
         </form>
-      </TabPanel>
+      </Box>
 
-      <TabPanel value={value} index={1}>
-        <form onSubmit={formikCity.handleSubmit}>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              id="name"
-              name="name"
-              label="Name"
-              value={formikCity.values.name}
-              onChange={formikCity.handleChange}
-            />
-          </Box>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              id="zipcode"
-              name="zipcode"
-              label="Zipcode"
-              multiline
-              value={formikCity.values.zipcode}
-              onChange={formikCity.handleChange}
-            />
-          </Box>
-          <Box mb={2}>
-            <Autocomplete
-              disablePortal
-              id="Locations-Autocomplete"
-              options={locations ?? []}
-              getOptionLabel={(option) => option.adminName}
-              fullWidth
-              onChange={(event, value) => {
-                formikCity.values.locationId = value?.id ?? "";
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Location" variant="standard" />
-              )}
-            />
-          </Box>
-          <Button
-            color="primary"
-            variant="contained"
-            fullWidth
-            type="submit"
-            disabled={formikCity.isSubmitting}
-          >
-            Create
-          </Button>
-        </form>
-      </TabPanel>
-    </StyledContainer>
+      <Box mb={2}>
+        <TableContainer component={Paper}>
+          <Table aria-label="locations table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Country</TableCell>
+                {/* Add more headers as needed based on your business attributes */}
+                <TableCell align="right">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {locations &&
+                locations.map((location) => (
+                  <TableRow key={location.id}>
+                    <TableCell>{location.adminName}</TableCell>
+                    <TableCell>{location.country}</TableCell>
+                    {/* Add more cells as needed */}
+                    <TableCell align="right">
+                      <Button onClick={() => handleDeleteLocation(location.id)}>
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </TabPanel>
   );
 };
 
-export const AdminLocations = (): JSX.Element => {
-  const {
-    locationSlice: { locations, cities },
-  } = useAppSelector((state) => state);
+const CityTab = ({ value }: { value: number }): JSX.Element => {
+  const { locations, cities } = useAppSelector((state) => state.locationSlice);
   const dispatch = useAppDispatch();
-  const handleDeleteLocation = (id: string) => {
-    dispatch(deleteLocation(id));
+  const initialValuesCity: City = {
+    name: "",
+    zipcode: "",
+    locationId: "",
   };
+  const formikCity = useFormik({
+    initialValues: initialValuesCity,
+    onSubmit: (values) => {
+      dispatch(createCities(values));
+    },
+  });
   const handleDeleteCity = (id: string) => {
     dispatch(deleteCity(id));
   };
 
   return (
-    <StyledContainer>
-      <HeaderBox>
-        <Typography variant="h2">Admin Locations</Typography>
-        <LocationsCreateForm />
-      </HeaderBox>
-
-      <TableContainer component={Paper}>
-        <Table aria-label="locations table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Country</TableCell>
-              {/* Add more headers as needed based on your business attributes */}
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {locations &&
-              locations.map((location) => (
-                <TableRow key={location.id}>
-                  <TableCell>{location.adminName}</TableCell>
-                  <TableCell>{location.country}</TableCell>
-                  {/* Add more cells as needed */}
-                  <TableCell>
-                    <Button onClick={() => handleDeleteLocation(location.id)}>
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <TabPanel value={value} index={1}>
+      <form onSubmit={formikCity.handleSubmit}>
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            id="name"
+            name="name"
+            label="Name"
+            value={formikCity.values.name}
+            onChange={formikCity.handleChange}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            fullWidth
+            id="zipcode"
+            name="zipcode"
+            label="Zipcode"
+            multiline
+            value={formikCity.values.zipcode}
+            onChange={formikCity.handleChange}
+          />
+        </Box>
+        <Box mb={2}>
+          <Autocomplete
+            disablePortal
+            id="Locations-Autocomplete"
+            options={locations ?? []}
+            getOptionLabel={(option) => option.adminName}
+            fullWidth
+            onChange={(event, value) => {
+              formikCity.values.locationId = value?.id ?? "";
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Location" variant="standard" />
+            )}
+          />
+        </Box>
+        <Button
+          color="primary"
+          variant="contained"
+          fullWidth
+          type="submit"
+          disabled={formikCity.isSubmitting}
+        >
+          Create
+        </Button>
+      </form>
 
       <TableContainer component={Paper}>
         <Table aria-label="cities table">
@@ -275,7 +266,7 @@ export const AdminLocations = (): JSX.Element => {
             {cities &&
               cities.map((city) => (
                 <TableRow key={city.id}>
-                  <TableCell >{city.name}</TableCell>
+                  <TableCell>{city.name}</TableCell>
                   {/* Add more cells as needed */}
                   <TableCell align="right">
                     <Button onClick={() => handleDeleteCity(city.id)}>
@@ -287,6 +278,6 @@ export const AdminLocations = (): JSX.Element => {
           </TableBody>
         </Table>
       </TableContainer>
-    </StyledContainer>
+    </TabPanel>
   );
 };
