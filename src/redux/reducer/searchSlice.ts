@@ -36,8 +36,9 @@ export const searchSlice = createSlice({
     setOpen: (state, action: PayloadAction<number>) => {
       state.searchQuery.openOn = action.payload;
     },
-    onUpdate: (state, action: PayloadAction<SearchState>) => {
-      state.searchQuery = action.payload.searchQuery;
+    onUpdate: (state, action: PayloadAction<SearchQuery>) => {
+      state.searchQuery = action.payload;
+      console.log("onUpdate", action.payload);
     },
     reset: (state) => {
       state.searchQuery = initialState.searchQuery;

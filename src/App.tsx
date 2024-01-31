@@ -15,6 +15,8 @@ import { AdminCategories } from "./containers/Admin/AdminCategories";
 import { AdminTypes } from "./containers/Admin/AdminTypes";
 import { AdminLocations } from "./containers/Admin/AdminLocations";
 import { BusinessCreateForm } from "./containers/Admin/AdminNewBusiness";
+import SignInForm from "./containers/Login";
+import SignUpForm from "./containers/SignUp";
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -34,10 +36,15 @@ const App = (): JSX.Element => {
         <Route path="/" element={<Homepage />} />
         <Route path="/businesses" element={<Businesses />} />
         <Route path="/businesses/:id" element={<Business />} />
+        <Route path="/login" element={<SignInForm />} />
+        <Route path="/signup" element={<SignUpForm />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/regions" element={<AdminLocations />} />
         <Route path="/admin/businesses" element={<AdminBusinesses />} />
-        <Route path="/admin/businesses/create" element={<BusinessCreateForm />} />
+        <Route
+          path="/admin/businesses/create"
+          element={<BusinessCreateForm />}
+        />
         <Route path="/admin/categories" element={<AdminCategories />} />
         <Route path="/admin/types" element={<AdminTypes />} />
         <Route path="*" element={<h1>Not Found</h1>} />

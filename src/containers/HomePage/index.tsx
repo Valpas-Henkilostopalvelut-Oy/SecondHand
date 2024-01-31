@@ -7,13 +7,16 @@ import {
   Grid,
   TextField,
   Button,
+  InputAdornment,
   Autocomplete,
 } from "@mui/material";
 import img from "./homepage.jpg";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { search } from "../../redux/reducer/searchSlice";
 import { Link } from "react-router-dom";
-import { BusinessType } from "../../types/businessType";
+import SearchIcon from "@mui/icons-material/Search";
+import { SearchQuery } from "../../types/search";
+import { onUpdate } from "../../redux/reducer/searchSlice";
 
 const HomeMainImage = styled(Box)(({ theme }) => ({
   backgroundImage: `url(${img})`,
@@ -24,12 +27,6 @@ const HomeTypography = styled(Typography)(({ theme }) => ({
   color: "#fff",
 }));
 
-const HomeBox = styled(Box)(({ theme }) => ({
-  backgroundColor: "#fff",
-  padding: "20px",
-  borderRadius: "3px",
-}));
-
 const HomeContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -37,22 +34,102 @@ const HomeContainer = styled(Container)(({ theme }) => ({
   gap: "50px",
 }));
 
-export const Homepage = (): JSX.Element => {
+const SearchInput = (): JSX.Element => {
   const dispatch = useAppDispatch();
+  const [searchQuery, setSearchQuery] = useState<SearchQuery>({
+    search: "",
+    type: null,
+    adminName: null,
+  });
 
   const {
-    business: {
-      search: { searchQuery: values },
-    },
     typeSlice: { businessTypes },
     locationSlice: { locations },
   } = useAppSelector((state) => state);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    dispatch(search({ ...values, [name]: value }));
-  };
+  useEffect(() => {
+    dispatch(onUpdate(searchQuery));
+  }, [searchQuery, dispatch]);
 
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        p: 2,
+        bgcolor: "background.paper",
+        borderRadius: 1,
+      }}
+    >
+      <Box sx={{ width: "25%" }}>
+        <TextField
+          id="search-field"
+          name="search"
+          label="Hae..."
+          variant="outlined"
+          value={searchQuery.search}
+          onChange={(e) => {
+            setSearchQuery({ ...searchQuery, search: e.target.value });
+          }}
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+      <Box sx={{ width: "25%" }}>
+        <Autocomplete
+          id="type-select"
+          fullWidth
+          options={businessTypes ?? []}
+          getOptionLabel={(option) => option.name}
+          value={searchQuery.type}
+          onChange={(e, value) => {
+            setSearchQuery({ ...searchQuery, type: value });
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Tyyppi" variant="outlined" />
+          )}
+        />
+      </Box>
+      <Box sx={{ width: "25%" }}>
+        <Autocomplete
+          id="location-select"
+          fullWidth
+          options={locations ?? []}
+          getOptionLabel={(option) => option.adminName}
+          value={searchQuery.adminName}
+          onChange={(e, value) => {
+            setSearchQuery({ ...searchQuery, adminName: value });
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Sijainti" variant="outlined" />
+          )}
+        />
+      </Box>
+      <Box sx={{ width: "25%" }}>
+        <Button
+          fullWidth
+          variant="contained"
+          component={Link}
+          to={`/businesses`}
+          onClick={() => {
+            search(searchQuery);
+          }}
+        >
+          Hae
+        </Button>
+      </Box>
+    </Box>
+  );
+};
+
+export const Homepage = (): JSX.Element => {
   return (
     <HomeMainImage>
       <HomeContainer>
@@ -63,51 +140,7 @@ export const Homepage = (): JSX.Element => {
             paikassa
           </HomeTypography>
         </Box>
-        <HomeBox>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={3}>
-              <TextField
-                name="search"
-                type="text"
-                label="Hae"
-                onChange={handleChange}
-                value={values.search}
-                fullWidth
-                variant="standard"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Autocomplete
-                disablePortal
-                id="Types-Autocomplete"
-                options={businessTypes ?? []}
-                fullWidth
-                onChange={(event, value) => {
-                  dispatch(search({ ...values, type: value }));
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Typpi" variant="standard" />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Autocomplete
-                disablePortal
-                id="Area-Autocomplete"
-                options={locations ?? []}
-                onChange={(event, value) => {
-                  dispatch(search({ ...values, adminName: value }));
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Alue" variant="standard" />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Link to="/businesses">Hae</Link>
-            </Grid>
-          </Grid>
-        </HomeBox>
+        <SearchInput />
       </HomeContainer>
     </HomeMainImage>
   );

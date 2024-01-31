@@ -14,6 +14,8 @@ import {
   SwipeableDrawer,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
+import { LazyTypes } from "../../models";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -52,6 +54,7 @@ export const Header = (): JSX.Element => {
   const handleOpen = () => setOpenNav(true);
   const handleAccountClose = () => setOpenAccount(false);
   const handleAccountOpen = () => setOpenAccount(true);
+  const { businessTypes } = useAppSelector((state) => state.typeSlice);
 
   return (
     <>
@@ -72,20 +75,12 @@ export const Header = (): JSX.Element => {
               <HeaderBox>
                 <HeaderNavButtons>
                   <NavigationButton to="/">Etusivu</NavigationButton>
-                  <NavigationButton to="/businesses">
-                    Kirpputori
-                  </NavigationButton>
-                  <NavigationButton to="/businesses">Kaupat</NavigationButton>
-                  <NavigationButton to="/businesses">
-                    Galleriat
-                  </NavigationButton>
-                  <NavigationButton to="/businesses">
-                    Huutokaupat
-                  </NavigationButton>
-                  <NavigationButton to="/businesses">
-                    Tapahtumat
-                  </NavigationButton>
-                  <NavigationButton to="/businesses">Palveut</NavigationButton>
+                  {businessTypes &&
+                    businessTypes.map((type) => (
+                      <NavigationButton to={`/businesses`} key={type.id}>
+                        {type.name}
+                      </NavigationButton>
+                    ))}
                 </HeaderNavButtons>
                 <IconButton onClick={handleAccountOpen}>
                   <AccountCircleIcon />
@@ -112,6 +107,7 @@ export const Header = (): JSX.Element => {
           open={openNav}
           handleClose={handleClose}
           handleOpen={handleOpen}
+          businessTypes={businessTypes}
         />
       )}
       <AccountDrawer
@@ -127,10 +123,12 @@ const NavigationDrawer = ({
   open,
   handleClose,
   handleOpen,
+  businessTypes,
 }: {
   open: boolean;
   handleClose: () => void;
   handleOpen: () => void;
+  businessTypes?: LazyTypes[] | null;
 }): JSX.Element => {
   return (
     <SwipeableDrawer
@@ -148,12 +146,12 @@ const NavigationDrawer = ({
         flexDirection={"column"}
       >
         <NavigationButton to="/">Etusivu</NavigationButton>
-        <NavigationButton to="/businesses">Kirpputori</NavigationButton>
-        <NavigationButton to="/businesses">Kaupat</NavigationButton>
-        <NavigationButton to="/businesses">Galleriat</NavigationButton>
-        <NavigationButton to="/businesses">Huutokaupat</NavigationButton>
-        <NavigationButton to="/businesses">Tapahtumat</NavigationButton>
-        <NavigationButton to="/businesses">Palveut</NavigationButton>
+        {businessTypes &&
+          businessTypes.map((type) => (
+            <NavigationButton to={`/businesses`} key={type.id}>
+              {type.name}
+            </NavigationButton>
+          ))}
       </Box>
     </SwipeableDrawer>
   );
@@ -183,9 +181,9 @@ const AccountDrawer = ({
         display={"flex"}
         flexDirection={"column"}
       >
-        <NavigationButton to="/login">Kirjaudu</NavigationButton>
-        <NavigationButton to="/register">Rekisteröidy</NavigationButton>
         <NavigationButton to="/admin">Admin</NavigationButton>
+        <NavigationButton to="/login">Kirjaudu</NavigationButton>
+        <NavigationButton to="/signup">Rekisteröidy</NavigationButton>
       </Box>
     </SwipeableDrawer>
   );

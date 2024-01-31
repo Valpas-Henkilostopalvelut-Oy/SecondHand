@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "kirppis9e209ebe_identitypool_9e209ebe",
-    "allowUnauthenticatedIdentities": true,
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "kirppi9e209ebe",
     "userPoolName": "kirppis9e209ebe_userpool_9e209ebe",
     "autoVerifiedAttributes": [
@@ -14,8 +14,8 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Your verification code",
-    "emailVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Action Required: Confirm Your Email Address",
+    "emailVerificationMessage": "Hello,\n\nThank you for registering with us. To complete your registration and verify your email address, please use the verification code provided below:\n\nVerification Code: {####}\n\nPlease enter this code in the provided field on the verification page. This code is valid for 30 minutes and is for one-time use only.\n\nIf you did not initiate this request, please ignore this email or contact support if you have concerns about unauthorized activity.\n\nThank you,\nSecondHand Finland",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
@@ -25,12 +25,8 @@
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
-    "userpoolClientWriteAttributes": [
-      "email"
-    ],
-    "userpoolClientReadAttributes": [
-      "email"
-    ],
+    "userpoolClientWriteAttributes": [],
+    "userpoolClientReadAttributes": [],
     "userpoolClientLambdaRole": "kirppi9e209ebe_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
     "sharedId": "9e209ebe",
@@ -41,14 +37,11 @@
     "usernameAttributes": [
       "email"
     ],
-    "userPoolGroups": true,
-    "adminQueries": true,
+    "userPoolGroups": false,
+    "adminQueries": false,
     "triggers": {},
     "hostedUI": false,
-    "userPoolGroupList": [
-      "Admin",
-      "User"
-    ],
+    "userPoolGroupList": [],
     "adminQueryGroup": "Admin",
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
@@ -66,6 +59,11 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": []
+    "dependsOn": [],
+    "authProviders": [],
+    "parentStack": {
+      "Ref": "AWS::StackId"
+    },
+    "permissions": []
   }
 }

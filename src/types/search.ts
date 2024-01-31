@@ -8,8 +8,8 @@ export interface SearchQuery {
   type: Types | null;
   category?: Categories | null;
   adminName: Locations | null;
-  city: Cities | null;
-  orderBy: string | null;
+  city?: Cities | null;
+  orderBy?: string | null;
 }
 export interface SearchState {
   searchQuery: SearchQuery;
