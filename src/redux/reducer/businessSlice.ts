@@ -210,6 +210,6 @@ export const businessSlice = createSlice({
 export const { reset } = businessSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectBusinesses = (state: RootState) => state.business.businesses;
+//export const selectBusinesses = (state: RootState) => state.business.businesses;
 
 export default businessSlice.reducer;

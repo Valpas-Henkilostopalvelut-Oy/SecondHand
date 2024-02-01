@@ -10,6 +10,7 @@ import businessSlice from "./reducer/businessSlice";
 import typeSlice from "./reducer/typeSlice";
 import categoriesSlice from "./reducer/categoriesSlice";
 import locationSlice from "./reducer/locationSlice";
+import application from "./reducer/application";
 
 const business = combineReducers({
   search: searchSlice,
@@ -22,6 +23,7 @@ export const store = configureStore({
     typeSlice,
     categoriesSlice,
     locationSlice,
+    application,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -4,6 +4,8 @@ import { fetchBusinessTypes } from "./redux/reducer/typeSlice";
 import { fetchBusinesses } from "./redux/reducer/businessSlice";
 import { fetchCategories } from "./redux/reducer/categoriesSlice";
 import { fetchLocations, fetchCities } from "./redux/reducer/locationSlice";
+import { loadLoggedUser } from "./redux/reducer/application";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Homepage } from "./containers/HomePage";
@@ -27,6 +29,7 @@ const App = (): JSX.Element => {
     dispatch(fetchCategories());
     dispatch(fetchLocations());
     dispatch(fetchCities());
+    dispatch(loadLoggedUser());
   }, [dispatch]);
 
   return (

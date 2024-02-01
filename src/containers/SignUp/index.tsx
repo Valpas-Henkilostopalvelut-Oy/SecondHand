@@ -1,28 +1,18 @@
 import React, { useState } from "react";
 import { Button, TextField, Box, Container } from "@mui/material";
-import { confirmSignUp, signUp } from "aws-amplify/auth";
 import { useFormik } from "formik";
+import { signUpUser, confirmSignUpUser } from "../../redux/reducer/application";
+import { useAppDispatch } from "../../redux/hooks";
 
 const SignUpForm = () => {
+  const dispatch = useAppDispatch();
   const [isConfirmation, setIsConfirmation] = useState(false);
   const signUpForm = useFormik({
     initialValues: {
       password: "",
       email: "",
     },
-    onSubmit: async (values) => {
-      try {
-        const signUpResponse = await signUp({
-          username: values.email,
-          password: values.password,
-         
-        });
-        console.log(signUpResponse);
-        setIsConfirmation(true);
-      } catch (error) {
-        console.error("Error signing up:", error);
-      }
-    },
+    onSubmit: async (values) => dispatch(signUpUser(values)),
   });
 
   const confirmationForm = useFormik({
@@ -30,16 +20,12 @@ const SignUpForm = () => {
       confirmationCode: "",
     },
     onSubmit: async (values) => {
-      try {
-        const confirmSignUpResponse = await confirmSignUp({
-          username: signUpForm.values.email,
-          confirmationCode: values.confirmationCode,
-        });
-        console.log(confirmSignUpResponse);
-        // Handle navigation or state update after successful confirmation
-      } catch (error) {
-        console.error("Error confirming sign up:", error);
-      }
+      dispatch(
+        confirmSignUpUser({
+          email: signUpForm.values.email,
+          code: values.confirmationCode,
+        })
+      );
     },
   });
 
