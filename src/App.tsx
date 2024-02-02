@@ -17,6 +17,8 @@ import { AdminCategories } from "./containers/Admin/AdminCategories";
 import { AdminTypes } from "./containers/Admin/AdminTypes";
 import { AdminLocations } from "./containers/Admin/AdminLocations";
 import { BusinessCreateForm } from "./containers/Admin/AdminNewBusiness";
+import AdminLocationEdit from "./containers/Admin/AdminLocationEdit";
+import AdminTypesEdit from "./containers/Admin/AdminTypesEdit";
 import SignInForm from "./containers/Login";
 import SignUpForm from "./containers/SignUp";
 
@@ -43,6 +45,8 @@ const App = (): JSX.Element => {
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/regions" element={<AdminLocations />} />
+        <Route path="/admin/regions/:id/edit" element={<AdminLocationEdit />} />
+        <Route path="/admin/types/:id/edit" element={<AdminTypesEdit />} />
         <Route path="/admin/businesses" element={<AdminBusinesses />} />
         <Route
           path="/admin/businesses/create"

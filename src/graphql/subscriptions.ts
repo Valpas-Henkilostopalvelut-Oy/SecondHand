@@ -89,6 +89,7 @@ export const onCreateLocations = /* GraphQL */ `subscription OnCreateLocations($
     }
     adminName
     country
+    image
     createdAt
     updatedAt
     _version
@@ -116,6 +117,7 @@ export const onUpdateLocations = /* GraphQL */ `subscription OnUpdateLocations($
     }
     adminName
     country
+    image
     createdAt
     updatedAt
     _version
@@ -143,6 +145,7 @@ export const onDeleteLocations = /* GraphQL */ `subscription OnDeleteLocations($
     }
     adminName
     country
+    image
     createdAt
     updatedAt
     _version

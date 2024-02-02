@@ -31,10 +31,7 @@ import { Link } from "react-router-dom";
 import { getUrl } from "@aws-amplify/storage";
 import { Types, Locations } from "../../models";
 import placeholder from "../../assets/images/placeholder.png";
-import {
-  trimStringToNChars,
-  trimStringToNWords,
-} from "../../utils/wordService";
+import { trimStringToNChars } from "../../utils/wordService";
 
 const OpenOnButton = styled(Button)(({ theme }) => ({
   // width 50% - 2px
@@ -68,7 +65,9 @@ const TypeCard = ({
     };
     handleGetImage();
   }, [type.image]);
+
   const handleFetchBusinessesShortByType = () => {
+    console.log("fetchBusinessesShortByType");
     dispatch(fetchBusinessesShortByType(type.id)).then(() => {
       if (handleClose) {
         handleClose();
@@ -79,7 +78,7 @@ const TypeCard = ({
     <Card>
       <CardMedia
         component="img"
-        height="140"
+        height="180"
         image={image ?? placeholder}
         alt={type.name}
       />
@@ -105,6 +104,7 @@ const RegionCard = ({
   handleClose?: () => void;
 }): JSX.Element => {
   const dispatch = useAppDispatch();
+  const [image, setImage] = useState<string | null>(null);
   const handleFetchBusinessesShortByLocation = () => {
     dispatch(fetchBusinessesShortByRegion(location.id)).then(() => {
       if (handleClose) {
@@ -113,8 +113,25 @@ const RegionCard = ({
     });
   };
 
+  useEffect(() => {
+    const handleGetImage = async () => {
+      if (location.image) {
+        getUrl({
+          key: location.image,
+        }).then((result) => setImage(result.url.toString()));
+      }
+    };
+    handleGetImage();
+  }, [location.image]);
+
   return (
     <Card>
+      <CardMedia
+        component="img"
+        height="200"
+        image={image ?? placeholder}
+        alt={location.adminName}
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {location.adminName}
@@ -501,6 +518,10 @@ const RegionSelect = ({
         padding={"10px 0px"}
         flexDirection={"column"}
         gap={"10px"}
+        style={{
+          overflow: "auto",
+          maxHeight: "80vh",
+        }}
       >
         {locations?.map((location) => (
           <Box key={location.id}>
@@ -536,6 +557,10 @@ const TypeSelect = ({
         padding={"10px 0px"}
         flexDirection={"column"}
         gap={"10px"}
+        style={{
+          overflow: "auto",
+          maxHeight: "80vh",
+        }}
       >
         {businessTypes?.map((type) => (
           <Box key={type.id}>

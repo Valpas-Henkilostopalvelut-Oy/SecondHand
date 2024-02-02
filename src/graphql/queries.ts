@@ -94,6 +94,7 @@ export const getLocations = /* GraphQL */ `query GetLocations($id: ID!) {
     }
     adminName
     country
+    image
     createdAt
     updatedAt
     _version
@@ -116,6 +117,7 @@ export const listLocations = /* GraphQL */ `query ListLocations(
       id
       adminName
       country
+      image
       createdAt
       updatedAt
       _version
@@ -148,6 +150,7 @@ export const syncLocations = /* GraphQL */ `query SyncLocations(
       id
       adminName
       country
+      image
       createdAt
       updatedAt
       _version

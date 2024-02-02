@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { DataStore } from "aws-amplify/datastore";
+import { DataStore, SortDirection } from "aws-amplify/datastore";
 import { Locations, Cities } from "../../models";
 import { City, Location, LocationsState } from "../../types/locations";
 
@@ -9,6 +9,22 @@ const initialState: LocationsState = {
   isLoading: false,
   cities: null,
 };
+
+export const updateLocations = createAsyncThunk(
+  "locations/updateLocations",
+  async ({ id, newData }: { id?: string | null; newData: Location }) => {
+    const dataToUpdate = await DataStore.query(Locations, id ?? "");
+    if (!dataToUpdate) throw new Error("Location not found");
+    const result = await DataStore.save(
+      Locations.copyOf(dataToUpdate, (updated) => {
+        updated.adminName = newData.adminName;
+        updated.country = newData.country;
+        updated.image = newData?.image ?? "";
+      })
+    );
+    return result;
+  }
+);
 
 export const createLocation = createAsyncThunk(
   "locations/createLocation",
@@ -22,7 +38,9 @@ export const createLocation = createAsyncThunk(
 export const fetchLocations = createAsyncThunk(
   "locations/fetchLocations",
   async () => {
-    const result = await DataStore.query(Locations);
+    const result = await DataStore.query(Locations, null, {
+      sort: (c) => c.adminName(SortDirection.ASCENDING),
+    });
     return result;
   }
 );

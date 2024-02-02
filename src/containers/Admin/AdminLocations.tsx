@@ -26,6 +26,7 @@ import {
   deleteLocation,
 } from "../../redux/reducer/locationSlice";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -72,7 +73,7 @@ const LocationsCreateForm = (): JSX.Element => {
   };
 
   return (
-    <StyledContainer>
+    <Box>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -83,7 +84,7 @@ const LocationsCreateForm = (): JSX.Element => {
       </Tabs>
       <LocationTab value={value} />
       <CityTab value={value} />
-    </StyledContainer>
+    </Box>
   );
 };
 
@@ -91,7 +92,7 @@ export const AdminLocations = (): JSX.Element => {
   return (
     <StyledContainer>
       <HeaderBox>
-        <Typography variant="h2">Admin Locations</Typography>
+        <Typography variant="h3">Admin Locations</Typography>
       </HeaderBox>
       <LocationsCreateForm />
     </StyledContainer>
@@ -171,6 +172,9 @@ const LocationTab = ({ value }: { value: number }): JSX.Element => {
                     <TableCell>{location.country}</TableCell>
                     {/* Add more cells as needed */}
                     <TableCell align="right">
+                      <Link to={`/admin/regions/${location.id}/edit`}>
+                        Edit
+                      </Link>
                       <Button onClick={() => handleDeleteLocation(location.id)}>
                         Delete
                       </Button>

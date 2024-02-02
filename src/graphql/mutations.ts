@@ -101,6 +101,7 @@ export const createLocations = /* GraphQL */ `mutation CreateLocations(
     }
     adminName
     country
+    image
     createdAt
     updatedAt
     _version
@@ -131,6 +132,7 @@ export const updateLocations = /* GraphQL */ `mutation UpdateLocations(
     }
     adminName
     country
+    image
     createdAt
     updatedAt
     _version
@@ -161,6 +163,7 @@ export const deleteLocations = /* GraphQL */ `mutation DeleteLocations(
     }
     adminName
     country
+    image
     createdAt
     updatedAt
     _version

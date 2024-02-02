@@ -138,6 +138,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "image": {
+                    "name": "image",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -208,7 +215,7 @@ export const schema = {
                     "name": "zipcode",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "Businesses": {
@@ -1035,5 +1042,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "ee33ca5c1b6694bf47ec00a2b424084a"
+    "version": "f645755ef13097e0cb9f9b7a11761e01"
 };

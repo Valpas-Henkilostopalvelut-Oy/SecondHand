@@ -24,16 +24,19 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type LocationsCreateFormInputValues = {
     adminName?: string;
     country?: string;
+    image?: string;
 };
 export declare type LocationsCreateFormValidationValues = {
     adminName?: ValidationFunction<string>;
     country?: ValidationFunction<string>;
+    image?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type LocationsCreateFormOverridesProps = {
     LocationsCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     adminName?: PrimitiveOverrideProps<TextFieldProps>;
     country?: PrimitiveOverrideProps<TextFieldProps>;
+    image?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type LocationsCreateFormProps = React.PropsWithChildren<{
     overrides?: LocationsCreateFormOverridesProps | undefined | null;

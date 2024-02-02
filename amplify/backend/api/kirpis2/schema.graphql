@@ -52,13 +52,14 @@ type Locations @model @auth(rules: [{allow: public}]) {
   Cities: [Cities] @hasMany(indexName: "byLocations", fields: ["id"])
   adminName: String!
   country: String!
+  image: String
 }
 
 type Cities @model @auth(rules: [{allow: public}]) {
   id: ID!
   locationId: ID! @index(name: "byLocations")
   name: String!
-  zipcode: String!
+  zipcode: String
   Businesses: [Businesses] @hasMany(indexName: "byCities", fields: ["id"])
 }
 

@@ -1,13 +1,8 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BusinessState, BusinessShort, Business } from "../../types/businesses";
 import searchBusinesses from "../../utils/searchBusinesses";
 import { SearchQuery } from "../../types/search";
-import {
-  DataStore,
-  PaginationInput,
-  SortDirection,
-} from "aws-amplify/datastore";
+import { DataStore, SortDirection } from "aws-amplify/datastore";
 import { Businesses } from "../../models";
 
 // Define a type for the slice state
@@ -83,10 +78,10 @@ export const fetchBusinessesShortByType = createAsyncThunk(
 export const fetchBusinessesShortByRegion = createAsyncThunk(
   "businesses/fetchBusinessesShortByRegion",
   async (regionId: string) => {
-    const result = await DataStore.query(
-      Businesses,
-      (c) => c.locationsID.eq(regionId) // Filter by type
+    const result = await DataStore.query(Businesses, (c) =>
+      c.locationsID.eq(regionId)
     );
+    console.log("fetchBusinessesShortByRegion", result);
     const resultShort: BusinessShort[] = result.map((business) => ({
       id: business.id,
       name: business.name,
@@ -202,6 +197,17 @@ export const businessSlice = createSlice({
         );
       })
       .addCase(deleteBusiness.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(fetchBusinessesShortByRegion.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchBusinessesShortByRegion.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.businessesShort = action.payload;
+      })
+      .addCase(fetchBusinessesShortByRegion.rejected, (state) => {
         state.isLoading = false;
       });
   },

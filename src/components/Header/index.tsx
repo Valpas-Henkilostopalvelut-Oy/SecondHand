@@ -47,7 +47,6 @@ const NavigationButton = styled(Link)(({ theme }) => ({
 }));
 
 export const Header = (): JSX.Element => {
-  const dispatch = useAppDispatch();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [openNav, setOpenNav] = useState(false);

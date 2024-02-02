@@ -156,6 +156,7 @@ type EagerLocations = {
   readonly Cities?: (Cities | null)[] | null;
   readonly adminName: string;
   readonly country: string;
+  readonly image?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -170,6 +171,7 @@ type LazyLocations = {
   readonly Cities: AsyncCollection<Cities>;
   readonly adminName: string;
   readonly country: string;
+  readonly image?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -188,7 +190,7 @@ type EagerCities = {
   readonly id: string;
   readonly locationId: string;
   readonly name: string;
-  readonly zipcode: string;
+  readonly zipcode?: string | null;
   readonly Businesses?: (Businesses | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
@@ -202,7 +204,7 @@ type LazyCities = {
   readonly id: string;
   readonly locationId: string;
   readonly name: string;
-  readonly zipcode: string;
+  readonly zipcode?: string | null;
   readonly Businesses: AsyncCollection<Businesses>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;

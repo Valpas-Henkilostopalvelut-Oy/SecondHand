@@ -3,6 +3,7 @@ import { Locations, Cities } from "../models";
 export interface Location {
   adminName: string;
   country: string;
+  image?: string | null;
 }
 
 export interface City {

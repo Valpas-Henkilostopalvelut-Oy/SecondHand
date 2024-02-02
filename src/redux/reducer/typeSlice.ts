@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { BusinessType, BusinessTypesState } from "../../types/businessType";
-import { DataStore } from "aws-amplify/datastore";
+import { DataStore, SortDirection } from "aws-amplify/datastore";
 import { Types } from "../../models";
 
 const initialState: BusinessTypesState = {
@@ -20,7 +20,9 @@ export const createBusinessType = createAsyncThunk(
 export const fetchBusinessTypes = createAsyncThunk(
   "businessTypes/fetchBusinessTypes",
   async () => {
-    const result = await DataStore.query(Types);
+    const result = await DataStore.query(Types, null, {
+      sort: (c) => c.name(SortDirection.ASCENDING),
+    });
     return result;
   }
 );
@@ -35,28 +37,19 @@ export const deleteBusinessType = createAsyncThunk(
 
 export const updateBusinessType = createAsyncThunk(
   "businessTypes/updateBusinessType",
-  async (type?: BusinessType | null) => {
-    if (!type) throw new Error("Type not found");
-    const toUpdate = await DataStore.query(Types, type?.id ?? "");
-    if (!toUpdate) throw new Error("Type not found");
+  async ({
+    id,
+    newData,
+  }: {
+    id?: string | null;
+    newData?: BusinessType | null;
+  }) => {
+    const dataToUpdate = await DataStore.query(Types, id ?? "");
+    if (!dataToUpdate) throw new Error("Type not found");
     const result = await DataStore.save(
-      Types.copyOf(toUpdate, (updated) => {
-        updated.name = type.name;
-      })
-    );
-    return result;
-  }
-);
-
-export const updateTypeImage = createAsyncThunk(
-  "businessTypes/updateTypeImage",
-  async ({ image, id }: { image?: string | null; id?: string | null }) => {
-    if (!id) throw new Error("Type not found");
-    const toUpdate = await DataStore.query(Types, id ?? "");
-    if (!toUpdate) throw new Error("Type not found");
-    const result = await DataStore.save(
-      Types.copyOf(toUpdate, (updated) => {
-        updated.image = image;
+      Types.copyOf(dataToUpdate, (updated) => {
+        updated.name = newData?.name ?? "";
+        updated.image = newData?.image ?? "";
       })
     );
     return result;
@@ -114,19 +107,6 @@ const businessTypeSlice = createSlice({
         );
       })
       .addCase(updateBusinessType.rejected, (state) => {
-        state.isLoading = false;
-      })
-
-      .addCase(updateTypeImage.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(updateTypeImage.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.businessTypes = (state.businessTypes ?? []).map((type) =>
-          type.id === action.payload.id ? action.payload : type
-        );
-      })
-      .addCase(updateTypeImage.rejected, (state) => {
         state.isLoading = false;
       });
   },

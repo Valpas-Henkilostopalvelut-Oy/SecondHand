@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store";
 import {
   getCurrentUser,
   signOut,
@@ -12,8 +11,8 @@ interface ApplicationState {
   isLogged: boolean;
   userId: string | null;
   isConfirmed: boolean;
-  nextStep: "DONE" | "CONFIRM_SIGN_UP" | "COMPLETE_AUTO_SIGN_IN" | null;
-  error: string | null;
+  nextStep: any;
+  error?: string | null;
 }
 
 const initialState: ApplicationState = {
@@ -30,7 +29,6 @@ export const loadLoggedUser = createAsyncThunk(
     try {
       const user = await getCurrentUser();
       if (user) {
-        console.log("user", user);
         return true;
       }
       return false;
@@ -44,11 +42,8 @@ export const signInUser = createAsyncThunk(
   "application/signInUser",
   async ({ username, password }: { username: string; password: string }) => {
     try {
-      const {
-        isSignedIn,
-        nextStep: { signInStep },
-      } = await signIn({ username, password });
-      return { isSignedIn, signInStep };
+      const user = await signIn({ username, password });
+      return user;
       // Handle navigation or state update after successful sign-in
     } catch (error) {
       return error;
@@ -113,6 +108,10 @@ export const applicationSlice = createSlice({
       .addCase(loadLoggedUser.rejected, (state, action) => {
         state.isLogged = false;
       });
+
+    builder.addCase(signInUser.rejected, (state, action) => {
+      state.error = action.error.message;
+    });
   },
   reducers: {
     setLogged: (state, action) => {
