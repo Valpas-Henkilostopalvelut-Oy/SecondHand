@@ -63,6 +63,7 @@ const StyledImg = styled("img")<ImageProps>(({ theme, isMobile }) => ({
   top: 0,
   left: 0,
   aspectRatio: isMobile ? "1 / 1" : "16 / 10",
+  maxHeight: "600px",
 }));
 
 interface TabPanelProps {

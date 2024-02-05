@@ -4,13 +4,17 @@
   "bucketName": "kirppis1c5333e8c4fe429289d7a75233a72389",
   "storageAccess": "authAndGuest",
   "guestAccess": [
-    "CREATE_AND_UPDATE",
-    "READ",
-    "DELETE"
+    "READ"
   ],
   "authAccess": [
     "CREATE_AND_UPDATE",
-    "READ",
-    "DELETE"
-  ]
+    "READ"
+  ],
+  "groupAccess": {
+    "Admin": [
+      "CREATE_AND_UPDATE",
+      "READ",
+      "DELETE"
+    ]
+  }
 }
