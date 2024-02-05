@@ -1,0 +1,5648 @@
+[
+  {
+    "id": "ad05be23-401b-4be6-a32f-6ce4017e5e08",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132067797,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "044 0400370"
+      },
+      "website": {
+        "S": "https://www.xn--kaarinanykkstienkirpputori-mvc.fi/"
+      },
+      "email": {
+        "S": "kykirpputori@gmail.com"
+      }
+    },
+    "createdAt": "2023-06-13T15:28:30.687Z",
+    "description": null,
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "3bi1h5bu0-2017-05-09.jpg"
+          },
+          "id": {
+            "S": "3bi1h5bu0"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "p8m02dscy-2021-03-11.jpg"
+          },
+          "id": {
+            "S": "p8m02dscy"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "20780"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "S": "Kuskinkatu 5"
+      },
+      "lng": {
+        "S": "22.3722"
+      },
+      "city": {
+        "S": "Kaarina"
+      },
+      "population": {
+        "S": "32590"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/LWkaCaaxkBrGnGCK6"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "32590"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7880.8001118187685!2d22.3735372!3d60.4088898!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c70ee2cdc835b%3A0x2e30253678d5dc28!2sKaarinan%20Ykk%C3%B6stien%20Kirpputori!5e0!3m2!1sen!2sfi!4v1686669912577!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.4069"
+      }
+    },
+    "logo": "",
+    "name": "Ykköstien kirppis",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669840060"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669846574"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669852086"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669857789"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669864876"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669874044"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T12:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669884529"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/profile.php?id=100063651753069"
+      }
+    },
+    "type": "fleamarket",
+    "updatedAt": "2023-06-30T13:34:27.758Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "bed82c20-4c42-4209-8cd7-7d6e1fd433d8",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132080697,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "040 769 0890"
+      },
+      "website": {
+        "NULL": true
+      },
+      "email": {
+        "NULL": true
+      }
+    },
+    "createdAt": "2023-06-13T15:11:25.671Z",
+    "description": null,
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "a6v95q021-2023-01-06.jpg"
+          },
+          "id": {
+            "S": "a6v95q021"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "ejm142cq6-2022-03-22.jpg"
+          },
+          "id": {
+            "S": "ejm142cq6"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "24240"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "S": "Vilhonkatu 22"
+      },
+      "lng": {
+        "S": "23.1331"
+      },
+      "city": {
+        "S": "Salo"
+      },
+      "population": {
+        "S": "53890"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/DRhZWuHaWawap8fa8"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "53890"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7885.729478104026!2d23.1193966!3d60.3885363!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c47ab4835d2f1%3A0x6b59cefa1e5cdd80!2sAarresaari!5e0!3m2!1sen!2sfi!4v1686668794062!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.3831"
+      }
+    },
+    "logo": "",
+    "name": "Aarresaari",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:22.209Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:22.210Z"
+          },
+          "id": {
+            "S": "1686668734908"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:22.209Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:22.210Z"
+          },
+          "id": {
+            "S": "1686668740825"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:22.209Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:22.210Z"
+          },
+          "id": {
+            "S": "1686668747799"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:22.209Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:22.210Z"
+          },
+          "id": {
+            "S": "1686668754053"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:22.209Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:22.210Z"
+          },
+          "id": {
+            "S": "1686668762412"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:22.209Z"
+          },
+          "end": {
+            "S": "2023-06-13T12:00:22.210Z"
+          },
+          "id": {
+            "S": "1686668771074"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:22.209Z"
+          },
+          "end": {
+            "S": "2023-06-13T12:00:22.210Z"
+          },
+          "id": {
+            "S": "1686668786137"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/kirppis_aarresaari/?h%2F=fi"
+      },
+      "facebook": {
+        "S": "https://fi-fi.facebook.com/pages/Aarresaari/236434926432701"
+      }
+    },
+    "type": "fleamarket",
+    "updatedAt": "2023-06-30T13:34:40.661Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "9c297aa5-1c9f-4e71-ae7b-aff0d56610e8",
+    "__typename": "Store",
+    "_lastChangedAt": 1689328775868,
+    "_version": 1,
+    "categories": [
+      {
+        "M": {
+          "name": {
+            "S": "Design"
+          },
+          "id": {
+            "S": "41b29b10-604e-4a37-9dca-4588fd15affa"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Kalusteet"
+          },
+          "id": {
+            "S": "6c5dac73-a36c-45e7-8fe0-afc6c516e8e5"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Valasisimet"
+          },
+          "id": {
+            "S": "2b207dee-0091-489a-bcff-e28c7db0c45e"
+          }
+        }
+      }
+    ],
+    "contact": {
+      "phone": {
+        "NULL": true
+      },
+      "website": {
+        "NULL": true
+      },
+      "email": {
+        "NULL": true
+      }
+    },
+    "createdAt": "2023-07-14T09:59:35.846Z",
+    "description": null,
+    "imgs": [],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "S": "33200"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": "Hämeenpuisto 43-45"
+      },
+      "lng": {
+        "S": "23.7608"
+      },
+      "city": {
+        "S": "Tampere"
+      },
+      "population": {
+        "S": "225118"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/aubyctQK94KuvLK4A"
+      },
+      "admin_name": {
+        "S": "Pirkanmaa"
+      },
+      "population_proper": {
+        "S": "225118"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1904.1377059909353!2d23.75116127645354!3d61.494101775734144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468ed8ac324f1d6d%3A0x70b42546eda5ccf0!2sGusta%20Design!5e0!3m2!1sfi!2sfi!4v1689328392897!5m2!1sfi!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "61.4981"
+      }
+    },
+    "logo": null,
+    "name": "Gusto Design + Mirantik",
+    "opentimes": [
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Maanantai"
+          },
+          "id": {
+            "S": "1689328147104"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Tiistai"
+          },
+          "id": {
+            "S": "1689328151756"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T09:00:54.521Z"
+          },
+          "end": {
+            "S": "2023-07-14T14:00:54.524Z"
+          },
+          "id": {
+            "S": "1689328161135"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Torstai"
+          },
+          "id": {
+            "S": "1689328165573"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T09:00:54.521Z"
+          },
+          "end": {
+            "S": "2023-07-14T14:00:54.524Z"
+          },
+          "id": {
+            "S": "1689328172467"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T08:00:54.521Z"
+          },
+          "end": {
+            "S": "2023-07-14T12:00:54.524Z"
+          },
+          "id": {
+            "S": "1689328183669"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1689328190046"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/gustadesigntre/?hl=fi"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/gustadesigntre/?locale=fi_FI"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-14T09:59:35.846Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  },
+  {
+    "id": "85c72dda-291f-4cfe-be3f-521ceb0bf42b",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132077313,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "040 500 7310"
+      },
+      "website": {
+        "S": "https://secondhandmarket.fi/"
+      },
+      "email": {
+        "S": "shm.finland@gmail.com"
+      }
+    },
+    "createdAt": "2023-06-13T14:59:41.673Z",
+    "description": "Salon suosituin kirpputori!",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "2qm6gxcfb-IMG_20170826_112236.jpg"
+          },
+          "id": {
+            "S": "2qm6gxcfb"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "h3jfi1k9d-2022-08-05.jpg"
+          },
+          "id": {
+            "S": "h3jfi1k9d"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "24100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "S": "Tähtelänkatu 1"
+      },
+      "lng": {
+        "S": "23.1331"
+      },
+      "city": {
+        "S": "Salo"
+      },
+      "population": {
+        "S": "53890"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/wozgvMLP9eoxUdyE8"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "53890"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3943.011580586881!2d23.155106772460933!3d60.38732354418902!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c46590a09f877%3A0x4ef829ba4d9bd41!2ssecondhandmarket.fi!5e0!3m2!1sfi!2sfi!4v1686668313936!5m2!1sfi!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.3831"
+      }
+    },
+    "logo": "",
+    "name": "Secondhandmarket.fi",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:24.506Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:24.508Z"
+          },
+          "id": {
+            "S": "1686668210528"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:24.506Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:24.508Z"
+          },
+          "id": {
+            "S": "1686668218706"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:24.506Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:24.508Z"
+          },
+          "id": {
+            "S": "1686668226053"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:24.506Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:24.508Z"
+          },
+          "id": {
+            "S": "1686668233736"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:24.506Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:24.508Z"
+          },
+          "id": {
+            "S": "1686668241284"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:24.506Z"
+          },
+          "end": {
+            "S": "2023-06-13T12:00:24.508Z"
+          },
+          "id": {
+            "S": "1686668251892"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:24.506Z"
+          },
+          "end": {
+            "S": "2023-06-13T12:00:24.508Z"
+          },
+          "id": {
+            "S": "1686668264716"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/secondhandmarket.fi/"
+      }
+    },
+    "type": "fleamarket",
+    "updatedAt": "2023-06-30T13:34:37.274Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "006310ac-1b8d-4b5a-a730-982dd4a9c337",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132083279,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": " 02-2305750"
+      },
+      "website": {
+        "S": "https://mimminkirppis.com/"
+      },
+      "email": {
+        "NULL": true
+      }
+    },
+    "createdAt": "2023-06-13T15:22:20.988Z",
+    "description": null,
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "35qpc7iu1-2019-02-24.jpg"
+          },
+          "id": {
+            "S": "35qpc7iu1"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "zgutsq59t-2022-03-12.jpg"
+          },
+          "id": {
+            "S": "zgutsq59t"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "20740"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": " Kaurakatu 44"
+      },
+      "lng": {
+        "S": "22.2700"
+      },
+      "city": {
+        "S": "Turku"
+      },
+      "population": {
+        "S": "187604"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/xLb5fiiLYWXYqkn59"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "187604"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7876.702193877665!2d22.3015457!3d60.4258071!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c772fdd010fa5%3A0xcc1e9a3e3ab38586!2sMimmin%20Kirppis!5e0!3m2!1sen!2sfi!4v1686669575142!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.4517"
+      }
+    },
+    "logo": "",
+    "name": "Mimmin Kirppis",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:53.500Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:53.501Z"
+          },
+          "id": {
+            "S": "1686669658171"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:53.500Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:53.501Z"
+          },
+          "id": {
+            "S": "1686669664965"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:53.500Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:53.501Z"
+          },
+          "id": {
+            "S": "1686669673323"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:53.500Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:53.501Z"
+          },
+          "id": {
+            "S": "1686669681839"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:53.500Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:53.501Z"
+          },
+          "id": {
+            "S": "1686669689736"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:53.500Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:53.501Z"
+          },
+          "id": {
+            "S": "1686669714316"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:53.500Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:53.501Z"
+          },
+          "id": {
+            "S": "1686669722179"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/mimminkirppis/"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/MimminKirppisTurku"
+      }
+    },
+    "type": "fleamarket",
+    "updatedAt": "2023-06-30T13:34:43.261Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "5c413380-85fa-40e5-9872-a511a1edb2a7",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132085782,
+    "_version": 5,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "+358503432575"
+      },
+      "website": {
+        "S": "https://www.nordisten.com/"
+      },
+      "email": {
+        "S": "contact@nordisten.com"
+      }
+    },
+    "createdAt": "2023-06-13T14:35:04.932Z",
+    "description": "We sell scndinavian modern (1920-1970) design furniture, lighting and decorative items. Welcome!",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "logo_nordisten.png"
+          },
+          "id": {
+            "S": "logo_nordisten"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "aino_aalto_klubituoli.png"
+          },
+          "id": {
+            "S": "aino_aalto_klubituoli"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "294962826_520115143322754_1866171619743121887_n.jpg"
+          },
+          "id": {
+            "S": "294962826_520115143322754_1866171619743121887_n"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "NULL": true
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "NULL": true
+      },
+      "lng": {
+        "S": "22.2700"
+      },
+      "city": {
+        "S": "Turku"
+      },
+      "population": {
+        "S": "187604"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/tfhRuMyXopWoRv7w9"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "187604"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d126003.10444034236!2d22.2242091!3d60.4320325!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e8773f3e33aa691%3A0xffcd247b4d114de4!2sNordisten%20-scandinavian%20vintage%20design!5e0!3m2!1sen!2sfi!4v1686666877598!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.4517"
+      }
+    },
+    "logo": "lnc46cx1vgh.png",
+    "name": "Nordisten",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T04:00:05.298Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:05.300Z"
+          },
+          "id": {
+            "S": "1686666807474"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T06:00:05.298Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:05.300Z"
+          },
+          "id": {
+            "S": "1686666814344"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T06:00:05.298Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:05.300Z"
+          },
+          "id": {
+            "S": "1686666821623"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T06:00:05.298Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:05.300Z"
+          },
+          "id": {
+            "S": "1686666828620"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T06:00:05.298Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:05.300Z"
+          },
+          "id": {
+            "S": "1686666836978"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T06:00:05.298Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:05.300Z"
+          },
+          "id": {
+            "S": "1686666844144"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T06:00:05.298Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:05.300Z"
+          },
+          "id": {
+            "S": "1686666850815"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://instagram.com/Nordisten/"
+      },
+      "facebook": {
+        "S": "http://www.facebook.com/nordistendesign"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-06-30T13:34:45.744Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "17c50a21-0f51-42a3-a45c-87311934dbaa",
+    "__typename": "Store",
+    "_lastChangedAt": 1689157450760,
+    "_version": 1,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "NULL": true
+      },
+      "website": {
+        "NULL": true
+      },
+      "email": {
+        "NULL": true
+      }
+    },
+    "createdAt": "2023-07-12T10:24:10.756Z",
+    "description": null,
+    "imgs": [],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "NULL": true
+      },
+      "country": {
+        "NULL": true
+      },
+      "driveto": {
+        "NULL": true
+      },
+      "address": {
+        "NULL": true
+      },
+      "city": {
+        "NULL": true
+      },
+      "admin_name": {
+        "NULL": true
+      },
+      "iframe": {
+        "NULL": true
+      }
+    },
+    "logo": null,
+    "name": "Salon kirppis",
+    "opentimes": [],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "NULL": true
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-12T10:24:10.756Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  },
+  {
+    "id": "5bc069fe-920c-48ee-b733-3bc8bf12074f",
+    "__typename": "Store",
+    "_lastChangedAt": 1689168557554,
+    "_version": 3,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "0440 883 381"
+      },
+      "website": {
+        "S": "http://www.salonradiokirppis.fi/"
+      },
+      "email": {
+        "S": "asiakaspalvelu@salonradiokirppis.fi"
+      }
+    },
+    "createdAt": "2023-06-13T15:15:53.638Z",
+    "description": null,
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "6cxcky2b1-2022-09-04.jpg"
+          },
+          "id": {
+            "S": "6cxcky2b1"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "9g1lxssbo-IMG_20190320_145335.jpg"
+          },
+          "id": {
+            "S": "9g1lxssbo"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "24100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "S": "Helsingintie 22"
+      },
+      "lng": {
+        "S": "23.1331"
+      },
+      "city": {
+        "S": "Salo"
+      },
+      "population": {
+        "S": "53890"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/jtzyPh36yAMtjym17"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "53890"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7886.148005186672!2d23.1392351!3d60.386808!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c47d26b4fdb9b%3A0xf059aac542650ae1!2sRadiokirppis%20ky!5e0!3m2!1sen!2sfi!4v1686669217157!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.3831"
+      }
+    },
+    "logo": "",
+    "name": "Radiokirppis",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:08.978Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:08.980Z"
+          },
+          "id": {
+            "S": "1686669287507"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:08.978Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:08.980Z"
+          },
+          "id": {
+            "S": "1686669294166"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:08.978Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:08.980Z"
+          },
+          "id": {
+            "S": "1686669301534"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:08.978Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:08.980Z"
+          },
+          "id": {
+            "S": "1686669307980"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:08.978Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:08.980Z"
+          },
+          "id": {
+            "S": "1686669316305"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:08.978Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:08.980Z"
+          },
+          "id": {
+            "S": "1686669328117"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:08.978Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:08.980Z"
+          },
+          "id": {
+            "S": "1686669336249"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/Radiokirppis-Salo-189068944476745/"
+      }
+    },
+    "type": "fleamarket",
+    "updatedAt": "2023-07-12T13:29:17.517Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "10c45302-20d7-4430-ad7d-369370925b2f",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132091084,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "+358505672540"
+      },
+      "website": {
+        "S": "https://www.gallerytarvainen.fi/"
+      },
+      "email": {
+        "S": "janne@gallerytarvainen.fi"
+      }
+    },
+    "createdAt": "2023-06-13T14:39:31.352Z",
+    "description": "Ostamme perikuntien jäämistöt, täydelliset tyhjennykset tai yksittäisiä tavaroita. Romukullasta ja hopeasta huippuhinta! Myös Design klassikoita ja keräilyharvinaisuuksia. Teemme myös arvioita perikunnille tai yksittäisistä tavaroista. Esim. vakuutusta varten. Alkaen 50€/h+alv24% Hinnoitellaan aina tapauskohtaisesti, myös kiinteästi. Kysy lisätietoja. janne@gallerytarvainen.fi 0505672540 Osto, myynti, arviointi, välitys, tilimyynti [provisio] Laadukasta ja luottamuksellista, yli 20vuoden kokemuksella",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "07xvd7xup-2020-11-11.jpg"
+          },
+          "id": {
+            "S": "07xvd7xup"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "l2758xwp6-2021-06-01.jpg"
+          },
+          "id": {
+            "S": "l2758xwp6"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "53100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": "Kauppakatu 23"
+      },
+      "lng": {
+        "S": "28.1861"
+      },
+      "city": {
+        "S": "Lappeenranta"
+      },
+      "population": {
+        "S": "72875"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/eJZ7nxGmLRkwkDVp9"
+      },
+      "admin_name": {
+        "S": "Etelä-Karjala"
+      },
+      "population_proper": {
+        "S": "72875"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7722.450820629459!2d28.1844353!3d61.0605623!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x469095980fe0c871%3A0xbf80ea0431437afe!2sGallery%20Tarvainen!5e0!3m2!1sen!2sfi!4v1686667088788!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "61.0583"
+      }
+    },
+    "logo": "",
+    "name": "Gallery Tarvainen",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:10.921Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:10.923Z"
+          },
+          "id": {
+            "S": "1686667001599"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:10.921Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:10.923Z"
+          },
+          "id": {
+            "S": "1686667010036"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:10.921Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:10.923Z"
+          },
+          "id": {
+            "S": "1686667023602"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:10.921Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:10.923Z"
+          },
+          "id": {
+            "S": "1686667033434"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:10.921Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:10.923Z"
+          },
+          "id": {
+            "S": "1686667043108"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Lauantai"
+          },
+          "id": {
+            "S": "1686667047049"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1686667050800"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/gallerytarvainen/"
+      },
+      "facebook": {
+        "NULL": true
+      }
+    },
+    "type": "galleries",
+    "updatedAt": "2023-06-30T13:34:51.044Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "b5b365a6-7773-43c8-8c11-5db60c9fbb47",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132095013,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "+358 443 233 664"
+      },
+      "website": {
+        "S": "https://fargovintage.fi"
+      },
+      "email": {
+        "S": "info@fargovintage.fi"
+      }
+    },
+    "createdAt": "2023-06-13T12:48:27.382Z",
+    "description": "Fargo Vintage & Design on Helsingissä sijaitseva vanhoihin huonekaluihin ja valaisimiin erikoistunut sisustusliike ja verkkokauppa. Valikoimamme koostuu eritoten pohjoismaisesta 1930-1970-lukujen designista. Kokoelmaa täydentävät eri aikakausien kiinnostavat esineet, joita yhdistelemme rohkeasti designtuotteiden kanssa. Kaikki esineet ovat tiimimme harkitusti valitsemia ja tarpeen mukaan kunnostettuja myynti- ja käyttökelpoisiksi.",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "ofbsl8gql-2023-04-04.jpg"
+          },
+          "id": {
+            "S": "ofbsl8gql"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "69t5qprgz-2023-04-04 (1).jpg"
+          },
+          "id": {
+            "S": "69t5qprgz"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "00170"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "primary"
+      },
+      "address": {
+        "S": "Meritullinkatu 11c"
+      },
+      "lng": {
+        "S": "24.9342"
+      },
+      "city": {
+        "S": "Helsinki"
+      },
+      "population": {
+        "S": "642045"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/koLjyqKWVs3T9RZz9"
+      },
+      "admin_name": {
+        "S": "Uusimaa"
+      },
+      "population_proper": {
+        "S": "642045"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7938.044701905646!2d24.9592873!3d60.1722709!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46920981d1804ccb%3A0x9f2025babf394f15!2sFargo%20Vintage%20%26%20Design!5e0!3m2!1sen!2sfi!4v1686660376325!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.1756"
+      }
+    },
+    "logo": "",
+    "name": "Fargo Vintage & Design",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T11:00:54.477Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:54.479Z"
+          },
+          "id": {
+            "S": "1686660319334"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/fargovintagehelsinki"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/fargovintage"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-06-30T13:34:54.974Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "2c708c7d-b9b5-4832-a483-6877c1889a39",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132102470,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "044 0400370"
+      },
+      "website": {
+        "S": "https://www.xn--kaarinanykkstienkirpputori-mvc.fi/"
+      },
+      "email": {
+        "S": "kykirpputori@gmail.com"
+      }
+    },
+    "createdAt": "2023-06-13T15:28:31.899Z",
+    "description": null,
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "3bi1h5bu0-2017-05-09.jpg"
+          },
+          "id": {
+            "S": "3bi1h5bu0"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "p8m02dscy-2021-03-11.jpg"
+          },
+          "id": {
+            "S": "p8m02dscy"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "20780"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "S": "Kuskinkatu 5"
+      },
+      "lng": {
+        "S": "22.3722"
+      },
+      "city": {
+        "S": "Kaarina"
+      },
+      "population": {
+        "S": "32590"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/LWkaCaaxkBrGnGCK6"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "32590"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7880.8001118187685!2d22.3735372!3d60.4088898!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c70ee2cdc835b%3A0x2e30253678d5dc28!2sKaarinan%20Ykk%C3%B6stien%20Kirpputori!5e0!3m2!1sen!2sfi!4v1686669912577!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.4069"
+      }
+    },
+    "logo": "",
+    "name": "Ykköstien kirppis",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669840060"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669846574"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669852086"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669857789"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669864876"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669874044"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:52.909Z"
+          },
+          "end": {
+            "S": "2023-06-13T12:00:52.910Z"
+          },
+          "id": {
+            "S": "1686669884529"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/profile.php?id=100063651753069"
+      }
+    },
+    "type": "fleamarket",
+    "updatedAt": "2023-06-30T13:35:02.430Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "2e6d5675-57d7-4c3f-92e3-3124594e13ba",
+    "__typename": "Store",
+    "_lastChangedAt": 1689253543423,
+    "_version": 1,
+    "categories": [
+      {
+        "M": {
+          "name": {
+            "S": "Kirjat"
+          },
+          "id": {
+            "S": "16994159-21d5-4e4e-a0c6-ac9634e8abb7"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Design"
+          },
+          "id": {
+            "S": "41b29b10-604e-4a37-9dca-4588fd15affa"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Vintage & Muoti"
+          },
+          "id": {
+            "S": "10491072-cb2a-474c-84b6-8c8b00da132c"
+          }
+        }
+      }
+    ],
+    "contact": {
+      "phone": {
+        "S": "040-5841329 Pia Pulakka"
+      },
+      "website": {
+        "S": "https://www.piijuska.net"
+      },
+      "email": {
+        "S": "pia.pulakka@gmail.com"
+      }
+    },
+    "createdAt": "2023-07-13T13:05:43.400Z",
+    "description": "Yli 300 neliön myymälä retroa, vintagea, designia, antiikkia, secondhandia ja laaja valikoima erikoiskirjallisuutta. Tervetuloa katsomaan mitä kaikkea kaupalta löytyy! Huutokauppoja toimeksiannoista.",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "qy8a09l9z-piijuska-kultalogo-PNG.webp"
+          },
+          "id": {
+            "S": "qy8a09l9z"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "r2fvawyf8-piijuska_Panorama-2000px.webp"
+          },
+          "id": {
+            "S": "r2fvawyf8"
+          }
+        }
+      }
+    ],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "S": "37830"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "S": "Nahkatehtaantie 10"
+      },
+      "lng": {
+        "S": "23.2000"
+      },
+      "city": {
+        "S": "Hämeenkyrö"
+      },
+      "population": {
+        "S": "10667"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/1NLDmuCGZSp2g5qQ7"
+      },
+      "admin_name": {
+        "S": "Pirkanmaa"
+      },
+      "population_proper": {
+        "S": "10667"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1921.6769154126937!2d23.77065867702297!3d61.207090959326194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468eec257f4d9745%3A0x83e84885f5e88c67!2sPiijuska!5e0!3m2!1sfi!2sfi!4v1689252232885!5m2!1sfi!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "61.6333"
+      }
+    },
+    "logo": null,
+    "name": "Piijuska",
+    "opentimes": [
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Maanantai"
+          },
+          "id": {
+            "S": "1689252300421"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Tiistai"
+          },
+          "id": {
+            "S": "1689252304630"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Keskiviikko"
+          },
+          "id": {
+            "S": "1689252308516"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-13T10:00:23.773Z"
+          },
+          "end": {
+            "S": "2023-07-13T15:00:23.775Z"
+          },
+          "id": {
+            "S": "1689252317771"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-13T10:00:23.773Z"
+          },
+          "end": {
+            "S": "2023-07-13T15:00:23.775Z"
+          },
+          "id": {
+            "S": "1689252347916"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-13T08:00:23.773Z"
+          },
+          "end": {
+            "S": "2023-07-13T12:00:23.775Z"
+          },
+          "id": {
+            "S": "1689252358828"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1689252371248"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/piijuskan/"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/piijuskan/?locale=fi_FI"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-13T13:05:43.400Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  },
+  {
+    "id": "f7dc9d3f-2b30-4398-b0b9-44ee4f14ccf2",
+    "__typename": "Store",
+    "_lastChangedAt": 1689585157111,
+    "_version": 2,
+    "categories": [
+      {
+        "M": {
+          "name": {
+            "S": "Keräilyesineet"
+          },
+          "id": {
+            "S": "56af7fcc-b820-4e8f-9362-97c9b51723b1"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Kellot"
+          },
+          "id": {
+            "S": "7f19e971-9766-48af-b94d-78d9e61b2437"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Muut"
+          },
+          "id": {
+            "S": "ba788f07-32fb-4211-832c-afa05ad14c57"
+          }
+        }
+      }
+    ],
+    "contact": {
+      "phone": {
+        "S": "(02) 2505134"
+      },
+      "website": {
+        "S": "https://www.jrsimolin.fi/"
+      },
+      "email": {
+        "S": "info@jrsimolin.fi"
+      }
+    },
+    "createdAt": "2023-07-17T09:11:11.564Z",
+    "description": "Vuodesta 1997 asti  toiminut osto- ja myyntiliike. Ostamme ja myymme lähes kaikkea koti-irtainta.",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "9309sbj4w-Simolin_Lieto_ulko.jpeg"
+          },
+          "id": {
+            "S": "9309sbj4w"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "c9d2rtr60-Simolin_Lieto_sisä.jpeg"
+          },
+          "id": {
+            "S": "c9d2rtr60"
+          }
+        }
+      }
+    ],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "S": "21420"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "S": "Kievarintie 2"
+      },
+      "lng": {
+        "S": "22.4497"
+      },
+      "city": {
+        "S": "Lieto"
+      },
+      "population": {
+        "S": "19263"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/FcXSs7ztPHmQ8MZw5"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "19263"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1964.538185715567!2d22.450890616119985!3d60.50234878208457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c73a6ab56382b%3A0x2514ab47ad71ace0!2sOsto-%20Ja%20Myyntiliike%20Simolin!5e0!3m2!1sfi!2sfi!4v1689584768835!5m2!1sfi!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.5000"
+      }
+    },
+    "logo": null,
+    "name": "Osto- ja Myyntiliike Simolin",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-17T07:00:07.248Z"
+          },
+          "end": {
+            "S": "2023-07-17T14:00:07.249Z"
+          },
+          "id": {
+            "S": "1689584586254"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-17T07:00:07.248Z"
+          },
+          "end": {
+            "S": "2023-07-17T14:00:07.249Z"
+          },
+          "id": {
+            "S": "1689584593436"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-17T07:00:07.248Z"
+          },
+          "end": {
+            "S": "2023-07-17T14:00:07.249Z"
+          },
+          "id": {
+            "S": "1689584599339"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-17T07:00:07.248Z"
+          },
+          "end": {
+            "S": "2023-07-17T14:00:07.249Z"
+          },
+          "id": {
+            "S": "1689584605317"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-17T07:00:07.248Z"
+          },
+          "end": {
+            "S": "2023-07-17T14:00:07.249Z"
+          },
+          "id": {
+            "S": "1689584612268"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-17T07:00:07.248Z"
+          },
+          "end": {
+            "S": "2023-07-17T12:00:07.249Z"
+          },
+          "id": {
+            "S": "1689584650878"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1689584656220"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/liedonostojamyyntiliikesimolin/"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/jrsimolin.fi"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-17T09:12:37.075Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  },
+  {
+    "id": "c57f9568-178a-45a3-9c08-80f0c136480f",
+    "__typename": "Store",
+    "_lastChangedAt": 1689170539792,
+    "_version": 4,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": ""
+      },
+      "website": {
+        "S": "https://www.wowfactordesign.fi/"
+      },
+      "email": {
+        "S": "info@wowfactordesign.fi"
+      }
+    },
+    "createdAt": "2023-06-13T12:59:09.150Z",
+    "description": "Wow Factor Design was born from passion for modern design and art.  We focus in rare and unique Scandinavian vintage design pieces which you might not see elsewhere. Our collection is carefully curated with 40 years of strong experience and knowledge of modern design and art. We get inspired by the history and story behind unique design pieces. And about the idea of the history to continue for the next generations. Patina as signs of age and use gives the depth and soul for the object, no matter if those are designed by famous designers or talented folk artists. We are continuously sourcing for rare and unique vintage design objects, so if you are looking for something specific and rare, let us know and we can try to find it for you. ",
+    "imgs": [],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "NULL": true
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "NULL": true
+      },
+      "lng": {
+        "S": "24.6600"
+      },
+      "city": {
+        "S": "Espoo"
+      },
+      "population": {
+        "S": "269802"
+      },
+      "driveto": {
+        "NULL": true
+      },
+      "admin_name": {
+        "S": "Uusimaa"
+      },
+      "population_proper": {
+        "S": "269802"
+      },
+      "iframe": {
+        "NULL": true
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.2100"
+      }
+    },
+    "logo": "",
+    "name": "Wow Factor Design",
+    "opentimes": [],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/wow_factor_design/"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/wowfactordesignoy/"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-12T14:02:19.754Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "3a9d5cf1-f8a5-4f30-b6a5-50c1856ac74d",
+    "__typename": "Store",
+    "_lastChangedAt": 1689170963564,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "022317835"
+      },
+      "website": {
+        "S": "https://www.kjsimolin.fi"
+      },
+      "email": {
+        "S": "masios.oy@gmail.com"
+      }
+    },
+    "createdAt": "2023-07-12T13:56:52.239Z",
+    "description": "K.J. Simolin on turkulainen vanhojen tavaroiden osto- ja myyntiliike, joka on toiminut alalla jo 25 vuotta. Tervetuloa Turun keskustassa Yliopistonkadun ja Aninkaistenkadun kulmassa sijaitsevaan myymäläämme tutustumaan laajaan, jatkuvasti uudistuvaan valikoimaamme!",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "tmyahsjxj-kj_simolin_ulko.jpg"
+          },
+          "id": {
+            "S": "tmyahsjxj"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "mydhb0poh-kj_simolin_sisä.jpg"
+          },
+          "id": {
+            "S": "mydhb0poh"
+          }
+        }
+      }
+    ],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "S": "20100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": "Yliopistonkatu 9 A"
+      },
+      "lng": {
+        "S": "22.2700"
+      },
+      "city": {
+        "S": "Turku"
+      },
+      "population": {
+        "S": "187604"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/oaLNgcZbLTaKuRRY9"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "187604"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1967.4605296109394!2d22.269506616118!3d60.45412098206647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c76fa0c02d26d%3A0x255ae08d4a71034d!2sOsto-%20ja%20myyntiliike%20K.J.%20Simolin!5e0!3m2!1sfi!2sfi!4v1689169696365!5m2!1sfi!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.4517"
+      }
+    },
+    "logo": "jcn9nqcsm3t.jpg",
+    "name": "Osto- ja myyntiliike K.J. Simolin",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:00:13.995Z"
+          },
+          "end": {
+            "S": "2023-07-12T14:00:13.997Z"
+          },
+          "id": {
+            "S": "1689169744593"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:00:13.995Z"
+          },
+          "end": {
+            "S": "2023-07-12T14:00:13.997Z"
+          },
+          "id": {
+            "S": "1689169753105"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:00:13.995Z"
+          },
+          "end": {
+            "S": "2023-07-12T14:00:13.997Z"
+          },
+          "id": {
+            "S": "1689169761983"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:00:13.995Z"
+          },
+          "end": {
+            "S": "2023-07-12T14:00:13.997Z"
+          },
+          "id": {
+            "S": "1689169769181"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:00:13.995Z"
+          },
+          "end": {
+            "S": "2023-07-12T14:00:13.997Z"
+          },
+          "id": {
+            "S": "1689169776700"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Lauantai"
+          },
+          "id": {
+            "S": "1689169782865"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1689169791063"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/people/Osto-ja-myyntiliike-KJ-Simolin/100057253847564/"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-12T14:09:23.530Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  },
+  {
+    "id": "c48d9b01-a6d2-412e-826a-4a4f2bd3d3ac",
+    "__typename": "Store",
+    "_lastChangedAt": 1689164164627,
+    "_version": 1,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "NULL": true
+      },
+      "website": {
+        "NULL": true
+      },
+      "email": {
+        "NULL": true
+      }
+    },
+    "createdAt": "2023-07-12T12:16:04.604Z",
+    "description": null,
+    "imgs": [],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "NULL": true
+      },
+      "country": {
+        "NULL": true
+      },
+      "driveto": {
+        "NULL": true
+      },
+      "address": {
+        "NULL": true
+      },
+      "city": {
+        "NULL": true
+      },
+      "admin_name": {
+        "NULL": true
+      },
+      "iframe": {
+        "NULL": true
+      }
+    },
+    "logo": null,
+    "name": "Test",
+    "opentimes": [],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "NULL": true
+      }
+    },
+    "type": null,
+    "updatedAt": "2023-07-12T12:16:04.604Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  },
+  {
+    "id": "4a386f0b-cc75-4714-b501-4e85be18756f",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132107530,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "040-5509001"
+      },
+      "website": {
+        "S": "https://www.kruuna.fi/"
+      },
+      "email": {
+        "S": "info@kruuna.fi"
+      }
+    },
+    "createdAt": "2023-06-13T12:52:25.168Z",
+    "description": "Kruuna ostaa ja myy Kruuna on pohjoismaiseen taideteollisuuteen ja taiteeseen erikoistunut osto- ja myyntiliike. Valikoimassamme on korkeatasoisia huonekaluja, valaisimia, tekstiilejä, keramiikka- ja lasiesineitä. Kaksikerroksinen liikkeemme Helsingin Kruununhaassa on avoinna tiistaista lauantaihin. Myyntiin tulevat esineet joko ostamme tai otamme välitettäviksi. Välityssopimuksella myydyistä esineistä perimme myyntiprovision. Myös teosarvioinnista perimme korvauksen. Jos haluat tarjota jotain esinettä myyntiin, voit lähettää meille viestin ja kuvia esineestä yhteydenottolomakkeella tai puhelimella tai tulla liikkeeseemme näyttämään esinettä tai kuvia siitä.",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "4rxfy09nr-2018-09-19.jpg"
+          },
+          "id": {
+            "S": "4rxfy09nr"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "188itsex3-IMG_1214.jpg"
+          },
+          "id": {
+            "S": "188itsex3"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "01700"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "primary"
+      },
+      "address": {
+        "S": "Maurinkatu 8-12"
+      },
+      "lng": {
+        "S": "24.9342"
+      },
+      "city": {
+        "S": "Helsinki"
+      },
+      "population": {
+        "S": "642045"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/V1NGVRSawVeLnEwX7"
+      },
+      "admin_name": {
+        "S": "Uusimaa"
+      },
+      "population_proper": {
+        "S": "642045"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7937.434958986519!2d24.9594676!3d60.1747942!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46920bd0eeb61d95%3A0xa6d89ed1210c6573!2sKruuna!5e0!3m2!1sen!2sfi!4v1686660706324!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.1756"
+      }
+    },
+    "logo": "",
+    "name": "Kruuna",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T09:00:41.648Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:41.651Z"
+          },
+          "id": {
+            "S": "1686660642059"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T09:00:41.648Z"
+          },
+          "end": {
+            "S": "2023-06-13T17:00:41.651Z"
+          },
+          "id": {
+            "S": "1686660648740"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T09:00:41.648Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:41.651Z"
+          },
+          "id": {
+            "S": "1686660660159"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T09:00:41.648Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:41.651Z"
+          },
+          "id": {
+            "S": "1686660669192"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T09:00:41.648Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:41.651Z"
+          },
+          "id": {
+            "S": "1686660680654"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "NULL": true
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-06-30T13:35:07.491Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "379a1517-c1f9-404f-9d20-6d8c42f3cbce",
+    "__typename": "Store",
+    "_lastChangedAt": 1689333802908,
+    "_version": 1,
+    "categories": [
+      {
+        "M": {
+          "name": {
+            "S": "Taide"
+          },
+          "id": {
+            "S": "b6d9139b-52da-4c9b-8a24-42f62ee1ecce"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Lasi"
+          },
+          "id": {
+            "S": "01b3aaa2-4692-4a06-a5a6-46ed50b4f76e"
+          }
+        }
+      }
+    ],
+    "contact": {
+      "phone": {
+        "S": "0400455543"
+      },
+      "website": {
+        "S": "https://www.keskusgalleria.fi/"
+      },
+      "email": {
+        "S": "pekka@keskusgalleria.fi"
+      }
+    },
+    "createdAt": "2023-07-14T11:23:22.883Z",
+    "description": "Palveleva taideliike ja näyttelygalleria Tampereen ydinkeskustassa.",
+    "imgs": [],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "S": "33100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": "Kyttälänkatu 11"
+      },
+      "lng": {
+        "S": "23.7608"
+      },
+      "city": {
+        "S": "Tampere"
+      },
+      "population": {
+        "S": "225118"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/ZpxsqkaynRa3Tbpp7"
+      },
+      "admin_name": {
+        "S": "Pirkanmaa"
+      },
+      "population_proper": {
+        "S": "225118"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1903.7970511891695!2d23.768922216160956!3d61.49966848247016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468ed8ab2273afe5%3A0xf7a88c37903dc8c5!2sTaideliike%20-%20Keskus%20Galleria!5e0!3m2!1sfi!2sfi!4v1689332970153!5m2!1sfi!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "61.4981"
+      }
+    },
+    "logo": null,
+    "name": "Keskus Galleria",
+    "opentimes": [
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Maanantai"
+          },
+          "id": {
+            "S": "1689332872411"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T08:00:41.221Z"
+          },
+          "end": {
+            "S": "2023-07-14T14:00:41.223Z"
+          },
+          "id": {
+            "S": "1689332880475"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T08:00:41.221Z"
+          },
+          "end": {
+            "S": "2023-07-14T14:00:41.223Z"
+          },
+          "id": {
+            "S": "1689332887846"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T08:00:41.221Z"
+          },
+          "end": {
+            "S": "2023-07-14T15:00:41.223Z"
+          },
+          "id": {
+            "S": "1689332897970"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T08:00:41.221Z"
+          },
+          "end": {
+            "S": "2023-07-14T14:00:41.223Z"
+          },
+          "id": {
+            "S": "1689332906726"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Lauantai"
+          },
+          "id": {
+            "S": "1689332911971"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1689332919448"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/keskusgalleria/?hl=fi"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/keskusgalleria/?locale=fi_FI"
+      }
+    },
+    "type": "galleries",
+    "updatedAt": "2023-07-14T11:23:22.883Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  },
+  {
+    "id": "20d5319b-5397-4f25-a97c-a7854ef546f0",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132109777,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "050 555 2865"
+      },
+      "website": {
+        "S": "https://www.haddadin.fi/"
+      },
+      "email": {
+        "S": "faris@haddadin.fi"
+      }
+    },
+    "createdAt": "2023-06-13T12:55:45.394Z",
+    "description": "Kokoelmaamme kuuluu huippudesingia keskittyen kahteen Suomalaiseen nimeen Paavo Tynelliin ja Alvar Aaltoon sekä muita alan johtavia suunnittelijoita ja arkkitehteja. Tutustu näillä sivuilla kenen nimiä haemme ja mitä asiakkaamme etsivät. Ostamme kotimaisia 1900 - 1960 -luvun design huonekaluja, valaisimia, mattoja ja tekstiilejä. Olemme kiinnostuneita ostamaan myös; Tauluja, hopeaa, kultaa, koruja, kunniamerkkejä, postimerkkejä, miekkoja, mitaleita, militariaa, Arabian astioita, posliinia, patsaita, kirjoja, sekä ryijyjä. Käsittelemme 30 vuoden kokemuksella kaikki mahdolliset kuolinpesät, jäämistöt ja kodin muuttopesät, yksiöistä omakotitaloihin. Tyhjennämme myös kierrätys- ja kaatopaikkatavarat sopimuksen mukaan.",
+    "imgs": [],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "00810"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "primary"
+      },
+      "address": {
+        "S": "Laivalahdenkaari 15 C 42"
+      },
+      "lng": {
+        "S": "24.9342"
+      },
+      "city": {
+        "S": "Helsinki"
+      },
+      "population": {
+        "S": "642045"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/BSZHwTYGssJ9ZKCTA"
+      },
+      "admin_name": {
+        "S": "Uusimaa"
+      },
+      "population_proper": {
+        "S": "642045"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1983.5659188708648!2d25.036538699999998!3d60.18791689999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46920949631c94df%3A0x7d0d984cc8f9f5e6!2sLaivalahdenkaari%2015%2042%2C%2000810%20Helsinki!5e0!3m2!1sen!2sfi!4v1686660883990!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.1756"
+      }
+    },
+    "logo": "",
+    "name": " Haddadin Antiques Arts & Design",
+    "opentimes": [],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/haddadindesign/?hl=en"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/haddadindesign/"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-06-30T13:35:09.739Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "3278165d-8fe6-4076-b382-ef7de20b1e41",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132118499,
+    "_version": 3,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "+358 50 432 3800"
+      },
+      "website": {
+        "S": "https://www.n3xtlevel.fi/"
+      },
+      "email": {
+        "S": "hello@n3xtlevel.fi"
+      }
+    },
+    "createdAt": "2023-06-13T15:03:28.085Z",
+    "description": "Salon freesein Second Hand Shop.\\n\\nHaluamme tarjota kaikille jotain, joten olemme yhdistäneet vaateliikkeen yleisilmeen ja kierrätyskulttuurin upeuden! Tarjoamme trendikkäällä lähestymistavalla siistin ja valoisan myymälän uusiokäyttöön tarkoitetuille vaatteille, asusteille, kengille, sisustustuotteille sekä pienille kodin tavaroille. Olemme suunnitelleet myymälän osastoihin, jolloin naiset, miehet sekä lapsiperheet löytävät upeita löytöjä vaivattomasti. Asiakkaamme saavat käyttöönsä Salon siisteimmän ja tunnetuimman Second Hand Shopin, jossa tavara liikkuu myyjältä ostajalle helposti ja vaivattomasti.",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "ocobwhn2c-2021-11-21.jpg"
+          },
+          "id": {
+            "S": "ocobwhn2c"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "zyz1lv594-2021-07-20.jpg"
+          },
+          "id": {
+            "S": "zyz1lv594"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "24100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "minor"
+      },
+      "address": {
+        "S": "Tähtelänkatu 4"
+      },
+      "lng": {
+        "S": "23.1331"
+      },
+      "city": {
+        "S": "Salo"
+      },
+      "population": {
+        "S": "53890"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/DVtwvBoG48G1Pp2V7"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "53890"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7885.8758653236455!2d23.1572387!3d60.3879318!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c47c18c022b09%3A0xdbdbb766da3b99dc!2sN3xt%20Level%20Second%20Hand%20Shop!5e0!3m2!1sen!2sfi!4v1686668560747!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.3831"
+      }
+    },
+    "logo": "",
+    "name": "N3xt Level Second Hand Shop",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:54.421Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:54.422Z"
+          },
+          "id": {
+            "S": "1686668484353"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:54.421Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:54.422Z"
+          },
+          "id": {
+            "S": "1686668490911"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:54.421Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:54.422Z"
+          },
+          "id": {
+            "S": "1686668499539"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:54.421Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:54.422Z"
+          },
+          "id": {
+            "S": "1686668509685"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:54.421Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:54.422Z"
+          },
+          "id": {
+            "S": "1686668517965"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:54.421Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:54.422Z"
+          },
+          "id": {
+            "S": "1686668527977"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T07:00:54.421Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:54.422Z"
+          },
+          "id": {
+            "S": "1686668535222"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/n3xtlevel.fi"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/n3xtlevel.fi"
+      }
+    },
+    "type": "fleamarket",
+    "updatedAt": "2023-06-30T13:35:18.462Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "4baed0ad-a93b-44e5-ad41-e5ac4a591bbd",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132120832,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "0400 110 110"
+      },
+      "website": {
+        "S": "https://www.galleriainter.fi/"
+      },
+      "email": {
+        "S": "info@galleriainter.fi"
+      }
+    },
+    "createdAt": "2023-06-13T14:50:36.586Z",
+    "description": null,
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "exy5xstfr-2021-03-27.jpg"
+          },
+          "id": {
+            "S": "exy5xstfr"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "i4sk43miw-F22F7A76-5FB0-47EB-9D44-C25C2167B148.jpeg"
+          },
+          "id": {
+            "S": "i4sk43miw"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "20100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": "Eerikinkatu 5"
+      },
+      "lng": {
+        "S": "22.2700"
+      },
+      "city": {
+        "S": "Turku"
+      },
+      "population": {
+        "S": "187604"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/UAkUYsxAeVsu4iuG7"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "187604"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7870.140651247011!2d22.2725249!3d60.452889!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c76fa6886063d%3A0x893aa2b74b99249!2sGALLERIA%20INTER!5e0!3m2!1sen!2sfi!4v1686667674598!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.4517"
+      }
+    },
+    "logo": "",
+    "name": "Galleria inter",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T11:00:27.963Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:27.965Z"
+          },
+          "id": {
+            "S": "1686667595737"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T11:00:27.963Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:27.965Z"
+          },
+          "id": {
+            "S": "1686667605704"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T11:00:27.963Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:27.965Z"
+          },
+          "id": {
+            "S": "1686667614467"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T11:00:27.963Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:27.965Z"
+          },
+          "id": {
+            "S": "1686667633625"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T11:00:27.963Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:27.965Z"
+          },
+          "id": {
+            "S": "1686667642230"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Lauantai"
+          },
+          "id": {
+            "S": "1686667646247"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1686667649915"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/galleriainter.fi/"
+      }
+    },
+    "type": "galleries",
+    "updatedAt": "2023-06-30T13:35:20.769Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "8f849ecf-2553-4b0d-bfcb-9d536d1554d7",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132123091,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "+358 2 233 3452"
+      },
+      "website": {
+        "S": "https://www.aurangalleria.com/"
+      },
+      "email": {
+        "S": "info@aurangalleria.com"
+      }
+    },
+    "createdAt": "2023-06-13T14:45:04.316Z",
+    "description": "Contemporary Art since 1985 Nykytaidetta vuodesta 1985 Auran Galleria is based in Turku, Finland. Auran Galleria sijaitsee Turussa, yliopistonkadun ja aninkaistenkadun kulmassa. 35 vuotta vanhan perheyrityksen näyttelytilat ovat kahdessa kerroksessa ja katutasolla on viisi näyteikkunaa.",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "l6zw9hllh-2022-02-13.jpg"
+          },
+          "id": {
+            "S": "l6zw9hllh"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "77ue7e3zr-2022-01-12.jpg"
+          },
+          "id": {
+            "S": "77ue7e3zr"
+          }
+        }
+      }
+    ],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "20100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": "Yliopistonkatu 7"
+      },
+      "lng": {
+        "S": "22.2700"
+      },
+      "city": {
+        "S": "Turku"
+      },
+      "population": {
+        "S": "187604"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/C9heVhs8opzAiGfq8"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "187604"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7869.772592221838!2d22.2725332!3d60.4544079!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c76f09fe87587%3A0x4bdd577b5c195634!2sAuran%20Galleria%20Oy!5e0!3m2!1sen!2sfi!4v1686667462981!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.4517"
+      }
+    },
+    "logo": "",
+    "name": "Auran Galleria",
+    "opentimes": [
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Maanantai"
+          },
+          "id": {
+            "S": "1686667268437"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Tiistai"
+          },
+          "id": {
+            "S": "1686667272255"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Keskiviikko"
+          },
+          "id": {
+            "S": "1686667275806"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T08:00:59.789Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:59.791Z"
+          },
+          "id": {
+            "S": "1686667283976"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T08:00:59.789Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:59.791Z"
+          },
+          "id": {
+            "S": "1686667292436"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T08:00:59.789Z"
+          },
+          "end": {
+            "S": "2023-06-13T11:00:59.791Z"
+          },
+          "id": {
+            "S": "1686667302177"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:59.789Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:59.791Z"
+          },
+          "id": {
+            "S": "1686667311043"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Sunnuntai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "S": "https://facebook.com/aurangalleria"
+      }
+    },
+    "type": "galleries",
+    "updatedAt": "2023-06-30T13:35:23.054Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "5870e446-6fcb-451e-aa8b-7b4def73b5b7",
+    "__typename": "Store",
+    "_lastChangedAt": 1689325259795,
+    "_version": 1,
+    "categories": [
+      {
+        "M": {
+          "name": {
+            "S": "Keramiikka"
+          },
+          "id": {
+            "S": "47ee45d0-51ba-4b50-89bf-9db14084421e"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Lasi"
+          },
+          "id": {
+            "S": "01b3aaa2-4692-4a06-a5a6-46ed50b4f76e"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Valasisimet"
+          },
+          "id": {
+            "S": "2b207dee-0091-489a-bcff-e28c7db0c45e"
+          }
+        }
+      }
+    ],
+    "contact": {
+      "phone": {
+        "S": "03-25333435"
+      },
+      "website": {
+        "S": "https://www.vaarinvarasto.fi/"
+      },
+      "email": {
+        "S": "tero.mattila@vaarinvarasto.fi"
+      }
+    },
+    "createdAt": "2023-07-14T09:00:59.770Z",
+    "description": "Retroastioita, vintagea & designia",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "j8ks7445f-vaarin varasto 1.jpeg"
+          },
+          "id": {
+            "S": "j8ks7445f"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "twx1pb2ov-vaarinvarasto_sisä.jpeg"
+          },
+          "id": {
+            "S": "twx1pb2ov"
+          }
+        }
+      }
+    ],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "S": "33500"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": "Aaltosenkatu 27-29"
+      },
+      "lng": {
+        "S": "23.7608"
+      },
+      "city": {
+        "S": "Tampere"
+      },
+      "population": {
+        "S": "225118"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/sW1VZGZjCTGTGgUN8"
+      },
+      "admin_name": {
+        "S": "Pirkanmaa"
+      },
+      "population_proper": {
+        "S": "225118"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1903.639170919989!2d23.778694176470353!3d61.50224833523558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468f20aa8fc75161%3A0xa7fe63f1cf5e09ab!2sAntiikkiliike%20Vaarin%20Varasto!5e0!3m2!1sfi!2sfi!4v1689324529033!5m2!1sfi!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "61.4981"
+      }
+    },
+    "logo": null,
+    "name": "Vaarin Varasto",
+    "opentimes": [
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Maanantai"
+          },
+          "id": {
+            "S": "1689324385794"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Tiistai"
+          },
+          "id": {
+            "S": "1689324414349"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T08:00:52.396Z"
+          },
+          "end": {
+            "S": "2023-07-14T14:00:52.398Z"
+          },
+          "id": {
+            "S": "1689324429992"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T08:00:52.396Z"
+          },
+          "end": {
+            "S": "2023-07-14T14:00:52.398Z"
+          },
+          "id": {
+            "S": "1689324438512"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T08:00:52.396Z"
+          },
+          "end": {
+            "S": "2023-07-14T14:00:52.398Z"
+          },
+          "id": {
+            "S": "1689324447846"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-14T07:00:52.396Z"
+          },
+          "end": {
+            "S": "2023-07-14T11:00:52.398Z"
+          },
+          "id": {
+            "S": "1689324459941"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1689324469358"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/vaarinvarasto/?locale=fi_FI"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-14T09:00:59.770Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  },
+  {
+    "id": "7a403eb0-0e08-4c80-9f0e-f7cca9238071",
+    "__typename": "Store",
+    "_lastChangedAt": 1689253617032,
+    "_version": 4,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "040-5841329"
+      },
+      "website": {
+        "S": "https://piijuska.net/"
+      },
+      "email": {
+        "S": "pia.pulakka@gmail.com"
+      }
+    },
+    "createdAt": "2023-06-13T14:17:21.434Z",
+    "description": "Piijuskan kauppa; Antiikki, design, retro, vintage, secondhand ja kirjallisuus. Tervetuloa tekemään löytöjä!",
+    "imgs": [],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "37830"
+      },
+      "country": {
+        "NULL": true
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/ZHdH84CG4FVXWYmPA"
+      },
+      "address": {
+        "S": "Nahkatehtaantie 10"
+      },
+      "city": {
+        "NULL": true
+      },
+      "admin_name": {
+        "S": "Pirkanmaa"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d757969.5577857444!2d22.566368924713807!3d60.908602953589224!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468eec257f4d9745%3A0x83e84885f5e88c67!2sPiijuska%20Ky!5e0!3m2!1sen!2sfi!4v1686661420623!5m2!1sen!2sfi"
+      }
+    },
+    "logo": "",
+    "name": "Piijuska Ky",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:22.135Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:22.137Z"
+          },
+          "id": {
+            "S": "1686661492835"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:22.135Z"
+          },
+          "end": {
+            "S": "2023-06-13T15:00:22.137Z"
+          },
+          "id": {
+            "S": "1686661500586"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T08:00:22.135Z"
+          },
+          "end": {
+            "S": "2023-06-13T12:00:22.137Z"
+          },
+          "id": {
+            "S": "1686661512150"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": false
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "NULL": true
+      },
+      "facebook": {
+        "NULL": true
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-13T13:06:56.992Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "dcc07339-f51e-4b02-8c31-0856f18b8d88",
+    "__typename": "Store",
+    "_lastChangedAt": 1688132127870,
+    "_version": 2,
+    "categories": [],
+    "contact": {
+      "phone": {
+        "S": "+358 402544689"
+      },
+      "website": {
+        "S": "https://www.whagelstam.fi"
+      },
+      "email": {
+        "S": "wenzel.hagelstam@gmail.com"
+      }
+    },
+    "createdAt": "2023-06-13T14:53:36.902Z",
+    "description": "Myymme klassista ja esittävää taidetta sekä moderneja ja abstrakteja tauluja. Valikoimissa on myös mielenkiintoisia esineitä. Vanhimmat taulut ovat 1600-luvulta ja uusimmat 1900-luvun lopulta. Tauluillamme on yksi yhteinen tekijä: laatu. Jokainen myynnissä oleva taideteos on Wenzel Hagelstamin henkilökohtaisesti valitsema ja täyttää hänen vuosikymmenten aikana hioutuneet laatukriteerinsä. Taulun tekijä tai markkina-arvo on toissijaista. Tärkeintä on laatu. ‍ Hagelstam Art on Kapteeninkadun kulmassa. Käy kadulta sisään, katsellaan tauluja ja jutellaan mukavia. Siitä se lähtee",
+    "imgs": [],
+    "isConfirmed": true,
+    "location": {
+      "zip": {
+        "S": "00140"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "primary"
+      },
+      "address": {
+        "S": "Kapteeninkatu 9"
+      },
+      "lng": {
+        "S": "24.9342"
+      },
+      "city": {
+        "S": "Helsinki"
+      },
+      "population": {
+        "S": "642045"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/ZN6yCko1zoyADBLr9"
+      },
+      "admin_name": {
+        "S": "Uusimaa"
+      },
+      "population_proper": {
+        "S": "642045"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7941.472367603457!2d24.9460465!3d60.158085!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46920bb829823b17%3A0x76fa7a9ed36c984b!2sW.%20Hagelstam%20Art!5e0!3m2!1sen!2sfi!4v1686667992129!5m2!1sen!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.1756"
+      }
+    },
+    "logo": "",
+    "name": "W. Hagelstam Art",
+    "opentimes": [
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:43.258Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:43.260Z"
+          },
+          "id": {
+            "S": "1686667914663"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Maanantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:43.258Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:43.260Z"
+          },
+          "id": {
+            "S": "1686667922875"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Tiistai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:43.258Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:43.260Z"
+          },
+          "id": {
+            "S": "1686667931177"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:43.258Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:43.260Z"
+          },
+          "id": {
+            "S": "1686667940143"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T10:00:43.258Z"
+          },
+          "end": {
+            "S": "2023-06-13T14:00:43.260Z"
+          },
+          "id": {
+            "S": "1686667951043"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-06-13T09:00:43.258Z"
+          },
+          "end": {
+            "S": "2023-06-13T13:00:43.260Z"
+          },
+          "id": {
+            "S": "1686667960020"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1686667967715"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isPaid": {
+        "NULL": true
+      },
+      "isPromoted": {
+        "NULL": true
+      },
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      },
+      "isPremium": {
+        "NULL": true
+      },
+      "isHidden": {
+        "NULL": true
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/hagelstamart"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/whagelstam.fi/"
+      }
+    },
+    "type": "galleries",
+    "updatedAt": "2023-06-30T13:35:27.832Z",
+    "username": "46640799-1eff-468e-87d3-d8646d251373"
+  },
+  {
+    "id": "f03590fa-5f38-48e4-a3a6-6a86a1a9fe9d",
+    "__typename": "Store",
+    "_lastChangedAt": 1689170816617,
+    "_version": 2,
+    "categories": [
+      {
+        "M": {
+          "name": {
+            "S": "Design"
+          },
+          "id": {
+            "S": "41b29b10-604e-4a37-9dca-4588fd15affa"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Keramiikka"
+          },
+          "id": {
+            "S": "47ee45d0-51ba-4b50-89bf-9db14084421e"
+          }
+        }
+      },
+      {
+        "M": {
+          "name": {
+            "S": "Valasisimet"
+          },
+          "id": {
+            "S": "2b207dee-0091-489a-bcff-e28c7db0c45e"
+          }
+        }
+      }
+    ],
+    "contact": {
+      "phone": {
+        "S": "050 5810000"
+      },
+      "website": {
+        "S": "https://saloom.fi/"
+      },
+      "email": {
+        "S": "salonostojamyynti@gmail.com"
+      }
+    },
+    "createdAt": "2023-07-12T13:24:14.180Z",
+    "description": "Kilpailukykyiset hinnat ja laadukas valikoima",
+    "imgs": [
+      {
+        "M": {
+          "key": {
+            "S": "cpgfzn0vw-Salon_Osto_ja_myynti_2023.jpg"
+          },
+          "id": {
+            "S": "cpgfzn0vw"
+          }
+        }
+      },
+      {
+        "M": {
+          "key": {
+            "S": "ooeshnnss-Salon osto ja myynti sisäkuva.jpg"
+          },
+          "id": {
+            "S": "ooeshnnss"
+          }
+        }
+      }
+    ],
+    "isConfirmed": "",
+    "location": {
+      "zip": {
+        "S": "20100"
+      },
+      "country": {
+        "S": "Finland"
+      },
+      "capital": {
+        "S": "admin"
+      },
+      "address": {
+        "S": "Brahenkatu 10"
+      },
+      "lng": {
+        "S": "22.2700"
+      },
+      "city": {
+        "S": "Turku"
+      },
+      "population": {
+        "S": "187604"
+      },
+      "driveto": {
+        "S": "https://goo.gl/maps/Kk5H5z8JMnPCLwLm8"
+      },
+      "admin_name": {
+        "S": "Varsinais-Suomi"
+      },
+      "population_proper": {
+        "S": "187604"
+      },
+      "iframe": {
+        "S": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1967.5019299439878!2d22.266926116118025!3d60.453437582066236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468c77e44f8623d3%3A0x242dfcb6c0868284!2sSalon%20osto%20ja%20myynti%20%2FTurku!5e0!3m2!1sfi!2sfi!4v1689167886340!5m2!1sfi!2sfi"
+      },
+      "iso2": {
+        "S": "FI"
+      },
+      "lat": {
+        "S": "60.4517"
+      }
+    },
+    "logo": "nujeusddzpk.jpg",
+    "name": "Salon Osto ja Myynti",
+    "opentimes": [
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Maanantai"
+          },
+          "id": {
+            "S": "1689168131102"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Tiistai"
+          },
+          "id": {
+            "S": "1689168134727"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:30:57.538Z"
+          },
+          "end": {
+            "S": "2023-07-12T15:00:57.540Z"
+          },
+          "id": {
+            "S": "1689168154442"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Keskiviikko"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:30:57.538Z"
+          },
+          "end": {
+            "S": "2023-07-12T15:00:57.540Z"
+          },
+          "id": {
+            "S": "1689168166866"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Torstai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:30:57.538Z"
+          },
+          "end": {
+            "S": "2023-07-12T15:00:57.540Z"
+          },
+          "id": {
+            "S": "1689168178727"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Perjantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "start": {
+            "S": "2023-07-12T07:30:57.538Z"
+          },
+          "end": {
+            "S": "2023-07-12T11:30:57.540Z"
+          },
+          "id": {
+            "S": "1689168227160"
+          },
+          "isClosed": {
+            "BOOL": false
+          },
+          "day": {
+            "S": "Lauantai"
+          }
+        }
+      },
+      {
+        "M": {
+          "isClosed": {
+            "BOOL": true
+          },
+          "day": {
+            "S": "Sunnuntai"
+          },
+          "id": {
+            "S": "1689168233531"
+          }
+        }
+      }
+    ],
+    "settings": {
+      "isConfirmed": {
+        "M": {
+          "status": {
+            "BOOL": true
+          }
+        }
+      }
+    },
+    "social": {
+      "youtube": {
+        "NULL": true
+      },
+      "twitter": {
+        "NULL": true
+      },
+      "instagram": {
+        "S": "https://www.instagram.com/salon_ostojamyynti/"
+      },
+      "facebook": {
+        "S": "https://www.facebook.com/salonostojamyynti"
+      }
+    },
+    "type": "shops",
+    "updatedAt": "2023-07-12T14:06:56.578Z",
+    "username": "0987b69e-08c0-44c2-9fe4-98ee34eb6bea"
+  }
+]

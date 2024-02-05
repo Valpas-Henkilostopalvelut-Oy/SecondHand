@@ -1,13 +1,18 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "kirppis": {
+    "AdminQueries": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    },
+    "kirpis2": {
       "GraphQLAPIEndpointOutput": "string",
       "GraphQLAPIIdOutput": "string",
       "GraphQLAPIKeyOutput": "string"
     }
   },
   "auth": {
-    "kirppis516e92a5": {
+    "kirppis9e209ebe9e209ebe": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "IdentityPoolId": "string",
@@ -17,13 +22,28 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolName": "string"
     },
     "userPoolGroups": {
-      "adminGroupRole": "string",
-      "clientsGroupRole": "string",
-      "visitorsGroupRole": "string"
+      "AdminGroupRole": "string",
+      "UserGroupRole": "string"
+    }
+  },
+  "function": {
+    "AdminQueriesbd20d68e": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "kirppis2053c745": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
     }
   },
   "storage": {
-    "s388debbbf": {
+    "s3d5d3bb48": {
       "BucketName": "string",
       "Region": "string"
     }

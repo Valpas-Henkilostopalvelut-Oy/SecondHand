@@ -6,28 +6,37 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+export declare type EscapeHatchProps = {
+    [elementHierarchy: string]: Record<string, unknown>;
+} | null;
+export declare type VariantValues = {
+    [key: string]: string;
+};
+export declare type Variant = {
+    variantValues: VariantValues;
+    overrides: EscapeHatchProps;
+};
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type CategoriesCreateFormInputValues = {
-    createdAt?: string;
-    createdBy?: string;
     name?: string;
+    description?: string;
+    image?: string;
 };
 export declare type CategoriesCreateFormValidationValues = {
-    createdAt?: ValidationFunction<string>;
-    createdBy?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
+    description?: ValidationFunction<string>;
+    image?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type CategoriesCreateFormOverridesProps = {
     CategoriesCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    createdAt?: PrimitiveOverrideProps<TextFieldProps>;
-    createdBy?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
+    description?: PrimitiveOverrideProps<TextFieldProps>;
+    image?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type CategoriesCreateFormProps = React.PropsWithChildren<{
     overrides?: CategoriesCreateFormOverridesProps | undefined | null;

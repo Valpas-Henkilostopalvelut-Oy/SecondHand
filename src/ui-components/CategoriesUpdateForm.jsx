@@ -7,10 +7,9 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Categories } from "../models";
-import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { DataStore } from "aws-amplify/datastore";
 export default function CategoriesUpdateForm(props) {
   const {
     id: idProp,
@@ -24,21 +23,23 @@ export default function CategoriesUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    createdAt: "",
-    createdBy: "",
     name: "",
+    description: "",
+    image: "",
   };
-  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
-  const [createdBy, setCreatedBy] = React.useState(initialValues.createdBy);
   const [name, setName] = React.useState(initialValues.name);
+  const [description, setDescription] = React.useState(
+    initialValues.description
+  );
+  const [image, setImage] = React.useState(initialValues.image);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = categoriesRecord
       ? { ...initialValues, ...categoriesRecord }
       : initialValues;
-    setCreatedAt(cleanValues.createdAt);
-    setCreatedBy(cleanValues.createdBy);
     setName(cleanValues.name);
+    setDescription(cleanValues.description);
+    setImage(cleanValues.image);
     setErrors({});
   };
   const [categoriesRecord, setCategoriesRecord] =
@@ -54,9 +55,9 @@ export default function CategoriesUpdateForm(props) {
   }, [idProp, categoriesModelProp]);
   React.useEffect(resetStateValues, [categoriesRecord]);
   const validations = {
-    createdAt: [{ type: "Required" }],
-    createdBy: [{ type: "Required" }],
     name: [{ type: "Required" }],
+    description: [],
+    image: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -75,23 +76,6 @@ export default function CategoriesUpdateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
-  };
   return (
     <Grid
       as="form"
@@ -101,9 +85,9 @@ export default function CategoriesUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          createdAt,
-          createdBy,
           name,
+          description,
+          image,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -129,8 +113,8 @@ export default function CategoriesUpdateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
           await DataStore.save(
@@ -151,60 +135,6 @@ export default function CategoriesUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Created at"
-        isRequired={true}
-        isReadOnly={false}
-        type="datetime-local"
-        value={createdAt && convertToLocal(new Date(createdAt))}
-        onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
-          if (onChange) {
-            const modelFields = {
-              createdAt: value,
-              createdBy,
-              name,
-            };
-            const result = onChange(modelFields);
-            value = result?.createdAt ?? value;
-          }
-          if (errors.createdAt?.hasError) {
-            runValidationTasks("createdAt", value);
-          }
-          setCreatedAt(value);
-        }}
-        onBlur={() => runValidationTasks("createdAt", createdAt)}
-        errorMessage={errors.createdAt?.errorMessage}
-        hasError={errors.createdAt?.hasError}
-        {...getOverrideProps(overrides, "createdAt")}
-      ></TextField>
-      <TextField
-        label="Created by"
-        isRequired={true}
-        isReadOnly={false}
-        value={createdBy}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              createdAt,
-              createdBy: value,
-              name,
-            };
-            const result = onChange(modelFields);
-            value = result?.createdBy ?? value;
-          }
-          if (errors.createdBy?.hasError) {
-            runValidationTasks("createdBy", value);
-          }
-          setCreatedBy(value);
-        }}
-        onBlur={() => runValidationTasks("createdBy", createdBy)}
-        errorMessage={errors.createdBy?.errorMessage}
-        hasError={errors.createdBy?.hasError}
-        {...getOverrideProps(overrides, "createdBy")}
-      ></TextField>
-      <TextField
         label="Name"
         isRequired={true}
         isReadOnly={false}
@@ -213,9 +143,9 @@ export default function CategoriesUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              createdAt,
-              createdBy,
               name: value,
+              description,
+              image,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -229,6 +159,58 @@ export default function CategoriesUpdateForm(props) {
         errorMessage={errors.name?.errorMessage}
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
+        label="Description"
+        isRequired={false}
+        isReadOnly={false}
+        value={description}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              description: value,
+              image,
+            };
+            const result = onChange(modelFields);
+            value = result?.description ?? value;
+          }
+          if (errors.description?.hasError) {
+            runValidationTasks("description", value);
+          }
+          setDescription(value);
+        }}
+        onBlur={() => runValidationTasks("description", description)}
+        errorMessage={errors.description?.errorMessage}
+        hasError={errors.description?.hasError}
+        {...getOverrideProps(overrides, "description")}
+      ></TextField>
+      <TextField
+        label="Image"
+        isRequired={false}
+        isReadOnly={false}
+        value={image}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              description,
+              image: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.image ?? value;
+          }
+          if (errors.image?.hasError) {
+            runValidationTasks("image", value);
+          }
+          setImage(value);
+        }}
+        onBlur={() => runValidationTasks("image", image)}
+        errorMessage={errors.image?.errorMessage}
+        hasError={errors.image?.hasError}
+        {...getOverrideProps(overrides, "image")}
       ></TextField>
       <Flex
         justifyContent="space-between"

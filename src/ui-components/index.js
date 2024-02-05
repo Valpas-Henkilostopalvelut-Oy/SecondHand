@@ -6,8 +6,10 @@
 
 export { default as CategoriesCreateForm } from "./CategoriesCreateForm";
 export { default as CategoriesUpdateForm } from "./CategoriesUpdateForm";
-export { default as EvaluationCreateForm } from "./EvaluationCreateForm";
-export { default as EvaluationUpdateForm } from "./EvaluationUpdateForm";
-export { default as UserCreateForm } from "./UserCreateForm";
-export { default as UserUpdateForm } from "./UserUpdateForm";
+export { default as CustomersCreateForm } from "./CustomersCreateForm";
+export { default as CustomersUpdateForm } from "./CustomersUpdateForm";
+export { default as LocationsCreateForm } from "./LocationsCreateForm";
+export { default as LocationsUpdateForm } from "./LocationsUpdateForm";
+export { default as TypesCreateForm } from "./TypesCreateForm";
+export { default as TypesUpdateForm } from "./TypesUpdateForm";
 export { default as studioTheme } from "./studioTheme";

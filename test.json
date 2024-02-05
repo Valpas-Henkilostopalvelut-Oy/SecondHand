@@ -1,0 +1,16 @@
+{
+  "customerId": null,
+  "name": "string",
+  "description": "string",
+  "websiteUrl": "string",
+  "logoUrl": "string",
+  "images": null,
+  "openingHours": null,
+  "contacts": null,
+  "notes": null,
+  "socials": null,
+  "categoriesBusinesses": null,
+  "locationBusinesses": null,
+  "typeId": null,
+  "type": null
+}

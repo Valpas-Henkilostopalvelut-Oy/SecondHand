@@ -6,17 +6,10 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SelectField,
-  TextField,
-} from "@aws-amplify/ui-react";
-import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { Orders } from "../models";
-import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
+import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { DataStore } from "aws-amplify/datastore";
 export default function OrdersCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -29,44 +22,30 @@ export default function OrdersCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    username: "",
-    type: "",
+    customersID: "",
+    date: "",
     status: "",
-    from: "",
-    to: "",
-    price: "",
-    message: "",
-    storeID: "",
+    totalPrice: "",
   };
-  const [username, setUsername] = React.useState(initialValues.username);
-  const [type, setType] = React.useState(initialValues.type);
+  const [customersID, setCustomersID] = React.useState(
+    initialValues.customersID
+  );
+  const [date, setDate] = React.useState(initialValues.date);
   const [status, setStatus] = React.useState(initialValues.status);
-  const [from, setFrom] = React.useState(initialValues.from);
-  const [to, setTo] = React.useState(initialValues.to);
-  const [price, setPrice] = React.useState(initialValues.price);
-  const [message, setMessage] = React.useState(initialValues.message);
-  const [storeID, setStoreID] = React.useState(initialValues.storeID);
+  const [totalPrice, setTotalPrice] = React.useState(initialValues.totalPrice);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setUsername(initialValues.username);
-    setType(initialValues.type);
+    setCustomersID(initialValues.customersID);
+    setDate(initialValues.date);
     setStatus(initialValues.status);
-    setFrom(initialValues.from);
-    setTo(initialValues.to);
-    setPrice(initialValues.price);
-    setMessage(initialValues.message);
-    setStoreID(initialValues.storeID);
+    setTotalPrice(initialValues.totalPrice);
     setErrors({});
   };
   const validations = {
-    username: [{ type: "Required" }],
-    type: [{ type: "Required" }],
+    customersID: [{ type: "Required" }],
+    date: [{ type: "Required" }],
     status: [{ type: "Required" }],
-    from: [{ type: "Required" }],
-    to: [{ type: "Required" }],
-    price: [],
-    message: [],
-    storeID: [{ type: "Required" }],
+    totalPrice: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -85,23 +64,6 @@ export default function OrdersCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
-  };
   return (
     <Grid
       as="form"
@@ -111,14 +73,10 @@ export default function OrdersCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          username,
-          type,
+          customersID,
+          date,
           status,
-          from,
-          to,
-          price,
-          message,
-          storeID,
+          totalPrice,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -144,8 +102,8 @@ export default function OrdersCreateForm(props) {
         }
         try {
           Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
             }
           });
           await DataStore.save(new Orders(modelFields));
@@ -165,100 +123,77 @@ export default function OrdersCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Username"
+        label="Customers id"
         isRequired={true}
         isReadOnly={false}
-        value={username}
+        value={customersID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username: value,
-              type,
+              customersID: value,
+              date,
               status,
-              from,
-              to,
-              price,
-              message,
-              storeID,
+              totalPrice,
             };
             const result = onChange(modelFields);
-            value = result?.username ?? value;
+            value = result?.customersID ?? value;
           }
-          if (errors.username?.hasError) {
-            runValidationTasks("username", value);
+          if (errors.customersID?.hasError) {
+            runValidationTasks("customersID", value);
           }
-          setUsername(value);
+          setCustomersID(value);
         }}
-        onBlur={() => runValidationTasks("username", username)}
-        errorMessage={errors.username?.errorMessage}
-        hasError={errors.username?.hasError}
-        {...getOverrideProps(overrides, "username")}
+        onBlur={() => runValidationTasks("customersID", customersID)}
+        errorMessage={errors.customersID?.errorMessage}
+        hasError={errors.customersID?.hasError}
+        {...getOverrideProps(overrides, "customersID")}
       ></TextField>
-      <SelectField
-        label="Type"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={type}
+      <TextField
+        label="Date"
+        isRequired={true}
+        isReadOnly={false}
+        type="date"
+        value={date}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              username,
-              type: value,
+              customersID,
+              date: value,
               status,
-              from,
-              to,
-              price,
-              message,
-              storeID,
+              totalPrice,
             };
             const result = onChange(modelFields);
-            value = result?.type ?? value;
+            value = result?.date ?? value;
           }
-          if (errors.type?.hasError) {
-            runValidationTasks("type", value);
+          if (errors.date?.hasError) {
+            runValidationTasks("date", value);
           }
-          setType(value);
+          setDate(value);
         }}
-        onBlur={() => runValidationTasks("type", type)}
-        errorMessage={errors.type?.errorMessage}
-        hasError={errors.type?.hasError}
-        {...getOverrideProps(overrides, "type")}
-      >
-        <option
-          children="Is paid"
-          value="isPaid"
-          {...getOverrideProps(overrides, "typeoption0")}
-        ></option>
-        <option
-          children="Is premium"
-          value="isPremium"
-          {...getOverrideProps(overrides, "typeoption1")}
-        ></option>
-        <option
-          children="Is promoted"
-          value="isPromoted"
-          {...getOverrideProps(overrides, "typeoption2")}
-        ></option>
-      </SelectField>
+        onBlur={() => runValidationTasks("date", date)}
+        errorMessage={errors.date?.errorMessage}
+        hasError={errors.date?.hasError}
+        {...getOverrideProps(overrides, "date")}
+      ></TextField>
       <TextField
         label="Status"
         isRequired={true}
         isReadOnly={false}
+        type="number"
+        step="any"
         value={status}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              username,
-              type,
+              customersID,
+              date,
               status: value,
-              from,
-              to,
-              price,
-              message,
-              storeID,
+              totalPrice,
             };
             const result = onChange(modelFields);
             value = result?.status ?? value;
@@ -274,167 +209,35 @@ export default function OrdersCreateForm(props) {
         {...getOverrideProps(overrides, "status")}
       ></TextField>
       <TextField
-        label="From"
-        isRequired={true}
-        isReadOnly={false}
-        type="datetime-local"
-        value={from && convertToLocal(new Date(from))}
-        onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
-          if (onChange) {
-            const modelFields = {
-              username,
-              type,
-              status,
-              from: value,
-              to,
-              price,
-              message,
-              storeID,
-            };
-            const result = onChange(modelFields);
-            value = result?.from ?? value;
-          }
-          if (errors.from?.hasError) {
-            runValidationTasks("from", value);
-          }
-          setFrom(value);
-        }}
-        onBlur={() => runValidationTasks("from", from)}
-        errorMessage={errors.from?.errorMessage}
-        hasError={errors.from?.hasError}
-        {...getOverrideProps(overrides, "from")}
-      ></TextField>
-      <TextField
-        label="To"
-        isRequired={true}
-        isReadOnly={false}
-        type="datetime-local"
-        value={to && convertToLocal(new Date(to))}
-        onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
-          if (onChange) {
-            const modelFields = {
-              username,
-              type,
-              status,
-              from,
-              to: value,
-              price,
-              message,
-              storeID,
-            };
-            const result = onChange(modelFields);
-            value = result?.to ?? value;
-          }
-          if (errors.to?.hasError) {
-            runValidationTasks("to", value);
-          }
-          setTo(value);
-        }}
-        onBlur={() => runValidationTasks("to", to)}
-        errorMessage={errors.to?.errorMessage}
-        hasError={errors.to?.hasError}
-        {...getOverrideProps(overrides, "to")}
-      ></TextField>
-      <TextField
-        label="Price"
+        label="Total price"
         isRequired={false}
         isReadOnly={false}
         type="number"
         step="any"
-        value={price}
+        value={totalPrice}
         onChange={(e) => {
           let value = isNaN(parseFloat(e.target.value))
             ? e.target.value
             : parseFloat(e.target.value);
           if (onChange) {
             const modelFields = {
-              username,
-              type,
+              customersID,
+              date,
               status,
-              from,
-              to,
-              price: value,
-              message,
-              storeID,
+              totalPrice: value,
             };
             const result = onChange(modelFields);
-            value = result?.price ?? value;
+            value = result?.totalPrice ?? value;
           }
-          if (errors.price?.hasError) {
-            runValidationTasks("price", value);
+          if (errors.totalPrice?.hasError) {
+            runValidationTasks("totalPrice", value);
           }
-          setPrice(value);
+          setTotalPrice(value);
         }}
-        onBlur={() => runValidationTasks("price", price)}
-        errorMessage={errors.price?.errorMessage}
-        hasError={errors.price?.hasError}
-        {...getOverrideProps(overrides, "price")}
-      ></TextField>
-      <TextField
-        label="Message"
-        isRequired={false}
-        isReadOnly={false}
-        value={message}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              username,
-              type,
-              status,
-              from,
-              to,
-              price,
-              message: value,
-              storeID,
-            };
-            const result = onChange(modelFields);
-            value = result?.message ?? value;
-          }
-          if (errors.message?.hasError) {
-            runValidationTasks("message", value);
-          }
-          setMessage(value);
-        }}
-        onBlur={() => runValidationTasks("message", message)}
-        errorMessage={errors.message?.errorMessage}
-        hasError={errors.message?.hasError}
-        {...getOverrideProps(overrides, "message")}
-      ></TextField>
-      <TextField
-        label="Store id"
-        isRequired={true}
-        isReadOnly={false}
-        value={storeID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              username,
-              type,
-              status,
-              from,
-              to,
-              price,
-              message,
-              storeID: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.storeID ?? value;
-          }
-          if (errors.storeID?.hasError) {
-            runValidationTasks("storeID", value);
-          }
-          setStoreID(value);
-        }}
-        onBlur={() => runValidationTasks("storeID", storeID)}
-        errorMessage={errors.storeID?.errorMessage}
-        hasError={errors.storeID?.hasError}
-        {...getOverrideProps(overrides, "storeID")}
+        onBlur={() => runValidationTasks("totalPrice", totalPrice)}
+        errorMessage={errors.totalPrice?.errorMessage}
+        hasError={errors.totalPrice?.hasError}
+        {...getOverrideProps(overrides, "totalPrice")}
       ></TextField>
       <Flex
         justifyContent="space-between"

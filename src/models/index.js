@@ -2,39 +2,24 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
-const StoreSettingsType = {
-  "IS_PAID": "isPaid",
-  "IS_PREMIUM": "isPremium",
-  "IS_PROMOTED": "isPromoted"
-};
 
-const OpentimesType = {
-  "DEFAULT": "default",
-  "CUSTOM": "custom",
-  "HOLIDAY": "holiday",
-  "SHORT": "short"
-};
 
-const { Opentime, Categories, Notes, Orders, Ads, User, Store, Evaluation, StoreCategories, Location, Contact, Sellplaces, Social, SideButton, Side, StoreSettingsValidation, StoreSettings } = initSchema(schema);
+const { Types, Locations, Cities, Notes, Customers, Businesses, Categories, BusinessesCategories, Social, Contacts, SpecialDay, Date, TimeOfDay, Periods, OpenHours } = initSchema(schema);
 
 export {
-  Opentime,
-  Categories,
+  Types,
+  Locations,
+  Cities,
   Notes,
-  Orders,
-  Ads,
-  User,
-  Store,
-  Evaluation,
-  StoreCategories,
-  StoreSettingsType,
-  OpentimesType,
-  Location,
-  Contact,
-  Sellplaces,
+  Customers,
+  Businesses,
+  Categories,
+  BusinessesCategories,
   Social,
-  SideButton,
-  Side,
-  StoreSettingsValidation,
-  StoreSettings
+  Contacts,
+  SpecialDay,
+  Date,
+  TimeOfDay,
+  Periods,
+  OpenHours
 };

@@ -5,44 +5,41 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+export declare type EscapeHatchProps = {
+    [elementHierarchy: string]: Record<string, unknown>;
+} | null;
+export declare type VariantValues = {
+    [key: string]: string;
+};
+export declare type Variant = {
+    variantValues: VariantValues;
+    overrides: EscapeHatchProps;
+};
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type OrdersCreateFormInputValues = {
-    username?: string;
-    type?: string;
-    status?: string;
-    from?: string;
-    to?: string;
-    price?: number;
-    message?: string;
-    storeID?: string;
+    customersID?: string;
+    date?: string;
+    status?: number;
+    totalPrice?: number;
 };
 export declare type OrdersCreateFormValidationValues = {
-    username?: ValidationFunction<string>;
-    type?: ValidationFunction<string>;
-    status?: ValidationFunction<string>;
-    from?: ValidationFunction<string>;
-    to?: ValidationFunction<string>;
-    price?: ValidationFunction<number>;
-    message?: ValidationFunction<string>;
-    storeID?: ValidationFunction<string>;
+    customersID?: ValidationFunction<string>;
+    date?: ValidationFunction<string>;
+    status?: ValidationFunction<number>;
+    totalPrice?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type OrdersCreateFormOverridesProps = {
     OrdersCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    username?: PrimitiveOverrideProps<TextFieldProps>;
-    type?: PrimitiveOverrideProps<SelectFieldProps>;
+    customersID?: PrimitiveOverrideProps<TextFieldProps>;
+    date?: PrimitiveOverrideProps<TextFieldProps>;
     status?: PrimitiveOverrideProps<TextFieldProps>;
-    from?: PrimitiveOverrideProps<TextFieldProps>;
-    to?: PrimitiveOverrideProps<TextFieldProps>;
-    price?: PrimitiveOverrideProps<TextFieldProps>;
-    message?: PrimitiveOverrideProps<TextFieldProps>;
-    storeID?: PrimitiveOverrideProps<TextFieldProps>;
+    totalPrice?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type OrdersCreateFormProps = React.PropsWithChildren<{
     overrides?: OrdersCreateFormOverridesProps | undefined | null;

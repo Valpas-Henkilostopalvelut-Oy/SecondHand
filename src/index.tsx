@@ -1,38 +1,29 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
-import { store } from "./app/store";
+import ReactDOM from "react-dom/client";
+import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "@fontsource/source-sans-pro";
-import { BrowserRouter } from "react-router-dom";
-import * as Sentry from "@sentry/react";
-import awsmobile from "./aws-exports";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+// Setup aws amplify
 import { Amplify } from "aws-amplify";
+import config from "./aws-exports";
 
-const sentry_dsn = process.env.REACT_APP_sentry_environment;
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 
-// disable datastore warnings
-Amplify.configure(awsmobile);
+Amplify.configure(config);
 
-// Sentry init
-Sentry.init({
-  dsn: sentry_dsn,
-  environment: process.env.NODE_ENV,
-  integrations: [new Sentry.Replay()],
-  replaysSessionSampleRate: 0.1,
-  replaysOnErrorSampleRate: 1.0,
-});
-
-const container = document.getElementById("root")!;
-const root = createRoot(container);
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <LocalizationProvider dateAdapter={AdapterLuxon}>
         <App />
-      </BrowserRouter>
+      </LocalizationProvider>
     </Provider>
   </React.StrictMode>
 );

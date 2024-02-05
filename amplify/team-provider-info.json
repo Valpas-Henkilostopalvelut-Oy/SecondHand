@@ -12,15 +12,27 @@
       "AmplifyAppId": "d1hqw9gu2csgf4"
     },
     "categories": {
+      "function": {
+        "kirppisc669f025": {},
+        "AdminQueriesbd20d68e": {
+          "deploymentBucketName": "amplify-kirppis-develop-111431-deployment",
+          "s3Key": "amplify-builds/AdminQueriesbd20d68e-6e4e45536f4d52707930-build.zip"
+        },
+        "kirppis2053c745": {
+          "deploymentBucketName": "amplify-kirppis-develop-111431-deployment",
+          "s3Key": "amplify-builds/kirppis2053c745-554c695676544b427267-build.zip"
+        }
+      },
       "auth": {
-        "kirppis516e92a5": {},
+        "kirppis9e209ebe9e209ebe": {},
         "userPoolGroups": {}
       },
-      "storage": {
-        "s388debbbf": {}
-      },
       "api": {
-        "kirppis": {}
+        "AdminQueries": {},
+        "kirpis2": {}
+      },
+      "storage": {
+        "s3d5d3bb48": {}
       }
     }
   }
