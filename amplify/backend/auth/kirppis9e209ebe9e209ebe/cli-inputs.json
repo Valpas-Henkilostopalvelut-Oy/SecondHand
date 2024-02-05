@@ -41,7 +41,10 @@
     "adminQueries": false,
     "triggers": {},
     "hostedUI": false,
-    "userPoolGroupList": [],
+    "userPoolGroupList": [
+      "Admin",
+      "User"
+    ],
     "adminQueryGroup": "Admin",
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
