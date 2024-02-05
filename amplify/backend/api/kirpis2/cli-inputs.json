@@ -6,7 +6,7 @@
     "defaultAuthType": {
       "mode": "API_KEY",
       "expirationTime": 30,
-      "apiKeyExpirationDate": "2024-03-03T07:37:12.436Z",
+      "apiKeyExpirationDate": "2024-03-06T08:43:50.205Z",
       "keyDescription": "api key description"
     },
     "conflictResolution": {
@@ -16,7 +16,8 @@
     },
     "additionalAuthTypes": [
       {
-        "mode": "AWS_IAM"
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authkirppis9e209ebe9e209ebe"
       }
     ]
   }

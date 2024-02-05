@@ -1,15 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import {
   getCurrentUser,
   signOut,
   signIn,
   signUp,
   confirmSignUp,
+  SignInOutput,
+  SignUpOutput,
 } from "aws-amplify/auth";
 
 interface ApplicationState {
   isLogged: boolean;
-  userId: string | null;
+  userId?: string | null;
   isConfirmed: boolean;
   nextStep: any;
   error?: string | null;
@@ -29,11 +31,11 @@ export const loadLoggedUser = createAsyncThunk(
     try {
       const user = await getCurrentUser();
       if (user) {
-        return true;
+        return { isLogged: true, userId: user.username };
       }
-      return false;
+      return { isLogged: false, userId: null };
     } catch (error) {
-      return false;
+      throw new Error("Error loading logged user:" + error);
     }
   }
 );
@@ -42,11 +44,9 @@ export const signInUser = createAsyncThunk(
   "application/signInUser",
   async ({ username, password }: { username: string; password: string }) => {
     try {
-      const user = await signIn({ username, password });
-      return user;
-      // Handle navigation or state update after successful sign-in
+      return await signIn({ username, password });
     } catch (error) {
-      return error;
+      throw new Error("Error signing in:" + error);
     }
   }
 );
@@ -55,17 +55,12 @@ export const signUpUser = createAsyncThunk(
   "application/signUpUser",
   async ({ password, email }: { password: string; email: string }) => {
     try {
-      const {
-        isSignUpComplete,
-        userId,
-        nextStep: { signUpStep },
-      } = await signUp({
+      return await signUp({
         username: email,
         password: password,
       });
-      return { isSignUpComplete, userId, signUpStep };
     } catch (error) {
-      return error;
+      throw new Error("Error signing up:" + error);
     }
   }
 );
@@ -75,8 +70,9 @@ export const signOutUser = createAsyncThunk(
   async () => {
     try {
       await signOut();
+      return true;
     } catch (error) {
-      return error;
+      throw new Error("Error signing out:" + error);
     }
   }
 );
@@ -103,15 +99,26 @@ export const applicationSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadLoggedUser.fulfilled, (state, action) => {
-        state.isLogged = action.payload;
+        state.isLogged = action.payload.isLogged;
+        state.userId = action.payload.userId;
       })
       .addCase(loadLoggedUser.rejected, (state, action) => {
         state.isLogged = false;
+      })
+      .addCase(signInUser.fulfilled, (state, action) => {
+        state.isLogged = true;
+      })
+      .addCase(signInUser.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(signUpUser.fulfilled, (state, action) => {
+        state.isConfirmed = action.payload.isSignUpComplete;
+        state.userId = action.payload.userId;
+        state.nextStep = action.payload.nextStep.signUpStep;
+      })
+      .addCase(signUpUser.rejected, (state, action) => {
+        state.error = action.error.message;
       });
-
-    builder.addCase(signInUser.rejected, (state, action) => {
-      state.error = action.error.message;
-    });
   },
   reducers: {
     setLogged: (state, action) => {
