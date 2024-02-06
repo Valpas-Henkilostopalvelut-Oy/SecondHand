@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
+import { Box, CircularProgress, Container } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { fetchBusinessTypes } from "./redux/reducer/typeSlice";
 import { fetchBusinesses } from "./redux/reducer/businessSlice";
 import { fetchCategories } from "./redux/reducer/categoriesSlice";
 import { fetchLocations, fetchCities } from "./redux/reducer/locationSlice";
-import { loadLoggedUser } from "./redux/reducer/application";
+import { loadLoggedUser, setLoaded } from "./redux/reducer/application";
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,6 +26,8 @@ import AdminLocationEdit from "./containers/Admin/AdminLocationEdit";
 import AdminTypesEdit from "./containers/Admin/AdminTypesEdit";
 import SignInForm from "./containers/Login";
 import SignUpForm from "./containers/SignUp";
+import { DataStore } from "aws-amplify/datastore";
+import { Hub } from "aws-amplify/utils";
 
 const PrivateRoute = ({
   isLogged,
@@ -43,16 +46,57 @@ const PrivateRoute = ({
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { isLogged } = useAppSelector((state) => state.application);
+  const { isLogged, isLoaded } = useAppSelector((state) => state.application);
 
   useEffect(() => {
-    dispatch(fetchBusinessTypes());
-    dispatch(fetchBusinesses());
-    dispatch(fetchCategories());
-    dispatch(fetchLocations());
-    dispatch(fetchCities());
-    dispatch(loadLoggedUser());
+    const removeListener = Hub.listen("datastore", async ({ payload }) => {
+      console.log(payload.event, payload.data);
+
+      if (payload.event === "ready") {
+        console.log("DataStore ready");
+        dispatch(setLoaded(true));
+        dispatch(loadLoggedUser());
+        dispatch(fetchBusinessTypes());
+        dispatch(fetchBusinesses());
+        dispatch(fetchCategories());
+        dispatch(fetchLocations());
+        dispatch(fetchCities());
+      }
+    });
+
+    console.log("Starting DataStore");
+    DataStore.start();
+
+    return () => removeListener();
   }, [dispatch]);
+
+  if (!isLoaded) {
+    return (
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <CircularProgress /> {/* Анимация кругового индикатора загрузки */}
+          {/* Можно добавить текст ниже индикатора, если нужно */}
+          <Box mt={2}>Lataminen...</Box>
+        </Box>
+      </Container>
+    );
+  }
 
   return (
     <Router>

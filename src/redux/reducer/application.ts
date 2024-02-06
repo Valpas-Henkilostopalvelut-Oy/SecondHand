@@ -8,8 +8,11 @@ import {
   SignInOutput,
   SignUpOutput,
 } from "aws-amplify/auth";
+import { DataStore } from "aws-amplify/datastore";
 
 interface ApplicationState {
+  isLoaded: boolean;
+  isLoading: boolean;
   isLogged: boolean;
   userId?: string | null;
   isConfirmed: boolean;
@@ -18,6 +21,8 @@ interface ApplicationState {
 }
 
 const initialState: ApplicationState = {
+  isLoaded: false,
+  isLoading: false,
   isLogged: false,
   isConfirmed: false,
   userId: null,
@@ -70,6 +75,7 @@ export const signOutUser = createAsyncThunk(
   async () => {
     try {
       await signOut();
+      await DataStore.clear();
       return true;
     } catch (error) {
       throw new Error("Error signing out:" + error);
@@ -121,12 +127,12 @@ export const applicationSlice = createSlice({
       });
   },
   reducers: {
-    setLogged: (state, action) => {
-      state.isLogged = action.payload;
-    },
+    setLoaded: (state, action: PayloadAction<boolean>) => {
+      state.isLoaded = action.payload;
+    }
   },
 });
 
-export const { setLogged } = applicationSlice.actions;
+export const { setLoaded } = applicationSlice.actions;
 
 export default applicationSlice.reducer;
