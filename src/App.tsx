@@ -28,6 +28,7 @@ import SignInForm from "./containers/Login";
 import SignUpForm from "./containers/SignUp";
 import { DataStore } from "aws-amplify/datastore";
 import { Hub } from "aws-amplify/utils";
+import NotFoundPage from "./containers/NotFoundPage";
 
 const PrivateRoute = ({
   isLogged,
@@ -50,7 +51,6 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     const removeListener = Hub.listen("datastore", async ({ payload }) => {
-      console.log(payload.event, payload.data);
 
       if (payload.event === "ready") {
         console.log("DataStore ready");
@@ -90,8 +90,7 @@ const App = (): JSX.Element => {
             alignItems: "center",
           }}
         >
-          <CircularProgress /> {/* Анимация кругового индикатора загрузки */}
-          {/* Можно добавить текст ниже индикатора, если нужно */}
+          <CircularProgress />
           <Box mt={2}>Lataminen...</Box>
         </Box>
       </Container>
@@ -196,7 +195,8 @@ const App = (): JSX.Element => {
             />
           }
         />
-        <Route path="*" element={<h1>Not Found</h1>} />
+        <Route path="/NotFound" element={<NotFoundPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

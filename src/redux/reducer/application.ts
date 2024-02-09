@@ -5,8 +5,6 @@ import {
   signIn,
   signUp,
   confirmSignUp,
-  SignInOutput,
-  SignUpOutput,
 } from "aws-amplify/auth";
 import { DataStore } from "aws-amplify/datastore";
 

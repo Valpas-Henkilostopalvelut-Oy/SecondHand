@@ -1,26 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, TextField, Box, Container } from "@mui/material";
-import { signIn } from "aws-amplify/auth";
+import { useAppDispatch } from "../../redux/hooks";
+import { signInUser } from "../../redux/reducer/application";
 import { useFormik } from "formik";
 
 const SignInForm = () => {
+  const dispatch = useAppDispatch();
   const loginForm = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
-    onSubmit: async (values) => {
-      try {
-        const signInResponse = await signIn({
-          username: values.username,
-          password: values.password,
-        });
-        console.log(signInResponse);
-        // Handle navigation or state update after successful sign-in
-      } catch (error) {
-        console.error("Error signing in:", error);
-      }
-    },
+    onSubmit: async (values) => dispatch(signInUser(values)),
   });
 
   return (
@@ -43,7 +34,6 @@ const SignInForm = () => {
           label="Username"
           name="username"
           autoComplete="username"
-          autoFocus
           value={loginForm.values.username}
           onChange={loginForm.handleChange}
         />

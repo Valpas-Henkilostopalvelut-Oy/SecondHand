@@ -17,13 +17,13 @@ const SignUpForm = () => {
 
   const confirmationForm = useFormik({
     initialValues: {
-      confirmationCode: "",
+      code: "",
     },
     onSubmit: async (values) => {
       dispatch(
         confirmSignUpUser({
           email: signUpForm.values.email,
-          code: values.confirmationCode,
+          code: values.code,
         })
       );
     },
@@ -75,12 +75,12 @@ const SignUpForm = () => {
               margin="normal"
               required
               fullWidth
-              id="confirmationCode"
+              id="code"
               label="Confirmation Code"
-              name="confirmationCode"
-              autoComplete="confirmationCode"
+              name="code"
+              autoComplete="code"
               autoFocus
-              value={confirmationForm.values.confirmationCode}
+              value={confirmationForm.values.code}
               onChange={confirmationForm.handleChange}
             />
             <Button type="submit" fullWidth variant="contained">

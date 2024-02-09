@@ -21,8 +21,7 @@ export const fetchBusinesses = createAsyncThunk(
     // Sort first newest to oldest
     const result = await DataStore.query(Businesses, null, {
       // Pagination
-      limit: 10,
-      sort: (c) => c.createdAt(SortDirection.ASCENDING),
+      sort: (c) => c.createdAt(SortDirection.DESCENDING),
     });
     return result;
   }

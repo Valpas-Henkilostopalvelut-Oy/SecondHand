@@ -42,10 +42,8 @@ const SearchInput = (): JSX.Element => {
     adminName: null,
   });
 
-  const {
-    typeSlice: { businessTypes },
-    locationSlice: { locations },
-  } = useAppSelector((state) => state);
+  const { locations } = useAppSelector((state) => state.locationSlice);
+  const { businessTypes } = useAppSelector((state) => state.typeSlice);
 
   useEffect(() => {
     dispatch(onUpdate(searchQuery));
