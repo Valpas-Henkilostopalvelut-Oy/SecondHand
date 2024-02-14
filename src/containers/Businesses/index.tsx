@@ -160,12 +160,14 @@ const BusinessCard = (business: BusinessShort): JSX.Element => {
   }, [business.image]);
   return (
     <Card>
-      <CardMedia
-        component="img"
-        height="180"
-        image={image ?? placeholder}
-        alt={business.name}
-      />
+      <Link to={`/businesses/${business.id}`}>
+        <CardMedia
+          component="img"
+          height="180"
+          image={image ?? placeholder}
+          alt={business.name}
+        />
+      </Link>
       <CardContent>
         <Box mb={1}>
           <Typography
@@ -174,6 +176,15 @@ const BusinessCard = (business: BusinessShort): JSX.Element => {
             textOverflow={"ellipsis"}
             whiteSpace={"nowrap"}
             overflow={"hidden"}
+            component={Link}
+            to={`/businesses/${business.id}`}
+            sx={{
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textDecoration: "none",
+              color: "inherit",
+            }}
           >
             {business.name}
           </Typography>

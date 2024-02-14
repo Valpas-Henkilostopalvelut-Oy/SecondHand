@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BusinessState, BusinessShort, Business } from "../../types/businesses";
+import {
+  BusinessState,
+  BusinessShort,
+  NewBusiness,
+} from "../../types/businesses";
 import searchBusinesses from "../../utils/searchBusinesses";
 import { SearchQuery } from "../../types/search";
 import { DataStore, SortDirection } from "aws-amplify/datastore";
-import { Businesses } from "../../models";
+import { Businesses, BusinessesCategories } from "../../models";
 
 // Define a type for the slice state
 
@@ -106,9 +110,28 @@ export const openBusiness = createAsyncThunk(
 
 export const createBusiness = createAsyncThunk(
   "businesses/createBusiness",
-  async (business: Business) => {
-    const result = await DataStore.save(new Businesses(business));
-    console.log("createBusiness", result);
+  async (business: NewBusiness) => {
+    if (!business.location) throw new Error("Location is required");
+    if (!business.city) throw new Error("City is required");
+    if (!business.type) throw new Error("Type is required");
+    const result = await DataStore.save(
+      new Businesses({
+        ...business,
+        typesID: business.type?.id ?? "",
+        citiesID: business.city?.id ?? "",
+        locationsID: business.location?.id ?? "",
+      })
+    );
+    if (business.categories) {
+      business.categories.forEach((category) => {
+        DataStore.save(
+          new BusinessesCategories({
+            categories: category,
+            businesses: result,
+          })
+        );
+      });
+    }
     return result;
   }
 );

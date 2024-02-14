@@ -1,4 +1,4 @@
-import { Businesses } from "../models";
+import { Businesses, Categories, Cities, Locations, Types } from "../models";
 
 export interface BusinessState {
   businesses: Businesses[] | null;
@@ -19,21 +19,25 @@ export interface BusinessShort {
   cityId: string;
 }
 
-export interface Business {
-  locationsID: string;
+export interface NewBusiness {
   name: string;
   address: string;
   iframe?: string | null;
   dirrection?: string | null;
   description?: string | null;
   websiteUrl?: string | null;
-  logo?: string | null;
   images?: (string | null)[] | null;
   openHours?: OpenHours | null;
   contacts?: (Contact | null)[] | null;
   social?: Social | null;
-  typesID: string;
-  citiesID: string;
+
+  logo?: string | null;
+  logoFile?: File | null;
+
+  location: Locations | null;
+  type: Types | null;
+  city: Cities | null;
+  categories?: Categories[];
 }
 
 export interface OpenHours {

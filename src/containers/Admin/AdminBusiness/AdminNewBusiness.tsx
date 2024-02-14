@@ -12,31 +12,27 @@ import {
   AccordionDetails,
   AccordionSummary,
   Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
+  List,
+  ListItem,
+  Divider,
+  ListItemText,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useFormik, FormikProps } from "formik";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { createBusiness } from "../../redux/reducer/businessSlice";
+import { useFormik, FormikProps, FormikHelpers } from "formik";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { createBusiness } from "../../../redux/reducer/businessSlice";
 import {
-  Business,
+  NewBusiness,
   OpenHours,
   Periods,
   Social,
   TimeOfDay,
   Contact,
-} from "../../types/businesses";
-import ImageUpload from "../../components/ImageUpload";
+} from "../../../types/businesses";
+import ImageUpload from "../../../components/ImageUpload";
 import { uploadData } from "@aws-amplify/storage";
 import { DateTime } from "luxon";
 import { TimePicker } from "@mui/x-date-pickers";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
 
 const days = [
   "Maanantai",
@@ -48,30 +44,15 @@ const days = [
   "Sunnuntai",
 ];
 
-const initialValues: Business = {
-  name: "",
-  address: "",
-  description: null,
-  websiteUrl: null,
-  logo: null,
-  typesID: "",
-  locationsID: "",
-  citiesID: "",
-
-  openHours: null,
-  contacts: null,
-  social: null,
-  images: null,
-};
-
 const dateToTimeOfDate = (
-  date: DateTime<boolean> | null,
+  date: DateTime | null,
   day: number | null
 ): TimeOfDay => {
-  if (!date || day === null)
+  if (!date || day === null) {
     return { day: 0, hours: 0, minute: 0, date: { year: 0, month: 0, day: 0 } };
+  }
   return {
-    day: day,
+    day,
     hours: date.hour,
     minute: date.minute,
     date: {
@@ -82,7 +63,18 @@ const dateToTimeOfDate = (
   };
 };
 
-const timeOfDateToDate = (timeOfDay: TimeOfDay): DateTime => {
+const timeOfDateToDate = (timeOfDay: TimeOfDay): DateTime | null => {
+  if (
+    !Number.isFinite(timeOfDay.hours) ||
+    !Number.isFinite(timeOfDay.minute) ||
+    !Number.isFinite(timeOfDay.date.year) ||
+    !Number.isFinite(timeOfDay.date.month) ||
+    !Number.isFinite(timeOfDay.date.day)
+  ) {
+    console.error("One of the timeOfDay fields is NaN", timeOfDay);
+    return null;
+  }
+
   return DateTime.fromObject({
     year: timeOfDay.date.year,
     month: timeOfDay.date.month,
@@ -105,7 +97,7 @@ const BusinessIframeGetDirrection = ({
   iframe,
   direction,
 }: {
-  formik: FormikProps<Business>;
+  formik: FormikProps<NewBusiness>;
   iframe?: string | null;
   direction?: string | null;
 }): JSX.Element => {
@@ -146,6 +138,13 @@ const BusinessIframeGetDirrection = ({
                   value={iframe ?? ""}
                   onChange={formik.handleChange}
                 />
+                <Button
+                  onClick={() =>
+                    formik.setFieldValue("iframe", extractUrl(iframe))
+                  }
+                >
+                  Get iframe from url
+                </Button>
               </Box>
               <Box mb={2}>
                 <TextField
@@ -169,7 +168,7 @@ const BusinessContacts = ({
   formik,
   contacts,
 }: {
-  formik: FormikProps<Business>;
+  formik: FormikProps<NewBusiness>;
   contacts?: (Contact | null)[] | null;
 }): JSX.Element => {
   const enable = contacts !== null && contacts !== undefined;
@@ -235,6 +234,7 @@ const BusinessContacts = ({
                   id="name"
                   name="name"
                   label="Name"
+                  type="text"
                   value={contact?.name ?? ""}
                   onChange={handleContactChange}
                 />
@@ -245,6 +245,7 @@ const BusinessContacts = ({
                   id="email"
                   name="email"
                   label="Email"
+                  type="email"
                   value={contact?.email ?? ""}
                   onChange={handleContactChange}
                 />
@@ -255,6 +256,7 @@ const BusinessContacts = ({
                   id="phone"
                   name="phone"
                   label="Phone"
+                  type="tel"
                   value={contact?.phone ?? ""}
                   onChange={handleContactChange}
                 />
@@ -263,32 +265,26 @@ const BusinessContacts = ({
                 <Button onClick={handleAddNewContact}>Add new contact</Button>
               </Box>
               <Box mb={2}>
-                <TableContainer component={Paper}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Phone</TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {formik.values.contacts?.map((contact, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{contact?.name}</TableCell>
-                          <TableCell>{contact?.email}</TableCell>
-                          <TableCell>{contact?.phone}</TableCell>
-                          <TableCell>
-                            <Button onClick={() => handleDeleteContact(index)}>
-                              Delete
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                <List>
+                  {formik.values.contacts?.map((contact, index) => (
+                    <div key={`${contact?.name}-${index}`}>
+                      <ListItem>
+                        <ListItemText
+                          primary={contact?.name}
+                          secondary={
+                            <Typography>
+                              {contact?.email} - {contact?.phone}
+                            </Typography>
+                          }
+                        />
+                        <Button onClick={() => handleDeleteContact(index)}>
+                          Delete
+                        </Button>
+                      </ListItem>
+                      <Divider />
+                    </div>
+                  ))}
+                </List>
               </Box>
             </Collapse>
           </Box>
@@ -302,7 +298,7 @@ const BusinessSocial = ({
   formik,
   social,
 }: {
-  formik: FormikProps<Business>;
+  formik: FormikProps<NewBusiness>;
   social?: Social | null;
 }): JSX.Element => {
   const enable = social !== null && social !== undefined;
@@ -395,7 +391,7 @@ const BusinessOpenHours = ({
   formik,
   openHours,
 }: {
-  formik: FormikProps<Business>;
+  formik: FormikProps<NewBusiness>;
   openHours?: OpenHours | null;
 }): JSX.Element => {
   const enable = openHours !== null && openHours !== undefined;
@@ -469,7 +465,7 @@ const BusinessOpenHours = ({
     });
   };
   const handleChangeValues = (
-    time: DateTime<boolean> | null,
+    time: DateTime | null,
     type: "open" | "close"
   ) => {
     setDateValues({
@@ -477,19 +473,26 @@ const BusinessOpenHours = ({
       [type]: dateToTimeOfDate(time, dateValues.open.day),
     });
   };
-  const handleAddNewTime = (period: Periods) => {
-    const prevPeriod = formik.values.openHours?.period ?? [];
-    // Sort per day
-    prevPeriod.sort((a, b) => a.open.day - b.open.day);
-    // Add new period
-    prevPeriod.push(period);
-    // Sort per day
-    prevPeriod.sort((a, b) => a.open.day - b.open.day);
+  const handleAddNewTime = (newPeriod: Periods) => {
+    const prevPeriods = formik.values.openHours?.period ?? [];
+    const existingPeriodIndex = prevPeriods.findIndex(
+      (period) => period.open.day === newPeriod.open.day
+    );
+
+    if (existingPeriodIndex > -1) {
+      prevPeriods[existingPeriodIndex] = newPeriod;
+    } else {
+      prevPeriods.push(newPeriod);
+    }
+
+    prevPeriods.sort((a, b) => a.open.day - b.open.day);
+
     formik.setFieldValue("openHours", {
       ...formik.values.openHours,
-      period: prevPeriod,
+      period: prevPeriods,
     });
   };
+
   const handleDeleteTime = (index: number) => {
     const prevPeriod = formik.values.openHours?.period ?? [];
     prevPeriod.splice(index, 1);
@@ -499,7 +502,7 @@ const BusinessOpenHours = ({
     });
   };
 
-  // Day, open time, close time selectors
+  const periods = formik.values.openHours?.period ?? [];
 
   return (
     <Box mt={2}>
@@ -529,7 +532,12 @@ const BusinessOpenHours = ({
                     getOptionLabel={(option) => option}
                     onChange={(event, value) => handleChangeDay(value)}
                     renderInput={(params) => (
-                      <TextField {...params} label="Day" variant="standard" />
+                      <TextField
+                        {...params}
+                        label="Day"
+                        variant="standard"
+                        required
+                      />
                     )}
                   />
                 </Grid>
@@ -570,36 +578,27 @@ const BusinessOpenHours = ({
             </Collapse>
           </Box>
           <Box mb={2} component={Collapse} in={enable}>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Day</TableCell>
-                    <TableCell>Open</TableCell>
-                    <TableCell>Close</TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {formik.values.openHours?.period?.map((period, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{days[period.open.day]}</TableCell>
-                      <TableCell>
-                        {period.open.hours}:{period.open.minute}
-                      </TableCell>
-                      <TableCell>
-                        {period.close.hours}:{period.close.minute}
-                      </TableCell>
-                      <TableCell>
-                        <Button onClick={() => handleDeleteTime(index)}>
-                          Delete
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <List>
+              {periods.map((period, index) => (
+                <div key={`${period.open.day}-${index}`}>
+                  <ListItem>
+                    <ListItemText
+                      primary={days[period.open.day]}
+                      secondary={
+                        <Typography>
+                          {period.open.hours}:{period.open.minute} -{" "}
+                          {period.close.hours}:{period.close.minute}
+                        </Typography>
+                      }
+                    />
+                    <Button onClick={() => handleDeleteTime(index)}>
+                      Delete
+                    </Button>
+                  </ListItem>
+                  <Divider />
+                </div>
+              ))}
+            </List>
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -607,38 +606,66 @@ const BusinessOpenHours = ({
   );
 };
 
+const initialValues: NewBusiness = {
+  name: "",
+  address: "",
+  description: null,
+  websiteUrl: null,
+  logo: null,
+  logoFile: null,
+
+  type: null,
+  location: null,
+  city: null,
+  categories: [],
+
+  openHours: null,
+  contacts: null,
+  social: null,
+  images: null,
+};
+
 export const BusinessCreateForm = () => {
   const { cities, locations } = useAppSelector((state) => state.locationSlice);
   const { businessTypes } = useAppSelector((state) => state.typeSlice);
+  const { categories } = useAppSelector((state) => state.categoriesSlice);
   const dispatch = useAppDispatch();
+
+  const handleCreateBusiness = async (values: NewBusiness) => {
+    if (!values.logoFile) {
+      dispatch(createBusiness(values));
+      return;
+    }
+    try {
+      const result = uploadData({
+        key: `businesses/${values.name}/${values.logoFile?.name}`,
+        data: values.logoFile,
+      });
+      return dispatch(
+        createBusiness({
+          ...values,
+          logo: (await result.result).key,
+        })
+      );
+    } catch (error) {
+      console.error("Error uploading file", error);
+    }
+  };
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
-      // Handle form submission, e.g., save to DataStore
-      dispatch(createBusiness(values));
+    onSubmit: async (values) => {
+      await handleCreateBusiness(values);
     },
   });
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
     if (!file) return;
-
-    // Now you can upload the file using Amplify Storage
-    uploadFile(file);
+    formik.setFieldValue("logoFile", file);
   };
 
-  const uploadFile = async (file: File) => {
-    // Save the file in public buisnesses folder
-    try {
-      const result = await uploadData({
-        key: `businesses/${file.name}`,
-        data: file,
-      });
-      console.log("File uploaded successfully", await result.result);
-      formik.setFieldValue("logo", (await result.result).key);
-    } catch (error) {
-      console.error("Error uploading file", error);
-    }
+  const handleFileDelete = () => {
+    formik.setFieldValue("logoFile", null);
   };
 
   return (
@@ -646,116 +673,122 @@ export const BusinessCreateForm = () => {
       <Box margin={"20px 0"}>
         <form onSubmit={formik.handleSubmit}>
           {/* Create TextFields for simple fields */}
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              id="name"
-              name="name"
-              label="Business Name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-            />
-          </Box>
-          {/* Add other fields in a similar manner */}
-          {/* For complex fields like categories, notes, openHours, contacts, social, etc., 
-                you might need custom components or more complex form controls. */}
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              id="address"
-              name="address"
-              label="Address"
-              value={formik.values.address}
-              onChange={formik.handleChange}
-              error={formik.touched.address && Boolean(formik.errors.address)}
-              helperText={formik.touched.address && formik.errors.address}
-            />
-          </Box>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              id="description"
-              name="description"
-              label="Description"
-              multiline
-              rows={4}
-              value={formik.values.description ?? ""}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.description && Boolean(formik.errors.description)
-              }
-              helperText={
-                formik.touched.description && formik.errors.description
-              }
-            />
-          </Box>
-          <Box mb={2}>
-            <TextField
-              fullWidth
-              id="websiteUrl"
-              name="websiteUrl"
-              label="Website URL"
-              value={formik.values.websiteUrl ?? ""}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.websiteUrl && Boolean(formik.errors.websiteUrl)
-              }
-              helperText={formik.touched.websiteUrl && formik.errors.websiteUrl}
-            />
-          </Box>
-          <Box mb={2}>
-            <ImageUpload onFileChange={handleFileChange} />
-            <Typography>{formik.values.logo ?? "No image"}</Typography>
-            <TaskAltIcon color={formik.values.logo ? "success" : "error"} />
-          </Box>
-          <Box mb={2}>
-            <Autocomplete
-              disablePortal
-              id="typesID"
-              options={businessTypes ?? []}
-              getOptionLabel={(option) => option.name}
-              onChange={(event, value) => {
-                formik.setFieldValue("typesID", value?.id);
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="Types ID" variant="standard" />
-              )}
-            />
-          </Box>
-          <Box mb={2}>
-            <Autocomplete
-              disablePortal
-              id="locationsID"
-              options={locations ?? []}
-              getOptionLabel={(option) => option.adminName}
-              onChange={(event, value) => {
-                formik.setFieldValue("locationsID", value?.id);
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Locations ID"
-                  variant="standard"
-                />
-              )}
-            />
-          </Box>
-          <Box mb={2}>
-            <Autocomplete
-              disablePortal
-              id="cityID"
-              options={cities ?? []}
-              getOptionLabel={(option) => option.name}
-              onChange={(event, value) => {
-                formik.setFieldValue("citiesID", value?.id);
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label="City ID" variant="standard" />
-              )}
-            />
-          </Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="name"
+                name="name"
+                label="Business Name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="address"
+                name="address"
+                label="Address"
+                value={formik.values.address}
+                onChange={formik.handleChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="description"
+                name="description"
+                label="Description"
+                multiline
+                rows={4}
+                value={formik.values.description ?? ""}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="websiteUrl"
+                name="websiteUrl"
+                label="Website URL"
+                value={formik.values.websiteUrl ?? ""}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Autocomplete
+                disablePortal
+                id="categoriesIDs"
+                options={categories ?? []}
+                value={formik.values.categories}
+                multiple
+                getOptionLabel={(option) => option.name}
+                onChange={(event, value) => {
+                  formik.setFieldValue("categories", value);
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Categories" />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <ImageUpload
+                onFileChange={handleFileChange}
+                imageFile={formik.values.logoFile}
+                onDelete={handleFileDelete}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} mb={2}>
+            <Grid item xs={12} sm={4}>
+              <Autocomplete
+                disablePortal
+                id="typesID"
+                options={businessTypes ?? []}
+                value={formik.values.type}
+                getOptionLabel={(option) => option.name}
+                onChange={(event, value) => {
+                  formik.setFieldValue("type", value);
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Type" required />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Autocomplete
+                disablePortal
+                id="locationsID"
+                options={locations ?? []}
+                value={formik.values.location}
+                getOptionLabel={(option) => option.adminName}
+                onChange={(event, value) => {
+                  formik.setFieldValue("location", value);
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Location" required />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Autocomplete
+                disablePortal
+                id="cityID"
+                options={cities ?? []}
+                value={formik.values.city}
+                getOptionLabel={(option) => option.name}
+                onChange={(event, value) => {
+                  formik.setFieldValue("city", value);
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="City" required />
+                )}
+              />
+            </Grid>
+          </Grid>
           <Box mb={2}>
             <BusinessIframeGetDirrection
               formik={formik}
@@ -779,7 +812,9 @@ export const BusinessCreateForm = () => {
             <BusinessSocial formik={formik} social={formik.values.social} />
           </Box>
           <Box mb={2}>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={formik.isSubmitting}>
+              Submit
+            </Button>
             <Button type="reset" onClick={formik.handleReset}>
               Reset
             </Button>
