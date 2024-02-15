@@ -633,8 +633,7 @@ export const BusinessCreateForm = () => {
 
   const handleCreateBusiness = async (values: NewBusiness) => {
     if (!values.logoFile) {
-      dispatch(createBusiness(values));
-      return;
+      return dispatch(createBusiness(values));
     }
     try {
       const result = uploadData({

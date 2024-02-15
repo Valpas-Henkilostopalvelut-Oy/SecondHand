@@ -15,8 +15,9 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { LazyTypes } from "../../models";
+import { LazyTypes, Types } from "../../models";
 import { signOutUser } from "../../redux/reducer/application";
+import { selectType } from "../../redux/reducer/searchSlice";
 
 const HeaderBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -56,6 +57,10 @@ export const Header = (): JSX.Element => {
   const handleAccountClose = () => setOpenAccount(false);
   const handleAccountOpen = () => setOpenAccount(true);
   const { businessTypes } = useAppSelector((state) => state.typeSlice);
+  const dispatch = useAppDispatch();
+  const handleSelectType = (type: Types) => {
+    dispatch(selectType(type));
+  };
 
   return (
     <>
@@ -78,7 +83,11 @@ export const Header = (): JSX.Element => {
                   <NavigationButton to="/">Etusivu</NavigationButton>
                   {businessTypes &&
                     businessTypes.map((type) => (
-                      <NavigationButton to={`/businesses`} key={type.id}>
+                      <NavigationButton
+                        to={`/businesses`}
+                        key={type.id}
+                        onClick={() => handleSelectType(type)}
+                      >
                         {type.name}
                       </NavigationButton>
                     ))}
@@ -109,6 +118,7 @@ export const Header = (): JSX.Element => {
           handleClose={handleClose}
           handleOpen={handleOpen}
           businessTypes={businessTypes}
+          handleSelectType={handleSelectType}
         />
       )}
       <AccountDrawer
@@ -125,11 +135,13 @@ const NavigationDrawer = ({
   handleClose,
   handleOpen,
   businessTypes,
+  handleSelectType,
 }: {
   open: boolean;
   handleClose: () => void;
   handleOpen: () => void;
   businessTypes?: LazyTypes[] | null;
+  handleSelectType: (type: Types) => void;
 }): JSX.Element => {
   return (
     <SwipeableDrawer
@@ -149,7 +161,11 @@ const NavigationDrawer = ({
         <NavigationButton to="/">Etusivu</NavigationButton>
         {businessTypes &&
           businessTypes.map((type) => (
-            <NavigationButton to={`/businesses`} key={type.id}>
+            <NavigationButton
+              to={`/businesses`}
+              key={type.id}
+              onClick={() => handleSelectType(type)}
+            >
               {type.name}
             </NavigationButton>
           ))}

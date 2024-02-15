@@ -15,7 +15,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div>
       {imageFile && (
-        <div style={{ marginBottom: "20px" }}>
+        <>
           <img
             src={URL.createObjectURL(imageFile)}
             alt="preview"
@@ -27,34 +27,36 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               marginBottom: "10px",
             }}
           />
-          <Button
-            variant="contained"
-            color="secondary"
-            component="span"
-            onClick={onDelete}
-            style={{ marginRight: "10px" }}
-            fullWidth
-          >
-            Delete
-          </Button>
+          <div style={{ marginBottom: "20px" }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              component="span"
+              onClick={onDelete}
+              style={{ marginRight: "10px" }}
+            >
+              Delete
+            </Button>
+          </div>
+        </>
+      )}
+      {!imageFile && (
+        <div style={{ marginBottom: "20px" }}>
+          <label htmlFor="raised-button-file">
+            <Button variant="contained" component="span">
+              Upload
+            </Button>
+          </label>
+          <input
+            accept="image/*"
+            style={{ display: "none" }}
+            id="raised-button-file"
+            multiple
+            type="file"
+            onChange={onFileChange}
+          />
         </div>
       )}
-      <label
-        htmlFor="raised-button-file"
-        style={{ display: "block", textAlign: "center", marginBottom: "20px" }}
-      >
-        <Button variant="contained" component="span" fullWidth>
-          Upload
-        </Button>
-      </label>
-      <input
-        accept="image/*"
-        style={{ display: "none" }}
-        id="raised-button-file"
-        multiple
-        type="file"
-        onChange={onFileChange}
-      />
     </div>
   );
 };

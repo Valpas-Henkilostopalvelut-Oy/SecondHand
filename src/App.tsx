@@ -23,7 +23,7 @@ import { AdminTypes } from "./containers/Admin/AdminTypes";
 import { AdminLocations } from "./containers/Admin/AdminLocations";
 import { BusinessCreateForm } from "./containers/Admin/AdminBusiness/AdminNewBusiness";
 import AdminLocationEdit from "./containers/Admin/AdminLocationEdit";
-import AdminTypesEdit from "./containers/Admin/AdminTypesEdit";
+import AdminTypesEdit from "./containers/Admin/AdminTypes/AdminTypesEdit";
 import SignInForm from "./containers/Login";
 import SignUpForm from "./containers/SignUp";
 import { DataStore } from "aws-amplify/datastore";
