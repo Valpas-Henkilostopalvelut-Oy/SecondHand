@@ -13,8 +13,19 @@ interface ApplicationState {
   isLoading: boolean;
   isLogged: boolean;
   userId?: string | null;
-  isConfirmed: boolean;
-  nextStep: any;
+  isSignUpComplete: boolean;
+  signInStep:
+    | "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE"
+    | "CONTINUE_SIGN_IN_WITH_MFA_SELECTION"
+    | "CONFIRM_SIGN_IN_WITH_SMS_CODE"
+    | "CONFIRM_SIGN_IN_WITH_TOTP_CODE"
+    | "CONTINUE_SIGN_IN_WITH_TOTP_SETUP"
+    | "CONFIRM_SIGN_UP"
+    | "RESET_PASSWORD"
+    | "DONE"
+    | "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
+    | null;
+  signUpStep: "DONE" | "CONFIRM_SIGN_UP" | "COMPLETE_AUTO_SIGN_IN" | null;
   error?: string | null;
 }
 
@@ -22,78 +33,60 @@ const initialState: ApplicationState = {
   isLoaded: false,
   isLoading: false,
   isLogged: false,
-  isConfirmed: false,
+  isSignUpComplete: false,
   userId: null,
-  nextStep: null,
+  signInStep: null,
+  signUpStep: null,
   error: null,
 };
 
 export const loadLoggedUser = createAsyncThunk(
   "application/loadLoggedUser",
   async () => {
-    try {
-      const user = await getCurrentUser();
-      if (user) {
-        return { isLogged: true, userId: user.username };
-      }
-      return { isLogged: false, userId: null };
-    } catch (error) {
-      throw new Error("Error loading logged user:" + error);
+    const user = await getCurrentUser();
+    if (user) {
+      return { isLogged: true, userId: user.username };
     }
+    return { isLogged: false, userId: null };
   }
 );
 
 export const signInUser = createAsyncThunk(
   "application/signInUser",
-  async ({ username, password }: { username: string; password: string }) => {
-    try {
-      return await signIn({ username, password });
-    } catch (error) {
-      throw new Error("Error signing in:" + error);
-    }
+  async ({ email, password }: { email: string; password: string }) => {
+    const result = await signIn({ username: email, password });
+    return result;
   }
 );
 
 export const signUpUser = createAsyncThunk(
   "application/signUpUser",
   async ({ password, email }: { password: string; email: string }) => {
-    try {
-      return await signUp({
-        username: email,
-        password: password,
-      });
-    } catch (error) {
-      throw new Error("Error signing up:" + error);
-    }
+    const result = await signUp({
+      username: email,
+      password: password,
+    });
+    return result;
   }
 );
 
 export const signOutUser = createAsyncThunk(
   "application/signOutUser",
   async () => {
-    try {
-      await signOut();
-      await DataStore.clear();
-      return true;
-    } catch (error) {
-      throw new Error("Error signing out:" + error);
-    }
+    const result = await signOut();
+    return result;
   }
 );
 
 export const confirmSignUpUser = createAsyncThunk(
   "application/confirmSignUpUser",
   async ({ code, email }: { code: string; email: string }) => {
-    try {
-      const confirmSignUpResponse = await confirmSignUp({
-        username: email,
-        confirmationCode: code,
-      });
-      console.log(confirmSignUpResponse);
-      // Handle navigation or state update after successful confirmation
-    } catch (error) {
-      return error;
-    }
+    const confirmSignUpResponse = await confirmSignUp({
+      username: email,
+      confirmationCode: code,
+    });
+    console.log(confirmSignUpResponse);
+    return confirmSignUpResponse;
   }
 );
 
@@ -107,27 +100,51 @@ export const applicationSlice = createSlice({
         state.userId = action.payload.userId;
       })
       .addCase(loadLoggedUser.rejected, (state, action) => {
+        console.error(action.error.message);
         state.isLogged = false;
       })
+
       .addCase(signInUser.fulfilled, (state, action) => {
-        state.isLogged = true;
+        state.isLogged = action.payload.isSignedIn;
+        state.signInStep = action.payload.nextStep.signInStep;
       })
       .addCase(signInUser.rejected, (state, action) => {
+        console.error(action.error.message);
         state.error = action.error.message;
       })
+
       .addCase(signUpUser.fulfilled, (state, action) => {
-        state.isConfirmed = action.payload.isSignUpComplete;
+        state.isSignUpComplete = action.payload.isSignUpComplete;
         state.userId = action.payload.userId;
-        state.nextStep = action.payload.nextStep.signUpStep;
+        state.signUpStep = action.payload.nextStep.signUpStep;
       })
       .addCase(signUpUser.rejected, (state, action) => {
+        console.error(action.error.message);
+        state.error = action.error.message;
+      })
+
+      .addCase(confirmSignUpUser.fulfilled, (state, action) => {
+        state.isSignUpComplete = action.payload.isSignUpComplete;
+        state.userId = action.payload.userId;
+        state.signUpStep = action.payload.nextStep.signUpStep;
+      })
+      .addCase(confirmSignUpUser.rejected, (state, action) => {
+        console.error(action.error.message);
+        state.error = action.error.message;
+      })
+
+      .addCase(signOutUser.fulfilled, (state, action) => {
+        state.isLogged = false;
+      })
+      .addCase(signOutUser.rejected, (state, action) => {
+        console.error(action.error.message);
         state.error = action.error.message;
       });
   },
   reducers: {
     setLoaded: (state, action: PayloadAction<boolean>) => {
       state.isLoaded = action.payload;
-    }
+    },
   },
 });
 

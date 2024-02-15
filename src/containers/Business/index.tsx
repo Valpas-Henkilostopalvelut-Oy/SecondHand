@@ -344,6 +344,11 @@ export const Business = (): JSX.Element => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000); // 2 секунды задержки
+    const loadCategories = async () => {
+      console.log(await previouseBusinesses?.Categoriess.toArray());
+    };
+
+    loadCategories();
 
     dispatch(openBusiness(id));
 

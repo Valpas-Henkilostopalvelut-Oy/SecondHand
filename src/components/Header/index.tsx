@@ -184,8 +184,8 @@ const AccountDrawer = ({
   handleOpen: () => void;
 }): JSX.Element => {
   const dispatch = useAppDispatch();
-
   const handleSignOut = () => dispatch(signOutUser());
+  const { isLogged } = useAppSelector((state) => state.application);
 
   return (
     <SwipeableDrawer
@@ -202,12 +202,19 @@ const AccountDrawer = ({
         display={"flex"}
         flexDirection={"column"}
       >
-        <NavigationButton to="/admin">Admin</NavigationButton>
-        <NavigationButton to="/login">Kirjaudu</NavigationButton>
-        <NavigationButton to="/signup">Rekisteröidy</NavigationButton>
-        <NavigationButton to="/" onClick={handleSignOut}>
-          Kirjaudu ulos
-        </NavigationButton>
+        {isLogged ? (
+          <Box>
+            <NavigationButton to="/admin">Admin</NavigationButton>
+            <NavigationButton to="/" onClick={handleSignOut}>
+              Kirjaudu ulos
+            </NavigationButton>
+          </Box>
+        ) : (
+          <Box>
+            <NavigationButton to="/login">Kirjaudu</NavigationButton>
+            <NavigationButton to="/signup">Rekisteröidy</NavigationButton>
+          </Box>
+        )}
       </Box>
     </SwipeableDrawer>
   );

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Button, TextField, Box, Container } from "@mui/material";
 import { useFormik } from "formik";
 import { signUpUser, confirmSignUpUser } from "../../redux/reducer/application";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 const SignUpForm = () => {
   const dispatch = useAppDispatch();
-  const [isConfirmation, setIsConfirmation] = useState(false);
+  const { signUpStep } = useAppSelector((state) => state.application);
   const signUpForm = useFormik({
     initialValues: {
       password: "",
@@ -39,7 +39,7 @@ const SignUpForm = () => {
           alignItems: "center",
         }}
       >
-        {!isConfirmation ? (
+        {signUpStep !== "CONFIRM_SIGN_UP" ? (
           <form onSubmit={signUpForm.handleSubmit}>
             <TextField
               margin="normal"
