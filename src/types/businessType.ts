@@ -9,4 +9,5 @@ export interface BusinessType extends BaseType {
 export interface BusinessTypesState {
   businessTypes: LazyTypes[] | null;
   isLoading: boolean;
+  error: string | null | undefined;
 }

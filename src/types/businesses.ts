@@ -4,7 +4,6 @@ export interface BusinessState {
   businesses: Businesses[] | null;
   businessesShort: BusinessShort[] | null;
   isLoading: boolean;
-  previouseBusinesses: Businesses | null;
 }
 
 export interface BusinessShort {

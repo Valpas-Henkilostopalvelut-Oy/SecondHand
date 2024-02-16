@@ -247,6 +247,41 @@ export const syncCities = /* GraphQL */ `query SyncCities(
   APITypes.SyncCitiesQueryVariables,
   APITypes.SyncCitiesQuery
 >;
+export const citiesByLocationId = /* GraphQL */ `query CitiesByLocationId(
+  $locationId: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelCitiesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  citiesByLocationId(
+    locationId: $locationId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      locationId
+      name
+      zipcode
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.CitiesByLocationIdQueryVariables,
+  APITypes.CitiesByLocationIdQuery
+>;
 export const getNotes = /* GraphQL */ `query GetNotes($id: ID!) {
   getNotes(id: $id) {
     id
@@ -316,6 +351,76 @@ export const syncNotes = /* GraphQL */ `query SyncNotes(
   }
 }
 ` as GeneratedQuery<APITypes.SyncNotesQueryVariables, APITypes.SyncNotesQuery>;
+export const notesByCustomersID = /* GraphQL */ `query NotesByCustomersID(
+  $customersID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelNotesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  notesByCustomersID(
+    customersID: $customersID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      customersID
+      businessesID
+      text
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.NotesByCustomersIDQueryVariables,
+  APITypes.NotesByCustomersIDQuery
+>;
+export const notesByBusinessesID = /* GraphQL */ `query NotesByBusinessesID(
+  $businessesID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelNotesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  notesByBusinessesID(
+    businessesID: $businessesID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      customersID
+      businessesID
+      text
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.NotesByBusinessesIDQueryVariables,
+  APITypes.NotesByBusinessesIDQuery
+>;
 export const getCustomers = /* GraphQL */ `query GetCustomers($id: ID!) {
   getCustomers(id: $id) {
     id
@@ -409,6 +514,7 @@ export const getBusinesses = /* GraphQL */ `query GetBusinesses($id: ID!) {
     iframe
     name
     description
+    cardDescription
     websiteUrl
     logo
     images
@@ -457,6 +563,7 @@ export const listBusinesses = /* GraphQL */ `query ListBusinesses(
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images
@@ -498,6 +605,7 @@ export const syncBusinesses = /* GraphQL */ `query SyncBusinesses(
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images
@@ -518,6 +626,138 @@ export const syncBusinesses = /* GraphQL */ `query SyncBusinesses(
 ` as GeneratedQuery<
   APITypes.SyncBusinessesQueryVariables,
   APITypes.SyncBusinessesQuery
+>;
+export const businessesByLocationsID = /* GraphQL */ `query BusinessesByLocationsID(
+  $locationsID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelBusinessesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  businessesByLocationsID(
+    locationsID: $locationsID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      locationsID
+      address
+      dirrection
+      iframe
+      name
+      description
+      cardDescription
+      websiteUrl
+      logo
+      images
+      typesID
+      citiesID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.BusinessesByLocationsIDQueryVariables,
+  APITypes.BusinessesByLocationsIDQuery
+>;
+export const businessesByTypesID = /* GraphQL */ `query BusinessesByTypesID(
+  $typesID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelBusinessesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  businessesByTypesID(
+    typesID: $typesID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      locationsID
+      address
+      dirrection
+      iframe
+      name
+      description
+      cardDescription
+      websiteUrl
+      logo
+      images
+      typesID
+      citiesID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.BusinessesByTypesIDQueryVariables,
+  APITypes.BusinessesByTypesIDQuery
+>;
+export const businessesByCitiesID = /* GraphQL */ `query BusinessesByCitiesID(
+  $citiesID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelBusinessesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  businessesByCitiesID(
+    citiesID: $citiesID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      locationsID
+      address
+      dirrection
+      iframe
+      name
+      description
+      cardDescription
+      websiteUrl
+      logo
+      images
+      typesID
+      citiesID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      __typename
+    }
+    nextToken
+    startedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.BusinessesByCitiesIDQueryVariables,
+  APITypes.BusinessesByCitiesIDQuery
 >;
 export const getCategories = /* GraphQL */ `query GetCategories($id: ID!) {
   getCategories(id: $id) {
@@ -615,6 +855,7 @@ export const getBusinessesCategories = /* GraphQL */ `query GetBusinessesCategor
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images
@@ -712,240 +953,6 @@ export const syncBusinessesCategories = /* GraphQL */ `query SyncBusinessesCateg
 ` as GeneratedQuery<
   APITypes.SyncBusinessesCategoriesQueryVariables,
   APITypes.SyncBusinessesCategoriesQuery
->;
-export const citiesByLocationId = /* GraphQL */ `query CitiesByLocationId(
-  $locationId: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelCitiesFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  citiesByLocationId(
-    locationId: $locationId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      locationId
-      name
-      zipcode
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.CitiesByLocationIdQueryVariables,
-  APITypes.CitiesByLocationIdQuery
->;
-export const notesByCustomersID = /* GraphQL */ `query NotesByCustomersID(
-  $customersID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelNotesFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  notesByCustomersID(
-    customersID: $customersID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      customersID
-      businessesID
-      text
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.NotesByCustomersIDQueryVariables,
-  APITypes.NotesByCustomersIDQuery
->;
-export const notesByBusinessesID = /* GraphQL */ `query NotesByBusinessesID(
-  $businessesID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelNotesFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  notesByBusinessesID(
-    businessesID: $businessesID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      customersID
-      businessesID
-      text
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.NotesByBusinessesIDQueryVariables,
-  APITypes.NotesByBusinessesIDQuery
->;
-export const businessesByLocationsID = /* GraphQL */ `query BusinessesByLocationsID(
-  $locationsID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelBusinessesFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  businessesByLocationsID(
-    locationsID: $locationsID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      locationsID
-      address
-      dirrection
-      iframe
-      name
-      description
-      websiteUrl
-      logo
-      images
-      typesID
-      citiesID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.BusinessesByLocationsIDQueryVariables,
-  APITypes.BusinessesByLocationsIDQuery
->;
-export const businessesByTypesID = /* GraphQL */ `query BusinessesByTypesID(
-  $typesID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelBusinessesFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  businessesByTypesID(
-    typesID: $typesID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      locationsID
-      address
-      dirrection
-      iframe
-      name
-      description
-      websiteUrl
-      logo
-      images
-      typesID
-      citiesID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.BusinessesByTypesIDQueryVariables,
-  APITypes.BusinessesByTypesIDQuery
->;
-export const businessesByCitiesID = /* GraphQL */ `query BusinessesByCitiesID(
-  $citiesID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelBusinessesFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  businessesByCitiesID(
-    citiesID: $citiesID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      locationsID
-      address
-      dirrection
-      iframe
-      name
-      description
-      websiteUrl
-      logo
-      images
-      typesID
-      citiesID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-    nextToken
-    startedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.BusinessesByCitiesIDQueryVariables,
-  APITypes.BusinessesByCitiesIDQuery
 >;
 export const businessesCategoriesByBusinessesId = /* GraphQL */ `query BusinessesCategoriesByBusinessesId(
   $businessesId: ID!

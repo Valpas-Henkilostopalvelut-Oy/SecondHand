@@ -362,6 +362,7 @@ export const onCreateBusinesses = /* GraphQL */ `subscription OnCreateBusinesses
     iframe
     name
     description
+    cardDescription
     websiteUrl
     logo
     images
@@ -417,6 +418,7 @@ export const onUpdateBusinesses = /* GraphQL */ `subscription OnUpdateBusinesses
     iframe
     name
     description
+    cardDescription
     websiteUrl
     logo
     images
@@ -472,6 +474,7 @@ export const onDeleteBusinesses = /* GraphQL */ `subscription OnDeleteBusinesses
     iframe
     name
     description
+    cardDescription
     websiteUrl
     logo
     images
@@ -596,6 +599,7 @@ export const onCreateBusinessesCategories = /* GraphQL */ `subscription OnCreate
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images
@@ -647,6 +651,7 @@ export const onUpdateBusinessesCategories = /* GraphQL */ `subscription OnUpdate
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images
@@ -698,6 +703,7 @@ export const onDeleteBusinessesCategories = /* GraphQL */ `subscription OnDelete
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images

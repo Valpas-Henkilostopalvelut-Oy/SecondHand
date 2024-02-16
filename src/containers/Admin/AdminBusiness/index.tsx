@@ -43,15 +43,17 @@ const AdminBusiness = ({ business }: { business: Businesses }) => {
   return (
     <div>
       <ListItem>
-        <ListItemButton component={Link} to={`/businesses/${business.id}`}>
+        <ListItemButton onClick={handleOpen}>
           <ListItemText
             primary={business.name}
             secondary={trimStringToNChars(business.description, 100)}
           />
         </ListItemButton>
-        <IconButton onClick={handleOpen}>
-          <EditIcon />
-        </IconButton>
+        <Link to={`/admin/businesses/${business.id}/edit`}>
+          <IconButton onClick={handleOpen}>
+            <EditIcon />
+          </IconButton>
+        </Link>
         <IconButton onClick={() => handleDelete(business.id)}>
           <DeleteIcon />
         </IconButton>
@@ -60,7 +62,10 @@ const AdminBusiness = ({ business }: { business: Businesses }) => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem>
-            <ListItemText primary={business.description} />
+            <ListItemText
+              primary={business.cardDescription}
+              secondary={business.description}
+            />
           </ListItem>
         </List>
         <Divider />

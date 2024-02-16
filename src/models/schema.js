@@ -528,6 +528,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "cardDescription": {
+                    "name": "cardDescription",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "websiteUrl": {
                     "name": "websiteUrl",
                     "isArray": false,
@@ -1042,5 +1049,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "f645755ef13097e0cb9f9b7a11761e01"
+    "version": "17cf160dde1e4b152c2749bf541cdf98"
 };

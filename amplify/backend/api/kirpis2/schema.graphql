@@ -85,6 +85,7 @@ type Businesses @model @auth(rules: [{allow: public}]) {
   iframe: String
   name: String!
   description: String
+  cardDescription: String
   websiteUrl: String
   logo: String
   images: [String]

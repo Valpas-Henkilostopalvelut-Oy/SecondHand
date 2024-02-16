@@ -10,6 +10,20 @@ const initialState: LocationsState = {
   cities: null,
 };
 
+export const fetchSingleCity = async (id: string) => {
+  if (!id) return null;
+  const result = await DataStore.query(Cities, id);
+  if (!result) return null;
+  return result;
+};
+
+export const fetchSingleLocation = async (id: string) => {
+  if (!id) return null;
+  const result = await DataStore.query(Locations, id);
+  if (!result) return null;
+  return result;
+};
+
 export const updateLocations = createAsyncThunk(
   "locations/updateLocations",
   async ({ id, newData }: { id?: string | null; newData: Location }) => {

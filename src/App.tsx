@@ -29,6 +29,21 @@ import SignUpForm from "./containers/SignUp";
 import { DataStore } from "aws-amplify/datastore";
 import { Hub } from "aws-amplify/utils";
 import NotFoundPage from "./containers/NotFoundPage";
+import AdminBusinessesEdit from "./containers/Admin/AdminBusiness/AdminBusinessesEdit";
+
+const privateRoutes = [
+  { path: "/login", element: <SignInForm /> },
+  { path: "/signup", element: <SignUpForm /> },
+  { path: "/admin", element: <Admin /> },
+  { path: "/admin/regions", element: <AdminLocations /> },
+  { path: "/admin/regions/:id/edit", element: <AdminLocationEdit /> },
+  { path: "/admin/types/:id/edit", element: <AdminTypesEdit /> },
+  { path: "/admin/businesses", element: <AdminBusinesses /> },
+  { path: "/admin/businesses/create", element: <BusinessCreateForm /> },
+  { path: "/admin/businesses/:id/edit", element: <AdminBusinessesEdit /> },
+  { path: "/admin/categories", element: <AdminCategories /> },
+  { path: "/admin/types", element: <AdminTypes /> },
+];
 
 const PrivateRoute = ({
   isLogged,
@@ -51,7 +66,6 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     const removeListener = Hub.listen("datastore", async ({ payload }) => {
-
       if (payload.event === "ready") {
         console.log("DataStore ready");
         dispatch(setLoaded(true));
@@ -69,6 +83,21 @@ const App = (): JSX.Element => {
 
     return () => removeListener();
   }, [dispatch]);
+
+  const renderRoutes = (routes: { path: string; element: JSX.Element }[]) =>
+    routes.map((route, index) => (
+      <Route
+        key={index}
+        path={route.path}
+        element={
+          <PrivateRoute
+            redirect="/login"
+            element={route.element}
+            isLogged={isLogged}
+          />
+        }
+      />
+    ));
 
   if (!isLoaded) {
     return (
@@ -104,97 +133,7 @@ const App = (): JSX.Element => {
         <Route path="/" element={<Homepage />} />
         <Route path="/businesses" element={<Businesses />} />
         <Route path="/businesses/:id" element={<Business />} />
-        <Route
-          path="/login"
-          element={
-            <PrivateRoute
-              isLogged={!isLogged}
-              redirect="/"
-              element={<SignInForm />}
-            />
-          }
-        />
-        <Route path="/signup" element={<SignUpForm />} />
-        <Route
-          path="/admin"
-          element={
-            <PrivateRoute
-              redirect="/login"
-              element={<Admin />}
-              isLogged={isLogged}
-            />
-          }
-        />
-        <Route
-          path="/admin/regions"
-          element={
-            <PrivateRoute
-              redirect="/login"
-              element={<AdminLocations />}
-              isLogged={isLogged}
-            />
-          }
-        />
-        <Route
-          path="/admin/regions/:id/edit"
-          element={
-            <PrivateRoute
-              redirect="/login"
-              element={<AdminLocationEdit />}
-              isLogged={isLogged}
-            />
-          }
-        />
-        <Route
-          path="/admin/types/:id/edit"
-          element={
-            <PrivateRoute
-              redirect="/login"
-              element={<AdminTypesEdit />}
-              isLogged={isLogged}
-            />
-          }
-        />
-        <Route
-          path="/admin/businesses"
-          element={
-            <PrivateRoute
-              redirect="/login"
-              element={<AdminBusinesses />}
-              isLogged={isLogged}
-            />
-          }
-        />
-        <Route
-          path="/admin/businesses/create"
-          element={
-            <PrivateRoute
-              redirect="/login"
-              element={<BusinessCreateForm />}
-              isLogged={isLogged}
-            />
-          }
-        />
-        <Route
-          path="/admin/categories"
-          element={
-            <PrivateRoute
-              redirect="/login"
-              element={<AdminCategories />}
-              isLogged={isLogged}
-            />
-          }
-        />
-        <Route
-          path="/admin/types"
-          element={
-            <PrivateRoute
-              redirect="/login"
-              element={<AdminTypes />}
-              isLogged={isLogged}
-            />
-          }
-        />
+        {renderRoutes(privateRoutes)}
         <Route path="/NotFound" element={<NotFoundPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

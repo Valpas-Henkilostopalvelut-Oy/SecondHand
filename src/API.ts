@@ -96,6 +96,7 @@ export type Businesses = {
   iframe?: string | null,
   name: string,
   description?: string | null,
+  cardDescription?: string | null,
   websiteUrl?: string | null,
   logo?: string | null,
   images?: Array< string | null > | null,
@@ -412,6 +413,7 @@ export type CreateBusinessesInput = {
   iframe?: string | null,
   name: string,
   description?: string | null,
+  cardDescription?: string | null,
   websiteUrl?: string | null,
   logo?: string | null,
   images?: Array< string | null > | null,
@@ -471,6 +473,7 @@ export type ModelBusinessesConditionInput = {
   iframe?: ModelStringInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
+  cardDescription?: ModelStringInput | null,
   websiteUrl?: ModelStringInput | null,
   logo?: ModelStringInput | null,
   images?: ModelStringInput | null,
@@ -490,6 +493,7 @@ export type UpdateBusinessesInput = {
   iframe?: string | null,
   name?: string | null,
   description?: string | null,
+  cardDescription?: string | null,
   websiteUrl?: string | null,
   logo?: string | null,
   images?: Array< string | null > | null,
@@ -611,6 +615,12 @@ export type ModelCitiesFilterInput = {
   _deleted?: ModelBooleanInput | null,
 };
 
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type ModelNotesFilterInput = {
   id?: ModelIDInput | null,
   customersID?: ModelIDInput | null,
@@ -645,6 +655,7 @@ export type ModelBusinessesFilterInput = {
   iframe?: ModelStringInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
+  cardDescription?: ModelStringInput | null,
   websiteUrl?: ModelStringInput | null,
   logo?: ModelStringInput | null,
   images?: ModelStringInput | null,
@@ -683,12 +694,6 @@ export type ModelBusinessesCategoriesFilterInput = {
   not?: ModelBusinessesCategoriesFilterInput | null,
   _deleted?: ModelBooleanInput | null,
 };
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 
 export type ModelSubscriptionTypesFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -774,6 +779,7 @@ export type ModelSubscriptionBusinessesFilterInput = {
   iframe?: ModelSubscriptionStringInput | null,
   name?: ModelSubscriptionStringInput | null,
   description?: ModelSubscriptionStringInput | null,
+  cardDescription?: ModelSubscriptionStringInput | null,
   websiteUrl?: ModelSubscriptionStringInput | null,
   logo?: ModelSubscriptionStringInput | null,
   images?: ModelSubscriptionStringInput | null,
@@ -1191,6 +1197,7 @@ export type CreateBusinessesMutation = {
     iframe?: string | null,
     name: string,
     description?: string | null,
+    cardDescription?: string | null,
     websiteUrl?: string | null,
     logo?: string | null,
     images?: Array< string | null > | null,
@@ -1246,6 +1253,7 @@ export type UpdateBusinessesMutation = {
     iframe?: string | null,
     name: string,
     description?: string | null,
+    cardDescription?: string | null,
     websiteUrl?: string | null,
     logo?: string | null,
     images?: Array< string | null > | null,
@@ -1301,6 +1309,7 @@ export type DeleteBusinessesMutation = {
     iframe?: string | null,
     name: string,
     description?: string | null,
+    cardDescription?: string | null,
     websiteUrl?: string | null,
     logo?: string | null,
     images?: Array< string | null > | null,
@@ -1426,6 +1435,7 @@ export type CreateBusinessesCategoriesMutation = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
@@ -1477,6 +1487,7 @@ export type UpdateBusinessesCategoriesMutation = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
@@ -1528,6 +1539,7 @@ export type DeleteBusinessesCategoriesMutation = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
@@ -1792,6 +1804,34 @@ export type SyncCitiesQuery = {
   } | null,
 };
 
+export type CitiesByLocationIdQueryVariables = {
+  locationId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelCitiesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type CitiesByLocationIdQuery = {
+  citiesByLocationId?:  {
+    __typename: "ModelCitiesConnection",
+    items:  Array< {
+      __typename: "Cities",
+      id: string,
+      locationId: string,
+      name: string,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type GetNotesQueryVariables = {
   id: string,
 };
@@ -1846,6 +1886,62 @@ export type SyncNotesQueryVariables = {
 
 export type SyncNotesQuery = {
   syncNotes?:  {
+    __typename: "ModelNotesConnection",
+    items:  Array< {
+      __typename: "Notes",
+      id: string,
+      customersID: string,
+      businessesID: string,
+      text: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type NotesByCustomersIDQueryVariables = {
+  customersID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelNotesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type NotesByCustomersIDQuery = {
+  notesByCustomersID?:  {
+    __typename: "ModelNotesConnection",
+    items:  Array< {
+      __typename: "Notes",
+      id: string,
+      customersID: string,
+      businessesID: string,
+      text: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type NotesByBusinessesIDQueryVariables = {
+  businessesID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelNotesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type NotesByBusinessesIDQuery = {
+  notesByBusinessesID?:  {
     __typename: "ModelNotesConnection",
     items:  Array< {
       __typename: "Notes",
@@ -1956,6 +2052,7 @@ export type GetBusinessesQuery = {
     iframe?: string | null,
     name: string,
     description?: string | null,
+    cardDescription?: string | null,
     websiteUrl?: string | null,
     logo?: string | null,
     images?: Array< string | null > | null,
@@ -2004,6 +2101,7 @@ export type ListBusinessesQuery = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
@@ -2039,6 +2137,118 @@ export type SyncBusinessesQuery = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
+      websiteUrl?: string | null,
+      logo?: string | null,
+      images?: Array< string | null > | null,
+      typesID: string,
+      citiesID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type BusinessesByLocationsIDQueryVariables = {
+  locationsID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBusinessesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type BusinessesByLocationsIDQuery = {
+  businessesByLocationsID?:  {
+    __typename: "ModelBusinessesConnection",
+    items:  Array< {
+      __typename: "Businesses",
+      id: string,
+      locationsID: string,
+      address: string,
+      dirrection?: string | null,
+      iframe?: string | null,
+      name: string,
+      description?: string | null,
+      cardDescription?: string | null,
+      websiteUrl?: string | null,
+      logo?: string | null,
+      images?: Array< string | null > | null,
+      typesID: string,
+      citiesID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type BusinessesByTypesIDQueryVariables = {
+  typesID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBusinessesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type BusinessesByTypesIDQuery = {
+  businessesByTypesID?:  {
+    __typename: "ModelBusinessesConnection",
+    items:  Array< {
+      __typename: "Businesses",
+      id: string,
+      locationsID: string,
+      address: string,
+      dirrection?: string | null,
+      iframe?: string | null,
+      name: string,
+      description?: string | null,
+      cardDescription?: string | null,
+      websiteUrl?: string | null,
+      logo?: string | null,
+      images?: Array< string | null > | null,
+      typesID: string,
+      citiesID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type BusinessesByCitiesIDQueryVariables = {
+  citiesID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBusinessesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type BusinessesByCitiesIDQuery = {
+  businessesByCitiesID?:  {
+    __typename: "ModelBusinessesConnection",
+    items:  Array< {
+      __typename: "Businesses",
+      id: string,
+      locationsID: string,
+      address: string,
+      dirrection?: string | null,
+      iframe?: string | null,
+      name: string,
+      description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
@@ -2151,6 +2361,7 @@ export type GetBusinessesCategoriesQuery = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
@@ -2222,198 +2433,6 @@ export type SyncBusinessesCategoriesQuery = {
       id: string,
       businessesId: string,
       categoriesId: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type CitiesByLocationIdQueryVariables = {
-  locationId: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelCitiesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type CitiesByLocationIdQuery = {
-  citiesByLocationId?:  {
-    __typename: "ModelCitiesConnection",
-    items:  Array< {
-      __typename: "Cities",
-      id: string,
-      locationId: string,
-      name: string,
-      zipcode?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type NotesByCustomersIDQueryVariables = {
-  customersID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelNotesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type NotesByCustomersIDQuery = {
-  notesByCustomersID?:  {
-    __typename: "ModelNotesConnection",
-    items:  Array< {
-      __typename: "Notes",
-      id: string,
-      customersID: string,
-      businessesID: string,
-      text: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type NotesByBusinessesIDQueryVariables = {
-  businessesID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelNotesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type NotesByBusinessesIDQuery = {
-  notesByBusinessesID?:  {
-    __typename: "ModelNotesConnection",
-    items:  Array< {
-      __typename: "Notes",
-      id: string,
-      customersID: string,
-      businessesID: string,
-      text: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type BusinessesByLocationsIDQueryVariables = {
-  locationsID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelBusinessesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type BusinessesByLocationsIDQuery = {
-  businessesByLocationsID?:  {
-    __typename: "ModelBusinessesConnection",
-    items:  Array< {
-      __typename: "Businesses",
-      id: string,
-      locationsID: string,
-      address: string,
-      dirrection?: string | null,
-      iframe?: string | null,
-      name: string,
-      description?: string | null,
-      websiteUrl?: string | null,
-      logo?: string | null,
-      images?: Array< string | null > | null,
-      typesID: string,
-      citiesID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type BusinessesByTypesIDQueryVariables = {
-  typesID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelBusinessesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type BusinessesByTypesIDQuery = {
-  businessesByTypesID?:  {
-    __typename: "ModelBusinessesConnection",
-    items:  Array< {
-      __typename: "Businesses",
-      id: string,
-      locationsID: string,
-      address: string,
-      dirrection?: string | null,
-      iframe?: string | null,
-      name: string,
-      description?: string | null,
-      websiteUrl?: string | null,
-      logo?: string | null,
-      images?: Array< string | null > | null,
-      typesID: string,
-      citiesID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type BusinessesByCitiesIDQueryVariables = {
-  citiesID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelBusinessesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type BusinessesByCitiesIDQuery = {
-  businessesByCitiesID?:  {
-    __typename: "ModelBusinessesConnection",
-    items:  Array< {
-      __typename: "Businesses",
-      id: string,
-      locationsID: string,
-      address: string,
-      dirrection?: string | null,
-      iframe?: string | null,
-      name: string,
-      description?: string | null,
-      websiteUrl?: string | null,
-      logo?: string | null,
-      images?: Array< string | null > | null,
-      typesID: string,
-      citiesID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2851,6 +2870,7 @@ export type OnCreateBusinessesSubscription = {
     iframe?: string | null,
     name: string,
     description?: string | null,
+    cardDescription?: string | null,
     websiteUrl?: string | null,
     logo?: string | null,
     images?: Array< string | null > | null,
@@ -2905,6 +2925,7 @@ export type OnUpdateBusinessesSubscription = {
     iframe?: string | null,
     name: string,
     description?: string | null,
+    cardDescription?: string | null,
     websiteUrl?: string | null,
     logo?: string | null,
     images?: Array< string | null > | null,
@@ -2959,6 +2980,7 @@ export type OnDeleteBusinessesSubscription = {
     iframe?: string | null,
     name: string,
     description?: string | null,
+    cardDescription?: string | null,
     websiteUrl?: string | null,
     logo?: string | null,
     images?: Array< string | null > | null,
@@ -3080,6 +3102,7 @@ export type OnCreateBusinessesCategoriesSubscription = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
@@ -3130,6 +3153,7 @@ export type OnUpdateBusinessesCategoriesSubscription = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
@@ -3180,6 +3204,7 @@ export type OnDeleteBusinessesCategoriesSubscription = {
       iframe?: string | null,
       name: string,
       description?: string | null,
+      cardDescription?: string | null,
       websiteUrl?: string | null,
       logo?: string | null,
       images?: Array< string | null > | null,
