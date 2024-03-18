@@ -408,6 +408,7 @@ export const createBusinesses = /* GraphQL */ `mutation CreateBusinesses(
     iframe
     name
     description
+    cardDescription
     websiteUrl
     logo
     images
@@ -464,6 +465,7 @@ export const updateBusinesses = /* GraphQL */ `mutation UpdateBusinesses(
     iframe
     name
     description
+    cardDescription
     websiteUrl
     logo
     images
@@ -520,6 +522,7 @@ export const deleteBusinesses = /* GraphQL */ `mutation DeleteBusinesses(
     iframe
     name
     description
+    cardDescription
     websiteUrl
     logo
     images
@@ -648,6 +651,7 @@ export const createBusinessesCategories = /* GraphQL */ `mutation CreateBusiness
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images
@@ -700,6 +704,7 @@ export const updateBusinessesCategories = /* GraphQL */ `mutation UpdateBusiness
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images
@@ -752,6 +757,7 @@ export const deleteBusinessesCategories = /* GraphQL */ `mutation DeleteBusiness
       iframe
       name
       description
+      cardDescription
       websiteUrl
       logo
       images

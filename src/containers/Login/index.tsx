@@ -1,25 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, TextField, Box, Container } from "@mui/material";
-import { signIn } from "aws-amplify/auth";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { signInUser, confirmSignUpUser } from "../../redux/reducer/application";
 import { useFormik } from "formik";
 
 const SignInForm = () => {
+  const dispatch = useAppDispatch();
+  const { signInStep } = useAppSelector((state) => state.application);
   const loginForm = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
+    onSubmit: async (values) => dispatch(signInUser(values)),
+  });
+
+  const confirmationForm = useFormik({
+    initialValues: {
+      code: "",
+    },
     onSubmit: async (values) => {
-      try {
-        const signInResponse = await signIn({
-          username: values.username,
-          password: values.password,
-        });
-        console.log(signInResponse);
-        // Handle navigation or state update after successful sign-in
-      } catch (error) {
-        console.error("Error signing in:", error);
-      }
+      dispatch(
+        confirmSignUpUser({ code: values.code, email: loginForm.values.email })
+      );
     },
   });
 
@@ -32,41 +35,64 @@ const SignInForm = () => {
           flexDirection: "column",
           alignItems: "center",
         }}
-        component="form"
-        onSubmit={loginForm.handleSubmit}
       >
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="username"
-          label="Username"
-          name="username"
-          autoComplete="username"
-          autoFocus
-          value={loginForm.values.username}
-          onChange={loginForm.handleChange}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          value={loginForm.values.password}
-          onChange={loginForm.handleChange}
-        />
-        <Button
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          type="submit"
-        >
-          Sign In
-        </Button>
+        {signInStep !== "CONFIRM_SIGN_UP" ? (
+          <form onSubmit={loginForm.handleSubmit}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Sähköposti"
+              name="email"
+              autoComplete="email"
+              value={loginForm.values.email}
+              onChange={loginForm.handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Salasana"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={loginForm.values.password}
+              onChange={loginForm.handleChange}
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              type="submit"
+            >
+              Kirjaudu
+            </Button>
+          </form>
+        ) : (
+          <form onSubmit={confirmationForm.handleSubmit}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="code"
+              label="Vahvistuskoodi"
+              name="code"
+              autoComplete="code"
+              value={confirmationForm.values.code}
+              onChange={confirmationForm.handleChange}
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              type="submit"
+            >
+              Vahvista
+            </Button>
+          </form>
+        )}
       </Box>
     </Container>
   );

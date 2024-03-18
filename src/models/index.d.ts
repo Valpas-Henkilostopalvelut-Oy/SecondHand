@@ -290,6 +290,7 @@ type EagerBusinesses = {
   readonly iframe?: string | null;
   readonly name: string;
   readonly description?: string | null;
+  readonly cardDescription?: string | null;
   readonly websiteUrl?: string | null;
   readonly logo?: string | null;
   readonly images?: (string | null)[] | null;
@@ -316,6 +317,7 @@ type LazyBusinesses = {
   readonly iframe?: string | null;
   readonly name: string;
   readonly description?: string | null;
+  readonly cardDescription?: string | null;
   readonly websiteUrl?: string | null;
   readonly logo?: string | null;
   readonly images?: (string | null)[] | null;

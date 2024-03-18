@@ -23,28 +23,16 @@
       "service": "API Gateway"
     },
     "kirpis2": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "kirppis9e209ebe9e209ebe"
-        }
-      ],
+      "dependsOn": [],
       "output": {
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-              "userPoolConfig": {
-                "userPoolId": "authkirppis9e209ebe9e209ebe"
-              }
+              "authenticationType": "AWS_IAM"
             }
           ],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDate": "2024-03-06T08:43:50.205Z",
               "apiKeyExpirationDays": 30,
               "description": "api key description"
             },
@@ -115,6 +103,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "UpdateOpenTimesFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "kirppis2053c745": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -135,6 +128,22 @@
         {
           "category": "function",
           "resourceName": "AdminQueriesbd20d68e"
+        }
+      ]
+    },
+    "AMPLIFY_function_UpdateOpenTimesFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "UpdateOpenTimesFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_UpdateOpenTimesFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "UpdateOpenTimesFunction"
         }
       ]
     },

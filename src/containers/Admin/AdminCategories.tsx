@@ -24,18 +24,39 @@ import {
 import ImageUpload from "../../components/ImageUpload";
 import { uploadData } from "@aws-amplify/storage";
 
+interface Categories extends Category {
+  imageFile?: File | null;
+}
+
 const CategoriesCreateForm = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const initialValues: Category = {
+  const initialValues: Categories = {
     name: "",
     description: "",
-    image: "",
   };
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
-      // Handle form submission, e.g., send to backend or state management
-      dispatch(createCategory(values));
+    onSubmit: async (values) => {
+      if (!values.imageFile) {
+        dispatch(createCategory(values));
+        return;
+      }
+      try {
+        const result = uploadData({
+          key: `categories/${values.name}/${values.imageFile?.name}`,
+          data: values.imageFile,
+        });
+        console.log("File uploaded successfully", result); 
+        dispatch(
+          createCategory({
+            name: values.name,
+            description: values.description,
+            image: (await result.result).key,
+          })
+        );
+      } catch (error) {
+        console.error("Error uploading file", error);
+      }
     },
   });
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,21 +64,10 @@ const CategoriesCreateForm = (): JSX.Element => {
     if (!file) return;
 
     // Now you can upload the file using Amplify Storage
-    uploadFile(file);
+    formik.setFieldValue("imageFile", file);
   };
-
-  const uploadFile = async (file: File) => {
-    // Save the file in public buisnesses folder
-    try {
-      const result = await uploadData({
-        key: `categories/${file.name}`,
-        data: file,
-      });
-      console.log("File uploaded successfully", result);
-      formik.setFieldValue("image", (await result.result).key);
-    } catch (error) {
-      console.error("Error uploading file", error);
-    }
+  const handleFileDelete = () => {
+    formik.setFieldValue("imageFile", null);
   };
 
   return (
@@ -91,7 +101,11 @@ const CategoriesCreateForm = (): JSX.Element => {
         />
       </Box>
       <Box mb={2}>
-        <ImageUpload onFileChange={handleFileChange} />
+        <ImageUpload
+          onFileChange={handleFileChange}
+          onDelete={handleFileDelete}
+          imageFile={formik.values.imageFile}
+        />
       </Box>
       <Button color="primary" variant="contained" fullWidth type="submit">
         Submit

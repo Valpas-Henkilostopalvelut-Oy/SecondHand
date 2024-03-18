@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Button, TextField, Box, Container } from "@mui/material";
 import { useFormik } from "formik";
 import { signUpUser, confirmSignUpUser } from "../../redux/reducer/application";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 const SignUpForm = () => {
   const dispatch = useAppDispatch();
-  const [isConfirmation, setIsConfirmation] = useState(false);
+  const { signUpStep } = useAppSelector((state) => state.application);
   const signUpForm = useFormik({
     initialValues: {
       password: "",
@@ -17,13 +17,13 @@ const SignUpForm = () => {
 
   const confirmationForm = useFormik({
     initialValues: {
-      confirmationCode: "",
+      code: "",
     },
     onSubmit: async (values) => {
       dispatch(
         confirmSignUpUser({
           email: signUpForm.values.email,
-          code: values.confirmationCode,
+          code: values.code,
         })
       );
     },
@@ -39,7 +39,7 @@ const SignUpForm = () => {
           alignItems: "center",
         }}
       >
-        {!isConfirmation ? (
+        {signUpStep !== "CONFIRM_SIGN_UP" ? (
           <form onSubmit={signUpForm.handleSubmit}>
             <TextField
               margin="normal"
@@ -75,12 +75,12 @@ const SignUpForm = () => {
               margin="normal"
               required
               fullWidth
-              id="confirmationCode"
+              id="code"
               label="Confirmation Code"
-              name="confirmationCode"
-              autoComplete="confirmationCode"
+              name="code"
+              autoComplete="code"
               autoFocus
-              value={confirmationForm.values.confirmationCode}
+              value={confirmationForm.values.code}
               onChange={confirmationForm.handleChange}
             />
             <Button type="submit" fullWidth variant="contained">

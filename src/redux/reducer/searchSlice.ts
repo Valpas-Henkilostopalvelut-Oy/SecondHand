@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { SearchQuery, SearchState } from "../../types/search";
-import { LazyLocations, LazyTypes } from "../../models";
+import { Locations, Types } from "../../models";
 
 // Define a type for the slice state
 
@@ -24,10 +24,10 @@ export const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
-    selectRegion: (state, action: PayloadAction<LazyLocations>) => {
+    selectRegion: (state, action: PayloadAction<Locations>) => {
       state.searchQuery.adminName = action.payload;
     },
-    selectType: (state, action: PayloadAction<LazyTypes>) => {
+    selectType: (state, action: PayloadAction<Types>) => {
       state.searchQuery.type = action.payload;
     },
     search: (state, action: PayloadAction<SearchQuery>) => {
@@ -38,7 +38,6 @@ export const searchSlice = createSlice({
     },
     onUpdate: (state, action: PayloadAction<SearchQuery>) => {
       state.searchQuery = action.payload;
-      console.log("onUpdate", action.payload);
     },
     reset: (state) => {
       state.searchQuery = initialState.searchQuery;

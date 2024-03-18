@@ -9,7 +9,7 @@ export interface SearchQuery {
   category?: Categories | null;
   adminName: Locations | null;
   city?: Cities | null;
-  orderBy?: string | null;
+  orderBy?: number | null;
 }
 export interface SearchState {
   searchQuery: SearchQuery;

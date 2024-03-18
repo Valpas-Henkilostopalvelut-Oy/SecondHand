@@ -7,6 +7,14 @@ import { Types } from "../../models";
 const initialState: BusinessTypesState = {
   businessTypes: null,
   isLoading: false,
+  error: null,
+};
+
+export const fetchSingleType = async (id: string) => {
+  if (!id) return null;
+  const result = await DataStore.query(Types, id);
+  if (!result) return null;
+  return result;
 };
 
 export const createBusinessType = createAsyncThunk(

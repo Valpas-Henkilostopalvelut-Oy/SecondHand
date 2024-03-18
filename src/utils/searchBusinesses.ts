@@ -1,4 +1,4 @@
-import { BusinessShort, Business } from "../types/businesses";
+import { BusinessShort } from "../types/businesses";
 import { Category } from "../types/categories";
 import { SearchQuery } from "../types/search";
 import { DataStore } from "aws-amplify/datastore";

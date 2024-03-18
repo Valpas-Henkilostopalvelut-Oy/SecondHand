@@ -34,6 +34,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "UpdateOpenTimesFunction": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "kirppis2053c745": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

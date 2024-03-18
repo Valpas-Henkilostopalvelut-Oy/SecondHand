@@ -42,10 +42,8 @@ const SearchInput = (): JSX.Element => {
     adminName: null,
   });
 
-  const {
-    typeSlice: { businessTypes },
-    locationSlice: { locations },
-  } = useAppSelector((state) => state);
+  const { locations } = useAppSelector((state) => state.locationSlice);
+  const { businessTypes } = useAppSelector((state) => state.typeSlice);
 
   useEffect(() => {
     dispatch(onUpdate(searchQuery));
@@ -54,77 +52,76 @@ const SearchInput = (): JSX.Element => {
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 2,
         p: 2,
         bgcolor: "background.paper",
         borderRadius: 1,
       }}
     >
-      <Box sx={{ width: "25%" }}>
-        <TextField
-          id="search-field"
-          name="search"
-          label="Hae..."
-          variant="outlined"
-          value={searchQuery.search}
-          onChange={(e) => {
-            setSearchQuery({ ...searchQuery, search: e.target.value });
-          }}
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-      <Box sx={{ width: "25%" }}>
-        <Autocomplete
-          id="type-select"
-          fullWidth
-          options={businessTypes ?? []}
-          getOptionLabel={(option) => option.name}
-          value={searchQuery.type}
-          onChange={(e, value) => {
-            setSearchQuery({ ...searchQuery, type: value });
-          }}
-          renderInput={(params) => (
-            <TextField {...params} label="Tyyppi" variant="outlined" />
-          )}
-        />
-      </Box>
-      <Box sx={{ width: "25%" }}>
-        <Autocomplete
-          id="location-select"
-          fullWidth
-          options={locations ?? []}
-          getOptionLabel={(option) => option.adminName}
-          value={searchQuery.adminName}
-          onChange={(e, value) => {
-            setSearchQuery({ ...searchQuery, adminName: value });
-          }}
-          renderInput={(params) => (
-            <TextField {...params} label="Sijainti" variant="outlined" />
-          )}
-        />
-      </Box>
-      <Box sx={{ width: "25%" }}>
-        <Button
-          fullWidth
-          variant="contained"
-          component={Link}
-          to={`/businesses`}
-          onClick={() => {
-            search(searchQuery);
-          }}
-        >
-          Hae
-        </Button>
-      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={3}>
+          <TextField
+            id="search-field"
+            name="search"
+            label="Hae..."
+            variant="outlined"
+            value={searchQuery.search}
+            onChange={(e) => {
+              setSearchQuery({ ...searchQuery, search: e.target.value });
+            }}
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Autocomplete
+            id="type-select"
+            fullWidth
+            options={businessTypes ?? []}
+            getOptionLabel={(option) => option.name}
+            value={searchQuery.type}
+            onChange={(e, value) => {
+              setSearchQuery({ ...searchQuery, type: value });
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Tyyppi" variant="outlined" />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Autocomplete
+            id="location-select"
+            fullWidth
+            options={locations ?? []}
+            getOptionLabel={(option) => option.adminName}
+            value={searchQuery.adminName}
+            onChange={(e, value) => {
+              setSearchQuery({ ...searchQuery, adminName: value });
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Sijainti" variant="outlined" />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Button
+            fullWidth
+            variant="contained"
+            component={Link}
+            to={`/businesses`}
+            onClick={() => {
+              search(searchQuery);
+            }}
+          >
+            Hae
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

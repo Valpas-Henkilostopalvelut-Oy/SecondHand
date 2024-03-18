@@ -8,11 +8,11 @@ import {
   Button,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { Types } from "../../models";
+import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
+import { Types } from "../../../models";
 import { useFormik } from "formik";
 import { getUrl, uploadData } from "aws-amplify/storage";
-import { updateBusinessType } from "../../redux/reducer/typeSlice";
+import { updateBusinessType } from "../../../redux/reducer/typeSlice";
 
 const TypeImage = styled("img")(({ theme }) => ({
   width: "100%",
