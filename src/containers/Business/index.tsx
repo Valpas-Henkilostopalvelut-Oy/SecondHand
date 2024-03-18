@@ -24,7 +24,7 @@ import {
   fetchSingleCity,
   fetchSingleLocation,
 } from "../../redux/reducer/locationSlice";
-import { TabPanel } from "../../components/TabPanel";
+import { TabPanel, a11yProps } from "../../components/TabPanel";
 
 interface DataProps {
   business: Businesses | null;
@@ -73,13 +73,6 @@ const StyledImg = styled("img")<{ isMobile?: boolean }>(
     maxHeight: "600px",
   })
 );
-
-const a11yProps = (index: number): {} => {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-};
 
 export const Business = (): JSX.Element => {
   const { id } = useParams<{ id: string }>();
@@ -204,139 +197,139 @@ export const Business = (): JSX.Element => {
 
   return (
     <Box>
-      <Box>
-        <StyledImg
-          src={data.logoUrl || placeholder}
-          alt={data.business.name || "Placeholder"}
-          isMobile={isMobile}
-        />
-      </Box>
+      <StyledImg
+        src={data.logoUrl || placeholder}
+        alt={data.business.name || "Placeholder"}
+        isMobile={isMobile}
+      />
       <Container>
-        <Box m={"10px 0px"}>
-          <Typography variant="h3">{data.business.name}</Typography>
-        </Box>
-        <Typography variant="body1">{data.business.description}</Typography>
+        <Typography variant="h3" mt={2} mb={1}>
+          {data.business.name}
+        </Typography>
+        <Typography variant="body1" mb={2}>
+          {data.business.description}
+        </Typography>
         <Tabs value={value} onChange={handleChange} aria-label="Business page">
-          <Tab label="Profili" {...a11yProps(0)} />
-          <Tab label="Reviews" {...a11yProps(1)} />
+          <Tab label="Profili" {...a11yProps(0, "profile")} />
+          <Tab label="Reviews" {...a11yProps(1, "reviews")} />
         </Tabs>
-        <Box mt={2}>
-          <TabPanel value={value} index={0}>
-            <BusinessBox>
-              <Typography variant="body1">Osoite: </Typography>
-              <Typography variant="body2">
-                {data.location?.adminName}, {data.city?.name}
-              </Typography>
-              <Typography
-                variant="body2"
-                component="a"
-                href={data.business.dirrection || ""}
-              >
-                {data.business.address}
-              </Typography>
-            </BusinessBox>
+        <TabPanel value={value} index={0} name="profile">
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <BusinessBox>
+                <Typography variant="body1">Osoite: </Typography>
+                <Typography variant="body2">
+                  {data.location?.adminName}, {data.city?.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  component="a"
+                  href={data.business.dirrection || ""}
+                >
+                  {data.business.address}
+                </Typography>
+              </BusinessBox>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <BusinessBox>
+                <Typography variant="body1">Paikkan tyyppi: </Typography>
+                <Typography variant="body2">{data.type?.name}</Typography>
+              </BusinessBox>
+            </Grid>
 
-            <Grid container spacing={2}>
+            {data.categories && (
               <Grid item xs={12} sm={6}>
                 <BusinessBox>
-                  <Typography variant="body1">Paikkan tyyppi: </Typography>
-                  <Typography variant="body2">{data.type?.name}</Typography>
+                  <Typography variant="body1">Kategoriat: </Typography>
+                  <Typography variant="body2">
+                    {data.categories
+                      .map((category, index) => category.name)
+                      .join(", ")}
+                  </Typography>
                 </BusinessBox>
               </Grid>
+            )}
+          </Grid>
 
-              {data.categories && (
-                <Grid item xs={12} sm={6}>
-                  <BusinessBox>
-                    <Typography variant="body1">Kategoriat: </Typography>
-                    <Typography variant="body2">
-                      {data.categories
-                        .map((category, index) => category.name)
-                        .join(", ")}
-                    </Typography>
-                  </BusinessBox>
-                </Grid>
-              )}
-            </Grid>
-
-            <Grid container spacing={2} padding={"20px 0px"}>
-              {data.business.websiteUrl && (
-                <Grid item xs={12} sm={6}>
-                  <BusinessBox>
-                    <Typography variant="body1">Kotisivu: </Typography>
-                    <Typography
-                      variant="body2"
-                      component={"a"}
-                      href={data.business.websiteUrl || ""}
-                    >
-                      {data.business.websiteUrl}
-                    </Typography>
-                  </BusinessBox>
-                </Grid>
-              )}
-
-              {data.business.contacts && (
-                <Grid item xs={12} sm={6}>
-                  <BusinessBox>
-                    <Typography variant="body1">Yhteystiedot: </Typography>
-                    {data.business.contacts?.map((contact, index) => (
-                      <Box key={index}>
-                        <Typography variant="body2">
-                          Nimi: {contact?.name}
-                        </Typography>
-                        <Typography variant="body2">
-                          Sähköposti: {contact?.email ?? "-"}
-                        </Typography>
-                        <Typography variant="body2">
-                          Puhelin: {contact?.phone ?? "-"}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </BusinessBox>
-                </Grid>
-              )}
-              {data.business.openHours && (
-                <Grid item xs={12} sm={6}>
-                  <BusinessBox>
-                    <Typography variant="body1">Aukioloajat: </Typography>
-                    {data.business.openHours?.period?.map((openHour, index) => (
-                      <Box key={index}>
-                        <Typography variant="body2">
-                          {openHour && days[openHour.open.day]}:{" "}
-                          {openHour && openHour.open.hours}:
-                          {openHour?.open.minute} - {openHour?.close.hours}:
-                          {openHour?.close.minute}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </BusinessBox>
-                </Grid>
-              )}
-              {data.business.iframe && (
-                <Grid item xs={12}>
-                  <BusinessBox
-                    display="flex"
-                    flexDirection="column"
-                    gap="20px"
-                    width={"100%"}
+          <Grid container spacing={2} padding={"20px 0px"}>
+            {data.business.websiteUrl && (
+              <Grid item xs={12} sm={6}>
+                <BusinessBox>
+                  <Typography variant="body1">Kotisivu: </Typography>
+                  <Typography
+                    variant="body2"
+                    component={"a"}
+                    href={data.business.websiteUrl || ""}
                   >
-                    <Typography variant="body1">Location: </Typography>
-                    <iframe
-                      src={data.business.iframe ?? ""}
-                      title="BusinessIframe"
-                      height="450"
-                      style={{ border: 0 }}
-                      allowFullScreen={false}
-                      loading="lazy"
-                    />
-                  </BusinessBox>
-                </Grid>
-              )}
-            </Grid>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            *reviews*
-          </TabPanel>
-        </Box>
+                    {data.business.websiteUrl}
+                  </Typography>
+                </BusinessBox>
+              </Grid>
+            )}
+
+            {data.business.contacts && (
+              <Grid item xs={12} sm={6}>
+                <BusinessBox>
+                  <Typography variant="body1">Yhteystiedot: </Typography>
+                  {data.business.contacts?.map((contact, index) => (
+                    <Box key={index}>
+                      <Typography variant="body2">
+                        Nimi: {contact?.name}
+                      </Typography>
+                      <Typography variant="body2">
+                        Sähköposti: {contact?.email ?? "-"}
+                      </Typography>
+                      <Typography variant="body2">
+                        Puhelin: {contact?.phone ?? "-"}
+                      </Typography>
+                    </Box>
+                  ))}
+                </BusinessBox>
+              </Grid>
+            )}
+            {data.business.openHours && (
+              <Grid item xs={12} sm={6}>
+                <BusinessBox>
+                  <Typography variant="body1">Aukioloajat: </Typography>
+                  {data.business.openHours?.period?.map((openHour, index) => (
+                    <Box key={index}>
+                      <Typography variant="body2">
+                        {openHour && days[openHour.open.day]}:{" "}
+                        {openHour && openHour.open.hours}:
+                        {openHour?.open.minute} - {openHour?.close.hours}:
+                        {openHour?.close.minute}
+                      </Typography>
+                    </Box>
+                  ))}
+                </BusinessBox>
+              </Grid>
+            )}
+            {data.business.iframe && (
+              <Grid item xs={12}>
+                <BusinessBox
+                  display="flex"
+                  flexDirection="column"
+                  gap="20px"
+                  width={"100%"}
+                >
+                  <Typography variant="body1">Location: </Typography>
+                  <iframe
+                    src={data.business.iframe ?? ""}
+                    title="BusinessIframe"
+                    height="450"
+                    style={{ border: 0 }}
+                    allowFullScreen={false}
+                    loading="lazy"
+                    width="100%"
+                  />
+                </BusinessBox>
+              </Grid>
+            )}
+          </Grid>
+        </TabPanel>
+        <TabPanel value={value} index={1} name="reviews">
+          *reviews*
+        </TabPanel>
       </Container>
     </Box>
   );

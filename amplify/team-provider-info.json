@@ -24,6 +24,10 @@
         "kirppis2053c745": {
           "deploymentBucketName": "amplify-kirppis-develop-111431-deployment",
           "s3Key": "amplify-builds/kirppis2053c745-554c695676544b427267-build.zip"
+        },
+        "UpdateOpenTimesFunction": {
+          "deploymentBucketName": "amplify-kirppis-develop-111431-deployment",
+          "s3Key": "amplify-builds/UpdateOpenTimesFunction-76534467444979704b64-build.zip"
         }
       },
       "storage": {

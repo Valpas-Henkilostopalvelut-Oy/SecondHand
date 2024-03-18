@@ -176,12 +176,28 @@ export const fetchBusinessesShort = createAsyncThunk(
     const resultShort: BusinessShort[] = (
       await DataStore.query(Businesses, null, {
         // Pagination
-        sort: (c) => c.createdAt(SortDirection.DESCENDING),
+        sort: (c) => {
+          /*const orderBy = [
+            "Uusimmat",
+            "Vanhemat",
+            "Auki ensin",
+            "Suljetut ensin",
+            "A-Ö",
+            "Ö-A",
+          ];*/
+
+          if (query.orderBy === 0) return c.createdAt(SortDirection.DESCENDING);
+          if (query.orderBy === 1) return c.createdAt(SortDirection.ASCENDING);
+          if (query.orderBy === 4) return c.name(SortDirection.ASCENDING);
+          if (query.orderBy === 5) return c.name(SortDirection.DESCENDING);
+          return c.createdAt(SortDirection.DESCENDING);
+        },
       })
     ).map((business) => ({
       id: business.id,
       name: business.name,
       openNow: business.openHours?.openNow,
+      cardDescription: business.cardDescription,
       description: business.description,
       typeId: business.typesID,
       image: business.logo || "", // Add a default value for the image property
@@ -207,6 +223,7 @@ export const fetchBusinessesShortByType = createAsyncThunk(
       id: business.id,
       name: business.name,
       openNow: business.openHours?.openNow,
+      cardDescription: business.cardDescription,
       description: business.description,
       typeId: business.typesID,
       image: business.logo || "", // Add a default value for the image property
@@ -228,6 +245,7 @@ export const fetchBusinessesShortByRegion = createAsyncThunk(
       id: business.id,
       name: business.name,
       openNow: business.openHours?.openNow,
+      cardDescription: business.cardDescription,
       description: business.description,
       typeId: business.typesID,
       image: business.logo || "", // Add a default value for the image property

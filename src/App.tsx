@@ -32,8 +32,6 @@ import NotFoundPage from "./containers/NotFoundPage";
 import AdminBusinessesEdit from "./containers/Admin/AdminBusiness/AdminBusinessesEdit";
 
 const privateRoutes = [
-  { path: "/login", element: <SignInForm /> },
-  { path: "/signup", element: <SignUpForm /> },
   { path: "/admin", element: <Admin /> },
   { path: "/admin/regions", element: <AdminLocations /> },
   { path: "/admin/regions/:id/edit", element: <AdminLocationEdit /> },
@@ -131,6 +129,8 @@ const App = (): JSX.Element => {
       <Header />
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/login" element={<SignInForm />} />
+        <Route path="/signup" element={<SignUpForm />} />
         <Route path="/businesses" element={<Businesses />} />
         <Route path="/businesses/:id" element={<Business />} />
         {renderRoutes(privateRoutes)}

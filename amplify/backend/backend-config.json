@@ -103,6 +103,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "UpdateOpenTimesFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "kirppis2053c745": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -123,6 +128,22 @@
         {
           "category": "function",
           "resourceName": "AdminQueriesbd20d68e"
+        }
+      ]
+    },
+    "AMPLIFY_function_UpdateOpenTimesFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "UpdateOpenTimesFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_UpdateOpenTimesFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "UpdateOpenTimesFunction"
         }
       ]
     },

@@ -10,6 +10,7 @@ export interface BusinessShort {
   id: string;
   name: string;
   openNow: boolean | null | undefined;
+  cardDescription: string | null | undefined;
   description: string | null | undefined;
   typeId: string;
   categories?: string[] | null;
